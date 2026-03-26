@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { ArrowRight, Star } from "lucide-react";
 import { HeroCanvas } from "../canvas/HeroCanvas";
 
@@ -34,13 +34,23 @@ export function Hero() {
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.from(".h-badge", { y: -20, opacity: 0, duration: 0.6, delay: 0.1 })
-          .from(
+        tl.fromTo(
+          ".h-badge",
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, delay: 0.1 },
+        )
+          .fromTo(
             ".h-headline .hl",
-            { y: 90, opacity: 0, duration: 0.9, stagger: 0.1 },
+            { y: 90, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 },
             "-=0.3",
           )
-          .from(".h-sub", { y: 18, opacity: 0, duration: 0.65 }, "-=0.3");
+          .fromTo(
+            ".h-sub",
+            { y: 18, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.65 },
+            "-=0.3",
+          );
 
         // Word switcher logic
         let currentIndex = 0;
@@ -69,28 +79,7 @@ export function Hero() {
 
         const interval = setInterval(switchWord, 3000);
 
-        // Stat Counter animation for .h-proof metrics
-        gsap.utils.toArray(".stat-number").forEach((el: any) => {
-          const target = parseFloat(el.getAttribute("data-target") || "0");
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: el,
-                start: "top 90%",
-              },
-            })
-            .to(el, {
-              innerHTML: target,
-              duration: 2.5,
-              ease: "power3.out",
-              snap: { innerHTML: 1 },
-              onUpdate: function () {
-                el.innerHTML = Math.round(
-                  Number(this.targets()[0].innerHTML),
-                ).toString();
-              },
-            });
-        });
+        // Stat counter animation removed from Hero as it is handled by the Stats component
 
         // Beam breathe
         gsap.to(".h-beam", {
@@ -106,8 +95,14 @@ export function Hero() {
       }, sectionRef);
       return () => ctx.revert();
     });
+    // Local refresh to handle layout shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       mm.revert();
+      clearTimeout(timer);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
@@ -116,7 +111,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative flex flex-col items-center justify-center overflow-hidden pt-[18vh] pb-[10vh]"
+      className="relative flex flex-col items-center justify-center overflow-hidden pt-[12vh] md:pt-[18vh] pb-[8vh] md:pb-[10vh]"
     >
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"

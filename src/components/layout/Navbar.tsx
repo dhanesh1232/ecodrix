@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -15,48 +15,71 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (!menuRef.current) return;
+    if (!menuRef.current || !overlayRef.current) return;
+
     const items = menuRef.current.querySelectorAll(".mob-link");
+
     if (open) {
       document.body.style.overflow = "hidden";
+      // Overlay fade in
+      gsap.to(overlayRef.current, {
+        opacity: 1,
+        visibility: "visible",
+        duration: 0.3,
+      });
+      // Menu slide in
       gsap.fromTo(
         menuRef.current,
-        { y: "-100%" },
-        { y: "0%", duration: 0.4, ease: "power3.out" },
+        { x: "100%" },
+        { x: "0%", duration: 0.5, ease: "power4.out" },
       );
+      // Items reveal
       gsap.fromTo(
         items,
-        { y: 30, opacity: 0 },
+        { x: 40, opacity: 0 },
         {
-          y: 0,
+          x: 0,
           opacity: 1,
-          stagger: 0.07,
-          delay: 0.15,
-          ease: "power2.out",
+          stagger: 0.08,
+          delay: 0.2,
+          ease: "back.out(1.2)",
           duration: 0.5,
         },
       );
     } else {
       document.body.style.overflow = "";
       gsap.to(menuRef.current, {
-        y: "-100%",
+        x: "100%",
+        duration: 0.4,
+        ease: "power3.in",
+      });
+      gsap.to(overlayRef.current, {
+        opacity: 0,
         duration: 0.3,
-        ease: "power2.in",
+        onComplete: () => {
+          if (overlayRef.current)
+            overlayRef.current.style.visibility = "hidden";
+        },
       });
     }
   }, [open]);
 
   const nav = (href: string) => {
     setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    const target = document.querySelector(href);
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
   };
 
   return (
@@ -67,28 +90,19 @@ export function Navbar() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 50,
-          height: "64px",
+          zIndex: 100,
+          height: scrolled ? "72px" : "88px",
           display: "flex",
           alignItems: "center",
-          transition:
-            "background 0.3s, border-color 0.3s, backdrop-filter 0.3s",
-          background: scrolled ? "rgba(6,6,8,0.85)" : "transparent",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
+          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+          background: scrolled ? "rgba(6, 6, 9, 0.75)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px) saturate(180%)" : "none",
           borderBottom: scrolled
-            ? "1px solid rgba(255,255,255,0.05)"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
             : "1px solid transparent",
         }}
       >
-        <div
-          className="wrapper"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
+        <div className="wrapper flex items-center justify-between w-full">
           {/* Logo */}
           <a
             href="#hero"
@@ -96,56 +110,21 @@ export function Navbar() {
               e.preventDefault();
               nav("#hero");
             }}
-            style={{
-              textDecoration: "none",
-              display: "flex",
-              alignItems: "center",
-              gap: "2px",
-            }}
+            className="flex items-center gap-2.5 group"
           >
-            <span
-              style={{
-                fontFamily: "var(--font-space-grotesk), sans-serif",
-                fontWeight: 800,
-                fontSize: "20px",
-                color: "#fff",
-                letterSpacing: "-0.04em",
-              }}
-            >
-              ECO
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-space-grotesk), sans-serif",
-                fontWeight: 800,
-                fontSize: "20px",
-                background: "linear-gradient(135deg, #7C6EFA, #22D3EE)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                letterSpacing: "-0.04em",
-              }}
-            >
-              DrIx
-            </span>
-            <span
-              style={{
-                width: "5px",
-                height: "5px",
-                borderRadius: "50%",
-                background: "#7C6EFA",
-                marginLeft: "2px",
-                boxShadow: "0 0 8px rgba(124,110,250,0.8)",
-                animation: "pulse 2s infinite",
-              }}
-            />
+            <div className="relative">
+              <span className="font-display font-black text-2xl text-white tracking-tighter">
+                ECO
+              </span>
+              <span className="font-display font-black text-2xl bg-linear-to-r from-[#7C6EFA] to-[#22D3EE] bg-clip-text text-transparent tracking-tighter">
+                DrIx
+              </span>
+              <div className="absolute -right-2 top-1 w-1.5 h-1.5 rounded-full bg-[#7C6EFA] shadow-[0_0_12px_rgba(124,110,250,0.8)] animate-pulse" />
+            </div>
           </a>
 
-          {/* Desktop links */}
-          <div
-            style={{ display: "flex", alignItems: "center", gap: "36px" }}
-            className="hidden md:flex"
-          >
+          {/* Desktop Links */}
+          <div className="hidden lg:flex items-center gap-10">
             {links.map((l) => (
               <a
                 key={l.label}
@@ -154,128 +133,84 @@ export function Navbar() {
                   e.preventDefault();
                   nav(l.href);
                 }}
-                className="nav-link-line text-sm font-medium text-[#64647A] transition-colors duration-300 hover:text-white"
+                className="text-[13px] font-bold tracking-widest uppercase text-[#888899] hover:text-white transition-all duration-300 relative py-2 overflow-hidden group"
               >
                 {l.label}
+                <span className="absolute bottom-0 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </a>
             ))}
           </div>
 
-          {/* CTA + hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Actions */}
+          <div className="flex items-center gap-4">
             <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
                 nav("#contact");
               }}
-              className="hidden md:flex items-center justify-center transition-all duration-300"
-              style={{
-                padding: "8px 20px",
-                fontSize: "13px",
-                fontWeight: 600,
-                textDecoration: "none",
-                background: "rgba(124,110,250,0.12)",
-                boxShadow: "inset 0 0 0 1px rgba(124,110,250,0.25)",
-                clipPath:
-                  "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)",
-                color: "#A89EFD",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.background = "rgba(124,110,250,0.2)";
-                el.style.color = "#fff";
-                el.style.boxShadow = "inset 0 0 0 1px rgba(124,110,250,0.4)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.background = "rgba(124,110,250,0.12)";
-                el.style.color = "#A89EFD";
-                el.style.boxShadow = "inset 0 0 0 1px rgba(124,110,250,0.25)";
-              }}
+              className="hidden sm:flex items-center gap-2 h-10 px-6 bg-white text-black text-[13px] font-bold uppercase tracking-widest rounded-full hover:bg-[#7C6EFA] hover:text-white transition-all duration-300"
             >
-              Let&apos;s Talk
+              Start Project <ArrowRight size={14} />
             </a>
+
             <button
-              onClick={() => setOpen((v) => !v)}
-              className="md:hidden"
-              aria-label="menu"
-              style={{
-                background: "none",
-                border: "none",
-                color: "#fff",
-                cursor: "pointer",
-                padding: "4px",
-              }}
+              onClick={() => setOpen(true)}
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white"
             >
-              {open ? <X size={22} /> : <Menu size={22} />}
+              <Menu size={20} />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile overlay */}
+      {/* Mobile Menu Overlay */}
+      <div
+        ref={overlayRef}
+        onClick={() => setOpen(false)}
+        className="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 lg:hidden"
+      />
+
+      {/* Mobile Menu Content */}
       <div
         ref={menuRef}
-        className="md:hidden"
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 40,
-          background: "rgba(6,6,8,0.97)",
-          backdropFilter: "blur(20px)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "32px",
-          transform: "translateY(-100%)",
-        }}
+        className="fixed top-0 right-0 bottom-0 w-[300px] z-[200] bg-[#0A0A10] border-l border-white/10 p-10 flex flex-col translate-x-full lg:hidden"
       >
-        {links.map((l) => (
+        <button
+          onClick={() => setOpen(false)}
+          className="self-end w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white mb-12"
+        >
+          <X size={24} />
+        </button>
+
+        <div className="flex flex-col gap-6">
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              onClick={(e) => {
+                e.preventDefault();
+                nav(l.href);
+              }}
+              className="mob-link text-3xl font-display font-black text-white hover:text-[#7C6EFA] transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-auto">
           <a
-            key={l.label}
-            href={l.href}
+            href="#contact"
             onClick={(e) => {
               e.preventDefault();
-              nav(l.href);
+              nav("#contact");
             }}
-            className="mob-link"
-            style={{
-              fontSize: "36px",
-              fontFamily: "var(--font-space-grotesk)",
-              fontWeight: 800,
-              color: "#fff",
-              textDecoration: "none",
-              letterSpacing: "-0.04em",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.target as HTMLAnchorElement;
-              el.style.color = "#A89EFD";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.target as HTMLAnchorElement;
-              el.style.color = "#fff";
-            }}
+            className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold rounded-2xl"
           >
-            {l.label}
+            Get a Quote
           </a>
-        ))}
-        <button
-          className="mt-4 transition-all duration-300"
-          onClick={() => nav("#contact")}
-          style={{
-            padding: "14px 28px",
-            fontSize: "16px",
-            fontWeight: 700,
-            color: "#fff",
-            background: "linear-gradient(135deg, #7C6EFA, #22D3EE)",
-            clipPath:
-              "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-          }}
-        >
-          Let&apos;s Talk →
-        </button>
+        </div>
       </div>
     </>
   );

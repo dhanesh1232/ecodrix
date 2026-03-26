@@ -54,27 +54,41 @@ export function Work() {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
-        gsap.from(".w-head > *", {
-          y: 30,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".w-head", start: "top 85%" },
-        });
-        gsap.from(".w-card", {
-          y: 50,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".w-list", start: "top 80%" },
-        });
+        gsap.fromTo(
+          ".w-head > *",
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".w-head", start: "top 85%" },
+          },
+        );
+        gsap.fromTo(
+          ".w-card",
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".w-list", start: "top 80%" },
+          },
+        );
       }, sectionRef);
       return () => ctx.revert();
     });
+    // Local refresh to handle layout shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       mm.revert();
+      clearTimeout(timer);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
@@ -114,7 +128,8 @@ export function Work() {
               style={{
                 clipPath:
                   "polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%)",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))"
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))",
               }}
             >
               {/* Inner Background for 1px Border effect */}

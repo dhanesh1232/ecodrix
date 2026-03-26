@@ -118,36 +118,50 @@ export function Numbers() {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
-        gsap.from(".stat-cell", {
-          y: 24,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".stats-band",
-            start: "top 82%",
-            toggleActions: "play reset play reset",
+        gsap.fromTo(
+          ".stat-cell",
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".stats-band",
+              start: "top 82%",
+              toggleActions: "play reset play reset",
+            },
           },
-        });
+        );
 
-        gsap.from(".proc-card", {
-          y: 30,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.65,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".proc-grid",
-            start: "top 80%",
-            toggleActions: "play reset play reset",
+        gsap.fromTo(
+          ".proc-card",
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.65,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".proc-grid",
+              start: "top 80%",
+              toggleActions: "play reset play reset",
+            },
           },
-        });
+        );
       }, sectionRef);
       return () => ctx.revert();
     });
+    // Local refresh to handle layout shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       mm.revert();
+      clearTimeout(timer);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
@@ -170,16 +184,7 @@ export function Numbers() {
       <div className="wrapper relative z-10">
         {/* Stats band */}
         <div
-          className="stats-band w-full"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "1px",
-            background: "rgba(255,255,255,0.06)",
-            borderRadius: "20px",
-            overflow: "hidden",
-            marginBottom: "80px",
-          }}
+          className="stats-band w-full grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-2xl overflow-hidden mb-20"
         >
           {stats.map((s, i) => (
             <div

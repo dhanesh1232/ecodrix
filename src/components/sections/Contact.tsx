@@ -2,20 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { useForm } from "react-hook-form";
+import { BsWhatsapp } from "react-icons/bs";
+import { useForm, Controller } from "react-hook-form";
+import { Mail, MapPin, Github, Linkedin, Instagram } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
-  Mail,
-  MapPin,
-  MessageCircle,
-  Calendar,
-  Github,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { StyledPhoneInput } from "@/components/ui/phone-input";
 
 interface FormData {
   name: string;
   email: string;
+  phone: string;
   service: string;
   message: string;
 }
@@ -23,9 +28,13 @@ interface FormData {
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors },
   } = useForm<FormData>();
@@ -35,89 +44,169 @@ export function Contact() {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
-        gsap.from(".c-head > *", {
-          y: 28,
-          opacity: 0,
-          stagger: 0.12,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: ".c-head", start: "top 85%" },
-        });
-        gsap.from([".c-form-panel", ".c-info-panel"], {
-          y: 40,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: ".c-grid", start: "top 80%" },
-        });
+        gsap.fromTo(
+          ".c-head > *",
+          { y: 28, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ".c-head", start: "top 85%" },
+          },
+        );
+        gsap.fromTo(
+          [".c-form-panel", ".c-info-panel"],
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ".c-grid", start: "top 80%" },
+          },
+        );
       }, sectionRef);
       return () => ctx.revert();
     });
+    // Local refresh to handle layout shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       mm.revert();
+      clearTimeout(timer);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
   const onSubmit = async (data: FormData) => {
     setState("sending");
-    await new Promise((r) => setTimeout(r, 1400));
-    console.log(data);
-    setState("sent");
-    reset();
-    setTimeout(() => setState("idle"), 4000);
-  };
+    try {
+      const socketUrl =
+        process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
+      const response = await fetch(`${socketUrl}/api/crm/leads/upsert`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_ERIX_CLIENT_API_KEY || "",
+          "x-client-code": process.env.NEXT_PUBLIC_ERIX_CLIENT_CODE || "",
+        },
+        body: JSON.stringify({
+          leadData: {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            source: "website",
+            message: `Service Interest: ${data.service}\n\nClient Message: ${data.message}`,
+          },
+          trigger: "website_contact_form",
+        }),
+      });
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px 16px",
-    background: "rgba(255,255,255,0.04)",
-    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)",
-    clipPath:
-      "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-    color: "#fff",
-    fontSize: "14px",
-    outline: "none",
-    transition: "all 0.2s",
-    fontFamily: "inherit",
-  };
+      if (!response.ok) {
+        throw new Error("Failed to sync lead");
+      }
 
-  const onFocus = (
-    e: React.FocusEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    e.target.style.background = "rgba(124,110,250,0.08)";
-    e.target.style.boxShadow =
-      "inset 0 0 0 1px rgba(124,110,250,0.5), inset 0 0 20px rgba(124,110,250,0.1)";
-  };
-  const onBlur = (
-    e: React.FocusEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    e.target.style.background = "rgba(255,255,255,0.04)";
-    e.target.style.boxShadow = "inset 0 0 0 1px rgba(255,255,255,0.08)";
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: "block",
-    color: "#64647A",
-    fontSize: "11px",
-    fontFamily: "monospace",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    marginBottom: "8px",
+      console.log("Lead synced successfully:", await response.json());
+      setState("sent");
+      reset();
+      setTimeout(() => setState("idle"), 4000);
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setState("idle");
+      alert("There was an error sending your message. Please try again later.");
+    }
   };
 
   return (
     <section
       ref={sectionRef}
       id="contact"
-      className="relative sep-top py-32 overflow-hidden"
+      className="relative sep-top py-20 lg:py-32 overflow-hidden"
       style={{ background: "#060608" }}
+      onMouseMove={(e) => {
+        if (!sectionRef.current) return;
+        const rect = sectionRef.current.getBoundingClientRect();
+        setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      onTouchMove={(e) => {
+        if (!sectionRef.current) return;
+        const rect = sectionRef.current.getBoundingClientRect();
+        const touch = e.touches[0];
+        setMousePos({
+          x: touch.clientX - rect.left,
+          y: touch.clientY - rect.top,
+        });
+        setIsHovering(true);
+      }}
+      onTouchEnd={() => setIsHovering(false)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @keyframes contactMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `,
+        }}
+      />
+
+      {/* Hidden Marquee revealed by cursor */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none transition-opacity duration-500 overflow-hidden flex flex-col justify-center gap-6"
+        style={{
+          zIndex: 0,
+          opacity: isHovering ? 1 : 0,
+          WebkitMaskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
+          maskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
+        }}
+      >
+        {Array(8)
+          .fill(null)
+          .map((_, rowIndex) => (
+            <div
+              key={`row-${rowIndex}`}
+              className="flex whitespace-nowrap"
+              style={{
+                animation: `contactMarquee ${30 + (rowIndex % 3) * 5}s linear infinite`,
+                animationDirection: rowIndex % 2 === 0 ? "normal" : "reverse",
+                width: "max-content",
+              }}
+            >
+              <div className="flex gap-4 pr-4">
+                {Array(6)
+                  .fill("LET'S BUILD SOMETHING EXTRAORDINARY •")
+                  .map((text, i) => (
+                    <span
+                      key={i}
+                      className="text-[12vw] sm:text-[8vw] lg:text-[6vw] font-black uppercase text-transparent bg-clip-text bg-linear-to-r from-primary/20 to-cyan/20 font-display tracking-tighter opacity-40"
+                    >
+                      {text}
+                    </span>
+                  ))}
+              </div>
+              <div className="flex gap-4 pr-4">
+                {Array(6)
+                  .fill("LET'S BUILD SOMETHING EXTRAORDINARY •")
+                  .map((text, i) => (
+                    <span
+                      key={`dup-${i}`}
+                      className="text-[12vw] sm:text-[8vw] lg:text-[6vw] font-black uppercase text-transparent bg-clip-text bg-linear-to-r from-primary/20 to-cyan/20 font-display tracking-tighter opacity-40"
+                    >
+                      {text}
+                    </span>
+                  ))}
+              </div>
+            </div>
+          ))}
+      </div>
       {/* Ambient glow */}
       <div
         aria-hidden
@@ -155,14 +244,7 @@ export function Contact() {
         </div>
 
         {/* Two-panel grid */}
-        <div
-          className="c-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 380px",
-            gap: "20px",
-          }}
-        >
+        <div className="c-grid flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-2 lg:gap-4">
           {/* Form panel */}
           <div
             className="c-form-panel p-px"
@@ -173,11 +255,10 @@ export function Contact() {
             }}
           >
             <div
+              className="bg-[#0D0D14] p-6 sm:p-8 lg:p-10"
               style={{
-                background: "#0D0D14",
                 clipPath:
                   "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
-                padding: "40px",
               }}
             >
               <form
@@ -188,37 +269,26 @@ export function Contact() {
                   gap: "20px",
                 }}
               >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "16px",
-                  }}
-                >
-                  <div>
-                    <label style={labelStyle}>Full Name</label>
-                    <input
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
+                      Full Name
+                    </Label>
+                    <Input
                       {...register("name", { required: "Required" })}
                       placeholder="John Doe"
-                      style={inputStyle}
-                      onFocus={onFocus}
-                      onBlur={onBlur}
                     />
                     {errors.name && (
-                      <p
-                        style={{
-                          color: "#ff6b6b",
-                          fontSize: "11px",
-                          marginTop: "4px",
-                        }}
-                      >
+                      <p className="text-[#ff6b6b] text-[11px] mt-1">
                         {errors.name.message}
                       </p>
                     )}
                   </div>
-                  <div>
-                    <label style={labelStyle}>Email</label>
-                    <input
+                  <div className="space-y-2">
+                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
+                      Email
+                    </Label>
+                    <Input
                       {...register("email", {
                         required: "Required",
                         pattern: {
@@ -228,82 +298,93 @@ export function Contact() {
                       })}
                       type="email"
                       placeholder="john@example.com"
-                      style={inputStyle}
-                      onFocus={onFocus}
-                      onBlur={onBlur}
                     />
                     {errors.email && (
-                      <p
-                        style={{
-                          color: "#ff6b6b",
-                          fontSize: "11px",
-                          marginTop: "4px",
-                        }}
-                      >
+                      <p className="text-[#ff6b6b] text-[11px] mt-1">
                         {errors.email.message}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div>
-                  <label style={labelStyle}>Service</label>
-                  <select
-                    {...register("service", { required: "Required" })}
-                    style={{ ...inputStyle, appearance: "none" }}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                  >
-                    <option value="" style={{ background: "#0D0D14" }}>
-                      Select a service...
-                    </option>
-                    {[
-                      "Website Development",
-                      "SEO",
-                      "WhatsApp Automation",
-                      "SaaS Development",
-                      "ECODrIx Demo",
-                    ].map((s) => (
-                      <option
-                        key={s}
-                        value={s}
-                        style={{ background: "#0D0D14" }}
-                      >
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.service && (
-                    <p
-                      style={{
-                        color: "#ff6b6b",
-                        fontSize: "11px",
-                        marginTop: "4px",
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
+                      Phone Number
+                    </Label>
+                    <Controller
+                      name="phone"
+                      control={control}
+                      rules={{
+                        required: "Required",
+                        validate: (value) =>
+                          /^\+?[0-9]{10,15}$/.test(value || "") ||
+                          "Invalid phone number",
                       }}
-                    >
-                      {errors.service.message}
-                    </p>
-                  )}
+                      render={({ field }) => (
+                        <StyledPhoneInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          error={!!errors.phone}
+                        />
+                      )}
+                    />
+                    {errors.phone && (
+                      <p className="text-[#ff6b6b] text-[11px] mt-1">
+                        {errors.phone.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
+                      Service
+                    </Label>
+                    <Controller
+                      name="service"
+                      control={control}
+                      rules={{ required: "Required" }}
+                      render={({ field }) => (
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a service..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[
+                              "Website Development",
+                              "SEO",
+                              "WhatsApp Automation",
+                              "SaaS Development",
+                              "ECODrIx Demo",
+                            ].map((s) => (
+                              <SelectItem key={s} value={s}>
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.service && (
+                      <p className="text-[#ff6b6b] text-[11px] mt-1">
+                        {errors.service.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div>
-                  <label style={labelStyle}>Message</label>
-                  <textarea
+                <div className="space-y-2">
+                  <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
+                    Message
+                  </Label>
+                  <Textarea
                     {...register("message", { required: "Required" })}
-                    rows={4}
                     placeholder="Tell us about your project — timeline, budget, goals..."
-                    style={{ ...inputStyle, resize: "none" }}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
                   />
                   {errors.message && (
-                    <p
-                      style={{
-                        color: "#ff6b6b",
-                        fontSize: "11px",
-                        marginTop: "4px",
-                      }}
-                    >
+                    <p className="text-[#ff6b6b] text-[11px] mt-1">
                       {errors.message.message}
                     </p>
                   )}
@@ -358,14 +439,10 @@ export function Contact() {
             }}
           >
             <div
+              className="bg-[#0D0D14] p-6 sm:p-8 lg:p-10 flex flex-col flex-1"
               style={{
-                background: "#0D0D14",
                 clipPath:
                   "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
-                padding: "40px",
-                display: "flex",
-                flexDirection: "column",
-                flex: 1,
               }}
             >
               <div
@@ -380,19 +457,19 @@ export function Contact() {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "hello@ecodrix.com",
-                    href: "mailto:hello@ecodrix.com",
+                    value: "contact@ecodrix.com",
+                    href: "mailto:contact@ecodrix.com",
                   },
                   {
-                    icon: MessageCircle,
+                    icon: BsWhatsapp,
                     label: "WhatsApp",
                     value: "Message us →",
-                    href: "#",
+                    href: "https://wa.me/918143963821",
                   },
                   {
                     icon: MapPin,
                     label: "Location",
-                    value: "Tirupati, AP · India",
+                    value: "Andhra Pradesh · India",
                     sub: "Available globally · IST",
                   },
                 ].map(({ icon: Icon, label, value, href, sub }) => (
@@ -475,7 +552,7 @@ export function Contact() {
                 ))}
               </div>
 
-              <div
+              {/* <div
                 style={{
                   borderTop: "1px solid rgba(255,255,255,0.06)",
                   paddingTop: "24px",
@@ -505,13 +582,29 @@ export function Contact() {
                 >
                   <Calendar size={14} /> Schedule a Call →
                 </a>
-              </div>
+              </div> */}
 
               <div style={{ display: "flex", gap: "10px", marginTop: "auto" }}>
-                {[Linkedin, Github, Twitter].map((Icon, i) => (
+                {[
+                  {
+                    icon: Linkedin,
+                    label: "Linkedin",
+                    href: "www.linkedin.com/in/dhanesh-mekalthuru-5baa9323b",
+                  },
+                  {
+                    icon: Github,
+                    label: "Github",
+                    href: "https://github.com/dhanesh1232",
+                  },
+                  {
+                    icon: Instagram,
+                    label: "Instagram",
+                    href: "https://www.instagram.com/erix.__.after17_59/",
+                  },
+                ].map(({ icon: Icon, label, href }, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href={href}
                     style={{
                       width: "36px",
                       height: "36px",
@@ -538,6 +631,7 @@ export function Contact() {
                       el.style.boxShadow =
                         "inset 0 0 0 1px rgba(255,255,255,0.07)";
                     }}
+                    aria-label={label}
                   >
                     <Icon size={15} />
                   </a>

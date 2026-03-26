@@ -118,29 +118,45 @@ export function Services() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".srv-header > *", {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: ".srv-header",
-          start: "top 85%",
+      gsap.fromTo(
+        ".srv-header > *",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: ".srv-header",
+            start: "top 85%",
+          },
         },
-      });
+      );
 
-      gsap.from(".srv-card", {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: ".srv-grid",
-          start: "top 80%",
+      gsap.fromTo(
+        ".srv-card",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: ".srv-grid",
+            start: "top 80%",
+          },
         },
-      });
+      );
     }, containerRef);
-    return () => ctx.revert();
+    // Local refresh to handle layout shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -203,10 +219,13 @@ function ServiceCard({ service }: { service: Service }) {
 
   return (
     <div
-      className="srv-card group relative p-px cursor-pointer transition-all duration-500"
+      className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 ${
+        service.span === 7 ? "lg:col-span-7 md:col-span-6" : 
+        service.span === 5 ? "lg:col-span-5 md:col-span-6" : 
+        "lg:col-span-4 md:col-span-6"
+      }`}
       onClick={() => nav(service.link)}
       style={{
-        gridColumn: `span ${service.span}`,
         clipPath:
           "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
         backgroundColor: "rgba(255,255,255,0.06)",

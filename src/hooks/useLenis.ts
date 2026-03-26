@@ -25,9 +25,15 @@ export function useLenis() {
     };
 
     const rafId = requestAnimationFrame(raf);
+    
+    // Refresh ScrollTrigger after a short delay to allow layout to settle
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     return () => {
       cancelAnimationFrame(rafId);
+      clearTimeout(timer);
       lenis.destroy();
     };
   }, []);

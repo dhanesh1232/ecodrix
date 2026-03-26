@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import {
   Globe,
   Users,
@@ -73,6 +73,38 @@ export function ProductSpotlight() {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, scale: 0.98 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 95%",
+            once: true,
+          },
+        },
+      );
+    }, containerRef);
+
+    // Initial refresh to handle already-scrolled states
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 800);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -288,7 +320,10 @@ export function ProductSpotlight() {
                           </p>
                         </div>
                         <p className="text-white text-5xl font-display font-bold tabular-nums tracking-tight">
-                          <MetricCounter value={142590} active={activeStep === 0} />
+                          <MetricCounter
+                            value={142590}
+                            active={activeStep === 0}
+                          />
                         </p>
                         <p className="text-[#64647A] text-sm mt-1 uppercase tracking-widest">
                           Organic Visitors / mo
@@ -599,7 +634,7 @@ function AnimatedBars({ active }: { active: boolean }) {
           stagger: 0.05,
           ease: "elastic.out(1, 0.5)",
           transformOrigin: "bottom",
-        }
+        },
       );
     }
   }, [active]);
@@ -648,12 +683,23 @@ function AnimatedKanbanCard({
       gsap.fromTo(
         cardRef.current,
         { opacity: 0, x: -20 },
-        { opacity: dim ? 0.5 : 1, x: 0, duration: 0.6, delay, ease: "power2.out" }
+        {
+          opacity: dim ? 0.5 : 1,
+          x: 0,
+          duration: 0.6,
+          delay,
+          ease: "power2.out",
+        },
       );
       gsap.fromTo(
         progressRef.current,
         { width: "0%" },
-        { width: `${score}%`, duration: 1.5, delay: delay + 0.3, ease: "power2.out" }
+        {
+          width: `${score}%`,
+          duration: 1.5,
+          delay: delay + 0.3,
+          ease: "power2.out",
+        },
       );
     }
   }, [active, delay, score, dim]);
@@ -663,14 +709,16 @@ function AnimatedKanbanCard({
       ref={cardRef}
       className="bg-[#1A1A24] p-5 border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] relative cursor-default hover:-translate-y-1 transition-transform group"
       style={{
-        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
+        clipPath:
+          "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
         opacity: 0,
       }}
     >
       <div
         className="w-8 h-8 absolute -top-3 -right-3 flex items-center justify-center border-4 border-[#1A1A24] shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-all group-hover:scale-110"
         style={{
-          clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
+          clipPath:
+            "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
           background: `linear-gradient(135deg, ${color}, ${color}dd)`,
           boxShadow: `0 0 20px ${color}40`,
         }}
@@ -684,7 +732,8 @@ function AnimatedKanbanCard({
       <div
         className="w-full bg-[#111] h-1.5 mb-1 overflow-hidden"
         style={{
-          clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%)",
+          clipPath:
+            "polygon(0 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%)",
         }}
       >
         <div
@@ -715,19 +764,41 @@ function AutomationSequence({ active }: { active: boolean }) {
 
   return (
     <div className="absolute bottom-8 right-8 bg-[#1A1A24]/90 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-4 min-w-[220px]">
-      <div className={`flex items-center gap-3 transition-all duration-500 ${stages[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
-        <CheckCircle2 size={16} color="#4ADE80" className="drop-shadow-[0_0_5px_#4ADE80]" />
-        <span className="text-white text-xs font-sans">Meet link generated</span>
+      <div
+        className={`flex items-center gap-3 transition-all duration-500 ${stages[0] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+      >
+        <CheckCircle2
+          size={16}
+          color="#4ADE80"
+          className="drop-shadow-[0_0_5px_#4ADE80]"
+        />
+        <span className="text-white text-xs font-sans">
+          Meet link generated
+        </span>
       </div>
-      <div className={`flex items-center gap-3 transition-all duration-500 delay-200 ${stages[1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
-        <CheckCircle2 size={16} color="#4ADE80" className="drop-shadow-[0_0_5px_#4ADE80]" />
-        <span className="text-white text-xs font-sans">WhatsApp message sent</span>
+      <div
+        className={`flex items-center gap-3 transition-all duration-500 delay-200 ${stages[1] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+      >
+        <CheckCircle2
+          size={16}
+          color="#4ADE80"
+          className="drop-shadow-[0_0_5px_#4ADE80]"
+        />
+        <span className="text-white text-xs font-sans">
+          WhatsApp message sent
+        </span>
       </div>
-      <div className={`flex items-center gap-3 transition-all duration-500 delay-500 ${stages[2] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+      <div
+        className={`flex items-center gap-3 transition-all duration-500 delay-500 ${stages[2] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+      >
         {!stages[2] ? (
           <div className="w-4 h-4 rounded-full border-2 border-[#22D3EE] border-t-transparent animate-spin shadow-[0_0_10px_#22D3EE]" />
         ) : (
-          <CheckCircle2 size={16} color="#4ADE80" className="drop-shadow-[0_0_5px_#4ADE80]" />
+          <CheckCircle2
+            size={16}
+            color="#4ADE80"
+            className="drop-shadow-[0_0_5px_#4ADE80]"
+          />
         )}
         <span className="text-white text-xs font-sans">
           {stages[2] ? "CRM Record Updated" : "Updating CRM record..."}
