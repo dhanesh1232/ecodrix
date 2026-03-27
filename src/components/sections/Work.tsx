@@ -15,7 +15,7 @@ const projects = [
     techTags: ["ECODrIx Engine", "Meta API", "Google Meet"],
     color: "var(--color-primary)",
     icon: <Activity size={20} />,
-    stat: "42+ Daily Bookings",
+   // stat: "42+ Daily Bookings",
     link: "#",
   },
   {
@@ -28,7 +28,7 @@ const projects = [
     techTags: ["Next.js 15", "PostgreSQL", "Edge Functions"],
     color: "var(--color-cyan)",
     icon: <Globe size={20} />,
-    stat: "12 Countries Active",
+   // stat: "12 Countries Active",
     link: "#",
   },
   {
@@ -41,7 +41,7 @@ const projects = [
     techTags: ["React Fiber", "GSAP 3", "Tailwind CSS"],
     color: "var(--color-magenta)",
     icon: <Zap size={20} />,
-    stat: "Awwwards Nominee",
+    // stat: "Awwwards Nominee",
     link: "#",
   },
 ];
