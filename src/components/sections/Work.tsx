@@ -188,7 +188,7 @@ export function Work() {
                       </div>
                     </div>
 
-                    {/* Stat / Interaction Footer */}
+                    {/* Stat / Interaction Footer 
                     <div className="flex items-center justify-between text-xs font-mono pt-4">
                       <span
                         style={{ color: p.color }}
@@ -205,7 +205,7 @@ export function Work() {
                         className="text-[#64647A] group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform"
                         style={{ color: p.color }}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
