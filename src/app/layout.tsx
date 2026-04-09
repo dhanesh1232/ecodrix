@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Script from "next/script";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -56,6 +57,20 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       >
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-DK8Q4TLZPM');
+          `}
+        </Script>
         {children}
       </body>
     </html>
