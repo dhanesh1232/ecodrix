@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StyledPhoneInput } from "@/components/ui/phone-input";
+import { ECODrIx } from "@ecodrix/erix-api";
 
 interface FormData {
   name: string;
@@ -86,32 +87,23 @@ export function Contact() {
   const onSubmit = async (data: FormData) => {
     setState("sending");
     try {
-      const socketUrl =
-        process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
-      const response = await fetch(`${socketUrl}/api/crm/leads/upsert`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.NEXT_PUBLIC_ERIX_CLIENT_API_KEY || "",
-          "x-client-code": process.env.NEXT_PUBLIC_ERIX_CLIENT_CODE || "",
-        },
-        body: JSON.stringify({
-          leadData: {
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            source: "website",
-            message: `Service Interest: ${data.service}\n\nClient Message: ${data.message}`,
-          },
-          trigger: "website_contact_form",
-        }),
+      const ecod = new ECODrIx({
+        apiKey: process.env.NEXT_PUBLIC_ERIX_CLIENT_API_KEY || "",
+        clientCode: process.env.NEXT_PUBLIC_ERIX_CLIENT_CODE || "",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to sync lead");
-      }
+      const response = await ecod.crm.leads.upsert({
+        leadData: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          source: "website",
+          message: `Service Interest: ${data.service}\n\nClient Message: ${data.message}`,
+        },
+        trigger: "website_contact_form",
+      });
 
-      console.log("Lead synced successfully:", await response.json());
+      console.log("Lead synced successfully:", response);
       setState("sent");
       reset();
       setTimeout(() => setState("idle"), 4000);
