@@ -591,7 +591,7 @@ export function Contact() {
                   {
                     icon: Instagram,
                     label: "Instagram",
-                    href: "https://www.instagram.com/erix.__.after17_59/",
+                    href: "https://www.instagram.com/erix.dhanesh/",
                   },
                 ].map(({ icon: Icon, label, href }, i) => (
                   <a
