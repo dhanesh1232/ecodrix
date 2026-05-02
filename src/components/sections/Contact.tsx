@@ -581,7 +581,7 @@ export function Contact() {
                   {
                     icon: Linkedin,
                     label: "Linkedin",
-                    href: "www.linkedin.com/in/dhanesh-mekalthuru-5baa9323b",
+                    href: "www.linkedin.com/in/dhanesh-ecodrix",
                   },
                   {
                     icon: Github,
