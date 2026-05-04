@@ -1,37 +1,54 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Lenis from "lenis";
+import { useEffect, useRef, useState } from "react";
+import { loadLenis } from "@/lib/dynamic-imports";
 import { ScrollTrigger } from "@/lib/gsap";
+import type Lenis from "lenis";
 
 export const useLenis = () => {
   const lenisRef = useRef<Lenis | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    let lenis: Lenis | null = null;
+    let rafId: number;
 
-    lenisRef.current = lenis;
+    // Lazy load Lenis after initial render
+    loadLenis()
+      .then((LenisModule) => {
+        const LenisConstructor = LenisModule.default;
+        lenis = new LenisConstructor({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: "vertical",
+          gestureOrientation: "vertical",
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+          infinite: false,
+        });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+        lenisRef.current = lenis;
+        setIsLoaded(true);
 
-    requestAnimationFrame(raf);
+        function raf(time: number) {
+          lenis?.raf(time);
+          rafId = requestAnimationFrame(raf);
+        }
 
-    lenis.on("scroll", ScrollTrigger.update);
+        rafId = requestAnimationFrame(raf);
+
+        lenis.on("scroll", ScrollTrigger.update);
+      })
+      .catch((error) => {
+        console.error("Failed to load Lenis:", error);
+      });
 
     return () => {
-      lenis.destroy();
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      lenis?.destroy();
     };
   }, []);
 
@@ -44,35 +61,49 @@ export default function LenisProvider({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    const lenis = new Lenis();
+    let lenis: Lenis | null = null;
+    let rafId: number;
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    // Lazy load Lenis after initial render
+    loadLenis()
+      .then((LenisModule) => {
+        const LenisConstructor = LenisModule.default;
+        lenis = new LenisConstructor();
 
-    requestAnimationFrame(raf);
+        function raf(time: number) {
+          lenis?.raf(time);
+          rafId = requestAnimationFrame(raf);
+        }
 
-    // GSAP ScrollTrigger Integration
-    lenis.on("scroll", ScrollTrigger.update);
+        rafId = requestAnimationFrame(raf);
 
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value) {
-        return arguments.length ? lenis.scrollTo(value!) : lenis.scroll;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: document.body.style.transform ? "transform" : "fixed",
-    });
+        // GSAP ScrollTrigger Integration
+        lenis.on("scroll", ScrollTrigger.update);
+
+        ScrollTrigger.scrollerProxy(document.body, {
+          scrollTop(value) {
+            return arguments.length ? lenis!.scrollTo(value!) : lenis!.scroll;
+          },
+          getBoundingClientRect() {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight,
+            };
+          },
+          pinType: document.body.style.transform ? "transform" : "fixed",
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to load Lenis:", error);
+      });
 
     return () => {
-      lenis.destroy();
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      lenis?.destroy();
     };
   }, []);
 

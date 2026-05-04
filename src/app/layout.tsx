@@ -141,6 +141,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("dark", "font-sans")}>
       <head>
+        {/* Resource hints for performance optimization */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        
         {/* JSON-LD structured data — must be in <head> for crawler visibility */}
         <script
           type="application/ld+json"

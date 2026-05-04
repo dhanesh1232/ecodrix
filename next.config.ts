@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -8,6 +13,20 @@ const nextConfig: NextConfig = {
 
   // Remove the X-Powered-By: Next.js fingerprinting header
   poweredByHeader: false,
+
+  // Modern browser targeting and optimizations
+  experimental: {
+    // Enable CSS optimization and tree-shaking
+    optimizeCss: true,
+    // Optimize package imports for heavy dependencies
+    optimizePackageImports: [
+      "framer-motion",
+      "gsap",
+      "lenis",
+      "lucide-react",
+      "react-icons",
+    ],
+  },
 
   images: {
     remotePatterns: [
@@ -55,6 +74,55 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // Turbopack configuration (Next.js 16+ default)
+  // Empty config to acknowledge Turbopack usage and silence webpack warning
+  turbopack: {},
+
+  // Webpack configuration for advanced bundle optimization
+  // Only used when explicitly running with --webpack flag
+  webpack: (config, { isServer }) => {
+    // Configure code splitting and chunk optimization
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: "all",
+        cacheGroups: {
+          // Framework chunk (React, React-DOM) - shared across all pages
+          framework: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            name: "framework",
+            priority: 40,
+            reuseExistingChunk: true,
+          },
+          // Heavy libraries chunk - lazy-loaded only when needed
+          heavyLibs: {
+            test: /[\\/]node_modules[\\/](framer-motion|gsap|lenis)[\\/]/,
+            name: "heavy-libs",
+            priority: 30,
+            reuseExistingChunk: true,
+          },
+          // Common utilities and components
+          commons: {
+            name: "commons",
+            minChunks: 2,
+            priority: 20,
+            reuseExistingChunk: true,
+          },
+          // Other vendor dependencies
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            priority: 10,
+            reuseExistingChunk: true,
+          },
+        },
+      };
+      // Single runtime chunk for better caching
+      config.optimization.runtimeChunk = "single";
+    }
+
+    return config;
+  },
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);

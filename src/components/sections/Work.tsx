@@ -78,7 +78,7 @@ export function Work() {
         </div>
 
         {/* Project Grid / List */}
-        <div className="w-list grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 grid-no-collapse">
+        <div className="w-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 grid-no-collapse">
           {projects.map((p, i) => (
             <div
               key={i}
@@ -172,7 +172,7 @@ export function Work() {
                   className="absolute bottom-0 right-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
                     clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-                    background: `linear-gradient(225deg, ${p.color}20, transparent)`
+                    background: `linear-gradient(225deg, ${p.color}20, transparent)`,
                   }}
                 />
               </div>
@@ -205,7 +205,7 @@ export function Work() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2 text-white font-semibold tracking-wide">
-                Start Free Trial →
+                Start Free Trial
                 <ArrowUpRight
                   size={16}
                   className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
