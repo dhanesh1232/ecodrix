@@ -71,12 +71,13 @@
 }
 
 @layer components {
-  /* Guaranteed layout container */
+  /* Guaranteed layout container - NEVER COLLAPSE */
   .wrapper {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+    min-height: 1px; /* Prevent collapse */
   }
   @media (min-width: 768px) {
     .wrapper {
@@ -89,9 +90,64 @@
     }
   }
 
+  /* Polygon Brand Elements - Core Shapes */
+  .polygon-card {
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    background: rgba(13, 13, 20, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: all 0.3s ease;
+    min-height: 1px; /* Prevent collapse */
+  }
+
+  .polygon-card:hover {
+    border-color: rgba(124, 110, 250, 0.3);
+    box-shadow: 0 20px 50px -12px rgba(124, 110, 250, 0.2);
+  }
+
+  .polygon-button {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 44px; /* Prevent collapse */
+    min-width: 120px; /* Prevent collapse */
+  }
+
+  .polygon-button:hover {
+    background: rgba(124, 110, 250, 0.4);
+    box-shadow: 0 0 40px rgba(124, 110, 250, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .polygon-icon {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    min-height: 40px; /* Prevent collapse */
+    min-width: 40px; /* Prevent collapse */
+  }
+
+  .polygon-tag {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    font-size: 11px;
+    font-family: var(--font-jetbrains-mono), monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    min-height: 24px; /* Prevent collapse */
+  }
+
   /* Section separator glow line */
   .sep-top {
     position: relative;
+    min-height: 1px; /* Prevent collapse */
   }
   .sep-top::before {
     content: "";
@@ -108,13 +164,14 @@
     );
   }
 
-  /* Glass card */
+  /* Glass card with polygon styling */
   .glass-card {
     background: rgba(13, 13, 20, 0.8);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 16px;
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+    min-height: 1px; /* Prevent collapse */
   }
 
   /* Premium gradient text */
@@ -218,20 +275,22 @@
     animation: floatY 5s ease-in-out infinite;
   }
 
-  /* Shimmer button */
+  /* Shimmer button with polygon styling */
   .btn-primary {
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #7c6efa, #22d3ee);
     color: #fff;
     font-weight: 600;
-    border-radius: 9999px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     padding: 14px 32px;
     font-size: 15px;
     letter-spacing: -0.01em;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    min-height: 44px; /* Prevent collapse */
+    min-width: 120px; /* Prevent collapse */
   }
   .btn-primary::after {
     content: "";
@@ -260,13 +319,15 @@
     background: rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 9999px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     padding: 14px 32px;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.01em;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-height: 44px; /* Prevent collapse */
+    min-width: 120px; /* Prevent collapse */
   }
   .btn-ghost:hover {
     background: rgba(124, 110, 250, 0.1);
@@ -274,13 +335,13 @@
     color: #a89efd;
   }
 
-  /* Pill / chip */
+  /* Pill / chip with polygon styling */
   .pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 5px 14px;
-    border-radius: 9999px;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
     background: rgba(124, 110, 250, 0.1);
     border: 1px solid rgba(124, 110, 250, 0.2);
     font-family: var(--font-jetbrains-mono), monospace;
@@ -288,6 +349,23 @@
     color: #a89efd;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    min-height: 24px; /* Prevent collapse */
+  }
+
+  /* Anti-collapse utilities */
+  .no-collapse {
+    min-height: 1px;
+    min-width: 1px;
+  }
+
+  .flex-no-collapse {
+    min-height: 1px;
+    flex-shrink: 0;
+  }
+
+  .grid-no-collapse {
+    min-height: 1px;
+    grid-template-rows: minmax(1px, auto);
   }
 }
 

@@ -5,18 +5,28 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const stats = [
   {
-    value: 9,
+    value: 50,
     suffix: "+",
-    label: "Services Offered",
-    note: "All under one roof",
+    label: "Businesses Onboarded",
+    note: "Across India & growing",
   },
-  { value: 3, suffix: "+", label: "Projects Live", note: "India & UK" },
-  { value: 20, suffix: "+", label: "Trigger Types", note: "In ECODrIx engine" },
   {
-    value: 98,
-    suffix: "%",
-    label: "Client Satisfaction",
-    note: "Repeat engagement",
+    value: 6,
+    suffix: "",
+    label: "Tools, One Platform",
+    note: "No switching apps",
+  },
+  {
+    value: 20,
+    suffix: "+",
+    label: "Automation Triggers",
+    note: "In ECODrIx engine",
+  },
+  {
+    value: 99,
+    suffix: ".9%",
+    label: "Uptime SLA",
+    note: "SOC 2 compliant arch",
   },
 ];
 
@@ -24,26 +34,20 @@ const process = [
   {
     num: "01",
     color: "#7C6EFA",
-    title: "Discovery Call",
-    desc: "We understand your goals, existing stack, and what success looks like for your business.",
+    title: "Connect Your Business",
+    desc: "Onboard in minutes. Import your contacts, connect your WhatsApp number, and set up your pipeline stages. No technical setup required.",
   },
   {
     num: "02",
     color: "#22D3EE",
-    title: "Proposal + Scope",
-    desc: "You get a clear project scope, timeline, and fixed pricing — no hidden costs.",
+    title: "Build Your Automations",
+    desc: "Use our visual workflow builder to create automation rules. When a lead fills a form → send a WhatsApp → schedule a follow-up → notify your team.",
   },
   {
     num: "03",
     color: "#4ADE80",
-    title: "Design + Build",
-    desc: "We design in Figma, build in code, review together. Iterations are fast.",
-  },
-  {
-    num: "04",
-    color: "#FB923C",
-    title: "Launch + Hand-off",
-    desc: "We deploy, configure your domain, and hand over everything — including source code.",
+    title: "Grow Without Adding Work",
+    desc: "As leads come in and deals move through your pipeline, ECODrix handles the follow-up, tracking, and communication automatically. You focus on closing.",
   },
 ];
 
@@ -113,58 +117,7 @@ function Counter({ target }: { target: number }) {
 export function Numbers() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctx = gsap.context(() => {
-        gsap.fromTo(
-          ".stat-cell",
-          { y: 24, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.1,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: ".stats-band",
-              start: "top 82%",
-              toggleActions: "play reset play reset",
-            },
-          },
-        );
-
-        gsap.fromTo(
-          ".proc-card",
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.1,
-            duration: 0.65,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: ".proc-grid",
-              start: "top 80%",
-              toggleActions: "play reset play reset",
-            },
-          },
-        );
-      }, sectionRef);
-      return () => ctx.revert();
-    });
-    // Local refresh to handle layout shifts
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
-
-    return () => {
-      mm.revert();
-      clearTimeout(timer);
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, []);
+  // Removed heavy GSAP animations for better performance
 
   return (
     <section
@@ -182,18 +135,24 @@ export function Numbers() {
       />
 
       <div className="wrapper relative z-10">
-        {/* Stats band */}
-        <div
-          className="stats-band w-full grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-2xl overflow-hidden mb-20"
-        >
+        {/* Stats band - Enhanced Polygon Style */}
+        <div className="stats-band w-full grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 overflow-hidden mb-20 no-collapse"
+             style={{
+               clipPath: "polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)"
+             }}>
           {stats.map((s, i) => (
             <div
               key={i}
-              className="stat-cell"
+              className="stat-cell no-collapse"
               style={{
                 background: "#0D0D14",
                 padding: "36px 28px",
                 textAlign: "center",
+                clipPath: i === 0 
+                  ? "polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
+                  : i === stats.length - 1
+                  ? "polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)"
+                  : "none"
               }}
             >
               <div
@@ -204,6 +163,7 @@ export function Numbers() {
                   gap: "1px",
                   marginBottom: "6px",
                 }}
+                className="no-collapse"
               >
                 <Counter target={s.value} />
                 <span
@@ -239,9 +199,9 @@ export function Numbers() {
           ))}
         </div>
 
-        {/* How We Work */}
+        {/* How It Works */}
         <div className="mb-12">
-          <div className="pill mb-5">How We Work</div>
+          <div className="pill mb-5">How It Works</div>
           <h2
             style={{
               fontSize: "clamp(2rem, 4vw, 3rem)",
@@ -249,12 +209,12 @@ export function Numbers() {
               letterSpacing: "-0.04em",
             }}
           >
-            Simple process. <span className="grad-text">No surprises.</span>
+            Up and running in <span className="grad-text">3 steps.</span>
           </h2>
         </div>
 
         <div
-          className="proc-grid"
+          className="proc-grid grid-no-collapse"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
@@ -264,10 +224,10 @@ export function Numbers() {
           {process.map((step, i) => (
             <div
               key={i}
-              className="proc-card group relative p-px transition-colors duration-300"
+              className="proc-card group relative p-px transition-colors duration-300 no-collapse"
               style={{
                 clipPath:
-                  "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
+                  "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
                 backgroundColor: "rgba(255,255,255,0.07)",
               }}
               onMouseEnter={(e) => {
@@ -279,25 +239,34 @@ export function Numbers() {
               }}
             >
               <div
-                className="h-full w-full flex flex-col"
+                className="h-full w-full flex flex-col no-collapse"
                 style={{
                   padding: "28px",
                   background: "#0D0D14",
                   clipPath:
-                    "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
+                    "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
                 }}
               >
-                <span
+                {/* Polygon number badge */}
+                <div 
+                  className="inline-flex items-center justify-center w-8 h-8 mb-4"
                   style={{
-                    fontFamily: "monospace",
-                    fontSize: "12px",
-                    color: step.color,
-                    display: "block",
-                    marginBottom: "16px",
+                    clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
+                    background: `${step.color}20`,
+                    border: `1px solid ${step.color}40`
                   }}
                 >
-                  {step.num}
-                </span>
+                  <span
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: "12px",
+                      color: step.color,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {step.num}
+                  </span>
+                </div>
                 <h4
                   style={{
                     fontWeight: 700,

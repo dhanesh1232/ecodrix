@@ -50,35 +50,43 @@ export function PoweredBy() {
   ];
 
   return (
-    <section className="relative z-10 w-full overflow-hidden py-12 bg-background border-y border-white/5">
-      <div
-        className="relative"
+    <section className="relative z-10 w-full overflow-hidden py-12 bg-background border-y border-white/5 no-collapse">
+      {/* Polygon decorative elements */}
+      <div 
+        className="absolute left-0 top-0 w-24 h-full opacity-5 pointer-events-none"
         style={{
-          maskImage:
-            "linear-gradient(90deg, transparent, black 15%, black 85%, transparent)",
+          clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
+          background: "linear-gradient(90deg, rgba(124,110,250,0.3), transparent)"
         }}
-      >
-        <div
-          className="flex gap-16 whitespace-nowrap marquee-strip"
-          style={{ animation: "marquee 50s linear infinite" }}
-        >
-          {[...poweredBy, ...poweredBy, ...poweredBy].map((item, i) => (
-            <span
+      />
+      <div 
+        className="absolute right-0 top-0 w-24 h-full opacity-5 pointer-events-none"
+        style={{
+          clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0 100%)",
+          background: "linear-gradient(270deg, rgba(34,211,238,0.3), transparent)"
+        }}
+      />
+
+      {/* Static grid layout - no heavy animation */}
+      <div className="wrapper">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center justify-items-center">
+          {poweredBy.map((item, i) => (
+            <div
               key={i}
-              className="inline-flex items-center gap-4 text-[10px] font-mono uppercase tracking-[0.2em] text-[#64647A] hover:text-white transition-all duration-300 group cursor-default"
+              className="inline-flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.2em] text-[#64647A] hover:text-white transition-all duration-300 group cursor-default no-collapse"
             >
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 group-hover:bg-white group-hover:text-black group-hover:border-white transition-all duration-500 scale-90 group-hover:scale-110"
+                className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 group-hover:bg-white group-hover:text-black group-hover:border-white transition-all duration-300 polygon-icon"
                 style={{
                   boxShadow: "0 4px 20px -8px rgba(255,255,255,0.1)",
                 }}
               >
                 {item.icon}
               </div>
-              <span className="opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="opacity-70 group-hover:opacity-100 transition-opacity duration-300 hidden md:inline">
                 {item.label}
               </span>
-            </span>
+            </div>
           ))}
         </div>
       </div>

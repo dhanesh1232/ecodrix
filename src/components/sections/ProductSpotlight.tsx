@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState, useMemo } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import {
@@ -75,37 +77,7 @@ export function ProductSpotlight() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        containerRef.current,
-        { opacity: 0, scale: 0.98 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 95%",
-            once: true,
-          },
-        },
-      );
-    }, containerRef);
-
-    // Initial refresh to handle already-scrolled states
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 800);
-
-    return () => {
-      ctx.revert();
-      clearTimeout(timer);
-    };
-  }, []);
+  // Removed heavy GSAP animations for better performance
 
   return (
     <section
@@ -599,56 +571,24 @@ function VisualWrapper({
 }
 
 function MetricCounter({ value, active }: { value: number; active: boolean }) {
-  const [displayValue, setDisplayValue] = useState(0);
-  const countRef = useRef({ val: 0 });
-
-  useEffect(() => {
-    if (active) {
-      gsap.to(countRef.current, {
-        val: value,
-        duration: 2,
-        ease: "power2.out",
-        onUpdate: () => setDisplayValue(Math.floor(countRef.current.val)),
-      });
-    } else {
-      countRef.current.val = 0;
-      setDisplayValue(0);
-    }
-  }, [active, value]);
-
-  return <>{displayValue.toLocaleString()}</>;
+  // Simplified counter - no heavy GSAP animation
+  return <>{active ? value.toLocaleString() : "0"}</>;
 }
 
 function AnimatedBars({ active }: { active: boolean }) {
   const heights = [30, 45, 25, 60, 40, 75, 55, 90, 85, 100];
-  const barRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    if (active) {
-      gsap.fromTo(
-        barRefs.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          duration: 1,
-          stagger: 0.05,
-          ease: "elastic.out(1, 0.5)",
-          transformOrigin: "bottom",
-        },
-      );
-    }
-  }, [active]);
-
+  // Simplified bars - no heavy GSAP animation
   return (
     <>
       {heights.map((h, i) => (
         <div key={i} className="flex-1 flex flex-col justify-end group h-full">
           <div
-            ref={(el) => {
-              barRefs.current[i] = el;
-            }}
             className="w-full bg-linear-to-t from-[#22D3EE]/5 to-[#22D3EE]/60 rounded-t-sm transition-all duration-300 group-hover:to-[#22D3EE] relative opacity-80 group-hover:opacity-100"
-            style={{ height: `${h}%` }}
+            style={{ 
+              height: active ? `${h}%` : "0%",
+              transition: "height 0.5s ease-out"
+            }}
           >
             <div className="w-full h-[2px] bg-[#22D3EE] shadow-[0_0_10px_#22D3EE] absolute top-0" />
           </div>
@@ -676,34 +616,8 @@ function AnimatedKanbanCard({
   dim?: boolean;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (active) {
-      gsap.fromTo(
-        cardRef.current,
-        { opacity: 0, x: -20 },
-        {
-          opacity: dim ? 0.5 : 1,
-          x: 0,
-          duration: 0.6,
-          delay,
-          ease: "power2.out",
-        },
-      );
-      gsap.fromTo(
-        progressRef.current,
-        { width: "0%" },
-        {
-          width: `${score}%`,
-          duration: 1.5,
-          delay: delay + 0.3,
-          ease: "power2.out",
-        },
-      );
-    }
-  }, [active, delay, score, dim]);
-
+  // Simplified animation - no heavy GSAP
   return (
     <div
       ref={cardRef}
@@ -711,7 +625,9 @@ function AnimatedKanbanCard({
       style={{
         clipPath:
           "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
-        opacity: 0,
+        opacity: active ? (dim ? 0.5 : 1) : 0.3,
+        transform: active ? "translateX(0)" : "translateX(-20px)",
+        transition: "all 0.5s ease-out"
       }}
     >
       <div
@@ -737,9 +653,11 @@ function AnimatedKanbanCard({
         }}
       >
         <div
-          ref={progressRef}
-          className="h-full shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-          style={{ background: color, width: "0%" }}
+          className="h-full shadow-[0_0_10px_rgba(255,255,255,0.1)] transition-all duration-1000 ease-out"
+          style={{ 
+            background: color, 
+            width: active ? `${score}%` : "0%"
+          }}
         />
       </div>
     </div>

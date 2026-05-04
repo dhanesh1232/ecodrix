@@ -2,7 +2,6 @@ import type { MetadataRoute } from "next";
 
 /**
  * Generates /sitemap.xml via Next.js App Router convention.
- * Add new routes here as the site grows.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -13,22 +12,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: "https://ecodrix.com/#services",
+      url: "https://ecodrix.com/about",
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.9,
     },
     {
-      url: "https://ecodrix.com/#work",
+      url: "https://ecodrix.com/pricing",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: "https://ecodrix.com/#services",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
+      url: "https://ecodrix.com/#work",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: "https://ecodrix.com/#contact",
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.6,
+      priority: 0.5,
     },
   ];
 }

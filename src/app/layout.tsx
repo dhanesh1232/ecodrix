@@ -3,9 +3,12 @@ import { Inter, Space_Grotesk, JetBrains_Mono, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
-import { getOrganizationSchema, getWebSiteSchema } from "@/lib/jsonld";
+import { getOrganizationSchema, getWebSiteSchema, getSoftwareApplicationSchema } from "@/lib/jsonld";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { WebVitals } from "@/components/analytics/WebVitals";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { LenisProvider } from "@/components/layout/LenisProvider";
 
 // Primary display font — preloaded for LCP improvement
 const geist = Geist({
@@ -43,22 +46,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "ECODrIx | Build Smarter. Grow Faster.",
+    default: "ECODrIx | Unified Business Infrastructure Platform",
     // Page-level overrides use this template
     template: "%s | ECODrIx",
   },
   description:
-    "ECODrIx is a full-stack digital studio and SaaS product company from India. We design, develop, and automate digital systems for businesses worldwide.",
+    "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses. 99.9% uptime. SOC 2 compliant.",
   keywords: [
-    "web development India",
-    "SaaS product company",
-    "WhatsApp automation",
-    "digital studio",
-    "SEO agency India",
-    "full-stack development",
-    "Next.js development",
-    "React development",
-    "automation software",
+    "CRM software",
+    "business automation",
+    "WhatsApp Business API",
+    "email marketing platform",
+    "lead management system",
+    "sales pipeline software",
+    "workflow automation",
+    "cloud storage",
+    "SaaS platform India",
     "ECODrIx",
   ],
   authors: [{ name: "ECODrIx", url: BASE_URL }],
@@ -86,9 +89,9 @@ export const metadata: Metadata = {
 
   // Open Graph
   openGraph: {
-    title: "ECODrIx | Build Smarter. Grow Faster.",
+    title: "ECODrIx | Unified Business Infrastructure Platform",
     description:
-      "Full-stack digital studio and SaaS product company from India. We design, develop, and automate digital systems for businesses worldwide.",
+      "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
     url: BASE_URL,
     siteName: "ECODrIx",
     type: "website",
@@ -98,7 +101,7 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "ECODrIx — Build Smarter. Grow Faster.",
+        alt: "ECODrIx — Unified Business Infrastructure Platform",
       },
     ],
   },
@@ -106,9 +109,9 @@ export const metadata: Metadata = {
   // Twitter / X card
   twitter: {
     card: "summary_large_image",
-    title: "ECODrIx | Build Smarter. Grow Faster.",
+    title: "ECODrIx | Unified Business Infrastructure Platform",
     description:
-      "Full-stack digital studio and SaaS from India. We design, develop, and automate digital systems for businesses worldwide.",
+      "CRM, automation, WhatsApp, email marketing, and cloud storage in one platform. Trusted by 50+ businesses. 99.9% uptime.",
     site: "@ecodrix",
     creator: "@ecodrix",
     images: ["/logo.png"],
@@ -156,6 +159,13 @@ export default function RootLayout({
             __html: JSON.stringify(getWebSiteSchema()),
           }}
         />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getSoftwareApplicationSchema()),
+          }}
+        />
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
@@ -183,7 +193,14 @@ export default function RootLayout({
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
 
-        {children}
+        <div className="bg-background text-text-primary overflow-clip min-h-screen flex flex-col">
+          <LenisProvider />
+          <Navbar />
+          <div className="flex-1 flex flex-col">
+            {children}
+          </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

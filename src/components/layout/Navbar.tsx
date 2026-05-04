@@ -3,12 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { Menu, X, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const links = [
-  { label: "Services", href: "#services" },
+  { label: "Features", href: "#services" },
   { label: "Product", href: "#product" },
-  { label: "Work", href: "#work" },
-  { label: "Contact", href: "#contact" },
+  { label: "Use Cases", href: "#work" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "About", href: "/about" },
 ];
 
 export function Navbar() {
@@ -75,6 +77,10 @@ export function Navbar() {
 
   const nav = (href: string) => {
     setOpen(false);
+    if (!href.startsWith("#")) {
+      window.location.href = href;
+      return;
+    }
     const target = document.querySelector(href);
     if (target) {
       const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
@@ -105,21 +111,22 @@ export function Navbar() {
         <div className="wrapper flex items-center justify-between w-full">
           {/* Logo */}
           <a
-            href="#hero"
+            href="/"
             onClick={(e) => {
               e.preventDefault();
-              nav("#hero");
+              nav("/");
             }}
             className="flex items-center gap-2.5 group"
           >
-            <div className="relative">
-              <span className="font-display font-black text-2xl text-white tracking-tighter">
-                ECO
-              </span>
-              <span className="font-display font-black text-2xl bg-linear-to-r from-[#7C6EFA] to-[#22D3EE] bg-clip-text text-transparent tracking-tighter">
-                DrIx
-              </span>
-              <div className="absolute -right-2 top-1 w-1.5 h-1.5 rounded-full bg-[#7C6EFA] shadow-[0_0_12px_rgba(124,110,250,0.8)] animate-pulse" />
+            <div className="relative flex items-center">
+              <Image
+                src="/logo.png"
+                alt="ECODrIx Logo"
+                width={200}
+                height={80}
+                className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
+                priority
+              />
             </div>
           </a>
 
@@ -149,14 +156,32 @@ export function Navbar() {
                 e.preventDefault();
                 nav("#contact");
               }}
-              className="hidden sm:flex items-center gap-2 h-10 px-6 bg-white text-black text-[13px] font-bold uppercase tracking-widest rounded-full hover:bg-[#7C6EFA] hover:text-white transition-all duration-300"
+              className="hidden sm:flex items-center gap-2 h-10 px-6 text-black text-[13px] font-bold uppercase tracking-widest transition-all duration-300 polygon-button group/cta relative overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #ffffff, #f0f0f0)",
+                clipPath:
+                  "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
+              }}
             >
-              Start Project <ArrowRight size={14} />
+              <span className="relative z-10 group-hover/cta:text-white transition-colors duration-300">
+                Start Free Trial
+              </span>
+              <ArrowRight
+                size={14}
+                className="relative z-10 group-hover/cta:text-white group-hover/cta:translate-x-1 transition-all duration-300"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-r from-[#7C6EFA] to-[#22D3EE] opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
+                style={{
+                  clipPath:
+                    "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
+                }}
+              />
             </a>
 
             <button
               onClick={() => setOpen(true)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white"
+              className="lg:hidden w-10 h-10 flex items-center justify-center bg-white/5 border border-white/10 text-white polygon-icon"
             >
               <Menu size={20} />
             </button>
@@ -168,17 +193,17 @@ export function Navbar() {
       <div
         ref={overlayRef}
         onClick={() => setOpen(false)}
-        className="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 lg:hidden"
+        className="fixed inset-0 z-150 bg-black/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 lg:hidden"
       />
 
       {/* Mobile Menu Content */}
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 bottom-0 w-[300px] z-[200] bg-[#0A0A10] border-l border-white/10 p-10 flex flex-col translate-x-full lg:hidden"
+        className="fixed top-0 right-0 bottom-0 w-[300px] z-200 bg-[#0A0A10] border-l border-white/10 p-10 flex flex-col translate-x-full lg:hidden"
       >
         <button
           onClick={() => setOpen(false)}
-          className="self-end w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white mb-12"
+          className="self-end w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 text-white mb-12 polygon-icon"
         >
           <X size={24} />
         </button>
@@ -206,9 +231,9 @@ export function Navbar() {
               e.preventDefault();
               nav("#contact");
             }}
-            className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold rounded-2xl"
+            className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold polygon-button"
           >
-            Get a Quote
+            Start Free Trial
           </a>
         </div>
       </div>

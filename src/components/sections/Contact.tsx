@@ -29,8 +29,6 @@ interface FormData {
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
 
   const {
     register,
@@ -40,49 +38,7 @@ export function Contact() {
     formState: { errors },
   } = useForm<FormData>();
 
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctx = gsap.context(() => {
-        gsap.fromTo(
-          ".c-head > *",
-          { y: 28, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.12,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: ".c-head", start: "top 85%" },
-          },
-        );
-        gsap.fromTo(
-          [".c-form-panel", ".c-info-panel"],
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: ".c-grid", start: "top 80%" },
-          },
-        );
-      }, sectionRef);
-      return () => ctx.revert();
-    });
-    // Local refresh to handle layout shifts
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
-
-    return () => {
-      mm.revert();
-      clearTimeout(timer);
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, []);
+  // Removed heavy GSAP animations and mouse tracking for better performance
 
   const onSubmit = async (data: FormData) => {
     setState("sending");
@@ -120,85 +76,8 @@ export function Contact() {
       id="contact"
       className="relative sep-top py-20 lg:py-32 overflow-hidden"
       style={{ background: "#060608" }}
-      onMouseMove={(e) => {
-        if (!sectionRef.current) return;
-        const rect = sectionRef.current.getBoundingClientRect();
-        setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }}
-      onTouchMove={(e) => {
-        if (!sectionRef.current) return;
-        const rect = sectionRef.current.getBoundingClientRect();
-        const touch = e.touches[0];
-        setMousePos({
-          x: touch.clientX - rect.left,
-          y: touch.clientY - rect.top,
-        });
-        setIsHovering(true);
-      }}
-      onTouchEnd={() => setIsHovering(false)}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @keyframes contactMarquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `,
-        }}
-      />
-
-      {/* Hidden Marquee revealed by cursor */}
-      <div
-        className="absolute inset-0 pointer-events-none select-none transition-opacity duration-500 overflow-hidden flex flex-col justify-center gap-6"
-        style={{
-          zIndex: 0,
-          opacity: isHovering ? 1 : 0,
-          WebkitMaskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
-          maskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
-        }}
-      >
-        {Array(8)
-          .fill(null)
-          .map((_, rowIndex) => (
-            <div
-              key={`row-${rowIndex}`}
-              className="flex whitespace-nowrap"
-              style={{
-                animation: `contactMarquee ${30 + (rowIndex % 3) * 5}s linear infinite`,
-                animationDirection: rowIndex % 2 === 0 ? "normal" : "reverse",
-                width: "max-content",
-              }}
-            >
-              <div className="flex gap-4 pr-4">
-                {Array(6)
-                  .fill("LET'S BUILD SOMETHING EXTRAORDINARY •")
-                  .map((text, i) => (
-                    <span
-                      key={i}
-                      className="text-[12vw] sm:text-[8vw] lg:text-[6vw] font-black uppercase text-transparent bg-clip-text bg-linear-to-r from-primary/20 to-cyan/20 font-display tracking-tighter opacity-40"
-                    >
-                      {text}
-                    </span>
-                  ))}
-              </div>
-              <div className="flex gap-4 pr-4">
-                {Array(6)
-                  .fill("LET'S BUILD SOMETHING EXTRAORDINARY •")
-                  .map((text, i) => (
-                    <span
-                      key={`dup-${i}`}
-                      className="text-[12vw] sm:text-[8vw] lg:text-[6vw] font-black uppercase text-transparent bg-clip-text bg-linear-to-r from-primary/20 to-cyan/20 font-display tracking-tighter opacity-40"
-                    >
-                      {text}
-                    </span>
-                  ))}
-              </div>
-            </div>
-          ))}
-      </div>
+      {/* Simplified background - no heavy marquee animation */}
       {/* Ambient glow */}
       <div
         aria-hidden
@@ -220,18 +99,18 @@ export function Contact() {
         {/* Heading */}
         <div className="c-head text-center mb-16 max-w-3xl mx-auto">
           <div className="pill mb-6 text-primary border-primary/20 bg-primary/5 mx-auto">
-            Contact
+            Get Started
           </div>
           <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-6 tracking-tighter">
-            Ready to Build{" "}
+            Start Your{" "}
             <span className="bg-linear-to-r from-primary to-cyan bg-clip-text text-transparent">
-              Something?
+              Free Trial.
             </span>
           </h2>
           <p className="text-lg text-[#64647A] leading-relaxed">
-            Drop a message and we&apos;ll talk scope, timeline, and budget.{" "}
-            <br className="hidden md:block" />
-            Usually responds within 2 hours.
+            Set up your account in minutes or get a live walkthrough from the
+            team. <br className="hidden md:block" />
+            No credit card required. Responds within 2 hours.
           </p>
         </div>
 
@@ -345,11 +224,13 @@ export function Contact() {
                           </SelectTrigger>
                           <SelectContent>
                             {[
-                              "Website Development",
-                              "SEO",
+                              "CRM & Lead Pipeline",
                               "WhatsApp Automation",
-                              "SaaS Development",
-                              "ECODrIx Demo",
+                              "Email Marketing",
+                              "AI Chatbot Setup",
+                              "Cloud Storage",
+                              "Full Platform Trial",
+                              "Enterprise / Custom",
                             ].map((s) => (
                               <SelectItem key={s} value={s}>
                                 {s}
@@ -373,7 +254,7 @@ export function Contact() {
                   </Label>
                   <Textarea
                     {...register("message", { required: "Required" })}
-                    placeholder="Tell us about your project — timeline, budget, goals..."
+                    placeholder="Tell us what you're trying to automate or which feature you'd like to explore..."
                   />
                   {errors.message && (
                     <p className="text-[#ff6b6b] text-[11px] mt-1">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import {
   ArrowUpRight,
@@ -36,68 +36,93 @@ const services: Service[] = [
   {
     icon: <Globe size={24} />,
     color: C.purple,
-    title: "Website Development",
-    description:
-      "Custom Next.js / React websites that are fast, SEO-ready, and built to convert. Every pixel is deliberate.",
-    features: [
-      "Next.js & React",
-      "High Performance",
-      "SEO Optimized",
-      "Responsive Design",
-    ],
-    span: 7,
-    link: "#work",
-  },
-  {
-    icon: <TrendingUp size={24} />,
-    color: C.cyan,
-    title: "SEO & Organic Growth",
-    description:
-      "Technical audits, keyword strategy, and rank tracking. We grow traffic that compounds — not spikes.",
-    features: ["Technical Audit", "Strategy", "Analytics", "Rank Tracking"],
-    span: 5,
-    link: "#contact",
-  },
-  {
-    icon: <Megaphone size={24} />,
-    color: C.orange,
-    title: "Google & Meta Ads",
-    description:
-      "Performance campaigns across Google, YouTube, and Meta. ROI-focused setup and A/B tested creatives.",
-    features: ["Google Ads", "Meta Ads", "ROI Tracking", "A/B Testing"],
-    span: 5,
-    link: "#contact",
-  },
-  {
-    icon: <BsWhatsapp size={24} />,
-    color: C.green,
-    title: "WhatsApp Automation",
-    description:
-      "Trigger reminders, broadcast campaigns, and manage inbox via Meta Cloud API under your brand.",
-    features: ["Meta Cloud API", "Broadcasts", "Reminders", "Inbox API"],
-    badge: "Powered by ECODrIx",
-    span: 7,
-    link: "#product",
-  },
-  {
-    icon: <Target size={24} />,
-    color: C.purple,
     title: "CRM & Lead Pipeline",
     description:
-      "Full Kanban CRM with lead scoring, pipelines, and activity logs. Embedded directly in your product.",
-    features: ["Kanban Board", "Lead Scoring", "Analytics", "Activity Logs"],
-    badge: "White-Label",
-    span: 4,
+      "Track every lead from first contact to closed deal. Kanban-style pipeline, activity logs, contact history, and lead scoring — all in one view. No more spreadsheets.",
+    features: [
+      "Kanban Board",
+      "Lead Scoring",
+      "Activity Logs",
+      "Revenue Forecast",
+    ],
+    span: 7,
     link: "#product",
   },
   {
     icon: <Zap size={24} />,
     color: C.cyan,
-    title: "Automation Engine",
+    title: "AI Automation Engine",
     description:
-      "Trigger-based rules: send WhatsApp, emails, move leads, and assign teams — automatically.",
-    features: ["20+ Triggers", "Multi-action", "Sequences", "Auto-Assignment"],
+      "Build workflows with 20+ triggers. Automatically follow up with leads, assign tasks, send messages, and update your CRM based on what your customers do.",
+    features: [
+      "20+ Triggers",
+      "Conditional Logic",
+      "Schedule Sends",
+      "Auto-Assign",
+    ],
     badge: "ECODrIx Core",
+    span: 5,
+    link: "#product",
+  },
+  {
+    icon: <BsWhatsapp size={24} />,
+    color: C.green,
+    title: "WhatsApp Business Messaging",
+    description:
+      "Send and receive WhatsApp messages from your CRM. Use approved templates, run campaigns, and respond to customers — all without switching apps.",
+    features: [
+      "Meta Cloud API",
+      "Template Campaigns",
+      "Inbox Management",
+      "Broadcast Lists",
+    ],
+    badge: "Powered by Meta",
+    span: 5,
+    link: "#product",
+  },
+  {
+    icon: <Megaphone size={24} />,
+    color: C.orange,
+    title: "Email Marketing",
+    description:
+      "Design and send email campaigns to segmented lists. Track opens, clicks, and conversions. Powered by AWS SES for reliable, high-volume delivery.",
+    features: [
+      "Campaign Builder",
+      "List Segmentation",
+      "Open/Click Tracking",
+      "AWS SES",
+    ],
+    span: 7,
+    link: "#contact",
+  },
+  {
+    icon: <Target size={24} />,
+    color: C.purple,
+    title: "Cloud Storage",
+    description:
+      "Store client documents, proposals, media, and assets — organized by contact or project. Accessible to your whole team, always.",
+    features: [
+      "Organized Files",
+      "Team Access",
+      "Link Sharing",
+      "Secure Uploads",
+    ],
+    span: 4,
+    link: "#contact",
+  },
+  {
+    icon: <TrendingUp size={24} />,
+    color: C.cyan,
+    title: "Chatbot & AI Assistant",
+    description:
+      "Deploy a trained chatbot on your website or WhatsApp to qualify leads, answer FAQs, and book appointments — even when your team is offline.",
+    features: [
+      "Lead Qualification",
+      "FAQ Handling",
+      "Appointment Booking",
+      "AI-Powered",
+    ],
+    badge: "AI-Powered",
     span: 4,
     link: "#product",
   },
@@ -106,7 +131,7 @@ const services: Service[] = [
     color: C.pink,
     title: "Meeting Integration",
     description:
-      "Auto-create Google Meet links when an appointment is confirmed. Delivered via WhatsApp instantly.",
+      "Auto-create Google Meet links when an appointment is confirmed. Delivered via WhatsApp instantly. Zero manual scheduling.",
     features: ["OAuth 2.0", "Auto Link", "WhatsApp Sync", "Calendar"],
     span: 4,
     link: "#product",
@@ -116,48 +141,7 @@ const services: Service[] = [
 export function Services() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".srv-header > *",
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: ".srv-header",
-            start: "top 85%",
-          },
-        },
-      );
-
-      gsap.fromTo(
-        ".srv-card",
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.08,
-          scrollTrigger: {
-            trigger: ".srv-grid",
-            start: "top 80%",
-          },
-        },
-      );
-    }, containerRef);
-    // Local refresh to handle layout shifts
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
-
-    return () => {
-      ctx.revert();
-      clearTimeout(timer);
-    };
-  }, []);
+  // Removed heavy GSAP animations for better performance
 
   return (
     <section
@@ -168,17 +152,17 @@ export function Services() {
       <div className="wrapper relative z-10">
         <header className="srv-header mb-20 max-w-3xl">
           <div className="pill mb-4 text-primary border-primary/20 bg-primary/5">
-            Expertise
+            What&apos;s Inside
           </div>
           <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 tracking-tighter">
-            We build the systems that <br className="hidden md:block" />
+            Everything You Need,{" "}
             <span className="bg-linear-to-r from-primary to-cyan bg-clip-text text-transparent">
-              Power Your Growth.
+              Nothing You Don&apos;t.
             </span>
           </h2>
           <p className="text-lg text-[#64647A] leading-relaxed">
-            From high-conversion interfaces to deep automation logic, we provide
-            the technical backbone for next-generation businesses.
+            Six fully integrated tools under one roof. No separate logins, no
+            duct-tape integrations, no hidden costs.
           </p>
         </header>
 
@@ -197,6 +181,7 @@ export function Services() {
 
 function ServiceCard({ service }: { service: Service }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = ref.current;
@@ -209,6 +194,7 @@ function ServiceCard({ service }: { service: Service }) {
 
   const handleLeave = () => {
     if (ref.current) ref.current.style.background = "transparent";
+    setIsHovered(false);
   };
 
   const nav = (href: string) => {
@@ -220,24 +206,21 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <div
       className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 ${
-        service.span === 7 ? "lg:col-span-7 md:col-span-6" : 
-        service.span === 5 ? "lg:col-span-5 md:col-span-6" : 
-        "lg:col-span-4 md:col-span-6"
+        service.span === 7
+          ? "lg:col-span-7 md:col-span-6"
+          : service.span === 5
+            ? "lg:col-span-5 md:col-span-6"
+            : "lg:col-span-4 md:col-span-6"
       }`}
       onClick={() => nav(service.link)}
       style={{
         clipPath:
           "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
-        backgroundColor: "rgba(255,255,255,0.06)",
+        backgroundColor: isHovered ? `${service.color}40` : "rgba(255,255,255,0.06)",
+        boxShadow: isHovered ? `0 20px 50px -12px ${service.color}20` : "none",
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = `${service.color}40`;
-        e.currentTarget.style.boxShadow = `0 20px 50px -12px ${service.color}20`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
-        e.currentTarget.style.boxShadow = "none";
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div
         ref={ref}

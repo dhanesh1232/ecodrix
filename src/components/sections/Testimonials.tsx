@@ -6,79 +6,35 @@ import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Alex Rivera",
-    role: "CTO @ FintechFlow",
+    name: "Priya Mehta",
+    role: "Founder @ NexaClinic",
     content:
-      "The Ecodrix team didn't just build a website; they delivered a full-scale lead generation engine. Our conversion rate tripled within two months of launching the new platform.",
+      "ECODrix replaced three tools we were paying for separately. Our WhatsApp follow-ups are fully automated now and we haven't missed a single appointment confirmation in weeks.",
     rating: 5,
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
   },
   {
-    name: "Sarah Chen",
-    role: "Founder @ NexaHealth",
+    name: "Rohan Sharma",
+    role: "Director @ GrowthStack Agency",
     content:
-      "The Kanban CRM integration was a game-changer for us. Being able to track every single lead from the first WhatsApp click to the final consultation has automated 70% of our manual work.",
+      "The Kanban CRM is genuinely the best part. Every lead from every channel lands in one place, scores automatically, and the team gets notified. We closed 40% more deals last quarter.",
     rating: 5,
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rohan",
   },
   {
-    name: "Marcus Thorne",
-    role: "Director @ Global Logistics",
+    name: "Ananya Kapoor",
+    role: "Co-founder @ ThreadsD2C",
     content:
-      "True white-label SaaS capabilities allowed us to spin up 50+ isolated tenant environments in record time. The architectural stability is unmatched in the market today.",
+      "We set up the abandoned cart WhatsApp automation in under an hour. It recovered 18% of our lost carts in the first month. The email sequence on top of that was just extra.",
     rating: 5,
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ananya",
   },
 ];
 
 export function Testimonials() {
   const containerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".test-card",
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-
-      gsap.fromTo(
-        ".test-header",
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-    }, containerRef);
-
-    // Initial refresh to handle already-scrolled states
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
-
-    return () => {
-      ctx.revert();
-      clearTimeout(timer);
-    };
-  }, []);
+  // Removed heavy GSAP animations for better performance
 
   return (
     <section
@@ -93,36 +49,45 @@ export function Testimonials() {
       <div className="wrapper relative z-10">
         <header className="test-header mb-20 text-center max-w-2xl mx-auto">
           <div className="pill mb-6 mx-auto bg-white/5 border-white/10 uppercase tracking-widest text-[10px] font-mono">
-            Client Success
+            Early Users
           </div>
           <h2 className="text-[clamp(2.5rem,5vw,4rem)] text-white font-display font-black tracking-tight leading-[1.05] mb-6">
-            Trusted by the world&apos;s{" "}
-            <span className="grad-text">boldest</span> teams.
+            Trusted by{" "}
+            <span className="grad-text">growing businesses.</span>
           </h2>
           <p className="text-[#64647A] text-lg">
-            Don&apos;t just take our word for it. Here is how our tech engine is
-            powering growth across industries.
+            Here&apos;s how real teams are using ECODrix to automate work and close more deals.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 grid-no-collapse">
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="test-card group relative p-1 transition-all duration-500 hover:-translate-y-2"
+              className="test-card group relative p-1 transition-all duration-500 hover:-translate-y-2 no-collapse"
             >
-              {/* Card Background & Clip-path */}
+              {/* Card Background & Clip-path - Enhanced Polygon Style */}
               <div
                 className="absolute inset-0 bg-white/5 border border-white/10 transition-all duration-500 group-hover:bg-white/10 group-hover:border-white/20 z-0"
                 style={{
                   clipPath:
-                    "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
+                    "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
                 }}
               />
 
-              <div className="relative z-10 p-8 flex flex-col h-full">
+              {/* Polygon glow effect on hover */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+                style={{
+                  clipPath:
+                    "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
+                  background: "linear-gradient(135deg, rgba(124,110,250,0.1), rgba(34,211,238,0.05))",
+                }}
+              />
+
+              <div className="relative z-10 p-8 flex flex-col h-full no-collapse">
                 {/* Rating */}
-                <div className="flex gap-1 mb-6">
+                <div className="flex gap-1 mb-6 no-collapse">
                   {Array.from({ length: t.rating }).map((_, idx) => (
                     <Star
                       key={idx}
@@ -137,19 +102,27 @@ export function Testimonials() {
                   size={60}
                 />
 
-                <p className="text-white/80 text-lg leading-relaxed mb-10 flex-1 relative z-10 italic">
+                <p className="text-white/80 text-lg leading-relaxed mb-10 flex-1 relative z-10 italic no-collapse">
                   &quot;{t.content}&quot;
                 </p>
 
-                <div className="flex items-center gap-4 mt-auto">
-                  <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 bg-white/5 p-px">
+                <div className="flex items-center gap-4 mt-auto no-collapse">
+                  <div 
+                    className="relative w-12 h-12 overflow-hidden border border-white/10 bg-white/5 p-px"
+                    style={{
+                      clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
+                    }}
+                  >
                     <img
                       src={t.image}
                       alt={t.name}
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-full h-full object-cover"
+                      style={{
+                        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
+                      }}
                     />
                   </div>
-                  <div>
+                  <div className="no-collapse">
                     <h4 className="text-white font-display font-bold text-base">
                       {t.name}
                     </h4>
@@ -160,10 +133,13 @@ export function Testimonials() {
                 </div>
               </div>
 
-              {/* Decorative Corner */}
+              {/* Decorative Polygon Corner */}
               <div
-                className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-primary opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100"
-                style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+                className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100"
+                style={{ 
+                  clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                  background: "linear-gradient(135deg, rgba(124,110,250,0.1), transparent)"
+                }}
               />
             </div>
           ))}

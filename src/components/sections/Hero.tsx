@@ -6,11 +6,11 @@ import { ArrowRight, Star } from "lucide-react";
 import { HeroCanvas } from "../canvas/HeroCanvas";
 
 const words = [
-  "Websites",
+  "CRM Systems",
   "Automations",
-  "SaaS Products",
-  "WhatsApp CRM",
-  "Ad Campaigns",
+  "WhatsApp API",
+  "Email Campaigns",
+  "Cloud Storage",
 ];
 
 const renderGlowText = (text: string) => {
@@ -157,7 +157,7 @@ export function Hero() {
       <div className="relative z-10 text-center px-6 wrapper flex flex-col items-center">
         <div className="h-badge pill mb-2">
           <Star size={9} fill="#7C6EFA" stroke="none" />
-          India&apos;s Full-Stack Digital Studio · Est. 2025
+          Now in Early Access · Trusted by 50+ Businesses · 99.9% Uptime
         </div>
 
         <h1
@@ -170,12 +170,12 @@ export function Hero() {
         >
           <span className="block overflow-hidden">
             <span className="hl block text-white">
-              {renderGlowText("We Build")}
+              {renderGlowText("One Platform for")}
             </span>
           </span>
           <span className="block overflow-hidden" style={{ height: "1.08em" }}>
             <span ref={wordRef} className="hl block grad-text">
-              Websites
+              Every Part of Your Business.
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -183,18 +183,17 @@ export function Hero() {
               className="hl block"
               style={{ color: "rgba(255,255,255,0.6)" }}
             >
-              {renderGlowText("That Grow Your Business")}
+              {renderGlowText("Stop Managing Ten Tools.")}
             </span>
           </span>
         </h1>
 
         <p
-          className="h-sub max-w-[540px] leading-relaxed mb-10"
+          className="h-sub max-w-[600px] leading-relaxed mb-10"
           style={{ color: "#64647A", fontSize: "18px" }}
         >
-          A full-stack digital studio, India — we build websites, run ads,
-          automate WhatsApp, run your CRM, and can embed our full SaaS platform
-          under your domain.
+          CRM, automation, WhatsApp, email marketing, and cloud storage — all in
+          one place. Set up in under 15 minutes. No credit card required.
         </p>
 
         <div className="h-ctas flex flex-col sm:flex-row items-center gap-4 mb-16 relative z-30">
@@ -218,7 +217,7 @@ export function Hero() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2 text-white font-semibold">
-                Explore Our Services
+                Start Free Trial →
                 <ArrowRight
                   size={16}
                   className="group-hover:translate-x-1 transition-transform"
@@ -247,12 +246,8 @@ export function Hero() {
               }}
             >
               <span className="text-white font-semibold relative z-10">
-                See Platform Demo
+                See How It Works ↓
               </span>
-              <div className="relative flex h-2.5 w-2.5 z-10">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22D3EE] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#22D3EE]"></span>
-              </div>
             </div>
           </button>
         </div>
