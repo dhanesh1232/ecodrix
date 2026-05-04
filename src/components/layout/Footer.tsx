@@ -44,8 +44,8 @@ export function Footer() {
   return (
     <footer className="relative bg-[#050508] pt-32 pb-12 overflow-hidden border-t border-white/5">
       {/* Premium Background Ambience */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#7C6EFA]/10 blur-[120px] rounded-full pointer-events-none opacity-20" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#22D3EE]/10 blur-[100px] rounded-full pointer-events-none opacity-10" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#7C6EFA]/10 blur-[120px] rounded-full pointer-events-none opacity-20" aria-hidden="true" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#22D3EE]/10 blur-[100px] rounded-full pointer-events-none opacity-10" aria-hidden="true" />
 
       <div className="wrapper relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-16 lg:gap-8 mb-24">

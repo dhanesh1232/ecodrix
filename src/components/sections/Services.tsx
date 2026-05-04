@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useRef, useState } from "react";
 import {
   ArrowUpRight,
   Globe,
@@ -139,14 +138,9 @@ const services: Service[] = [
 ];
 
 export function Services() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Removed heavy GSAP animations for better performance
-
   return (
     <section
       id="services"
-      ref={containerRef}
       className="py-32 relative overflow-hidden bg-background"
     >
       <div className="wrapper relative z-10">
@@ -174,7 +168,10 @@ export function Services() {
       </div>
 
       {/* Background radial atmosphere */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />
+      <div 
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" 
+        aria-hidden="true"
+      />
     </section>
   );
 }
@@ -235,6 +232,7 @@ function ServiceCard({ service }: { service: Service }) {
         {/* Glow atmosphere inner */}
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          aria-hidden="true"
           style={{
             background: `radial-gradient(circle at 100% 0%, ${service.color}10 0%, transparent 50%)`,
           }}

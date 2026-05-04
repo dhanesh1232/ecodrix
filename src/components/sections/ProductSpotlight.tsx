@@ -166,7 +166,7 @@ export function ProductSpotlight() {
                   </div>
 
                   {isActive && (
-                    <div className="absolute inset-0 bg-primary/20 blur-[60px] opacity-20 z-[-2] pointer-events-none" />
+                    <div className="absolute inset-0 bg-primary/20 blur-[60px] opacity-20 z-[-2] pointer-events-none" aria-hidden="true" />
                   )}
 
                   <div className="w-14 h-14 flex items-center justify-center mb-8 transition-all duration-500 relative">
@@ -248,7 +248,7 @@ export function ProductSpotlight() {
                 }}
               >
                 {/* Premium Glow effect behind the container */}
-                <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent pointer-events-none -z-10" />
+                <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent pointer-events-none -z-10" aria-hidden="true" />
 
                 <div className="absolute top-0 left-0 right-0 h-10 border-b border-[rgba(255,255,255,0.05)] bg-white/5 backdrop-blur-md flex items-center justify-between px-5 z-20">
                   <div className="flex gap-2">
@@ -282,7 +282,7 @@ export function ProductSpotlight() {
                 {/* View 0: Web & SEO */}
                 <VisualWrapper active={activeStep === 0}>
                   <div className="p-10 h-full flex flex-col pt-16 relative">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)] pointer-events-none" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)] pointer-events-none" aria-hidden="true" />
                     <div className="flex justify-between items-end mb-10 relative z-10">
                       <div>
                         <div className="flex items-center gap-2 mb-3">
@@ -455,9 +455,9 @@ export function ProductSpotlight() {
                 {/* View 3: SaaS Provisioning */}
                 <VisualWrapper active={activeStep === 3}>
                   <div className="p-8 h-full pt-20 flex flex-col bg-[#0D0D14] relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" aria-hidden="true" />
                     <div className="flex flex-col items-center justify-center mb-10 relative z-10 text-center">
-                      <div className="absolute w-32 h-32 bg-[#F472B6]/20 rounded-full blur-2xl pointer-events-none" />
+                      <div className="absolute w-32 h-32 bg-[#F472B6]/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
                       <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-[#F472B6] to-[#7C6EFA] p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
                         <div className="w-full h-full bg-[#111] rounded-2xl flex items-center justify-center">
                           <GitBranch size={24} color="#F472B6" />

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useRef } from "react";
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
@@ -32,19 +31,14 @@ const testimonials = [
 ];
 
 export function Testimonials() {
-  const containerRef = useRef<HTMLElement>(null);
-
-  // Removed heavy GSAP animations for better performance
-
   return (
     <section
-      ref={containerRef}
       id="testimonials"
       className="py-16 relative overflow-hidden bg-background"
     >
       {/* Background Ambience */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan/5 blur-[120px] rounded-full -z-10" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10" aria-hidden="true" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan/5 blur-[120px] rounded-full -z-10" aria-hidden="true" />
 
       <div className="wrapper relative z-10">
         <header className="test-header mb-20 text-center max-w-2xl mx-auto">
@@ -78,6 +72,7 @@ export function Testimonials() {
               {/* Polygon glow effect on hover */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+                aria-hidden="true"
                 style={{
                   clipPath:
                     "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",

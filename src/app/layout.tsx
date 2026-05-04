@@ -98,7 +98,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "/logo.png",
+        url: "/og-image.png", // TODO: Create optimized 1200x630px OG image
         width: 1200,
         height: 630,
         alt: "ECODrIx — Unified Business Infrastructure Platform",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
       "CRM, automation, WhatsApp, email marketing, and cloud storage in one platform. Trusted by 50+ businesses. 99.9% uptime.",
     site: "@ecodrix",
     creator: "@ecodrix",
-    images: ["/logo.png"],
+    images: ["/og-image.png"], // TODO: Create optimized 1200x630px OG image
   },
 
   // Icons — wired to existing /public assets
@@ -130,10 +130,10 @@ export const metadata: Metadata = {
     shortcut: "/favicon-16x16.png",
   },
 
-  // Placeholder slot — add GSC verification token here when available
-  // verification: {
-  //   google: "YOUR_GOOGLE_SITE_VERIFICATION_TOKEN",
-  // },
+  // Google Search Console verification - add your token when available
+  verification: {
+    google: "1G7-mS5pi6DXI5YRIvJABKDEKG1B80YgMaIUw8h2dNQ", // TODO: Replace with actual GSC verification token
+  },
 };
 
 export default function RootLayout({
@@ -146,9 +146,13 @@ export default function RootLayout({
       <head>
         {/* Resource hints for performance optimization */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        
+
         {/* JSON-LD structured data — must be in <head> for crawler visibility */}
         <script
           type="application/ld+json"
@@ -171,10 +175,19 @@ export default function RootLayout({
             __html: JSON.stringify(getSoftwareApplicationSchema()),
           }}
         />
+        <meta
+          name="google-site-verification"
+          content="1G7-mS5pi6DXI5YRIvJABKDEKG1B80YgMaIUw8h2dNQ"
+        />
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       >
+        {/* Skip to main content link for keyboard navigation */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+
         {/* GA4 — deferred to avoid blocking initial render */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
@@ -201,7 +214,9 @@ export default function RootLayout({
         <div className="bg-background text-text-primary overflow-clip min-h-screen flex flex-col">
           <LenisProvider />
           <Navbar />
-          <div className="flex-1 flex flex-col">{children}</div>
+          <main id="main-content" className="flex-1 flex flex-col">
+            {children}
+          </main>
           <Footer />
         </div>
       </body>

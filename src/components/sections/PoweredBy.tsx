@@ -54,6 +54,7 @@ export function PoweredBy() {
       {/* Polygon decorative elements */}
       <div 
         className="absolute left-0 top-0 w-24 h-full opacity-5 pointer-events-none"
+        aria-hidden="true"
         style={{
           clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
           background: "linear-gradient(90deg, rgba(124,110,250,0.3), transparent)"
@@ -61,6 +62,7 @@ export function PoweredBy() {
       />
       <div 
         className="absolute right-0 top-0 w-24 h-full opacity-5 pointer-events-none"
+        aria-hidden="true"
         style={{
           clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0 100%)",
           background: "linear-gradient(270deg, rgba(34,211,238,0.3), transparent)"

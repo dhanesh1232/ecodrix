@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useRef, useState } from "react";
 import { BsWhatsapp } from "react-icons/bs";
 import { useForm, Controller } from "react-hook-form";
 import { Mail, MapPin, Github, Linkedin, Instagram } from "lucide-react";
@@ -27,7 +26,6 @@ interface FormData {
 }
 
 export function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
 
   const {
@@ -37,8 +35,6 @@ export function Contact() {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-
-  // Removed heavy GSAP animations and mouse tracking for better performance
 
   const onSubmit = async (data: FormData) => {
     setState("sending");
@@ -72,7 +68,6 @@ export function Contact() {
 
   return (
     <section
-      ref={sectionRef}
       id="contact"
       className="relative sep-top py-20 lg:py-32 overflow-hidden"
       style={{ background: "#060608" }}
@@ -80,7 +75,7 @@ export function Contact() {
       {/* Simplified background - no heavy marquee animation */}
       {/* Ambient glow */}
       <div
-        aria-hidden
+        aria-hidden="true"
         className="absolute inset-0 pointer-events-none flex items-center justify-center"
       >
         <div

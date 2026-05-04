@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const stats = [
   {
@@ -115,19 +114,15 @@ function Counter({ target }: { target: number }) {
 }
 
 export function Numbers() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Removed heavy GSAP animations for better performance
-
   return (
     <section
-      ref={sectionRef}
       id="numbers"
       className="relative py-28 overflow-hidden"
       style={{ background: "#060608" }}
     >
       <div
         className="absolute top-0 left-0 right-0 h-px"
+        aria-hidden="true"
         style={{
           background:
             "linear-gradient(90deg, transparent, rgba(124,110,250,0.3), transparent)",
@@ -294,6 +289,7 @@ export function Numbers() {
 
       <div
         className="absolute bottom-0 left-0 right-0 h-px"
+        aria-hidden="true"
         style={{
           background:
             "linear-gradient(90deg, transparent, rgba(124,110,250,0.2), transparent)",

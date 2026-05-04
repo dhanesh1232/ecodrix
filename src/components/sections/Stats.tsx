@@ -70,12 +70,14 @@ export function Stats() {
       {/* Polygon accent lines */}
       <div 
         className="absolute top-0 left-1/4 w-32 h-px opacity-30"
+        aria-hidden="true"
         style={{
           background: "linear-gradient(90deg, transparent, rgba(124,110,250,0.8), transparent)"
         }}
       />
       <div 
         className="absolute bottom-0 right-1/4 w-32 h-px opacity-30"
+        aria-hidden="true"
         style={{
           background: "linear-gradient(90deg, transparent, rgba(34,211,238,0.8), transparent)"
         }}
@@ -95,6 +97,7 @@ export function Stats() {
             {/* Polygon hover effect */}
             <div 
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              aria-hidden="true"
               style={{
                 clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)",
                 background: "linear-gradient(135deg, rgba(124,110,250,0.05), rgba(34,211,238,0.02))"

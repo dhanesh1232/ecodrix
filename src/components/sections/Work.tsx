@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useRef } from "react";
 import { ArrowUpRight, Activity, Zap, Globe } from "lucide-react";
 
 const projects = [
@@ -47,18 +46,13 @@ const projects = [
 ];
 
 export function Work() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Removed heavy GSAP animations for better performance
-
   return (
     <section
-      ref={sectionRef}
       id="work"
       className="relative py-32 overflow-hidden bg-background"
     >
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute left-1/2 -top-[200px] -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/10 to-transparent" aria-hidden="true" />
+      <div className="absolute left-1/2 -top-[200px] -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" aria-hidden="true" />
 
       <div className="wrapper relative z-10 max-w-7xl mx-auto">
         <div className="w-head mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -101,6 +95,7 @@ export function Work() {
                 {/* Hover Glow */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
+                  aria-hidden="true"
                   style={{
                     background: `radial-gradient(circle at center, ${p.color}, transparent 70%)`,
                   }}
@@ -170,6 +165,7 @@ export function Work() {
                 {/* Polygon corner accent */}
                 <div
                   className="absolute bottom-0 right-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  aria-hidden="true"
                   style={{
                     clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
                     background: `linear-gradient(225deg, ${p.color}20, transparent)`,
@@ -216,7 +212,7 @@ export function Work() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" aria-hidden="true" />
     </section>
   );
 }

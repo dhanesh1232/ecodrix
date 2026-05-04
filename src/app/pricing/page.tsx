@@ -178,7 +178,7 @@ export default function PricingPage() {
         {/* ambient glow */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-          aria-hidden
+          aria-hidden="true"
           style={{
             width: "700px",
             height: "400px",
@@ -256,7 +256,7 @@ export default function PricingPage() {
                   }}
                 >
                   {plan.popular && (
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#22D3EE]/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#22D3EE]/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
                   )}
 
                   <div className="mb-8 relative z-10 no-collapse">

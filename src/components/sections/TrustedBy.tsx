@@ -19,6 +19,7 @@ export const TrustedBy = () => {
       {/* Polygon decorative elements */}
       <div 
         className="absolute left-0 top-0 w-32 h-full opacity-10 pointer-events-none"
+        aria-hidden="true"
         style={{
           clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
           background: "linear-gradient(90deg, rgba(124,110,250,0.1), transparent)"
@@ -26,6 +27,7 @@ export const TrustedBy = () => {
       />
       <div 
         className="absolute right-0 top-0 w-32 h-full opacity-10 pointer-events-none"
+        aria-hidden="true"
         style={{
           clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0 100%)",
           background: "linear-gradient(270deg, rgba(34,211,238,0.1), transparent)"
@@ -47,6 +49,7 @@ export const TrustedBy = () => {
             {/* Polygon highlight on hover */}
             <div 
               className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+              aria-hidden="true"
               style={{
                 clipPath: "polygon(0 20%, 100% 0, 100% 80%, 0 100%)",
                 background: "linear-gradient(135deg, rgba(124,110,250,0.1), rgba(34,211,238,0.05))"

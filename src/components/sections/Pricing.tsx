@@ -105,7 +105,7 @@ export function Pricing() {
                 }}
               >
                 {plan.popular && (
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#22D3EE]/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#22D3EE]/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
                 )}
 
                 <div className="mb-8 relative z-10 no-collapse">

@@ -8,7 +8,7 @@ export function HeroStatic() {
       className="relative flex flex-col items-center justify-center overflow-hidden pt-[12vh] md:pt-[18vh] pb-[8vh] md:pb-[10vh]"
     >
       {/* Modern gradient background with depth */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* Primary gradient orb - top left */}
         <div
           className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-30"
