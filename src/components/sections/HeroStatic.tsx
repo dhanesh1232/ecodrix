@@ -7,66 +7,58 @@ export function HeroStatic() {
       id="hero"
       className="relative flex flex-col items-center justify-center overflow-hidden pt-[12vh] md:pt-[18vh] pb-[8vh] md:pb-[10vh]"
     >
-      {/* Static background effects */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-        aria-hidden
-      >
+      {/* Modern gradient background with depth */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Primary gradient orb - top left */}
         <div
-          className="h-beam"
+          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-30"
           style={{
-            width: "700px",
-            height: "480px",
             background:
-              "conic-gradient(from 270deg at 50% 0%, transparent 55deg, rgba(124,110,250,0.3) 85deg, rgba(34,211,238,0.12) 115deg, transparent 155deg)",
-            filter: "blur(14px)",
-            transformOrigin: "50% 0%",
-            opacity: 0.9,
+              "radial-gradient(circle, rgba(124, 110, 250, 0.4) 0%, transparent 70%)",
+            filter: "blur(80px)",
           }}
         />
-      </div>
 
-      <div
-        aria-hidden
-        className="absolute top-1/3 -left-32 w-[480px] h-[480px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(124,110,250,0.09) 0%, transparent 70%)",
-          filter: "blur(50px)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-1/4 -right-24 w-80 h-80 rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
+        {/* Cyan gradient orb - top right */}
+        <div
+          className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full opacity-25"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(34, 211, 238, 0.35) 0%, transparent 70%)",
+            filter: "blur(70px)",
+          }}
+        />
 
-      {/* Static geometric background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 opacity-20">
-          <div 
-            className="absolute top-1/4 left-1/4 w-32 h-32 border border-primary/20"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)"
-            }}
-          />
-          <div 
-            className="absolute top-1/2 right-1/3 w-24 h-24 border border-cyan/20"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)"
-            }}
-          />
-          <div 
-            className="absolute bottom-1/3 left-1/2 w-20 h-20 border border-primary/15"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)"
-            }}
-          />
-        </div>
+        {/* Accent gradient orb - bottom center */}
+        <div
+          className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full opacity-20"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(168, 158, 253, 0.3) 0%, transparent 70%)",
+            filter: "blur(90px)",
+          }}
+        />
+
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(124, 110, 250, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(124, 110, 250, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        {/* Radial vignette for depth */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 0%, rgba(6, 6, 8, 0.4) 60%, #060608 100%)",
+          }}
+        />
       </div>
 
       <div className="relative z-10 text-center px-6 wrapper flex flex-col items-center">
@@ -83,16 +75,9 @@ export function HeroStatic() {
             marginBottom: "16px",
           }}
         >
-          <span className="block">
-            One Platform for
-          </span>
-          <span className="block grad-text">
-            Every Part of Your Business.
-          </span>
-          <span
-            className="block"
-            style={{ color: "rgba(255,255,255,0.6)" }}
-          >
+          <span className="block">One Platform for</span>
+          <span className="block grad-text">Every Part of Your Business.</span>
+          <span className="block" style={{ color: "rgba(255,255,255,0.6)" }}>
             Stop Managing Ten Tools.
           </span>
         </h1>
@@ -122,7 +107,7 @@ export function HeroStatic() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2 text-white font-semibold">
-                Start Free Trial →
+                Start Free Trial
                 <ArrowRight
                   size={16}
                   className="group-hover:translate-x-1 transition-transform"
