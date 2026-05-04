@@ -175,21 +175,13 @@ export default function RootLayout({
             __html: JSON.stringify(getSoftwareApplicationSchema()),
           }}
         />
-      </head>
-      <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
-      >
-        {/* Skip to main content link for keyboard navigation */}
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
 
-        {/* GA4 — deferred to avoid blocking initial render */}
+        {/* GA4 — Moved to head for Google Search Console verification */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -200,6 +192,14 @@ export default function RootLayout({
             });
           `}
         </Script>
+      </head>
+      <body
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
+      >
+        {/* Skip to main content link for keyboard navigation */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
 
         {/* SPA page view tracking — fires on every client-side navigation */}
         <GoogleAnalytics />
