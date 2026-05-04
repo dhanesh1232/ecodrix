@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Star } from "lucide-react";
 import { HeroCanvas } from "../canvas/HeroCanvas";
+
+// Lazy load GSAP only when needed
+let gsap: any;
+let ScrollTrigger: any;
 
 const words = [
   "CRM Systems",
@@ -28,8 +31,29 @@ const renderGlowText = (text: string) => {
 export function Hero() {
   const wordRef = useRef<HTMLSpanElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [animationsReady, setAnimationsReady] = useState(false);
 
   useEffect(() => {
+    // Defer GSAP loading until after initial render
+    const loadAnimations = async () => {
+      try {
+        const gsapModule = await import("@/lib/gsap");
+        gsap = gsapModule.gsap;
+        ScrollTrigger = gsapModule.ScrollTrigger;
+        setAnimationsReady(true);
+      } catch (error) {
+        console.error("Failed to load animations:", error);
+      }
+    };
+
+    // Load animations after a short delay to prioritize initial render
+    const timer = setTimeout(loadAnimations, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!animationsReady || !gsap || !ScrollTrigger) return;
+
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
@@ -103,9 +127,9 @@ export function Hero() {
     return () => {
       mm.revert();
       clearTimeout(timer);
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      ScrollTrigger.getAll().forEach((t: any) => t.kill());
     };
-  }, []);
+  }, [animationsReady]);
 
   return (
     <section

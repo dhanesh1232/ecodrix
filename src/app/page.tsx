@@ -5,7 +5,7 @@
 // real content without executing JavaScript.
 
 import dynamic from "next/dynamic";
-import { Hero } from "@/components/sections/Hero";
+import { HeroStatic } from "@/components/sections/HeroStatic";
 import { Stats } from "@/components/sections/Stats";
 
 // Dynamically load below-the-fold sections to reduce initial JS bundle
@@ -43,7 +43,8 @@ export default function Home() {
   return (
     <main className="w-full">
       <div className="bg-background flex flex-col">
-        <Hero />
+        {/* Render static hero immediately for fast FCP/LCP */}
+        <HeroStatic />
         <Stats />
       </div>
       <PoweredBy />

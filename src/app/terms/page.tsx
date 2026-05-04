@@ -1,5 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "ECODrIx Terms of Service. Understand your rights and responsibilities when using our unified business infrastructure platform. Clear terms for account usage, data ownership, and service limitations.",
+  alternates: { canonical: "https://ecodrix.com/terms" },
+  openGraph: {
+    title: "Terms of Service | ECODrIx",
+    description:
+      "Understand your rights and responsibilities when using the ECODrIx platform. Clear terms for account usage and data ownership.",
+    url: "https://ecodrix.com/terms",
+    type: "website",
+  },
+};
 
 export default function TermsOfService() {
   return (

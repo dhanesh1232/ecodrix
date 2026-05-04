@@ -1,5 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "ECODrIx Privacy Policy. Learn how we collect, use, and protect your data. Industry-standard encryption, secure storage, and transparent data practices.",
+  alternates: { canonical: "https://ecodrix.com/privacy" },
+  openGraph: {
+    title: "Privacy Policy | ECODrIx",
+    description:
+      "Learn how ECODrIx collects, uses, and protects your data with industry-standard encryption and secure storage.",
+    url: "https://ecodrix.com/privacy",
+    type: "website",
+  },
+};
 
 export default function PrivacyPolicy() {
   return (

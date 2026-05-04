@@ -9,6 +9,7 @@ import {
   Clock,
   Headphones,
 } from "lucide-react";
+import { getFAQSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -164,6 +165,15 @@ const faqs = [
 export default function PricingPage() {
   return (
     <div className="w-full">
+      {/* FAQ Schema JSON-LD */}
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getFAQSchema(faqs)),
+        }}
+      />
+      
       <section className="pt-40 pb-20 px-6 relative overflow-hidden">
         {/* ambient glow */}
         <div

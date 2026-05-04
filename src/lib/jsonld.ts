@@ -4,7 +4,7 @@
  * These structured data payloads help search engines understand the site's
  * identity and enable rich results like sitelinks search boxes.
  *
- * Spec: https://schema.org/Organization | https://schema.org/WebSite | https://schema.org/SoftwareApplication
+ * Spec: https://schema.org/Organization | https://schema.org/WebSite | https://schema.org/SoftwareApplication | https://schema.org/FAQPage
  */
 
 const BASE_URL = "https://ecodrix.com";
@@ -96,5 +96,20 @@ export function getSoftwareApplicationSchema() {
       name: "ECODrIx",
       url: BASE_URL,
     },
+  };
+}
+
+export function getFAQSchema(faqs: Array<{ q: string; a: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
   };
 }

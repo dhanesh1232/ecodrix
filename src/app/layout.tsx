@@ -19,6 +19,7 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -26,6 +27,7 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
 });
 
 // Code-only font — no preload, only used in pills/code snippets
@@ -34,6 +36,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   preload: false,
+  adjustFontFallback: false,
 });
 
 const BASE_URL = "https://ecodrix.com";
@@ -172,12 +175,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        {/* GA4 — loads after page is interactive to avoid blocking render */}
+        {/* GA4 — deferred to avoid blocking initial render */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
