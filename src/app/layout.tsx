@@ -177,11 +177,8 @@ export default function RootLayout({
         />
 
         {/* GA4 — Moved to head for Google Search Console verification */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <script src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM" />
+        <script id="google-analytics">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -191,7 +188,7 @@ export default function RootLayout({
               anonymize_ip: true
             });
           `}
-        </Script>
+        </script>
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
