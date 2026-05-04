@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono, Geist } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
-import { getOrganizationSchema, getWebSiteSchema, getSoftwareApplicationSchema } from "@/lib/jsonld";
+import {
+  getOrganizationSchema,
+  getWebSiteSchema,
+  getSoftwareApplicationSchema,
+} from "@/lib/jsonld";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { WebVitals } from "@/components/analytics/WebVitals";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/layout/LenisProvider";
-
-// Primary display font — preloaded for LCP improvement
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  preload: true,
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -142,7 +139,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("dark", "font-sans", geist.variable)}>
+    <html lang="en" className={cn("dark", "font-sans")}>
       <head>
         {/* JSON-LD structured data — must be in <head> for crawler visibility */}
         <script
@@ -196,9 +193,7 @@ export default function RootLayout({
         <div className="bg-background text-text-primary overflow-clip min-h-screen flex flex-col">
           <LenisProvider />
           <Navbar />
-          <div className="flex-1 flex flex-col">
-            {children}
-          </div>
+          <div className="flex-1 flex flex-col">{children}</div>
           <Footer />
         </div>
       </body>

@@ -4,17 +4,40 @@
 // This ensures crawlers (bots, link-previewers, AWS Activate checker) see
 // real content without executing JavaScript.
 
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
-import { PoweredBy } from "@/components/sections/PoweredBy";
-import { Services } from "@/components/sections/Services";
-import { ProductSpotlight } from "@/components/sections/ProductSpotlight";
-import { Numbers } from "@/components/sections/Numbers";
-import { Work } from "@/components/sections/Work";
-import { Contact } from "@/components/sections/Contact";
 import { Stats } from "@/components/sections/Stats";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { About } from "@/components/sections/About";
-import { Pricing } from "@/components/sections/Pricing";
+
+// Dynamically load below-the-fold sections to reduce initial JS bundle
+const PoweredBy = dynamic(() =>
+  import("@/components/sections/PoweredBy").then((mod) => mod.PoweredBy),
+);
+const Services = dynamic(() =>
+  import("@/components/sections/Services").then((mod) => mod.Services),
+);
+const ProductSpotlight = dynamic(() =>
+  import("@/components/sections/ProductSpotlight").then(
+    (mod) => mod.ProductSpotlight,
+  ),
+);
+const Numbers = dynamic(() =>
+  import("@/components/sections/Numbers").then((mod) => mod.Numbers),
+);
+const Work = dynamic(() =>
+  import("@/components/sections/Work").then((mod) => mod.Work),
+);
+const Testimonials = dynamic(() =>
+  import("@/components/sections/Testimonials").then((mod) => mod.Testimonials),
+);
+const About = dynamic(() =>
+  import("@/components/sections/About").then((mod) => mod.About),
+);
+const Pricing = dynamic(() =>
+  import("@/components/sections/Pricing").then((mod) => mod.Pricing),
+);
+const Contact = dynamic(() =>
+  import("@/components/sections/Contact").then((mod) => mod.Contact),
+);
 
 export default function Home() {
   return (

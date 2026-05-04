@@ -8,6 +8,15 @@ export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Disable Lenis on mobile devices for better native performance
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      // Refresh ScrollTrigger even without Lenis
+      ScrollTrigger.refresh();
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -25,7 +34,7 @@ export function useLenis() {
     };
 
     const rafId = requestAnimationFrame(raf);
-    
+
     // Refresh ScrollTrigger after a short delay to allow layout to settle
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
