@@ -175,10 +175,6 @@ export default function RootLayout({
             __html: JSON.stringify(getSoftwareApplicationSchema()),
           }}
         />
-        <meta
-          name="google-site-verification"
-          content="1G7-mS5pi6DXI5YRIvJABKDEKG1B80YgMaIUw8h2dNQ"
-        />
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
