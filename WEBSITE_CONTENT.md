@@ -1,13 +1,13 @@
-# ECODrIx Website Content - AWS Activate Ready
+# ECODrix Website Content - AWS Activate Ready
 
 ## 🎯 One-Liner Product Description
-**ECODrIx is a unified business infrastructure platform that combines CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage—helping businesses automate operations and scale growth.**
+**ECODrix is a unified business infrastructure platform that combines CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage—helping businesses automate operations and scale growth.**
 
 ---
 
-## 📄 About ECODrIx (For Forms & Applications)
+## 📄 About ECODrix (For Forms & Applications)
 
-ECODrIx is a full-stack digital studio and SaaS product company based in India, founded in 2025. We build custom web applications and provide a unified business infrastructure platform that combines CRM, AI-powered automation, WhatsApp Business API integration, email marketing, and cloud storage. Our platform helps small to mid-sized businesses, agencies, and service providers automate workflows, manage customer relationships, and improve lead conversion rates. We serve clients across healthcare, education, real estate, and professional services sectors.
+ECODrix is a full-stack digital studio and SaaS product company based in India, founded in 2025. We build custom web applications and provide a unified business infrastructure platform that combines CRM, AI-powered automation, WhatsApp Business API integration, email marketing, and cloud storage. Our platform helps small to mid-sized businesses, agencies, and service providers automate workflows, manage customer relationships, and improve lead conversion rates. We serve clients across healthcare, education, real estate, and professional services sectors.
 
 ---
 
@@ -53,7 +53,7 @@ One platform for your entire business infrastructure—CRM, automation, WhatsApp
 **Everything Your Business Needs, In One Place**
 
 ### Description
-ECODrIx is a unified business infrastructure platform that replaces your scattered tools with one integrated system. Manage leads, automate workflows, communicate with customers, and track performance—all from a single dashboard.
+ECODrix is a unified business infrastructure platform that replaces your scattered tools with one integrated system. Manage leads, automate workflows, communicate with customers, and track performance—all from a single dashboard.
 
 ### Key Benefits
 1. **Unified Dashboard** - See your entire business at a glance
@@ -182,7 +182,7 @@ Move leads through your pipeline, track conversations, and close deals. Get real
 ### Use Case 1: Healthcare Clinics
 **Problem:** Managing patient inquiries from website, WhatsApp, and phone calls—all in different places.
 
-**Solution:** All inquiries flow into ECODrIx CRM. Automated WhatsApp reminders for appointments. Google Meet links for teleconsultations. Patient history and documents in one place.
+**Solution:** All inquiries flow into ECODrix CRM. Automated WhatsApp reminders for appointments. Google Meet links for teleconsultations. Patient history and documents in one place.
 
 **Result:** 40% reduction in no-shows. 3x faster response time. Better patient experience.
 
@@ -200,7 +200,7 @@ Move leads through your pipeline, track conversations, and close deals. Get real
 ### Use Case 3: Digital Marketing Agencies
 **Problem:** Managing multiple clients. Each client needs their own CRM, WhatsApp, and reporting.
 
-**Solution:** White-label ECODrIx for each client. Separate databases. Custom branding. Centralized agency dashboard to monitor all clients.
+**Solution:** White-label ECODrix for each client. Separate databases. Custom branding. Centralized agency dashboard to monitor all clients.
 
 **Result:** Launch new client infrastructure in 1 day instead of 2 weeks. Recurring revenue from platform fees.
 
@@ -233,7 +233,7 @@ Move leads through your pipeline, track conversations, and close deals. Get real
 ## 🏢 ABOUT ECODRIX
 
 ### Company Overview
-ECODrIx is a full-stack digital studio and SaaS product company based in India, founded in 2025. We started by building custom web applications for clients and realized they all needed the same infrastructure—CRM, automation, messaging, and analytics. So we built it once, properly, and made it available as a platform.
+ECODrix is a full-stack digital studio and SaaS product company based in India, founded in 2025. We started by building custom web applications for clients and realized they all needed the same infrastructure—CRM, automation, messaging, and analytics. So we built it once, properly, and made it available as a platform.
 
 ### Our Mission
 Empower businesses to automate operations and scale growth without needing a technical team or expensive enterprise software.
@@ -261,7 +261,7 @@ No credit card required. Full access to all features.
 
 ### Secondary CTA
 **Schedule a Demo**  
-See how ECODrIx works for your specific business.
+See how ECODrix works for your specific business.
 
 ### Trust Signals
 - ✓ 14-day free trial
@@ -305,7 +305,7 @@ See how ECODrIx works for your specific business.
 ### Standard Format
 ```
 [Name]
-[Position] | ECODrIx
+[Position] | ECODrix
 
 📧 [email]@ecodrix.com
 🌐 ecodrix.com
@@ -318,7 +318,7 @@ Unified business infrastructure for modern teams.
 ### Example - Founder
 ```
 Dhanesh Kumar
-Founder & CEO | ECODrIx
+Founder & CEO | ECODrix
 
 📧 dhanesh@ecodrix.com
 🌐 ecodrix.com
@@ -330,7 +330,7 @@ Unified business infrastructure for modern teams.
 
 ### Example - Support Team
 ```
-ECODrIx Support Team
+ECODrix Support Team
 Customer Success
 
 📧 support@ecodrix.com
@@ -347,14 +347,14 @@ We're here to help you succeed.
 
 ### Short Version (for signatures)
 ```
-ECODrIx | Unified business infrastructure platform
+ECODrix | Unified business infrastructure platform
 CRM • Automation • WhatsApp • Email • Storage
 ecodrix.com
 ```
 
 ### Medium Version (for support emails)
 ```
-ECODrIx is a unified business infrastructure platform that helps businesses 
+ECODrix is a unified business infrastructure platform that helps businesses 
 automate operations and scale growth. Manage leads, automate workflows, and 
 communicate with customers—all from one dashboard.
 
@@ -365,9 +365,9 @@ communicate with customers—all from one dashboard.
 
 ### Long Version (for marketing emails)
 ```
-About ECODrIx
+About ECODrix
 
-ECODrIx is a full-stack digital studio and SaaS product company based in India. 
+ECODrix is a full-stack digital studio and SaaS product company based in India. 
 We provide a unified business infrastructure platform that combines CRM, 
 AI-powered automation, WhatsApp Business API, email marketing, and cloud storage.
 
@@ -518,7 +518,7 @@ GitHub: github.com/ecodrix
 - Cookie Policy
 
 ### Contact Information
-**ECODrIx Private Limited**  
+**ECODrix Private Limited**  
 Registered Office: [Address]  
 CIN: [Company Identification Number]  
 GST: [GST Number]
