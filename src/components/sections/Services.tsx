@@ -59,7 +59,7 @@ const services: Service[] = [
       "Schedule Sends",
       "Auto-Assign",
     ],
-    badge: "ECODrIx Core",
+    badge: "ECODrix Core",
     span: 5,
     link: "#product",
   },

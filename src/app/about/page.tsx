@@ -7,7 +7,7 @@ import { BsWhatsapp } from "react-icons/bs";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ECODrIx is a unified business infrastructure platform founded in 2025 in India. We help businesses automate operations, manage customers, and scale growth.",
+    "ECODrix is a unified business infrastructure platform founded in 2025 in India. We help businesses automate operations, manage customers, and scale growth.",
   alternates: { canonical: "https://ecodrix.com/about" },
 };
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
           }}
         />
         <div className="wrapper relative z-10">
-          <div className="pill mb-8">About ECODrIx</div>
+          <div className="pill mb-8">About ECODrix</div>
           <h1
             className="font-display font-black text-white mb-8 max-w-3xl"
             style={{
@@ -124,7 +124,7 @@ export default function AboutPage() {
           </h1>
           <div className="max-w-2xl space-y-5">
             <p className="text-text-lo leading-relaxed" style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}>
-              ECODrIx started in 2025 when we were building digital systems for
+              ECODrix started in 2025 when we were building digital systems for
               clients across India. Every client needed the same stack — a CRM,
               WhatsApp automation, email campaigns, and a place to store files.
               They were paying for 5–10 separate tools that didn't talk to each
@@ -132,7 +132,7 @@ export default function AboutPage() {
             </p>
             <p className="text-text-lo leading-relaxed" style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}>
               So we built it once, properly, and made it available as a
-              platform. ECODrIx is that platform — unified business
+              platform. ECODrix is that platform — unified business
               infrastructure for growing teams.
             </p>
           </div>
@@ -293,7 +293,7 @@ export default function AboutPage() {
             Built on AWS.
           </h2>
           <p className="text-text-lo mb-12 max-w-2xl leading-relaxed">
-            ECODrIx runs on AWS infrastructure — EC2 for compute, SES for email
+            ECODrix runs on AWS infrastructure — EC2 for compute, SES for email
             delivery, S3 for storage, and CloudFront for global content
             delivery. Designed for reliability, security, and scale.
           </p>

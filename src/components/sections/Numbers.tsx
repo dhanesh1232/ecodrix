@@ -19,7 +19,7 @@ const stats = [
     value: 20,
     suffix: "+",
     label: "Automation Triggers",
-    note: "In ECODrIx engine",
+    note: "In ECODrix engine",
   },
   {
     value: 99,

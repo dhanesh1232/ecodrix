@@ -14,7 +14,7 @@ import { getFAQSchema } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple, transparent pricing for ECODrIx. Start free, scale as you grow. CRM, WhatsApp automation, email marketing, and cloud storage — all in one platform.",
+    "Simple, transparent pricing for ECODrix. Start free, scale as you grow. CRM, WhatsApp automation, email marketing, and cloud storage — all in one platform.",
   alternates: { canonical: "https://ecodrix.com/pricing" },
 };
 
@@ -362,7 +362,7 @@ export default function PricingPage() {
         <div className="wrapper">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="pill mb-5 mx-auto bg-primary/5 text-primary border-primary/20">
-              Why Choose ECODrIx
+              Why Choose ECODrix
             </div>
             <h2 className="text-[clamp(2.2rem,4.5vw,3.8rem)] text-white font-display font-black tracking-tight leading-[1.05] mb-5">
               Built for{" "}

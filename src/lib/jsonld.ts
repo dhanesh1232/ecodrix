@@ -1,5 +1,5 @@
 /**
- * JSON-LD schema utilities for ECODrIx.
+ * JSON-LD schema utilities for ECODrix.
  *
  * These structured data payloads help search engines understand the site's
  * identity and enable rich results like sitelinks search boxes.
@@ -13,14 +13,14 @@ export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "ECODrIx",
+    name: "ECODrix",
     url: BASE_URL,
     logo: {
       "@type": "ImageObject",
       url: `${BASE_URL}/logo.png`,
     },
     description:
-      "ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
+      "ECODrix is a unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
     foundingDate: "2025",
     areaServed: "Worldwide",
     email: "contact@ecodrix.com",
@@ -42,7 +42,7 @@ export function getWebSiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "ECODrIx",
+    name: "ECODrix",
     url: BASE_URL,
     description:
       "Build Smarter. Grow Faster. Unified business infrastructure platform combining CRM, AI automation, WhatsApp, email marketing, and cloud storage.",
@@ -61,7 +61,7 @@ export function getSoftwareApplicationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "ECODrIx Platform",
+    name: "ECODrix Platform",
     url: BASE_URL,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
@@ -93,7 +93,7 @@ export function getSoftwareApplicationSchema() {
     screenshot: `${BASE_URL}/logo.png`,
     author: {
       "@type": "Organization",
-      name: "ECODrIx",
+      name: "ECODrix",
       url: BASE_URL,
     },
   };

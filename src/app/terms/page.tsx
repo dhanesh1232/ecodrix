@@ -5,12 +5,12 @@ import { ArrowLeft, FileText, Shield, User, AlertCircle, Scale, Database } from 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "ECODrIx Terms of Service. Understand your rights and responsibilities when using our unified business infrastructure platform. Clear terms for account usage, data ownership, and service limitations.",
+    "ECODrix Terms of Service. Understand your rights and responsibilities when using our unified business infrastructure platform. Clear terms for account usage, data ownership, and service limitations.",
   alternates: { canonical: "https://ecodrix.com/terms" },
   openGraph: {
-    title: "Terms of Service | ECODrIx",
+    title: "Terms of Service | ECODrix",
     description:
-      "Understand your rights and responsibilities when using the ECODrIx platform. Clear terms for account usage and data ownership.",
+      "Understand your rights and responsibilities when using the ECODrix platform. Clear terms for account usage and data ownership.",
     url: "https://ecodrix.com/terms",
     type: "website",
   },

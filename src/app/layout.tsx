@@ -46,9 +46,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "ECODrIx | Unified Business Infrastructure Platform",
+    default: "ECODrix | Unified Business Infrastructure Platform",
     // Page-level overrides use this template
-    template: "%s | ECODrIx",
+    template: "%s | ECODrix",
   },
   description:
     "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses. 99.9% uptime. SOC 2 compliant.",
@@ -62,11 +62,11 @@ export const metadata: Metadata = {
     "workflow automation",
     "cloud storage",
     "SaaS platform India",
-    "ECODrIx",
+    "ECODrix",
   ],
-  authors: [{ name: "ECODrIx", url: BASE_URL }],
-  creator: "ECODrIx",
-  publisher: "ECODrIx",
+  authors: [{ name: "ECODrix", url: BASE_URL }],
+  creator: "ECODrix",
+  publisher: "ECODrix",
   category: "technology",
 
   // Canonical URL — prevents duplicate content penalties
@@ -89,11 +89,11 @@ export const metadata: Metadata = {
 
   // Open Graph
   openGraph: {
-    title: "ECODrIx | Unified Business Infrastructure Platform",
+    title: "ECODrix | Unified Business Infrastructure Platform",
     description:
       "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
     url: BASE_URL,
-    siteName: "ECODrIx",
+    siteName: "ECODrix",
     type: "website",
     locale: "en_IN",
     images: [
@@ -101,7 +101,7 @@ export const metadata: Metadata = {
         url: "/og-image.png", // TODO: Create optimized 1200x630px OG image
         width: 1200,
         height: 630,
-        alt: "ECODrIx — Unified Business Infrastructure Platform",
+        alt: "ECODrix — Unified Business Infrastructure Platform",
       },
     ],
   },
@@ -109,7 +109,7 @@ export const metadata: Metadata = {
   // Twitter / X card
   twitter: {
     card: "summary_large_image",
-    title: "ECODrIx | Unified Business Infrastructure Platform",
+    title: "ECODrix | Unified Business Infrastructure Platform",
     description:
       "CRM, automation, WhatsApp, email marketing, and cloud storage in one platform. Trusted by 50+ businesses. 99.9% uptime.",
     site: "@ecodrix",

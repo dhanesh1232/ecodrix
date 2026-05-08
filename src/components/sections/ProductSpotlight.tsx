@@ -275,7 +275,7 @@ export function ProductSpotlight() {
                     />
                   </div>
                   <div className="font-mono text-[10px] text-[#64647A] tracking-widest uppercase">
-                    ECODrIx Workspace
+                    ECODrix Workspace
                   </div>
                 </div>
 

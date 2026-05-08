@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StyledPhoneInput } from "@/components/ui/phone-input";
-import { ECODrIx } from "@ecodrix/erix-api";
+import { ECODrix } from "@ecodrix/erix-api";
 
 interface FormData {
   name: string;
@@ -39,7 +39,7 @@ export function Contact() {
   const onSubmit = async (data: FormData) => {
     setState("sending");
     try {
-      const ecod = new ECODrIx({
+      const ecod = new ECODrix({
         apiKey: process.env.NEXT_PUBLIC_ERIX_CLIENT_API_KEY || "",
         clientCode: process.env.NEXT_PUBLIC_ERIX_CLIENT_CODE || "",
       });

@@ -1,5 +1,5 @@
 /**
- * Global type augmentations for ECODrIx.
+ * Global type augmentations for ECODrix.
  *
  * Declares the `window.gtag` function injected by the GA4 script so that
  * TypeScript-aware analytics components can call it without errors.
