@@ -13,7 +13,7 @@ const milestones = [
   },
   {
     year: "2024",
-    label: "Started ECODrix",
+    label: "Started ECODrIx",
     desc: "Began architecting the unified platform — CRM, automation, messaging in one place.",
   },
   {
@@ -42,7 +42,7 @@ export function About() {
             </span>
           </h2>
           <p className="text-[#64647A] text-lg leading-relaxed">
-            ECODrix started as a personal frustration — managing separate tools
+            ECODrIx started as a personal frustration — managing separate tools
             for CRM, WhatsApp, email, and storage for every client. There had to
             be a better way.
           </p>
@@ -86,7 +86,7 @@ export function About() {
                     Dhanesh Mekalthuru
                   </h3>
                   <p className="text-primary font-mono text-[11px] uppercase tracking-widest mt-1">
-                    Founder & Builder — ECODrix
+                    Founder & Builder — ECODrIx
                   </p>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function About() {
               <blockquote className="text-[#A8A8B3] text-[15px] leading-relaxed border-l-2 border-primary/40 pl-4 italic no-collapse">
                 &ldquo;I spent two years managing 5 separate tools for my
                 clients — a CRM here, WhatsApp there, email somewhere else. None
-                of them talked to each other. ECODrix is the platform I built to
+                of them talked to each other. ECODrIx is the platform I built to
                 solve that.&rdquo;
               </blockquote>
 

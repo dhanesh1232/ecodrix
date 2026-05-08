@@ -10,7 +10,7 @@ const projects = [
     category: "Healthcare Automation",
     tag: "WhatsApp CRM",
     description:
-      "A healthcare clinic uses ECODrix to capture leads from their website, automatically send a WhatsApp confirmation, book a Google Meet consultation, and follow up via email if the appointment isn't booked within 24 hours. Zero manual effort.",
+      "A healthcare clinic uses ECODrIx to capture leads from their website, automatically send a WhatsApp confirmation, book a Google Meet consultation, and follow up via email if the appointment isn't booked within 24 hours. Zero manual effort.",
     techTags: ["WhatsApp API", "CRM Pipeline", "Email Follow-up"],
     color: "var(--color-primary)",
     icon: <Activity size={20} />,
@@ -23,7 +23,7 @@ const projects = [
     category: "Agency Operations",
     tag: "Client CRM",
     description:
-      "An agency uses ECODrix as their client CRM. They track projects per client, store deliverables in cloud storage, send automated monthly reports via email, and manage all client communication in one inbox.",
+      "An agency uses ECODrIx as their client CRM. They track projects per client, store deliverables in cloud storage, send automated monthly reports via email, and manage all client communication in one inbox.",
     techTags: ["Cloud Storage", "Email Reports", "Kanban CRM"],
     color: "var(--color-cyan)",
     icon: <Globe size={20} />,
@@ -36,7 +36,7 @@ const projects = [
     category: "D2C Growth",
     tag: "Retention Automation",
     description:
-      "A D2C brand connects their store to ECODrix. Abandoned cart triggers a WhatsApp message. New customers are added to an email nurture sequence. High-value customers get flagged for personal outreach by the sales team.",
+      "A D2C brand connects their store to ECODrIx. Abandoned cart triggers a WhatsApp message. New customers are added to an email nurture sequence. High-value customers get flagged for personal outreach by the sales team.",
     techTags: ["Automation Engine", "WhatsApp Campaigns", "Email Sequences"],
     color: "var(--color-magenta)",
     icon: <Zap size={20} />,
@@ -57,7 +57,7 @@ export function Work() {
       <div className="wrapper relative z-10 max-w-7xl mx-auto">
         <div className="w-head mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
-            <div className="pill mb-6">Who Uses ECODrix</div>
+            <div className="pill mb-6">Who Uses ECODrIx</div>
             <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] text-white font-display font-black tracking-tight leading-[1.05]">
               Built for businesses that are{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-cyan">
@@ -66,7 +66,7 @@ export function Work() {
             </h2>
           </div>
           <p className="text-[#A8A8B3] text-lg leading-relaxed max-w-sm mb-2">
-            Real workflows. Measurable results. See how teams use ECODrix to
+            Real workflows. Measurable results. See how teams use ECODrIx to
             automate operations and close more deals.
           </p>
         </div>

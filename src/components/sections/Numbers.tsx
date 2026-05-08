@@ -19,7 +19,7 @@ const stats = [
     value: 20,
     suffix: "+",
     label: "Automation Triggers",
-    note: "In ECODrix engine",
+    note: "In ECODrIx engine",
   },
   {
     value: 99,
@@ -46,7 +46,7 @@ const process = [
     num: "03",
     color: "#4ADE80",
     title: "Grow Without Adding Work",
-    desc: "As leads come in and deals move through your pipeline, ECODrix handles the follow-up, tracking, and communication automatically. You focus on closing.",
+    desc: "As leads come in and deals move through your pipeline, ECODrIx handles the follow-up, tracking, and communication automatically. You focus on closing.",
   },
 ];
 

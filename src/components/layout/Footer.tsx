@@ -58,7 +58,7 @@ export function Footer() {
               <div className="relative flex items-center">
                 <Image
                   src="/logo.png"
-                  alt="ECODrix Logo"
+                  alt="ECODrIx"
                   width={200}
                   height={80}
                   className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
@@ -136,7 +136,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 order-2 md:order-1">
             <p className="text-[#444455] text-xs font-bold tracking-widest uppercase">
-              © 2026 ECODrix SYSTEMS.
+              © 2026 ECODrIx.
             </p>
             <div className="flex flex-col gap-2">
               <Link

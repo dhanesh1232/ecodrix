@@ -5,12 +5,12 @@ import { ArrowLeft, Eye, Share2, Lock, Mail, Info } from "lucide-react";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "ECODrix Privacy Policy. Learn how we collect, use, and protect your data. Industry-standard encryption, secure storage, and transparent data practices.",
+    "ECODrIx Privacy Policy. Learn how we collect, use, and protect your data. Industry-standard encryption, secure storage, and transparent data practices.",
   alternates: { canonical: "https://ecodrix.com/privacy" },
   openGraph: {
-    title: "Privacy Policy | ECODrix",
+    title: "Privacy Policy | ECODrIx",
     description:
-      "Learn how ECODrix collects, uses, and protects your data with industry-standard encryption and secure storage.",
+      "Learn how ECODrIx collects, uses, and protects your data with industry-standard encryption and secure storage.",
     url: "https://ecodrix.com/privacy",
     type: "website",
   },

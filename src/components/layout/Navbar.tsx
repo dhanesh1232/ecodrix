@@ -121,7 +121,7 @@ export function Navbar() {
             <div className="relative flex items-center">
               <Image
                 src="/logo.png"
-                alt="ECODrix Logo"
+                alt="ECODrIx"
                 width={200}
                 height={80}
                 className="h-12 w-auto transition-all duration-300 group-hover:scale-105"

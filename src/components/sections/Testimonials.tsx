@@ -8,7 +8,7 @@ const testimonials = [
     name: "Priya Mehta",
     role: "Founder @ NexaClinic",
     content:
-      "ECODrix replaced three tools we were paying for separately. Our WhatsApp follow-ups are fully automated now and we haven't missed a single appointment confirmation in weeks.",
+      "ECODrIx replaced three tools we were paying for separately. Our WhatsApp follow-ups are fully automated now and we haven't missed a single appointment confirmation in weeks.",
     rating: 5,
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
   },
@@ -50,7 +50,7 @@ export function Testimonials() {
             <span className="grad-text">growing businesses.</span>
           </h2>
           <p className="text-[#64647A] text-lg">
-            Here&apos;s how real teams are using ECODrix to automate work and close more deals.
+            Here&apos;s how real teams are using ECODrIx to automate work and close more deals.
           </p>
         </header>
 

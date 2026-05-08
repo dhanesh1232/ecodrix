@@ -5,12 +5,12 @@ import { ArrowLeft, FileText, Shield, User, AlertCircle, Scale, Database } from 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "ECODrix Terms of Service. Understand your rights and responsibilities when using our unified business infrastructure platform. Clear terms for account usage, data ownership, and service limitations.",
+    "ECODrIx Terms of Service. Understand your rights and responsibilities when using our unified business infrastructure platform. Clear terms for account usage, data ownership, and service limitations.",
   alternates: { canonical: "https://ecodrix.com/terms" },
   openGraph: {
-    title: "Terms of Service | ECODrix",
+    title: "Terms of Service | ECODrIx",
     description:
-      "Understand your rights and responsibilities when using the ECODrix platform. Clear terms for account usage and data ownership.",
+      "Understand your rights and responsibilities when using the ECODrIx platform. Clear terms for account usage and data ownership.",
     url: "https://ecodrix.com/terms",
     type: "website",
   },
@@ -130,7 +130,7 @@ export default function TermsOfService() {
                       </div>
                     </div>
                     <p className="text-[#A8A8B3] leading-relaxed text-base">
-                      By accessing or using the ECODrix platform and related services,
+                      By accessing or using the ECODrIx platform and related services,
                       you agree to be bound by these Terms of Service. If you disagree
                       with any part of the terms, you may not access the service.
                     </p>
@@ -157,7 +157,7 @@ export default function TermsOfService() {
                       </div>
                     </div>
                     <p className="text-[#A8A8B3] leading-relaxed text-base">
-                      ECODrix provides a unified business infrastructure platform,
+                      ECODrIx provides a unified business infrastructure platform,
                       including but not limited to CRM tools, automation workflows,
                       messaging integrations (WhatsApp), and cloud storage (the
                       "Service"). We reserve the right to modify or discontinue the
@@ -242,7 +242,7 @@ export default function TermsOfService() {
                       </div>
                     </div>
                     <p className="text-[#A8A8B3] leading-relaxed text-base">
-                      You retain all rights to your data. However, you grant ECODrix a
+                      You retain all rights to your data. However, you grant ECODrIx a
                       license to host, copy, transmit, and display your data strictly as
                       necessary for us to provide the Service. You are responsible for
                       the legality, reliability, and appropriateness of your data.
@@ -270,7 +270,7 @@ export default function TermsOfService() {
                       </div>
                     </div>
                     <p className="text-[#A8A8B3] leading-relaxed text-base">
-                      In no event shall ECODrix, nor its directors, employees, partners,
+                      In no event shall ECODrIx, nor its directors, employees, partners,
                       agents, suppliers, or affiliates, be liable for any indirect,
                       incidental, special, consequential or punitive damages, including
                       without limitation, loss of profits, data, use, goodwill, or other
