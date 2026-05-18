@@ -75,7 +75,7 @@ export function HeroStatic() {
             marginBottom: "16px",
           }}
         >
-          <span className="block">ECODrIx: One Platform for</span>
+          <span className="block">One Platform for</span>
           <span className="block grad-text">Every Part of Your Business.</span>
           <span className="block" style={{ color: "rgba(255,255,255,0.6)" }}>
             Stop Managing Ten Tools.
