@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { ArrowRight, Mail } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 
@@ -94,8 +92,6 @@ const stack = [
 export default function AboutPage() {
   return (
     <main className="bg-background text-white min-h-screen overflow-x-hidden">
-      <Navbar />
-
       {/* ── Hero ── */}
       <section className="pt-40 pb-24 px-6 relative overflow-hidden">
         <div
@@ -405,8 +401,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }
