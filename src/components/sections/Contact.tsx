@@ -1,11 +1,31 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { BsWhatsapp } from "react-icons/bs";
 import { useForm, Controller } from "react-hook-form";
-import { Mail, MapPin, Github, Linkedin, Instagram } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Github,
+  Linkedin,
+  Instagram,
+  Sparkles,
+  Zap,
+  BarChart3,
+  MessageCircle,
+  Send,
+  Video,
+  Bot,
+  Package,
+  Cloud,
+  Users,
+  CheckCircle2,
+  ArrowRight,
+  Rocket,
+  Copy,
+  Share2,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -15,18 +35,53 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StyledPhoneInput } from "@/components/ui/phone-input";
-import { ECODrIxAPI } from "@ecodrix/erix-api";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
+
+// ─── Brand constants ──────────────────────────────────────────────────────────
+const CLIP_CARD =
+  "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)";
+const CLIP_ICON =
+  "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)";
+const CLIP_BTN =
+  "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)";
 
 interface FormData {
   name: string;
   email: string;
   phone: string;
-  service: string;
-  message: string;
+  company: string;
+  interest: string;
 }
+
+const interests = [
+  { value: "full_platform", label: "Full Platform (CRM + Automations)" },
+  { value: "crm", label: "CRM & Lead Pipeline" },
+  { value: "whatsapp", label: "WhatsApp Automation" },
+  { value: "email", label: "Email Marketing" },
+  { value: "meet", label: "Google Meet Scheduling" },
+  { value: "laie", label: "AI Lead Generation (LAIE)" },
+  { value: "other", label: "Other / Custom" },
+];
+
+const features = [
+  { icon: BarChart3, title: "CRM Engine", color: "#7C6EFA" },
+  { icon: Zap, title: "Automations", color: "#22D3EE" },
+  { icon: MessageCircle, title: "WhatsApp", color: "#25D366" },
+  { icon: Send, title: "Email", color: "#F59E0B" },
+  { icon: Video, title: "Meetings", color: "#EA4335" },
+  { icon: Bot, title: "LAIE AI", color: "#A78BFA" },
+  { icon: Package, title: "Job Queue", color: "#06B6D4" },
+  { icon: Cloud, title: "Storage", color: "#3B82F6" },
+];
 
 export function Contact() {
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [position, setPosition] = useState<number | null>(null);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [waitlistCount, setWaitlistCount] = useState<number>(0);
+  const [copied, setCopied] = useState(false);
 
   const {
     register,
@@ -36,177 +91,357 @@ export function Contact() {
     formState: { errors },
   } = useForm<FormData>();
 
+  const [referredBy, setReferredBy] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) setReferredBy(ref);
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/waitlist`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.data?.total) setWaitlistCount(d.data.total);
+      })
+      .catch(() => {});
+  }, []);
+
   const onSubmit = async (data: FormData) => {
     setState("sending");
     try {
-      const ecod = new ECODrIxAPI({
-        apiKey: process.env.NEXT_PUBLIC_ERIX_CLIENT_API_KEY || "",
-        clientCode: process.env.NEXT_PUBLIC_ERIX_CLIENT_CODE || "",
+      const res = await fetch(`${API_URL}/api/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          source: "ecodrix_website",
+          referral: referredBy || undefined,
+        }),
       });
-
-      const response = await ecod.crm.leads.upsert({
-        leadData: {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          source: "website",
-          message: `Service Interest: ${data.service}\n\nClient Message: ${data.message}`,
-        },
-        trigger: "website_contact_form",
-      });
-
-      console.log("Lead synced successfully:", response);
-      setState("sent");
-      reset();
-      setTimeout(() => setState("idle"), 4000);
-    } catch (err) {
-      console.error("Error submitting form:", err);
+      const result = await res.json();
+      if (result.success) {
+        setState("sent");
+        setPosition(result.data.position);
+        setReferralCode(result.data.referralCode || null);
+        reset();
+      } else {
+        setState("idle");
+        alert(result.message || "Something went wrong");
+      }
+    } catch {
       setState("idle");
-      alert("There was an error sending your message. Please try again later.");
+      alert("Network error. Please try again.");
     }
+  };
+
+  const copyReferralLink = () => {
+    if (!referralCode) return;
+    const link = `${window.location.origin}?ref=${referralCode}`;
+    navigator.clipboard.writeText(link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <section
       id="contact"
-      className="relative sep-top py-20 lg:py-32 overflow-hidden"
+      className="relative sep-top py-20 lg:py-28 overflow-hidden"
       style={{ background: "#060608" }}
     >
-      {/* Simplified background - no heavy marquee animation */}
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
-      >
+      {/* Atmosphere */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <div
+          className="absolute top-[30%] left-[20%] w-[600px] h-[400px]"
           style={{
-            width: "700px",
-            height: "300px",
             background:
-              "radial-gradient(ellipse, rgba(124,110,250,0.05) 0%, transparent 70%)",
-            filter: "blur(60px)",
-            borderRadius: "50%",
+              "radial-gradient(ellipse, rgba(124,110,250,0.07) 0%, transparent 65%)",
+            filter: "blur(100px)",
+          }}
+        />
+        <div
+          className="absolute bottom-[10%] right-[10%] w-[400px] h-[350px]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 60%)",
+            filter: "blur(80px)",
+          }}
+        />
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.012]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(124, 110, 250, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(124, 110, 250, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
 
       <div className="wrapper relative z-10">
-        {/* Heading */}
-        <div className="c-head text-center mb-16 max-w-3xl mx-auto">
-          <div className="pill mb-6 text-primary border-primary/20 bg-primary/5 mx-auto">
-            Get Started
+        {/* ── Header ── */}
+        <div className="text-center mb-14 max-w-3xl mx-auto">
+          <div className="pill mb-5 text-primary border-primary/20 bg-primary/5 mx-auto">
+            <Rocket size={11} />
+            Early Access · Limited Spots
           </div>
-          <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-6 tracking-tighter">
-            Start Your{" "}
-            <span className="bg-linear-to-r from-primary to-cyan bg-clip-text text-transparent">
-              Free Trial.
-            </span>
-          </h2>
-          <p className="text-lg text-[#64647A] leading-relaxed">
-            Set up your account in minutes or get a live walkthrough from the
-            team. <br className="hidden md:block" />
-            No credit card required. Responds within 2 hours.
-          </p>
-        </div>
-
-        {/* Two-panel grid */}
-        <div className="c-grid flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-2 lg:gap-4">
-          {/* Form panel */}
-          <div
-            className="c-form-panel p-px"
-            style={{
-              background: "rgba(255,255,255,0.07)",
-              clipPath:
-                "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
-            }}
+          <h2
+            className="font-display font-black text-white mb-5 tracking-tighter"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)" }}
           >
+            Join the <span className="grad-text">Waitlist.</span>
+          </h2>
+          <p className="text-[15px] md:text-lg text-[#64647A] leading-relaxed max-w-xl mx-auto">
+            Get early access to the full ECODrIx + LAIE platform. Be among the
+            first to automate your business end-to-end.
+          </p>
+
+          {/* Live counter */}
+          {waitlistCount > 0 && (
             <div
-              className="bg-[#0D0D14] p-6 sm:p-8 lg:p-10"
+              className="mt-6 inline-flex items-center gap-3 px-5 py-2.5"
               style={{
-                clipPath:
-                  "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
+                clipPath: CLIP_BTN,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                }}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
-                      Full Name
-                    </Label>
-                    <Input
-                      {...register("name", { required: "Required" })}
-                      placeholder="John Doe"
-                    />
-                    {errors.name && (
-                      <p className="text-[#ff6b6b] text-[11px] mt-1">
-                        {errors.name.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
-                      Email
-                    </Label>
-                    <Input
-                      {...register("email", {
-                        required: "Required",
-                        pattern: {
-                          value: /^\S+@\S+\.\S+$/,
-                          message: "Invalid email",
-                        },
-                      })}
-                      type="email"
-                      placeholder="john@example.com"
-                    />
-                    {errors.email && (
-                      <p className="text-[#ff6b6b] text-[11px] mt-1">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+              </span>
+              <span className="text-sm text-[#8888A0]">
+                <span className="text-white font-display font-bold">
+                  {waitlistCount}
+                </span>{" "}
+                people already waiting
+              </span>
+            </div>
+          )}
+        </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
-                      Phone Number
-                    </Label>
-                    <Controller
-                      name="phone"
-                      control={control}
-                      rules={{
-                        required: "Required",
-                        validate: (value) =>
-                          /^\+?[0-9]{10,15}$/.test(value || "") ||
-                          "Invalid phone number",
-                      }}
-                      render={({ field }) => (
-                        <StyledPhoneInput
-                          value={field.value}
-                          onChange={field.onChange}
-                          error={!!errors.phone}
-                        />
-                      )}
-                    />
-                    {errors.phone && (
-                      <p className="text-[#ff6b6b] text-[11px] mt-1">
-                        {errors.phone.message}
-                      </p>
-                    )}
+        {/* ── Features strip ── */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-3xl mx-auto">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="group flex items-center gap-2 px-3 py-2 transition-all duration-300 hover:scale-105"
+              style={{
+                clipPath: CLIP_ICON,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <f.icon
+                size={13}
+                style={{ color: f.color }}
+                className="transition-transform duration-300 group-hover:scale-110"
+              />
+              <span className="text-[11px] font-mono text-[#8888A0] tracking-wide">
+                {f.title}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Main content: Form + Side panel ── */}
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr_340px] gap-4 max-w-5xl mx-auto">
+          {/* Form panel — polygon styled */}
+          <div
+            className="transition-all duration-500"
+            style={{
+              clipPath: CLIP_CARD,
+              background: "#0A0A10",
+              border: "1px solid rgba(124,110,250,0.15)",
+            }}
+          >
+            <div className="p-6 sm:p-8 lg:p-10" style={{ clipPath: CLIP_CARD }}>
+              {state === "sent" ? (
+                /* ── Success state ── */
+                <div className="text-center py-12 space-y-5">
+                  <div
+                    className="w-20 h-20 flex items-center justify-center mx-auto"
+                    style={{
+                      clipPath: CLIP_ICON,
+                      background: "rgba(74, 222, 128, 0.1)",
+                      border: "1px solid rgba(74, 222, 128, 0.3)",
+                    }}
+                  >
+                    <CheckCircle2 size={32} className="text-green-400" />
                   </div>
+                  <h3 className="text-2xl font-display font-black text-white">
+                    You&apos;re on the list!
+                  </h3>
+                  <div
+                    className="inline-flex items-center gap-3 px-6 py-3"
+                    style={{
+                      clipPath: CLIP_BTN,
+                      background: "rgba(124,110,250,0.1)",
+                      border: "1px solid rgba(124,110,250,0.3)",
+                    }}
+                  >
+                    <span className="text-sm text-[#8888A0]">Position:</span>
+                    <span className="text-3xl font-mono font-black text-primary">
+                      #{position}
+                    </span>
+                  </div>
+                  <p className="text-[#64647A] text-sm max-w-sm mx-auto leading-relaxed">
+                    We&apos;ll reach out when it&apos;s your turn. Early signups
+                    get priority access and exclusive launch pricing.
+                  </p>
+
+                  {/* Referral */}
+                  {referralCode && (
+                    <div
+                      className="mt-6 p-5 max-w-sm mx-auto text-left"
+                      style={{
+                        clipPath: CLIP_CARD,
+                        background: "#0D0D14",
+                        border: "1px solid rgba(124,110,250,0.2)",
+                      }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Share2 size={14} className="text-primary" />
+                        <span className="text-sm font-display font-bold text-white">
+                          Move up the queue
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#64647A] mb-3">
+                        Each friend who joins bumps you up 3 positions.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="flex-1 px-3 py-2 overflow-hidden"
+                          style={{
+                            clipPath: CLIP_ICON,
+                            background: "#060608",
+                            border: "1px solid rgba(124,110,250,0.25)",
+                          }}
+                        >
+                          <span className="text-[11px] font-mono text-primary truncate block">
+                            {typeof window !== "undefined"
+                              ? `${window.location.origin}?ref=${referralCode}`
+                              : ""}
+                          </span>
+                        </div>
+                        <button
+                          onClick={copyReferralLink}
+                          className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-mono font-bold text-primary transition-all duration-300 hover:scale-105"
+                          style={{
+                            clipPath: CLIP_ICON,
+                            background: "rgba(124,110,250,0.1)",
+                            border: "1px solid rgba(124,110,250,0.3)",
+                          }}
+                        >
+                          <Copy size={11} />
+                          {copied ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      setState("idle");
+                      setPosition(null);
+                      setReferralCode(null);
+                    }}
+                    className="text-primary text-sm hover:underline mt-4 inline-flex items-center gap-1 font-mono"
+                  >
+                    <ArrowRight size={12} className="rotate-180" /> Back
+                  </button>
+                </div>
+              ) : (
+                /* ── Form ── */
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="mb-1">
+                    <h3 className="text-xl font-display font-black text-white">
+                      Reserve your spot
+                    </h3>
+                    <p className="text-[13px] text-[#64647A] mt-1">
+                      No credit card required. We&apos;ll notify you when access
+                      opens.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-2">
+                      <Label className="text-[#64647A] uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                        Full Name *
+                      </Label>
+                      <Input
+                        {...register("name", { required: "Required" })}
+                        placeholder="John Doe"
+                        className="bg-[#0D0D14] border-white/8 focus:border-primary/50 transition-colors"
+                      />
+                      {errors.name && (
+                        <p className="text-red-400 text-[10px] font-mono">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-[#64647A] uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                        Email *
+                      </Label>
+                      <Input
+                        {...register("email", {
+                          required: "Required",
+                          pattern: {
+                            value: /^\S+@\S+\.\S+$/,
+                            message: "Invalid email",
+                          },
+                        })}
+                        type="email"
+                        placeholder="john@company.com"
+                        className="bg-[#0D0D14] border-white/8 focus:border-primary/50 transition-colors"
+                      />
+                      {errors.email && (
+                        <p className="text-red-400 text-[10px] font-mono">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-2">
+                      <Label className="text-[#64647A] uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                        Phone
+                      </Label>
+                      <Controller
+                        name="phone"
+                        control={control}
+                        render={({ field }) => (
+                          <StyledPhoneInput
+                            value={field.value}
+                            onChange={field.onChange}
+                            error={!!errors.phone}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-[#64647A] uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                        Company
+                      </Label>
+                      <Input
+                        {...register("company")}
+                        placeholder="Your company"
+                        className="bg-[#0D0D14] border-white/8 focus:border-primary/50 transition-colors"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
-                    <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
-                      Service
+                    <Label className="text-[#64647A] uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                      What interests you most? *
                     </Label>
                     <Controller
-                      name="service"
+                      name="interest"
                       control={control}
                       rules={{ required: "Required" }}
                       render={({ field }) => (
@@ -214,202 +449,136 @@ export function Contact() {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a service..." />
+                          <SelectTrigger className="bg-[#0D0D14] border-white/8 focus:border-primary/50">
+                            <SelectValue placeholder="Select your interest..." />
                           </SelectTrigger>
                           <SelectContent>
-                            {[
-                              "CRM & Lead Pipeline",
-                              "WhatsApp Automation",
-                              "Email Marketing",
-                              "AI Chatbot Setup",
-                              "Cloud Storage",
-                              "Full Platform Trial",
-                              "Enterprise / Custom",
-                            ].map((s) => (
-                              <SelectItem key={s} value={s}>
-                                {s}
+                            {interests.map((i) => (
+                              <SelectItem key={i.value} value={i.value}>
+                                {i.label}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       )}
                     />
-                    {errors.service && (
-                      <p className="text-[#ff6b6b] text-[11px] mt-1">
-                        {errors.service.message}
+                    {errors.interest && (
+                      <p className="text-red-400 text-[10px] font-mono">
+                        {errors.interest.message}
                       </p>
                     )}
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label className="text-[#64647A] uppercase text-[13px] tracking-wider mb-2 block">
-                    Message
-                  </Label>
-                  <Textarea
-                    {...register("message", { required: "Required" })}
-                    placeholder="Tell us what you're trying to automate or which feature you'd like to explore..."
-                  />
-                  {errors.message && (
-                    <p className="text-[#ff6b6b] text-[11px] mt-1">
-                      {errors.message.message}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={state !== "idle"}
-                  className="group relative p-px transition-all duration-300 mt-2"
-                  style={{
-                    clipPath:
-                      "polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)",
-                    background:
-                      state !== "idle"
-                        ? "rgba(255,255,255,0.1)"
-                        : "linear-gradient(135deg, rgba(124,110,250,0.5), rgba(34,211,238,0.5))",
-                  }}
-                >
-                  <div
-                    className="w-full flex justify-center items-center py-4 text-white font-semibold transition-all duration-300"
+                  {/* Submit button — brand polygon style */}
+                  <button
+                    type="submit"
+                    disabled={state !== "idle"}
+                    className="w-full group relative overflow-hidden mt-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{
+                      clipPath: CLIP_BTN,
                       background:
-                        state !== "idle"
-                          ? state === "sent"
-                            ? "linear-gradient(135deg, #22c55e, #16a34a)"
-                            : "#1A1A24"
+                        state === "sending"
+                          ? "rgba(124,110,250,0.4)"
                           : "linear-gradient(135deg, #7C6EFA, #22D3EE)",
-                      clipPath:
-                        "polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)",
-                      opacity: state === "sending" ? 0.8 : 1,
+                      padding: "16px 24px",
                     }}
                   >
-                    {state === "idle" && "Send Message →"}
-                    {state === "sending" && "Sending..."}
-                    {state === "sent" && "✓ Message Sent!"}
-                  </div>
-                </button>
-              </form>
+                    {/* Shimmer effect */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background:
+                          "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%)",
+                        animation: "none",
+                      }}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2 font-display font-bold text-white text-[15px]">
+                      {state === "idle" && (
+                        <>
+                          <Sparkles size={16} />
+                          Join Waitlist
+                          <ArrowRight
+                            size={15}
+                            className="group-hover:translate-x-1 transition-transform duration-300"
+                          />
+                        </>
+                      )}
+                      {state === "sending" && (
+                        <>
+                          <span className="animate-spin">⏳</span> Joining...
+                        </>
+                      )}
+                    </span>
+                  </button>
+                </form>
+              )}
             </div>
           </div>
 
-          {/* Info panel */}
+          {/* ── Side panel — polygon styled ── */}
           <div
-            className="c-info-panel p-px"
             style={{
-              background: "rgba(255,255,255,0.07)",
-              clipPath:
-                "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
+              clipPath: CLIP_CARD,
+              background: "#0A0A10",
+              border: "1px solid rgba(255,255,255,0.06)",
             }}
           >
             <div
-              className="bg-[#0D0D14] p-6 sm:p-8 lg:p-10 flex flex-col flex-1"
-              style={{
-                clipPath:
-                  "polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)",
-              }}
+              className="p-6 sm:p-7 flex flex-col h-full"
+              style={{ clipPath: CLIP_CARD }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "24px",
-                  marginBottom: "32px",
-                }}
-              >
+              {/* Contact info */}
+              <div className="space-y-5 mb-7">
                 {[
                   {
                     icon: Mail,
                     label: "Email",
                     value: "contact@ecodrix.com",
                     href: "mailto:contact@ecodrix.com",
+                    color: "#7C6EFA",
                   },
                   {
                     icon: BsWhatsapp,
                     label: "WhatsApp",
                     value: "Message us →",
                     href: "https://wa.me/918143963821",
+                    color: "#25D366",
                   },
                   {
                     icon: MapPin,
                     label: "Location",
                     value: "Andhra Pradesh · India",
                     sub: "Available globally · IST",
+                    color: "#F59E0B",
                   },
-                ].map(({ icon: Icon, label, value, href, sub }) => (
-                  <div
-                    key={label}
-                    style={{
-                      display: "flex",
-                      gap: "14px",
-                      alignItems: "flex-start",
-                    }}
-                  >
+                ].map(({ icon: Icon, label, value, href, sub, color }) => (
+                  <div key={label} className="flex gap-3 items-start group">
                     <div
+                      className="w-9 h-9 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
                       style={{
-                        width: "36px",
-                        height: "36px",
-                        flexShrink: 0,
-                        background: "rgba(124,110,250,0.1)",
-                        clipPath:
-                          "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-                        boxShadow: "inset 0 0 0 1px rgba(124,110,250,0.15)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        clipPath: CLIP_ICON,
+                        background: `${color}12`,
+                        border: `1px solid ${color}25`,
                       }}
                     >
-                      <Icon size={15} color="#7C6EFA" />
+                      <Icon size={14} style={{ color }} />
                     </div>
                     <div>
-                      <p
-                        style={{
-                          fontSize: "10px",
-                          color: "#64647A",
-                          fontFamily: "monospace",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.08em",
-                          marginBottom: "3px",
-                        }}
-                      >
+                      <p className="text-[9px] text-[#64647A] font-mono uppercase tracking-[0.15em] mb-0.5">
                         {label}
                       </p>
                       {href ? (
                         <a
                           href={href}
-                          style={{
-                            color: "#E0E0F0",
-                            fontSize: "14px",
-                            textDecoration: "none",
-                          }}
-                          onMouseEnter={(e) => {
-                            (e.target as HTMLAnchorElement).style.color =
-                              "#7C6EFA";
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.target as HTMLAnchorElement).style.color =
-                              "#E0E0F0";
-                          }}
+                          className="text-[13px] text-white/90 hover:text-primary transition-colors duration-300"
                         >
                           {value}
                         </a>
                       ) : (
                         <>
-                          <p style={{ color: "#E0E0F0", fontSize: "14px" }}>
-                            {value}
-                          </p>
+                          <p className="text-[13px] text-white/90">{value}</p>
                           {sub && (
-                            <p
-                              style={{
-                                color: "#64647A",
-                                fontSize: "12px",
-                                marginTop: "2px",
-                              }}
-                            >
+                            <p className="text-[10px] text-[#64647A] mt-0.5">
                               {sub}
                             </p>
                           )}
@@ -420,88 +589,86 @@ export function Contact() {
                 ))}
               </div>
 
-              {/* <div
+              {/* Divider */}
+              <div
+                className="h-px w-full mb-6"
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.06)",
-                  paddingTop: "24px",
-                  marginBottom: "24px",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(124,110,250,0.3), transparent)",
                 }}
-              >
-                <p
-                  style={{
-                    color: "#64647A",
-                    fontSize: "13px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Prefer a call?
-                </p>
-                <a
-                  href="#"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    color: "#7C6EFA",
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
-                >
-                  <Calendar size={14} /> Schedule a Call →
-                </a>
-              </div> */}
+              />
 
-              <div style={{ display: "flex", gap: "10px", marginTop: "auto" }}>
+              {/* Benefits */}
+              <div className="mb-7">
+                <p className="text-[9px] text-[#64647A] font-mono uppercase tracking-[0.15em] mb-4">
+                  Early access includes
+                </p>
+                <div className="space-y-3">
+                  {[
+                    {
+                      text: "Priority onboarding",
+                      icon: Rocket,
+                      color: "#4ADE80",
+                    },
+                    {
+                      text: "Exclusive launch pricing",
+                      icon: Sparkles,
+                      color: "#F59E0B",
+                    },
+                    {
+                      text: "Direct founder support",
+                      icon: Users,
+                      color: "#22D3EE",
+                    },
+                    {
+                      text: "Full API + SDK access",
+                      icon: Package,
+                      color: "#7C6EFA",
+                    },
+                  ].map(({ text, icon: Icon, color }) => (
+                    <div key={text} className="flex items-center gap-3">
+                      <div
+                        className="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                        style={{
+                          clipPath: CLIP_ICON,
+                          background: `${color}12`,
+                          border: `1px solid ${color}25`,
+                        }}
+                      >
+                        <Icon size={11} style={{ color }} />
+                      </div>
+                      <span className="text-[13px] text-white/80">{text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Social links */}
+              <div className="mt-auto flex gap-2">
                 {[
                   {
                     icon: Linkedin,
-                    label: "Linkedin",
-                    href: "www.linkedin.com/in/dhanesh-ecodrix",
+                    href: "https://www.linkedin.com/in/dhanesh-ecodrix",
                   },
-                  {
-                    icon: Github,
-                    label: "Github",
-                    href: "https://github.com/dhanesh1232",
-                  },
+                  { icon: Github, href: "https://github.com/dhanesh1232" },
                   {
                     icon: Instagram,
-                    label: "Instagram",
                     href: "https://www.instagram.com/erix.dhanesh/",
                   },
-                ].map(({ icon: Icon, label, href }, i) => (
+                ].map(({ icon: Icon, href }, i) => (
                   <a
                     key={i}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 flex items-center justify-center text-[#64647A] hover:text-primary transition-all duration-300 hover:scale-110"
                     style={{
-                      width: "36px",
-                      height: "36px",
-                      background: "rgba(255,255,255,0.04)",
-                      clipPath:
-                        "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-                      boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.07)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#64647A",
-                      transition: "all 0.2s",
-                      textDecoration: "none",
+                      clipPath: CLIP_ICON,
+                      background: "rgba(255,255,255,0.03)",
+                      border: "1px solid rgba(255,255,255,0.06)",
                     }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget;
-                      el.style.color = "#7C6EFA";
-                      el.style.boxShadow =
-                        "inset 0 0 0 1px rgba(124,110,250,0.3)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget;
-                      el.style.color = "#64647A";
-                      el.style.boxShadow =
-                        "inset 0 0 0 1px rgba(255,255,255,0.07)";
-                    }}
-                    aria-label={label}
                   >
-                    <Icon size={15} />
+                    <Icon size={14} />
                   </a>
                 ))}
               </div>

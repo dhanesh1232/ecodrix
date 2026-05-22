@@ -9,7 +9,6 @@ const links = [
   { label: "Features", href: "#services" },
   { label: "Product", href: "#product" },
   { label: "Use Cases", href: "#work" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
 ];
 
@@ -164,7 +163,7 @@ export function Navbar() {
               }}
             >
               <span className="relative z-10 group-hover/cta:text-white transition-colors duration-300">
-                Start Free Trial
+                Join Waitlist
               </span>
               <ArrowRight
                 size={14}
@@ -233,7 +232,7 @@ export function Navbar() {
             }}
             className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold polygon-button"
           >
-            Start Free Trial
+            Join Waitlist
           </a>
         </div>
       </div>

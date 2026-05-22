@@ -7,12 +7,12 @@ import { BsWhatsapp } from "react-icons/bs";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ECODrIx is a unified business infrastructure platform founded in 2025 in India. We help businesses automate operations, manage customers, and scale growth.",
+    "ECODrIx is a unified business infrastructure platform founded in March 2024 in India. We help businesses automate operations, manage customers, and scale growth.",
   alternates: { canonical: "https://ecodrix.com/about" },
 };
 
 const stats = [
-  { value: "2025", label: "Founded" },
+  { value: "2024", label: "Founded" },
   { value: "50+", label: "Businesses onboarded" },
   { value: "6", label: "Tools in one platform" },
   { value: "99.9%", label: "Uptime SLA" },
@@ -123,14 +123,20 @@ export default function AboutPage() {
             <span className="grad-text">10 different tools.</span>
           </h1>
           <div className="max-w-2xl space-y-5">
-            <p className="text-text-lo leading-relaxed" style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}>
+            <p
+              className="text-text-lo leading-relaxed"
+              style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}
+            >
               ECODrIx started in 2025 when we were building digital systems for
               clients across India. Every client needed the same stack — a CRM,
               WhatsApp automation, email campaigns, and a place to store files.
               They were paying for 5–10 separate tools that didn't talk to each
               other.
             </p>
-            <p className="text-text-lo leading-relaxed" style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}>
+            <p
+              className="text-text-lo leading-relaxed"
+              style={{ fontSize: "clamp(1rem, 2vw, 1.1rem)" }}
+            >
               So we built it once, properly, and made it available as a
               platform. ECODrIx is that platform — unified business
               infrastructure for growing teams.
@@ -150,11 +156,16 @@ export default function AboutPage() {
               >
                 <span
                   className="grad-text font-display font-black mb-2"
-                  style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
+                  style={{
+                    fontSize: "clamp(2rem, 4vw, 3rem)",
+                    letterSpacing: "-0.04em",
+                  }}
                 >
                   {value}
                 </span>
-                <span className="text-text-lo text-sm font-medium">{label}</span>
+                <span className="text-text-lo text-sm font-medium">
+                  {label}
+                </span>
               </div>
             ))}
           </div>
@@ -184,7 +195,10 @@ export default function AboutPage() {
             >
               <p
                 className="text-white font-display font-bold leading-relaxed"
-                style={{ fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", letterSpacing: "-0.02em" }}
+                style={{
+                  fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 Empower businesses to automate operations and scale growth —
                 without needing a technical team or expensive enterprise
@@ -201,7 +215,10 @@ export default function AboutPage() {
           <div className="pill mb-6">Platform</div>
           <h2
             className="font-display font-black text-white mb-4"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              letterSpacing: "-0.04em",
+            }}
           >
             What we build.
           </h2>
@@ -216,10 +233,7 @@ export default function AboutPage() {
                 key={name}
                 className="p-8 bg-[#060608] hover:bg-surface-1 transition-colors duration-200"
               >
-                <div
-                  className="w-1 h-8 mb-6"
-                  style={{ background: color }}
-                />
+                <div className="w-1 h-8 mb-6" style={{ background: color }} />
                 <h3 className="text-white font-bold text-base mb-3">{name}</h3>
                 <p className="text-text-lo text-sm leading-relaxed">{desc}</p>
               </div>
@@ -234,7 +248,10 @@ export default function AboutPage() {
           <div className="pill mb-6">Values</div>
           <h2
             className="font-display font-black text-white mb-14"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              letterSpacing: "-0.04em",
+            }}
           >
             How we work.
           </h2>
@@ -288,7 +305,10 @@ export default function AboutPage() {
           <div className="pill mb-6">Infrastructure</div>
           <h2
             className="font-display font-black text-white mb-5"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              letterSpacing: "-0.04em",
+            }}
           >
             Built on AWS.
           </h2>
@@ -337,7 +357,10 @@ export default function AboutPage() {
               <div>
                 <h2
                   className="font-display font-black text-white mb-3"
-                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.04em" }}
+                  style={{
+                    fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+                    letterSpacing: "-0.04em",
+                  }}
                 >
                   Want to talk to the founder?
                 </h2>

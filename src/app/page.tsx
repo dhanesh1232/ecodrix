@@ -20,6 +20,9 @@ const ProductSpotlight = dynamic(() =>
     (mod) => mod.ProductSpotlight,
   ),
 );
+const LaieShowcase = dynamic(
+  () => import("@/components/sections/LaieShowcase"),
+);
 const Numbers = dynamic(() =>
   import("@/components/sections/Numbers").then((mod) => mod.Numbers),
 );
@@ -50,11 +53,13 @@ export default function Home() {
       <PoweredBy />
       <Services />
       <ProductSpotlight />
+      <LaieShowcase />
       <Numbers />
       <Work />
       <Testimonials />
       <About />
-      <Pricing />
+      {/* Pricing hidden pre-launch — waitlist replaces it */}
+      {/* <Pricing /> */}
       <Contact />
     </main>
   );

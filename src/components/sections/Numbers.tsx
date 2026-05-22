@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 const stats = [
   {
-    value: 50,
+    value: 60,
     suffix: "+",
-    label: "Businesses Onboarded",
-    note: "Across India & growing",
+    label: "API Endpoints",
+    note: "One unified platform",
   },
   {
     value: 6,
@@ -131,10 +131,13 @@ export function Numbers() {
 
       <div className="wrapper relative z-10">
         {/* Stats band - Enhanced Polygon Style */}
-        <div className="stats-band w-full grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 overflow-hidden mb-20 no-collapse"
-             style={{
-               clipPath: "polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)"
-             }}>
+        <div
+          className="stats-band w-full grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 overflow-hidden mb-20 no-collapse"
+          style={{
+            clipPath:
+              "polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)",
+          }}
+        >
           {stats.map((s, i) => (
             <div
               key={i}
@@ -143,11 +146,12 @@ export function Numbers() {
                 background: "#0D0D14",
                 padding: "36px 28px",
                 textAlign: "center",
-                clipPath: i === 0 
-                  ? "polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
-                  : i === stats.length - 1
-                  ? "polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)"
-                  : "none"
+                clipPath:
+                  i === 0
+                    ? "polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
+                    : i === stats.length - 1
+                      ? "polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)"
+                      : "none",
               }}
             >
               <div
@@ -243,12 +247,13 @@ export function Numbers() {
                 }}
               >
                 {/* Polygon number badge */}
-                <div 
+                <div
                   className="inline-flex items-center justify-center w-8 h-8 mb-4"
                   style={{
-                    clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
+                    clipPath:
+                      "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
                     background: `${step.color}20`,
-                    border: `1px solid ${step.color}40`
+                    border: `1px solid ${step.color}40`,
                   }}
                 >
                   <span
@@ -256,7 +261,7 @@ export function Numbers() {
                       fontFamily: "monospace",
                       fontSize: "12px",
                       color: step.color,
-                      fontWeight: "bold"
+                      fontWeight: "bold",
                     }}
                   >
                     {step.num}

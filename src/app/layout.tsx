@@ -96,14 +96,6 @@ export const metadata: Metadata = {
     siteName: "ECODrIx",
     type: "website",
     locale: "en_IN",
-    images: [
-      {
-        url: "/og-image.png", // TODO: Create optimized 1200x630px OG image
-        width: 1200,
-        height: 630,
-        alt: "ECODrIx — Unified Business Infrastructure Platform",
-      },
-    ],
   },
 
   // Twitter / X card
@@ -114,7 +106,6 @@ export const metadata: Metadata = {
       "CRM, automation, WhatsApp, email marketing, and cloud storage in one platform. Trusted by 50+ businesses. 99.9% uptime.",
     site: "@ecodrix",
     creator: "@ecodrix",
-    images: ["/og-image.png"], // TODO: Create optimized 1200x630px OG image
   },
 
   // Icons — wired to existing /public assets
