@@ -111,7 +111,7 @@ export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
           international
           defaultCountry={defaultCountry as any}
           value={value}
-          onChange={onChange}
+          onChange={onChange as (value?: string) => void}
           inputComponent={PhoneInputField as any}
           placeholder={placeholder}
           // tabIndex=-1 on country select → tab skips it, only click works
