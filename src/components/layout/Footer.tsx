@@ -72,9 +72,9 @@ export function Footer() {
                 <Image
                   src="/logo.png"
                   alt="ECODrIx"
-                  width={200}
-                  height={80}
-                  className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
+                  width={120}
+                  height={48}
+                  className="h-12 w-[120px] object-contain transition-all duration-300 group-hover:scale-105"
                   priority
                 />
               </div>
@@ -148,7 +148,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 order-2 md:order-1">
-            <p className="text-[#444455] text-xs font-bold tracking-widest uppercase">
+            <p className="text-[#64647A] text-xs font-bold tracking-widest uppercase">
               © 2026 ECODrIx.
             </p>
             <div className="flex flex-col gap-2">
@@ -161,7 +161,7 @@ export function Footer() {
             </div>
           </div>
 
-          <p className="text-[#444455] text-xs font-bold tracking-widest uppercase order-1 md:order-2 flex items-center gap-2">
+          <p className="text-[#64647A] text-xs font-bold tracking-widest uppercase order-1 md:order-2 flex items-center gap-2">
             Engineered with{" "}
             <span className="text-[#7C6EFA] animate-pulse">✦</span> by Dhanesh
           </p>

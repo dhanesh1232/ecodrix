@@ -5,6 +5,7 @@ export function HeroStatic() {
   return (
     <section
       id="hero"
+      aria-label="ECODrIx — Your business. One command."
       className="relative h-screen flex flex-col items-center justify-center overflow-hidden min-h-[94vh] md:min-h-[92vh]"
     >
       {/* ── Animated beam network background ── */}
@@ -39,6 +40,8 @@ export function HeroStatic() {
         <svg
           className="absolute inset-0 w-full h-full opacity-[0.3]"
           xmlns="http://www.w3.org/2000/svg"
+          role="presentation"
+          aria-hidden="true"
         >
           <defs>
             <linearGradient id="beam1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -204,6 +207,10 @@ export function HeroStatic() {
             letterSpacing: "-0.05em",
             lineHeight: 1.0,
             animationDelay: "120ms",
+            // Reserve vertical space matching the line-height so the font
+            // swap from system fallback to Space Grotesk doesn't reflow
+            // and contribute to Cumulative Layout Shift.
+            minHeight: "clamp(6rem, 19vw, 13rem)",
           }}
         >
           <span className="block">Your Business.</span>
@@ -373,6 +380,14 @@ export function HeroStatic() {
         @keyframes heroFloat {
           0%, 100% { transform: translate(0, 0); }
           50% { transform: translate(15px, -20px); }
+        }
+
+        /* Mobile: disable the infinite SVG / orb / dot animations to free
+           up the main thread. They are decorative — not load-bearing. */
+        @media (max-width: 767px) {
+          .hero-beam, .hero-pulse, .hero-float, .hero-float-reverse {
+            animation: none !important;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {

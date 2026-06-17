@@ -218,7 +218,7 @@ export function About() {
                       <Icon size={14} />
                     </a>
                   ))}
-                  <span className="ml-auto text-[#444455] font-mono text-[9px] uppercase tracking-widest">
+                  <span className="ml-auto text-[#64647A] font-mono text-[9px] uppercase tracking-widest">
                     Est. March 2024
                   </span>
                 </div>
@@ -250,7 +250,7 @@ export function About() {
 
           {/* Right: Timeline */}
           <div className="relative pl-0 lg:pl-4">
-            <p className="text-[#444455] font-mono text-[10px] uppercase tracking-[0.2em] mb-8">
+            <p className="text-[#64647A] font-mono text-[10px] uppercase tracking-[0.2em] mb-8">
               March 2024 → Present
             </p>
 

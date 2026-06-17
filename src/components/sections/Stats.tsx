@@ -57,7 +57,13 @@ function Counter({ target }: { target: number }) {
   return (
     <span
       ref={ref}
-      className="stat-number font-display font-bold text-5xl lg:text-6xl tracking-tight text-white transition-colors group-hover:text-white"
+      // tabular-nums + reserved width prevents the value reflow that
+      // makes Cumulative Layout Shift spike when the counter ticks 0→60.
+      className="stat-number font-display font-bold text-5xl lg:text-6xl tracking-tight text-white transition-colors group-hover:text-white inline-block text-right tabular-nums"
+      style={{
+        fontVariantNumeric: "tabular-nums",
+        minWidth: `${String(target).length}ch`,
+      }}
     >
       {count}
     </span>

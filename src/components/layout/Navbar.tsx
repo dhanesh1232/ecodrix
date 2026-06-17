@@ -121,9 +121,9 @@ export function Navbar() {
               <Image
                 src="/logo.png"
                 alt="ECODrIx"
-                width={200}
-                height={80}
-                className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
+                width={120}
+                height={48}
+                className="h-12 w-[120px] object-contain transition-all duration-300 group-hover:scale-105"
                 priority
               />
             </div>

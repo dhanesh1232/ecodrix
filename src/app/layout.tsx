@@ -148,17 +148,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("dark", "font-sans")}>
       <head>
-        {/* Google Tag Manager — placed as high in <head> as possible for verification */}
-        <script
-          key="gtm-script"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        {/* Google Tag Manager — loaded with beforeInteractive so the
+            container is available before page-view events fire, but Next's
+            Script primitive still keeps it off the critical render path. */}
+        <Script id="gtm-script" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MN6R938B');`,
-          }}
-        />
+    })(window,document,'script','dataLayer','GTM-MN6R938B');`}
+        </Script>
 
         {/* Resource hints for performance optimization */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -201,9 +200,15 @@ export default function RootLayout({
           }}
         />
 
-        {/* GA4 — Moved to head for Google Search Console verification */}
-        <script src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM" />
-        <script id="google-analytics">
+        {/* GA4 — loaded after interactive so it never blocks first paint.
+            GTM (above) typically routes its own GA4 tag, but we ship the
+            direct snippet too as a safety net for Google Search Console
+            verification. Both stay non-blocking. */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -213,7 +218,7 @@ export default function RootLayout({
               anonymize_ip: true
             });
           `}
-        </script>
+        </Script>
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}

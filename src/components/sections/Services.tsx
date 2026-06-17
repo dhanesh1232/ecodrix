@@ -168,8 +168,8 @@ export function Services() {
       </div>
 
       {/* Background radial atmosphere */}
-      <div 
-        className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" 
+      <div
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
         aria-hidden="true"
       />
     </section>
@@ -213,7 +213,9 @@ function ServiceCard({ service }: { service: Service }) {
       style={{
         clipPath:
           "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
-        backgroundColor: isHovered ? `${service.color}40` : "rgba(255,255,255,0.06)",
+        backgroundColor: isHovered
+          ? `${service.color}40`
+          : "rgba(255,255,255,0.06)",
         boxShadow: isHovered ? `0 20px 50px -12px ${service.color}20` : "none",
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -277,7 +279,7 @@ function ServiceCard({ service }: { service: Service }) {
           {service.features.map((feat) => (
             <li
               key={feat}
-              className="flex items-center gap-3 text-sm text-[#444455] group-hover:text-[#64647A] transition-colors"
+              className="flex items-center gap-3 text-sm text-[#64647A] group-hover:text-[#A8A8B3] transition-colors"
             >
               <div
                 className="w-1.5 h-1.5 rounded-full"
