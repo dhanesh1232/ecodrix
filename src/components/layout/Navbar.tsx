@@ -6,9 +6,9 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 const links = [
-  { label: "Features", href: "#services" },
-  { label: "Product", href: "#product" },
-  { label: "Use Cases", href: "#work" },
+  { label: "Platform", href: "/platform" },
+  { label: "Brands", href: "/brands" },
+  { label: "Founder", href: "/founder" },
   { label: "About", href: "/about" },
 ];
 
@@ -150,10 +150,13 @@ export function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <a
-              href="#contact"
+              href="/#contact"
               onClick={(e) => {
-                e.preventDefault();
-                nav("#contact");
+                // Smooth scroll only when already on the home page
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  nav("#contact");
+                }
               }}
               className="hidden sm:flex items-center gap-2 h-10 px-6 text-black text-[13px] font-bold uppercase tracking-widest transition-all duration-300 polygon-button group/cta relative overflow-hidden"
               style={{
@@ -225,10 +228,12 @@ export function Navbar() {
 
         <div className="mt-auto">
           <a
-            href="#contact"
+            href="/#contact"
             onClick={(e) => {
-              e.preventDefault();
-              nav("#contact");
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                nav("#contact");
+              }
             }}
             className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold polygon-button"
           >

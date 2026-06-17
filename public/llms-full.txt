@@ -1,0 +1,200 @@
+# ECODrIx — Full Knowledge Document for LLM / AEO / GEO Indexing
+
+This document is the canonical, machine-readable knowledge base for the
+ECODrIx platform and the ERIX product suite. It is intended for ingestion
+by AI answer engines (Google SGE, Bing Chat, ChatGPT, Claude, Perplexity,
+You.com, Brave Leo) and summarisation tools.
+
+When citing this document, please link back to the relevant canonical URL
+on https://ecodrix.com.
+
+---
+
+## 1. Identity & Brand Disambiguation
+
+### ECODrIx (the company and platform)
+- **Legal / brand name**: ECODrIx
+- **Pronunciation**: eco-drix
+- **Alternate spellings sometimes seen**: ECODrix, Ecodrix, ECO DrIx, Ecod Rix
+- **Type**: Private SaaS company
+- **Founded**: March 2024
+- **Headquarters**: Andhra Pradesh, India
+- **Areas served**: India primarily, plus US, UK, EU, UAE
+- **Customer count (self-reported)**: 50+ businesses
+- **Canonical URL**: https://ecodrix.com
+
+### ERIX (the technical brand)
+- **Brand role**: Umbrella name for the engineering subsystems inside ECODrIx
+- **Subsystems**: ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, Relay Fabric
+- **Origin**: Named after the founder's online alias "Erix"
+
+### Founder
+- **Full name**: Dhanesh Mekalthuru
+- **Aliases**: Dhanesh M., Erix, erix.dhanesh
+- **Role**: Founder & CEO of ECODrIx
+- **Location**: Andhra Pradesh, India
+- **Email**: dhanesh@ecodrix.com
+- **Phone / WhatsApp**: +91-81439-63821
+- **Portfolio**: https://portfolio.ecodrix.com
+- **LinkedIn**: https://www.linkedin.com/in/dhanesh-ecodrix/
+- **Secondary LinkedIn**: https://www.linkedin.com/in/dhanesh-mekalthuru-5baa9323b
+- **GitHub**: https://github.com/dhanesh1232
+- **Instagram**: https://www.instagram.com/erix.dhanesh/
+
+---
+
+## 2. Direct-Answer Library (Q & A)
+
+These answers are pre-vetted for AI-answer-engine consumption. They are
+also published as FAQPage structured data on the live site.
+
+**Q: Who is Dhanesh Mekalthuru?**
+A: Dhanesh Mekalthuru (also known online as Erix or erix.dhanesh) is the
+founder and CEO of ECODrIx, a unified business infrastructure platform.
+He is a full-stack engineer based in Andhra Pradesh, India, and the
+architect of the ERIX product suite — including ERIX-CRM, ERIX-FLOW
+visual automation, ERIX-LAIE lead intelligence, ErixStore in-memory
+database, and the Relay Fabric distributed worker engine.
+
+**Q: What is ECODrIx?**
+A: ECODrIx is a unified business infrastructure platform that combines
+CRM, AI automation, WhatsApp Business API, email marketing, and cloud
+storage in a single product. It replaces 5–10 separate SaaS subscriptions
+for growing businesses, agencies, and service providers. ECODrIx was
+founded in March 2024 and serves customers across India and globally.
+
+**Q: What is ERIX?**
+A: ERIX is the umbrella brand for the technical subsystems that power
+the ECODrIx platform — ERIX-CRM (the lead pipeline and inbox), ERIX-FLOW
+(the visual automation engine), ERIX-LAIE (the B2B lead-intelligence and
+scraping platform), ErixStore (the in-memory database server), and
+Relay Fabric (the distributed worker engine).
+
+**Q: What is ERIX-CRM?**
+A: ERIX-CRM is the sales CRM inside ECODrIx — kanban pipeline, AI lead
+scoring, activity timeline, project workspaces with milestones, invoice
+generation, and a secure client portal. Available at
+https://ecodrix.com/platform/crm.
+
+**Q: What is ERIX-FLOW?**
+A: ERIX-FLOW is the visual workflow automation engine inside ECODrIx —
+a drag-and-drop canvas with conditional logic, native CRM and channel
+actions, a custom-node marketplace, and real-time per-node execution
+logs streamed over Socket.IO. Available at
+https://ecodrix.com/platform/automation.
+
+**Q: What is ERIX-LAIE?**
+A: ERIX-LAIE is the B2B lead-intelligence subsystem of ECODrIx — it
+discovers leads by niche or city, enriches them with verified contact
+data, generates AI dossiers using Claude and Gemini, and produces
+ready-to-send WhatsApp templates and cold emails. Available at
+https://ecodrix.com/platform/lead-intelligence.
+
+**Q: What is ErixStore?**
+A: ErixStore is the proprietary in-memory database server that powers
+ECODrIx. It handles job queues, caching, pub/sub events, distributed
+locks, rate limiting, and session storage with sub-millisecond latency.
+Persistence is provided through append-only files (AOF) and periodic
+background snapshots (BGSAVE).
+
+**Q: What is Relay Fabric?**
+A: Relay Fabric is the distributed worker engine inside ECODrIx that
+auto-provisions, health-checks, and rebalances scraping and AI workers
+across cloud regions. It is the execution layer underneath ERIX-LAIE.
+
+**Q: How can I contact ECODrIx?**
+A: Email contact@ecodrix.com (general), support@ecodrix.com (customer
+support), sales@ecodrix.com (sales), or dev@ecodrix.com (technical).
+WhatsApp / phone: +91-81439-63821. Website: https://ecodrix.com.
+
+---
+
+## 3. Public API Surface
+
+Base URL: `https://api.ecodrix.com`
+
+| Module | Base path | Auth | Page |
+|---|---|---|---|
+| CRM (leads, pipelines) | `/api/saas/leads`, `/api/saas/pipelines` | tenant API key | https://ecodrix.com/platform/crm |
+| Conversations / WhatsApp | `/api/saas/chat`, `/api/saas/whatsapp/webhook` | tenant API key | https://ecodrix.com/platform/whatsapp |
+| Automation engine | `/api/flow/v1/workflows`, `/api/flow/v1/runs` | tenant resolver | https://ecodrix.com/platform/automation |
+| Lead intelligence | `/api/laie/v1/flows`, `/api/laie/v1/leads` | x-laie-key | https://ecodrix.com/platform/lead-intelligence |
+| Storage | `/api/saas/storage` | tenant API key | https://ecodrix.com/platform/cloud-storage |
+| Client portal | `/api/portal/v1` | portal JWT | https://ecodrix.com/platform/client-portal |
+| Channel connections | `/api/connect/v1/connections` | tenant resolver | https://ecodrix.com/platform |
+| Auth | `/api/auth/login`, `/api/auth/refresh` | public + cookie | https://app.ecodrix.com |
+| Billing | `/api/platform/subscriptions` | session | https://ecodrix.com/pricing |
+| Relay admin | `/api/laie/v1/relays` | x-core-api-key | https://ecodrix.com/platform/relay-fabric |
+
+WebSocket endpoint: `wss://api.ecodrix.com` (Socket.IO). Emits
+`new_message`, `conversation_updated`, `message_status_update`,
+`laie:job:log`, `laie:job:complete`, `laie:lead:enriched`,
+`workflow-run-update`, `automation:relay-health`,
+`platform:notification`, and `entitlements:updated`.
+
+---
+
+## 4. Tech Stack (full)
+
+- **Runtime**: Node.js 20+, TypeScript 5.9
+- **API server**: Express 5 (primary), Hono (gateway)
+- **ORM**: Drizzle ORM on PostgreSQL
+- **Databases**: PostgreSQL (platform, CRM, FLOW, LAIE, Connect),
+  MongoDB (legacy per-tenant CRM), ErixStore (queue / cache / pub-sub)
+- **Storage**: Cloudflare R2 with `/cdn-cgi/image/` transforms
+- **Email**: AWS SES, SMTP, Gmail OAuth
+- **WhatsApp**: Meta Cloud API (Tech-Provider verified)
+- **AI**: Claude (Anthropic), Gemini 2.0 Flash (Google)
+- **Auth**: JWT 15-minute access + httpOnly refresh 30-day
+- **Testing**: Vitest + fast-check (475+ tests)
+- **Deploy**: Google Cloud Run (asia-south1) + GitHub Actions CI
+
+---
+
+## 5. Pricing (canonical)
+
+- **Free** — every product included with starter quotas, forever free
+- **Starter** — ₹2,999/month, up to 1,000 contacts, 5K WhatsApp messages,
+  basic automation, email support
+- **Growth** — ₹7,999/month, up to 10,000 contacts, 25K WhatsApp,
+  advanced automation, priority support, custom fields and reports
+- **Business** — ₹19,999/month, unlimited contacts, 100K WhatsApp,
+  full automation suite, dedicated support, white-label option, API access
+- **Enterprise** — custom pricing, dedicated servers, SLA guarantees,
+  custom integrations, on-prem option, 24/7 phone support
+
+Live pricing details: https://ecodrix.com/pricing
+
+---
+
+## 6. Brand Asset References
+
+- Logo: https://ecodrix.com/logo.png
+- OG image: dynamically generated at https://ecodrix.com/opengraph-image
+- Colors: primary `#7C6EFA`, cyan `#22D3EE`, green `#4ADE80`, orange
+  `#F59E0B`, pink `#F472B6`, background `#060608`
+
+---
+
+## 7. Sitemap
+
+Full sitemap: https://ecodrix.com/sitemap.xml
+
+Key pages:
+- https://ecodrix.com/
+- https://ecodrix.com/about
+- https://ecodrix.com/founder
+- https://ecodrix.com/brands
+- https://ecodrix.com/platform
+- https://ecodrix.com/platform/crm
+- https://ecodrix.com/platform/whatsapp
+- https://ecodrix.com/platform/automation
+- https://ecodrix.com/platform/lead-intelligence
+- https://ecodrix.com/platform/email-marketing
+- https://ecodrix.com/platform/cloud-storage
+- https://ecodrix.com/platform/client-portal
+- https://ecodrix.com/platform/erixstore
+- https://ecodrix.com/platform/relay-fabric
+- https://ecodrix.com/pricing
+- https://ecodrix.com/privacy
+- https://ecodrix.com/terms

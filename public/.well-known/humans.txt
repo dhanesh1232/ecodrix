@@ -1,0 +1,25 @@
+/* TEAM */
+
+  Founder & CEO: Dhanesh Mekalthuru (Erix)
+  Site:   https://ecodrix.com
+  Email:  dhanesh@ecodrix.com
+  Phone:  +91-81439-63821
+  From:   Andhra Pradesh, India
+
+/* SITE */
+
+  Last update:    2026/06/17
+  Standards:      HTML5, CSS3, ES2024, JSON-LD
+  Components:     Next.js 16 (App Router), React 19, TypeScript 5,
+                  Tailwind CSS 4, Framer Motion, GSAP, Lenis
+  Backend stack:  Node.js 20, Express 5, Drizzle ORM, PostgreSQL,
+                  MongoDB, ErixStore, AWS SES, Cloudflare R2
+  Infrastructure: Google Cloud Run (asia-south1), AWS, Cloudflare, Vercel
+  Languages:      English, Hindi, Telugu
+
+/* THANKS */
+
+  To every early customer who shipped feedback before the platform was
+  ready. To the small businesses that trusted a one-person stack with
+  their pipeline. To open source — Next.js, Drizzle, Vitest, Lenis,
+  Framer Motion, GSAP, Tailwind, shadcn/ui, and many more.

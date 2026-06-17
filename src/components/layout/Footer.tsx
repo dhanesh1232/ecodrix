@@ -22,12 +22,18 @@ export function Footer() {
 
   const footerLinks = {
     Platform: [
-      { label: "Features", href: "/#services" },
-      { label: "How It Works", href: "/#numbers" },
-      { label: "Use Cases", href: "/#work" },
+      { label: "All Modules", href: "/platform" },
+      { label: "ERIX-CRM", href: "/platform/crm" },
+      { label: "WhatsApp API", href: "/platform/whatsapp" },
+      { label: "ERIX-FLOW", href: "/platform/automation" },
+      { label: "ERIX-LAIE", href: "/platform/lead-intelligence" },
+      { label: "ErixStore", href: "/platform/erixstore" },
+      { label: "Pricing", href: "/pricing" },
     ],
     Company: [
-      { label: "About", href: "/about" },
+      { label: "About ECODrIx", href: "/about" },
+      { label: "Founder", href: "/founder" },
+      { label: "Brands", href: "/brands" },
       { label: "Contact", href: "/#contact" },
       { label: "Support", href: "mailto:support@ecodrix.com" },
       { label: "Careers", href: "mailto:contact@ecodrix.com" },
@@ -37,6 +43,8 @@ export function Footer() {
       { label: "Terms of Service", href: "/terms" },
       { label: "Security", href: "/about#security" },
       { label: "Status", href: "https://status.ecodrix.com" },
+      { label: "API Docs", href: "https://api.ecodrix.com" },
+      { label: "llms.txt", href: "/llms.txt" },
     ],
   };
 

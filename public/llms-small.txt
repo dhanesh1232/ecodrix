@@ -1,0 +1,11 @@
+# ECODrIx
+
+Unified business infrastructure platform — CRM, AI automation, WhatsApp Business API, email marketing, B2B lead intelligence, and cloud storage in one product. Founded March 2024 by Dhanesh Mekalthuru (also known as Erix). Powers the ERIX suite: ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, and Relay Fabric.
+
+- **Website**: https://ecodrix.com
+- **API**: https://api.ecodrix.com
+- **App**: https://app.ecodrix.com
+- **Founder**: Dhanesh Mekalthuru — https://portfolio.ecodrix.com
+- **Stack**: Next.js, TypeScript, Node.js, Express, PostgreSQL, MongoDB, AWS SES, Cloudflare R2, Meta WhatsApp Cloud API
+- **Modules**: CRM, WhatsApp, Automation, Lead Intelligence, Email Marketing, Cloud Storage, Client Portal, ErixStore, Relay Fabric
+- **Contact**: contact@ecodrix.com · +91-81439-63821

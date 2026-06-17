@@ -7,6 +7,7 @@ import {
   getOrganizationSchema,
   getWebSiteSchema,
   getSoftwareApplicationSchema,
+  getPersonSchema,
 } from "@/lib/jsonld";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { WebVitals } from "@/components/analytics/WebVitals";
@@ -63,6 +64,17 @@ export const metadata: Metadata = {
     "cloud storage",
     "SaaS platform India",
     "ECODrIx",
+    "Dhanesh Mekalthuru",
+    "ERIX CRM",
+    "ERIX-FLOW",
+    "ERIX-LAIE",
+    "ErixStore",
+    "Relay Fabric",
+    "lead scraping",
+    "lead enrichment",
+    "Socket.io chat",
+    "custom node marketplace",
+    "payment link generation",
   ],
   authors: [{ name: "ECODrIx", url: BASE_URL }],
   creator: "ECODrIx",
@@ -96,6 +108,7 @@ export const metadata: Metadata = {
     siteName: "ECODrIx",
     type: "website",
     locale: "en_IN",
+    alternateLocale: ["en_US", "en_GB"],
   },
 
   // Twitter / X card
@@ -176,6 +189,15 @@ export default function RootLayout({
           // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(getSoftwareApplicationSchema()),
+          }}
+        />
+        {/* Person schema — anchors "who is Dhanesh Mekalthuru" knowledge-panel
+            queries on Google, Bing, and AI answer engines. */}
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getPersonSchema()),
           }}
         />
 

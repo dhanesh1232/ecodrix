@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  Check,
   ArrowRight,
   Zap,
   Shield,
@@ -10,125 +9,67 @@ import {
   Headphones,
 } from "lucide-react";
 import { getFAQSchema } from "@/lib/jsonld";
+import {
+  fetchPublicPlans,
+  FALLBACK_PLANS,
+  FALLBACK_ADDONS,
+} from "@/lib/pricing";
+import PricingPlansSection from "@/components/pricing/PriceToggle";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple, transparent pricing for ECODrIx. Start free, scale as you grow. CRM, WhatsApp automation, email marketing, and cloud storage — all in one platform.",
+    "Simple, transparent pricing for ECODrIx. Start free, scale as you grow. CRM, WhatsApp automation, AI, editor, cloud storage, workflows — all in one platform.",
   alternates: { canonical: "https://ecodrix.com/pricing" },
 };
 
-const plans = [
-  {
-    name: "Starter",
-    price: "₹2,999",
-    period: "/month",
-    description: "For small teams getting started with automation.",
-    color: "#7C6EFA",
-    colorClass: "text-[#7C6EFA]",
-    bgClass: "bg-[#7C6EFA]/10",
-    features: [
-      "Up to 1,000 contacts",
-      "2 team members",
-      "5,000 WhatsApp messages/month",
-      "Basic CRM pipeline",
-      "5 automation workflows",
-      "Email campaigns (10k/month)",
-      "1 GB cloud storage",
-      "Email support",
-    ],
-    cta: "Start Free Trial",
-    popular: false,
-  },
-  {
-    name: "Growth",
-    price: "₹7,999",
-    period: "/month",
-    description: "For growing businesses that need more power.",
-    color: "#22D3EE",
-    colorClass: "text-[#22D3EE]",
-    bgClass: "bg-[#22D3EE]/10",
-    features: [
-      "Up to 10,000 contacts",
-      "10 team members",
-      "25,000 WhatsApp messages/month",
-      "Advanced CRM with lead scoring",
-      "Unlimited automation workflows",
-      "Email campaigns (100k/month)",
-      "10 GB cloud storage",
-      "Meeting scheduler",
-      "Priority support",
-      "Custom fields & reports",
-    ],
-    cta: "Start Free Trial",
-    popular: true,
-  },
-  {
-    name: "Business",
-    price: "₹19,999",
-    period: "/month",
-    description: "For established teams that need full control.",
-    color: "#4ADE80",
-    colorClass: "text-[#4ADE80]",
-    bgClass: "bg-[#4ADE80]/10",
-    features: [
-      "Unlimited contacts",
-      "Unlimited team members",
-      "100,000 WhatsApp messages/month",
-      "Full CRM suite",
-      "Unlimited automation workflows",
-      "Email campaigns (unlimited)",
-      "100 GB cloud storage",
-      "White-label option",
-      "API access",
-      "Dedicated support",
-    ],
-    cta: "Contact Sales",
-    popular: false,
-  },
-];
+// ISR: regenerate the page every 5 minutes. Matches the server-side cache TTL
+// for `/api/platform/plans/public`, so users always see fresh pricing without
+// hammering the backend.
+export const revalidate = 300;
 
 const benefits = [
   {
     icon: Star,
-    title: "Perfect for Startups",
+    title: "Start for Free",
     description:
-      "Get started quickly with essential CRM and automation tools. Ideal for small teams who need to organize contacts and automate basic workflows without complexity.",
-    planName: "Starter",
+      "Every product is included in the Free plan — CRM, AI, editor, workflows, cloud storage, and LAIE. Build your stack before you pay anything.",
+    planName: "Free",
   },
   {
     icon: Zap,
     title: "Scale Your Growth",
     description:
-      "Advanced features like lead scoring, unlimited workflows, and priority support. Perfect for growing businesses that need more power and sophisticated automation.",
+      "Lead scoring, larger AI quotas, custom branding, custom domains, collaborator seats, and 99% SLA. Built for teams pushing real volume.",
     planName: "Growth",
   },
   {
     icon: Shield,
     title: "Enterprise Ready",
     description:
-      "Full control with white-labeling, API access, and dedicated support. Built for established teams who need complete customization and enterprise-grade features.",
-    planName: "Business",
+      "White-label deployment, dedicated infrastructure, on-prem options, custom contracts, and 99.99% uptime SLA with a dedicated account manager.",
+    planName: "Enterprise",
   },
   {
     icon: Clock,
     title: "Save Time Daily",
     description:
-      "Automate repetitive tasks, streamline customer communication, and focus on what matters most - growing your business and serving customers better.",
+      "Automate repetitive tasks, streamline customer communication, and focus on what matters most — growing your business and serving customers better.",
   },
   {
     icon: Headphones,
     title: "Expert Support",
     description:
-      "From email support on Starter to dedicated support on Business plans, our team is here to help you succeed with personalized assistance.",
+      "From community support on Free to a dedicated account manager on Enterprise, our team is here to help you ship and scale with confidence.",
   },
   {
     icon: Users,
     title: "Team Collaboration",
     description:
-      "Built for teams of all sizes. Share contacts, collaborate on deals, and ensure everyone stays aligned with shared pipelines and real-time updates.",
+      "Built for teams of every size. Share contacts, collaborate on docs, and ensure everyone stays aligned with shared pipelines and real-time updates.",
   },
 ];
+
 const trust = [
   { icon: Shield, label: "SOC 2 compliant infrastructure" },
   { icon: Zap, label: "99.9% uptime SLA" },
@@ -138,31 +79,40 @@ const trust = [
 const faqs = [
   {
     q: "Is there a free trial?",
-    a: "Yes. Every plan starts with a 14-day free trial. No credit card required.",
+    a: "Yes. Every paid plan includes a 14-day free trial — no credit card required. The Free plan is forever free.",
   },
   {
     q: "Can I change plans later?",
-    a: "Yes. Upgrade or downgrade at any time. Changes take effect immediately.",
+    a: "Yes. Upgrade or downgrade at any time. Upgrades take effect immediately; downgrades apply at the end of your billing period.",
   },
   {
     q: "What happens to my data if I cancel?",
-    a: "You can export all your data at any time. After cancellation, data is retained for 30 days.",
+    a: "You can export all your data at any time. After cancellation, data is retained for 30 days before being permanently deleted.",
   },
   {
     q: "Do you offer annual billing?",
-    a: "Yes. Annual billing saves you 2 months — roughly 17% off. Contact us to switch.",
+    a: "Yes. Annual billing saves you roughly 17% — about 2 months free per year. Toggle the switch above to see yearly pricing.",
   },
   {
-    q: "Is WhatsApp included in all plans?",
-    a: "Yes. WhatsApp messaging is included in all plans. Message limits vary by plan.",
+    q: "What is included on the Free plan?",
+    a: "Up to 100 contacts, 1 agent, 1,000 WhatsApp messages, 5 LAIE audits, 1 GB storage, and 1 active workflow — every product is available, just at smaller quotas.",
+  },
+  {
+    q: "Can I buy add-ons without upgrading?",
+    a: "Yes. Add-ons stack on top of any plan, including Free. Buy exactly the capacity or feature you need without changing tiers.",
   },
   {
     q: "Do you support white-labeling?",
-    a: "White-label is available on the Business plan and above. Your brand, your domain.",
+    a: "White-label is included on the Enterprise plan and is available as a stand-alone add-on for $99/month on any other plan.",
   },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const data = await fetchPublicPlans();
+  const usedFallback = data === null;
+  const plans = data?.plans ?? FALLBACK_PLANS;
+  const addons = data?.addons ?? FALLBACK_ADDONS;
+
   return (
     <div className="w-full">
       {/* FAQ Schema JSON-LD */}
@@ -173,8 +123,9 @@ export default function PricingPage() {
           __html: JSON.stringify(getFAQSchema(faqs)),
         }}
       />
-      
-      <section className="pt-40 pb-20 px-6 relative overflow-hidden">
+
+      {/* ── Hero ── */}
+      <section className="pt-40 pb-16 px-6 relative overflow-hidden">
         {/* ambient glow */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
@@ -203,13 +154,13 @@ export default function PricingPage() {
             className="text-text-lo max-w-xl mx-auto leading-relaxed"
             style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
           >
-            Start with a 14-day free trial. No credit card required. Cancel
-            anytime.
+            Start free. Upgrade when you outgrow it. Cancel anytime, no
+            questions asked.
           </p>
 
           {/* trust row */}
           <div className="flex flex-wrap items-center justify-center gap-6 mt-10">
-            {trust.map(({ icon: Icon, label }: any, i: number) => (
+            {trust.map(({ icon: Icon, label }, i) => (
               <div
                 key={i}
                 className="flex items-center gap-2 text-text-lo"
@@ -223,139 +174,12 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── Plans ── */}
-      <section className="pb-24 px-6">
-        <div className="wrapper">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto grid-no-collapse">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`group relative p-px transition-colors duration-500 no-collapse ${
-                  plan.popular
-                    ? "bg-linear-to-br from-[#22D3EE]/50 to-[#7C6EFA]/50"
-                    : "bg-white/10 hover:bg-white/20"
-                }`}
-                style={{
-                  clipPath:
-                    "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                }}
-              >
-                {plan.popular && (
-                  <div
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-black z-20 polygon-tag"
-                    style={{ backgroundColor: plan.color }}
-                  >
-                    Most Popular
-                  </div>
-                )}
-                <div
-                  className="bg-[#0A0A10] h-full p-8 relative overflow-hidden flex flex-col no-collapse"
-                  style={{
-                    clipPath:
-                      "polygon(19px 0, 100% 0, 100% calc(100% - 19px), calc(100% - 19px) 100%, 0 100%, 0 19px)",
-                  }}
-                >
-                  {plan.popular && (
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#22D3EE]/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
-                  )}
-
-                  <div className="mb-8 relative z-10 no-collapse">
-                    <h3
-                      className={`font-mono text-[11px] font-bold uppercase tracking-widest mb-4 ${plan.colorClass}`}
-                    >
-                      {plan.name}
-                    </h3>
-                    <div className="flex items-baseline gap-1 mb-3">
-                      <span className="text-4xl font-display font-black text-white tracking-tighter">
-                        {plan.price}
-                      </span>
-                      <span className="text-[#64647A] text-sm">
-                        {plan.period}
-                      </span>
-                    </div>
-                    <p className="text-[#64647A] text-sm leading-relaxed min-h-[48px]">
-                      {plan.description}
-                    </p>
-                  </div>
-
-                  <div className="h-px bg-white/5 mb-8 w-full" />
-
-                  <ul className="space-y-4 relative z-10 flex-1 mb-10 no-collapse">
-                    {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div
-                          className={`w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 ${plan.bgClass} polygon-icon`}
-                          style={{
-                            clipPath:
-                              "polygon(0 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)",
-                          }}
-                        >
-                          <Check size={12} className={plan.colorClass} />
-                        </div>
-                        <span className="text-[#E0E0F0] text-[14px] leading-snug">
-                          {f}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="/#contact"
-                    className={`w-full py-4 px-6 font-bold uppercase tracking-widest text-[12px] transition-all duration-300 flex items-center justify-center gap-2 group/btn relative z-10 polygon-button ${
-                      plan.popular
-                        ? "bg-white text-black hover:bg-[#22D3EE] hover:text-black"
-                        : "bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:border-white"
-                    }`}
-                  >
-                    {plan.cta}
-                    <ArrowRight
-                      size={16}
-                      className="group-hover/btn:translate-x-1 transition-transform"
-                    />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Enterprise row */}
-          <div
-            className="mt-8 p-px bg-white/10 hover:bg-white/20 transition-colors duration-300"
-            style={{
-              clipPath:
-                "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-            }}
-          >
-            <div
-              className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 px-8 py-7 bg-[#0A0A10]"
-              style={{
-                clipPath:
-                  "polygon(19px 0, 100% 0, 100% calc(100% - 19px), calc(100% - 19px) 100%, 0 100%, 0 19px)",
-              }}
-            >
-              <div>
-                <div className="font-mono text-[11px] font-bold uppercase tracking-widest text-primary mb-2">
-                  Enterprise / Custom
-                </div>
-                <p className="text-[#64647A] text-sm leading-relaxed max-w-xl">
-                  Dedicated infrastructure, custom SLA, white-label deployment,
-                  and on-premise options. Built around your requirements.
-                </p>
-              </div>
-              <a
-                href="mailto:contact@ecodrix.com"
-                className="group shrink-0 flex items-center gap-2 px-7 py-4 font-bold uppercase tracking-widest text-[12px] text-white border border-white/10 transition-all duration-300 hover:border-white hover:bg-white hover:text-black polygon-button"
-              >
-                Contact Us
-                <ArrowRight
-                  size={14}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── Plans + Add-ons (client-rendered for toggle interactivity) ── */}
+      <PricingPlansSection
+        plans={plans}
+        addons={addons}
+        usedFallback={usedFallback}
+      />
 
       {/* ── Benefits ── */}
       <section className="py-24 px-6 border-t border-white/5">
@@ -437,7 +261,7 @@ export default function PricingPage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
-            {faqs.map(({ q, a }: any, i) => (
+            {faqs.map(({ q, a }, i) => (
               <div key={i} className="p-8 bg-[#0A0A10]">
                 <h4 className="text-white font-bold mb-3 text-base">{q}</h4>
                 <p className="text-text-lo text-sm leading-relaxed">{a}</p>
@@ -460,17 +284,17 @@ export default function PricingPage() {
             Ready to get started?
           </h2>
           <p className="text-text-lo mb-10 leading-relaxed">
-            14-day free trial. No credit card. Setup in under 15 minutes.
+            Free forever plan. No credit card. Setup in under 15 minutes.
           </p>
           <a
-            href="/#contact"
+            href="https://app.ecodrix.com/auth/signup"
             className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-[13px] text-black transition-all duration-300 hover:shadow-[0_0_40px_rgba(124,110,250,0.35)] bg-linear-to-r from-primary to-cyan polygon-button"
             style={{
               clipPath:
                 "polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)",
             }}
           >
-            Start Free Trial
+            Start for Free
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
