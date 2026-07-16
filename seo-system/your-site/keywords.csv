@@ -1,0 +1,36 @@
+product,keyword,intent,search_region,priority,est_difficulty,target_url,notes
+ERIX,whatsapp crm india,commercial,IN,P0,high,/erix,Core money term; Wati/AiSensy/Interakt own it now
+ERIX,crm with whatsapp integration,commercial,IN,P0,high,/erix,Feature-led; map to unified inbox
+ERIX,best crm for small business india,commercial,IN,P0,high,/erix,High volume; needs comparison + pricing proof
+ERIX,whatsapp business crm,commercial,IN,P0,medium,/erix,Cluster head
+ERIX,crm for real estate india,commercial,IN,P1,medium,/erix/real-estate,Use case page; strong SMB segment
+ERIX,crm for clinics india,commercial,IN,P1,low,/erix/healthcare,Appointment + WhatsApp reminders angle
+ERIX,affordable crm india,transactional,IN,P1,medium,/erix,Price-sensitive SMB; lead with INR 2999 starter
+ERIX,whatsapp shared inbox team,commercial,IN,P1,low,/erix,Unified inbox feature term
+ERIX,lead management software india,commercial,IN,P1,high,/erix,Pipeline + scoring
+ERIX,whatsapp broadcast crm,commercial,IN,P2,low,/erix,Broadcast + segments feature
+Connect,whatsapp business api pricing india,commercial,IN,P0,medium,/connect,Very high intent; INR per-message pricing
+Connect,whatsapp business api provider india,commercial,IN,P0,high,/connect,BSP comparison intent
+Connect,official whatsapp api free,informational,IN,P1,medium,/connect/whatsapp-api-guide,Corrects "is it free" myth; FAQ schema
+Connect,how to get whatsapp green tick,informational,IN,P1,low,/connect/green-tick,High-share informational; feeds signups
+Connect,whatsapp cloud api setup,informational,IN,P1,low,/connect/whatsapp-api-guide,Onboarding tutorial
+Connect,meta whatsapp api integration,commercial,IN,P2,medium,/connect,Technical buyers
+Connect,email api for business india,commercial,IN,P2,low,/connect,AWS SES-backed sending angle
+LAIE,google maps lead scraper india,commercial,IN,P1,medium,/laie,Differentiator; low competitor overlap
+LAIE,b2b lead generation tool india,commercial,IN,P1,high,/laie,Cluster head
+LAIE,find business leads online india,commercial,IN,P2,medium,/laie,Discovery intent
+LAIE,local business data extraction,commercial,IN,P2,low,/laie,Actor-based enrichment
+LAIE,gbp audit tool,commercial,IN,P2,low,/laie/audit,Google Business Profile audit
+LAIE,website seo audit tool free,informational,IN,P2,medium,/laie/audit,Lead magnet; free audit CTA
+LAIE,cold email personalization ai,commercial,IN,P2,medium,/laie,Outreach kit angle
+FLOW,whatsapp automation for small business,commercial,IN,P1,medium,/flow,High SMB intent
+FLOW,no code workflow automation india,commercial,IN,P2,medium,/flow,Zapier-alternative framing (India/WhatsApp-native)
+FLOW,automated whatsapp follow up,commercial,IN,P2,low,/flow,Sequence/drip angle
+FLOW,lead follow up automation,commercial,IN,P2,low,/flow,Ties FLOW to ERIX pipeline
+FLOW,appointment reminder automation whatsapp,commercial,IN,P2,low,/flow,Clinic/service SMB use case
+Brand,ecodrix,navigational,IN,P0,low,/,Protect branded SERP + sitelinks
+Brand,ecodrix pricing,transactional,IN,P0,low,/pricing,INR plans; AI-citable
+Brand,ecodrix vs wati,commercial,IN,P0,medium,/compare/ecodrix-vs-wati,Highest-converting comparison
+Brand,ecodrix vs aisensy,commercial,IN,P0,medium,/compare/ecodrix-vs-aisensy,Comparison
+Brand,ecodrix vs interakt,commercial,IN,P1,medium,/compare/ecodrix-vs-interakt,Comparison
+Brand,ecodrix review,commercial,IN,P1,low,/,Reputation; encourage third-party reviews

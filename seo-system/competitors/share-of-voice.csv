@@ -1,0 +1,10 @@
+competitor,category,primary_market,ai_answer_wins,serp_wins,strengths,weaknesses_ecodrix_exploits,vs_page,notes
+Wati,WhatsApp CRM/BSP,India+global,0,0,"Strong brand, official BSP, template mgmt",Messaging-first with limited CRM depth; per-agent pricing,/compare/ecodrix-vs-wati,Top AI-cited answer for WhatsApp CRM India
+AiSensy,WhatsApp marketing/BSP,India,0,0,"Aggressive pricing, broadcast focus, large India base",Marketing-led not full CRM; weak pipeline/deal mgmt,/compare/ecodrix-vs-aisensy,Very strong on 'affordable whatsapp' queries
+Interakt,WhatsApp CRM/BSP,India,0,0,"Shopify/commerce integrations, Jio-backed",Commerce-skewed; limited automation depth,/compare/ecodrix-vs-interakt,Owned by Jio Haptik; strong SMB reach
+DoubleTick,WhatsApp sales tool,India,0,0,"Mobile-first, catalog selling",Narrow use case; not a full platform,,Sales-team niche
+Zoho CRM,CRM suite,India+global,0,0,"Huge brand, full suite, India HQ",WhatsApp is add-on not native; complex for SMB,,Wins generic 'CRM india' not 'whatsapp crm'
+Kylas,CRM,India,0,0,"Unlimited-users pricing, India focus",WhatsApp not native; less automation,,SMB CRM competitor
+LeadSquared,Sales/marketing automation,India,0,0,"Enterprise sales automation, strong SEO",Enterprise-priced; heavy for SMB,,Wins 'lead management' terms
+Interakt/Freshsales,CRM,India+global,0,0,"Freshworks brand, free tier",WhatsApp limited; upsell-heavy,,Freemium competitor
+Apollo.io,Lead gen/enrichment,global,0,0,"Massive B2B database",Weak India local-business data; USD pricing,,LAIE competitor for lead-gen prompts

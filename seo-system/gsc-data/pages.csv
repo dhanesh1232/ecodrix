@@ -1,0 +1,10 @@
+page,product_mapped,clicks,impressions,ctr,avg_position,indexed,date_range,notes
+# Populate from Google Search Console > Performance > Pages export.
+# indexed = yes/no/unknown. Flag any money page with indexed=no as P0 in site-audit.md.
+https://ecodrix.com/,Brand,0,0,0.0,0.0,unknown,LAST_28D,home
+https://ecodrix.com/pricing,Brand,0,0,0.0,0.0,unknown,LAST_28D,INR plans
+https://ecodrix.com/erix,ERIX,0,0,0.0,0.0,unknown,LAST_28D,WhatsApp CRM hub
+https://ecodrix.com/laie,LAIE,0,0,0.0,0.0,unknown,LAST_28D,lead engine hub
+https://ecodrix.com/flow,FLOW,0,0,0.0,0.0,unknown,LAST_28D,automation hub
+https://ecodrix.com/connect,Connect,0,0,0.0,0.0,unknown,LAST_28D,WhatsApp API hub
+https://ecodrix.com/compare/ecodrix-vs-wati,Brand,0,0,0.0,0.0,unknown,LAST_28D,comparison
