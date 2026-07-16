@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Roboto, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
@@ -11,27 +11,22 @@ import {
 } from "@/lib/jsonld";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { WebVitals } from "@/components/analytics/WebVitals";
+import { CookieConsent } from "@/components/legal/CookieConsent";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/layout/LenisProvider";
 
-const inter = Inter({
-  variable: "--font-inter",
+// Single project typeface — Roboto. Used for both body and display so the
+// whole site shares one font (900 available for display headings).
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
+  weight: ["400", "500", "700", "900"],
   display: "swap",
   preload: true,
-  adjustFontFallback: true,
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-  preload: true,
-  adjustFontFallback: true,
-});
-
-// Code-only font — no preload, only used in pills/code snippets
+// Code-only font — used for genuine monospace (code snippets).
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
@@ -146,8 +141,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("dark", "font-sans")}>
+    <html lang="en" data-theme="light" className={cn("font-sans")}>
       <head>
+        {/* Google Consent Mode v2 — MUST run before GTM/GA so tags respect
+            the default-denied state until the user makes a choice in the
+            cookie banner. functionality/security storage stay granted. */}
+        <Script id="consent-default" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent','default',{
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'granted',
+      security_storage:'granted',
+      wait_for_update:500
+    });`}
+        </Script>
+
         {/* Google Tag Manager — loaded with beforeInteractive so the
             container is available before page-view events fire, but Next's
             Script primitive still keeps it off the critical render path. */}
@@ -221,7 +233,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${roboto.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <noscript
           dangerouslySetInnerHTML={{
@@ -237,7 +249,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
-        <div className="bg-background text-text-primary overflow-clip min-h-screen flex flex-col">
+        <div className="bg-background text-foreground overflow-clip min-h-screen flex flex-col">
           <LenisProvider />
           <Navbar />
           <main id="main-content" className="flex-1 flex flex-col">
@@ -245,6 +257,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <CookieConsent />
       </body>
     </html>
   );

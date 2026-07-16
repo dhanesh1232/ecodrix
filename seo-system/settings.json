@@ -1,0 +1,127 @@
+{
+  "_note": "ECODrIx SEO + AI-visibility system config. Consumed by automations/*.sh.",
+  "domain": "https://ecodrix.com",
+  "market": "IN",
+  "currency": "INR",
+  "products": [
+    "ERIX",
+    "LAIE",
+    "FLOW",
+    "Connect"
+  ],
+  "product_definitions": {
+    "ERIX": "WhatsApp-native CRM for Indian SMBs (official Meta Cloud API)",
+    "LAIE": "AI lead-generation and business-intelligence engine",
+    "FLOW": "No-code visual automation builder",
+    "Connect": "WhatsApp API / email / database integration layer"
+  },
+  "money_pages": [
+    {
+      "path": "/",
+      "product": "Brand",
+      "ssr_probe": "ECODrIx"
+    },
+    {
+      "path": "/pricing",
+      "product": "Brand",
+      "ssr_probe": "2,999"
+    },
+    {
+      "path": "/erix",
+      "product": "ERIX",
+      "ssr_probe": "WhatsApp CRM"
+    },
+    {
+      "path": "/laie",
+      "product": "LAIE",
+      "ssr_probe": "lead generation"
+    },
+    {
+      "path": "/flow",
+      "product": "FLOW",
+      "ssr_probe": "automation"
+    },
+    {
+      "path": "/connect",
+      "product": "Connect",
+      "ssr_probe": "WhatsApp Business API"
+    },
+    {
+      "path": "/connect/whatsapp-api-guide",
+      "product": "Connect",
+      "ssr_probe": "WhatsApp Business API"
+    },
+    {
+      "path": "/compare/ecodrix-vs-wati",
+      "product": "ERIX",
+      "ssr_probe": "Wati"
+    },
+    {
+      "path": "/compare/ecodrix-vs-aisensy",
+      "product": "ERIX",
+      "ssr_probe": "AiSensy"
+    }
+  ],
+  "brand_terms": [
+    "ecodrix",
+    "erix",
+    "laie",
+    "\\bflow\\b",
+    "connect by ecodrix"
+  ],
+  "competitor_terms": [
+    "wati",
+    "aisensy",
+    "interakt",
+    "doubletick",
+    "zoho",
+    "kylas",
+    "leadsquared",
+    "freshsales",
+    "freshworks",
+    "apollo\\.io",
+    "bitrix24"
+  ],
+  "ai_engines": [
+    "chatgpt",
+    "perplexity",
+    "gemini"
+  ],
+  "core_web_vitals_targets": {
+    "lcp_seconds_max": 2.5,
+    "inp_ms_max": 200,
+    "cls_max": 0.1,
+    "device": "mobile"
+  },
+  "thresholds": {
+    "money_page_must_be_indexed": true,
+    "min_ai_inclusion_rate_target": 0.5,
+    "min_ai_prompts_cited_90d": 10,
+    "total_buyer_prompts": 20,
+    "nonbranded_clicks_growth_target_90d_pct": 100,
+    "alert_on_money_page_deindex": true,
+    "alert_on_cwv_mobile_fail": true,
+    "alert_on_ai_inclusion_drop": true,
+    "alert_on_client_only_copy": true
+  },
+  "gsc": {
+    "enabled": false,
+    "site_url": "https://ecodrix.com",
+    "lookback_days": 28,
+    "note": "Set enabled=true and wire a service account in monday-rankings.sh to auto-pull queries/pages."
+  },
+  "brief_target_count": 1,
+  "pricing_reference_inr": {
+    "starter": 2999,
+    "growth": 7999,
+    "business": 19999,
+    "trial_days": 14
+  },
+  "guardrails": {
+    "india_only_content": true,
+    "inr_pricing_only": true,
+    "must_map_to_product": true,
+    "no_fabricated_ratings": true,
+    "official_whatsapp_api_only": true
+  }
+}

@@ -9,22 +9,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0A0A0F",
-        surface: "#111118",
+        // ECODrIx Design System v2.0 brand palette
+        background: "#0B1120",
+        surface: "#111E33",
         primary: {
-          DEFAULT: "#6C63FF",
-          glow: "rgba(108, 99, 255, 0.4)",
+          DEFAULT: "#2563EB",
+          glow: "rgba(37, 99, 235, 0.4)",
         },
         accent: {
-          DEFAULT: "#00D4FF",
-          alt: "#FF6B6B",
+          DEFAULT: "#7C3AED",
+          alt: "#DC2626",
         },
-        "text-primary": "#F0F0FF",
-        "text-muted": "#8888AA",
-        border: "rgba(108, 99, 255, 0.15)",
+        "text-primary": "#F1F5F9",
+        "text-muted": "#64748B",
+        border: "rgba(37, 99, 235, 0.15)",
       },
       fontFamily: {
-        display: ["var(--font-space-grotesk)", "sans-serif"],
+        display: ["var(--font-syne)", "Syne", "sans-serif"],
         sans: ["var(--font-inter)", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },

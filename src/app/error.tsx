@@ -17,21 +17,13 @@ export default function Error({
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
       <div className="relative z-10">
-        <div
-          className="w-16 h-16 mx-auto mb-6 flex items-center justify-center"
-          style={{
-            clipPath:
-              "polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%)",
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-          }}
-        >
+        <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-br-xl bg-error/10 border border-error/30">
           <span className="text-2xl">⚠️</span>
         </div>
-        <h1 className="font-display font-bold text-white text-2xl mb-3 tracking-tight">
+        <h1 className="font-display font-bold text-foreground text-2xl mb-3 tracking-tight">
           Something went wrong
         </h1>
-        <p className="text-[#64647A] text-[15px] max-w-sm mx-auto mb-8 leading-relaxed">
+        <p className="text-muted-foreground text-[15px] max-w-sm mx-auto mb-8 leading-relaxed">
           An unexpected error occurred. Please try again or go back to the
           homepage.
         </p>

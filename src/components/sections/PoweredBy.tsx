@@ -18,9 +18,17 @@ import {
 const row1 = [
   { label: "WhatsApp CRM", icon: BsWhatsapp, color: "#25D366" },
   { label: "Google Ads", icon: BsGoogle, color: "#4285F4" },
-  { label: "SEO Engine", icon: BsSearch, color: "#22D3EE" },
-  { label: "Email Campaigns", icon: BsEnvelopeAt, color: "#7C6EFA" },
-  { label: "Lead Pipeline", icon: BsGraphUpArrow, color: "#4ADE80" },
+  { label: "SEO Engine", icon: BsSearch, color: "var(--color-brand-purple)" },
+  {
+    label: "Email Campaigns",
+    icon: BsEnvelopeAt,
+    color: "var(--color-accent)",
+  },
+  {
+    label: "Lead Pipeline",
+    icon: BsGraphUpArrow,
+    color: "var(--color-success)",
+  },
   { label: "Google Meet", icon: BsCameraVideo, color: "#EA4335" },
 ];
 
@@ -28,8 +36,16 @@ const row2 = [
   { label: "Meta Ads", icon: BsMeta, color: "#0668E1" },
   { label: "Automation Rules", icon: BsGear, color: "#FB923C" },
   { label: "SES Email", icon: BsLightningCharge, color: "#F472B6" },
-  { label: "Kanban CRM", icon: BsLayoutTextSidebarReverse, color: "#7C6EFA" },
-  { label: "Trigger Engine", icon: BsBoxes, color: "#22D3EE" },
+  {
+    label: "Kanban CRM",
+    icon: BsLayoutTextSidebarReverse,
+    color: "var(--color-accent)",
+  },
+  {
+    label: "Trigger Engine",
+    icon: BsBoxes,
+    color: "var(--color-brand-purple)",
+  },
   { label: "WhatsApp Inbox", icon: BsShieldCheck, color: "#25D366" },
 ];
 
@@ -43,27 +59,18 @@ function MarqueeItem({
   color: string;
 }) {
   return (
-    <div
-      className="inline-flex items-center gap-2.5 px-4 py-2.5 shrink-0"
-      style={{
-        clipPath:
-          "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
+    <div className="inline-flex items-center gap-2.5 px-4 py-2.5 shrink-0 rounded-lg border border-border bg-foreground/[0.02]">
       <div
-        className="w-7 h-7 flex items-center justify-center shrink-0"
+        className="w-7 h-7 flex items-center justify-center shrink-0 rounded-md"
         style={{
-          clipPath:
-            "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
-          background: `${color}10`,
-          border: `1px solid ${color}20`,
+          background: `color-mix(in srgb, ${color} 10%, transparent)`,
+          border: `1px solid color-mix(in srgb, ${color} 20%, transparent)`,
+          color,
         }}
       >
-        <Icon size={13} style={{ color }} />
+        <Icon size={13} />
       </div>
-      <span className="text-[11px] font-mono text-[#8888A0] tracking-wide whitespace-nowrap">
+      <span className="text-[11px] font-mono text-muted-foreground tracking-wide whitespace-nowrap">
         {label}
       </span>
     </div>
@@ -72,16 +79,10 @@ function MarqueeItem({
 
 export function PoweredBy() {
   return (
-    <section className="relative z-10 w-full overflow-hidden py-7 bg-background border-y border-white/5 no-collapse">
+    <section className="relative z-10 w-full overflow-hidden py-7 bg-background border-y border-foreground/5 no-collapse">
       {/* Edge fade masks */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-16 md:w-28 z-10 pointer-events-none"
-        style={{ background: "linear-gradient(90deg, #060608, transparent)" }}
-      />
-      <div
-        className="absolute right-0 top-0 bottom-0 w-16 md:w-28 z-10 pointer-events-none"
-        style={{ background: "linear-gradient(270deg, #060608, transparent)" }}
-      />
+      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-28 z-10 pointer-events-none bg-[linear-gradient(90deg,var(--color-background),transparent)]" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 z-10 pointer-events-none bg-[linear-gradient(270deg,var(--color-background),transparent)]" />
 
       {/* Row 1 — slides left */}
       <div className="marquee-track mb-3">
@@ -100,40 +101,6 @@ export function PoweredBy() {
           ))}
         </div>
       </div>
-
-      <style>{`
-        .marquee-track {
-          width: 100%;
-          overflow: hidden;
-        }
-        .marquee-slide {
-          display: flex;
-          gap: 12px;
-          width: max-content;
-        }
-        .marquee-left {
-          animation: scrollLeft 35s linear infinite;
-        }
-        .marquee-right {
-          animation: scrollRight 35s linear infinite;
-        }
-        .marquee-track:hover .marquee-slide {
-          animation-play-state: paused;
-        }
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-left, .marquee-right {
-            animation: none;
-          }
-        }
-      `}</style>
     </section>
   );
 }

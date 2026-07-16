@@ -15,7 +15,7 @@ export default async function Image() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#060608",
+        background: "var(--color-background)",
         position: "relative",
       }}
     >
@@ -28,7 +28,7 @@ export default async function Image() {
           height: "500px",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(124,110,250,0.3) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(43, 77, 203,0.3) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -60,7 +60,7 @@ export default async function Image() {
           style={{
             fontSize: "28px",
             fontWeight: 800,
-            color: "#7C6EFA",
+            color: "var(--color-accent)",
             letterSpacing: "-0.02em",
             marginBottom: "24px",
           }}
@@ -71,7 +71,7 @@ export default async function Image() {
           style={{
             fontSize: "56px",
             fontWeight: 900,
-            color: "#ffffff",
+            color: "var(--color-accent-foreground)",
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
             marginBottom: "8px",
@@ -86,7 +86,7 @@ export default async function Image() {
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
             marginBottom: "24px",
-            background: "linear-gradient(135deg, #A89EFD, #7C6EFA, #22D3EE)",
+            background: "linear-gradient(135deg, #b34fcf, #2b4dcb, #8d1fae)",
             backgroundClip: "text",
             color: "transparent",
           }}
@@ -96,7 +96,7 @@ export default async function Image() {
         <div
           style={{
             fontSize: "20px",
-            color: "#8888A0",
+            color: "var(--color-muted-foreground)",
             maxWidth: "600px",
             lineHeight: 1.5,
           }}
@@ -109,7 +109,7 @@ export default async function Image() {
         style={{
           position: "absolute",
           bottom: "30px",
-          color: "#64647A",
+          color: "var(--color-muted-foreground)",
           fontSize: "14px",
         }}
       >

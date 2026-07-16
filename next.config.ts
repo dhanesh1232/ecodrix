@@ -125,4 +125,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default bundleAnalyzer(nextConfig);
+// Cast to the analyzer's expected config type. `@next/bundle-analyzer` can
+// resolve a different hoisted Next.js version's `NextConfig` in the pnpm
+// monorepo, so we align the argument type to whatever version it expects.
+export default bundleAnalyzer(
+  nextConfig as Parameters<typeof bundleAnalyzer>[0],
+);

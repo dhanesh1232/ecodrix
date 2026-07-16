@@ -24,8 +24,8 @@ const PhoneInputField = React.forwardRef<
     ref={ref}
     {...props}
     className={cn(
-      "flex-1 h-full bg-transparent text-sm text-white placeholder:text-[#64647A]",
-      "focus:outline-none selection:bg-primary/30 selection:text-white",
+      "flex-1 h-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground",
+      "focus:outline-none selection:bg-accent/30 selection:text-accent-foreground",
       className,
     )}
   />
@@ -117,11 +117,11 @@ export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
           // tabIndex=-1 on country select → tab skips it, only click works
           countrySelectProps={{ tabIndex: -1 }}
           className={cn(
-            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 transition-all duration-300",
-            "bg-[#0D0D14] [box-shadow:inset_0_0_0_1px_rgba(255,255,255,0.08)]",
-            "[clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]",
-            "focus-within:[box-shadow:inset_0_0_0_1px_rgba(124,110,250,0.5)]",
-            error && "[box-shadow:inset_0_0_0_1px_#ef4444]",
+            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-lg transition-all duration-200",
+            "bg-elevated border border-border-strong",
+            "hover:border-accent/40",
+            "focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25",
+            error && "border-error ring-2 ring-error/25",
             className,
           )}
         />

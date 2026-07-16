@@ -51,7 +51,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Client portal with secure messaging and file uploads",
       "Invoice generation and payment-link integration",
     ],
-    apiBase: "/api/saas/leads",
+    apiBase: "/v1/api/product/erix/crm/leads",
     searchQueries: [
       "ECODrIx CRM",
       "ERIX CRM",
@@ -60,7 +60,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "AI lead scoring SaaS",
       "kanban CRM with WhatsApp",
     ],
-    color: "#7C6EFA",
+    color: "#2b4dcb",
   },
   {
     slug: "whatsapp",
@@ -81,7 +81,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Webhook signature verification + opt-in/opt-out compliance",
       "OTP delivery with retry + fallback to SMS",
     ],
-    apiBase: "/api/saas/chat",
+    apiBase: "/v1/api/product/erix/chat",
     searchQueries: [
       "ECODrIx WhatsApp API",
       "WhatsApp Business API India",
@@ -110,7 +110,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Per-tenant secrets vault for credentials",
       "Schedule-based triggers (cron, recurring, time-windows)",
     ],
-    apiBase: "/api/flow/v1",
+    apiBase: "/v1/api/product/flow",
     searchQueries: [
       "ECODrIx automation",
       "ERIX-FLOW",
@@ -118,7 +118,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "visual workflow SaaS",
       "custom node marketplace automation",
     ],
-    color: "#22D3EE",
+    color: "#8d1fae",
   },
   {
     slug: "lead-intelligence",
@@ -139,7 +139,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Distributed scraping via Relay Fabric (multi-region workers)",
       "Real-time progress logs over Socket.IO",
     ],
-    apiBase: "/api/laie/v1",
+    apiBase: "/v1/api/product/laie",
     searchQueries: [
       "ECODrIx LAIE",
       "ERIX-LAIE",
@@ -194,7 +194,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Per-tenant storage quotas and folder structure",
       "Configurable retention and version history",
     ],
-    apiBase: "/api/saas/storage",
+    apiBase: "/v1/api/infra/storage/files",
     searchQueries: [
       "ECODrIx storage",
       "Cloudflare R2 SaaS",
@@ -221,14 +221,14 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Per-client visibility scoping (only their data)",
       "Email + WhatsApp notifications on portal activity",
     ],
-    apiBase: "/api/portal/v1",
+    apiBase: "/v1/api/product/erix/portal",
     searchQueries: [
       "client portal SaaS",
       "ECODrIx client portal",
       "agency client workspace",
       "freelancer project portal",
     ],
-    color: "#A89EFD",
+    color: "#b34fcf",
   },
   {
     slug: "erixstore",
@@ -256,7 +256,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "in-memory database SaaS",
       "Redis alternative India",
     ],
-    color: "#22D3EE",
+    color: "#8d1fae",
   },
   {
     slug: "relay-fabric",
@@ -276,7 +276,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       "Built-in proxy rotation for scraping resilience",
       "Admin endpoints for manual provision / retire",
     ],
-    apiBase: "/api/laie/v1/relays",
+    apiBase: "/v1/api/product/laie/relays",
     searchQueries: [
       "Relay Fabric",
       "distributed scraper engine",

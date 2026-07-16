@@ -285,6 +285,33 @@ export function getFAQSchema(faqs: Array<{ q: string; a: string }>) {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
+   HowTo — for step-by-step guides (e.g. WhatsApp Business API onboarding).
+   Eligible for Google how-to rich results and heavily used by AI answer
+   engines for "how do I …" prompts.
+─────────────────────────────────────────────────────────────────────── */
+
+export function getHowToSchema(input: {
+  name: string;
+  description: string;
+  steps: Array<{ name: string; text: string }>;
+  totalTime?: string; // ISO 8601 duration, e.g. "P2D"
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: input.name,
+    description: input.description,
+    ...(input.totalTime ? { totalTime: input.totalTime } : {}),
+    step: input.steps.map((s, idx) => ({
+      "@type": "HowToStep",
+      position: idx + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  };
+}
+
+/* ──────────────────────────────────────────────────────────────────────
    BreadcrumbList — improves SERP appearance and crawl hints.
 ─────────────────────────────────────────────────────────────────────── */
 

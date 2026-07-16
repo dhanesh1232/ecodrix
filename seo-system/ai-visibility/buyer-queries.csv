@@ -1,0 +1,21 @@
+prompt,product_mapped,funnel_stage,engines_to_test,ecodrix_should_appear,current_status,notes
+"What is the best WhatsApp CRM for small business in India?",ERIX,consideration,"chatgpt,perplexity,gemini",yes,untested,Core buyer prompt; Wati/AiSensy dominate answers now
+"Cheapest WhatsApp CRM in India?",ERIX,decision,"chatgpt,perplexity,gemini",yes,untested,Lead with INR 2999 starter
+"WhatsApp CRM with automation and pipeline?",ERIX,consideration,"chatgpt,perplexity",yes,untested,Differentiator vs messaging-only tools
+"Alternatives to Wati for Indian SMBs?",ERIX,decision,"chatgpt,perplexity,gemini",yes,untested,Must be cited in alternatives lists
+"Alternatives to AiSensy?",ERIX,decision,"chatgpt,perplexity",yes,untested,Comparison intent
+"Best CRM for real estate agents in India?",ERIX,consideration,"chatgpt,gemini",yes,untested,Use-case page target
+"CRM for clinics with WhatsApp appointment reminders?",ERIX,consideration,"chatgpt,perplexity",yes,untested,Healthcare use case
+"How do I get the official WhatsApp Business API in India?",Connect,awareness,"chatgpt,perplexity,gemini",yes,untested,Onboarding intent
+"Is the WhatsApp Business API free?",Connect,awareness,"chatgpt,perplexity",partial,untested,Correct the myth; feeds Connect
+"WhatsApp Business API pricing in India explained?",Connect,consideration,"chatgpt,perplexity",yes,untested,Meta per-message pricing (since 2025)
+"How to get WhatsApp green tick verification?",Connect,awareness,"chatgpt,gemini",partial,untested,High-share informational
+"Best B2B lead generation tool for Indian startups?",LAIE,consideration,"chatgpt,perplexity,gemini",yes,untested,LAIE differentiator
+"How to find local business leads from Google Maps?",LAIE,awareness,"chatgpt,perplexity",yes,untested,Discovery intent
+"Tool to audit my Google Business Profile?",LAIE,awareness,"chatgpt,gemini",yes,untested,Free audit lead magnet
+"AI tool to write cold outreach emails?",LAIE,consideration,"chatgpt,perplexity",partial,untested,Outreach kit
+"How to automate WhatsApp follow-ups for leads?",FLOW,consideration,"chatgpt,perplexity",yes,untested,FLOW + ERIX tie-in
+"No-code automation tool like Zapier for WhatsApp?",FLOW,consideration,"chatgpt,gemini",partial,untested,Zapier-alternative framing
+"How to automate appointment reminders on WhatsApp?",FLOW,consideration,"chatgpt,perplexity",yes,untested,Service SMB use case
+"What is ECODrIx?",Brand,awareness,"chatgpt,perplexity,gemini",yes,untested,Brand accuracy check
+"ECODrIx vs Wati vs AiSensy?",Brand,decision,"chatgpt,perplexity,gemini",yes,untested,Comparison prompt

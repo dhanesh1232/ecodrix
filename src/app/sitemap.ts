@@ -1,6 +1,10 @@
 import type { MetadataRoute } from "next";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
+import { COMPARISONS } from "@/lib/comparisons";
+import { USE_CASES } from "@/lib/use-cases";
+import { LEGAL_DOCS } from "@/lib/legal/documents";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
+import { getPublishedBlogs } from "@/lib/api";
 
 /**
  * Generates /sitemap.xml via Next.js App Router convention.
@@ -9,7 +13,7 @@ import { SEO_CONSTANTS } from "@/lib/jsonld";
  * module pages are auto-derived from `lib/platform-modules.ts` so adding
  * a new backend module instantly registers its SEO landing page.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { BASE_URL } = SEO_CONSTANTS;
   const now = new Date();
 
@@ -51,24 +55,76 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/privacy`,
+      url: `${BASE_URL}/compare`,
       lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.4,
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
-      url: `${BASE_URL}/terms`,
+      url: `${BASE_URL}/connect/whatsapp-api-guide`,
       lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.4,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/laie/audit`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/connect/green-tick`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/connect/whatsapp-broadcast-limits`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/flow/zapier-alternative`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/legal`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
   ];
+
+  // All legal/policy documents (terms, privacy, cookie, AUP, DPA, etc.)
+  const legalRoutes: MetadataRoute.Sitemap = LEGAL_DOCS.map((d) => ({
+    url: `${BASE_URL}/${d.slug}`,
+    lastModified: now,
+    changeFrequency: "yearly",
+    priority: 0.4,
+  }));
 
   const moduleRoutes: MetadataRoute.Sitemap = PLATFORM_MODULES.map((m) => ({
     url: `${BASE_URL}/platform/${m.slug}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.85,
+  }));
+
+  const compareRoutes: MetadataRoute.Sitemap = COMPARISONS.map((c) => ({
+    url: `${BASE_URL}/compare/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  const useCaseRoutes: MetadataRoute.Sitemap = USE_CASES.map((u) => ({
+    url: `${BASE_URL}/erix/${u.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
   }));
 
   const anchorRoutes: MetadataRoute.Sitemap = [
@@ -92,5 +148,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return [...staticRoutes, ...moduleRoutes, ...anchorRoutes];
+  // Blog posts — fetched dynamically from the server's public API.
+  const posts = await getPublishedBlogs();
+  const blogRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    ...posts.map((post) => ({
+      url: `${BASE_URL}/blog/${post.slug}`,
+      lastModified: post.updatedAt ? new Date(post.updatedAt) : now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })),
+  ];
+
+  return [
+    ...staticRoutes,
+    ...moduleRoutes,
+    ...compareRoutes,
+    ...useCaseRoutes,
+    ...blogRoutes,
+    ...legalRoutes,
+    ...anchorRoutes,
+  ];
 }

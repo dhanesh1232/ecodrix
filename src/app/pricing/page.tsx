@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 };
 
 // ISR: regenerate the page every 5 minutes. Matches the server-side cache TTL
-// for `/api/platform/plans/public`, so users always see fresh pricing without
-// hammering the backend.
+// for `/v1/api/platform/billing/plans/public`, so users always see fresh
+// pricing without hammering the backend.
 export const revalidate = 300;
 
 const benefits = [
@@ -128,32 +128,15 @@ export default async function PricingPage() {
       <section className="pt-40 pb-16 px-6 relative overflow-hidden">
         {/* ambient glow */}
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden="true"
-          style={{
-            width: "700px",
-            height: "400px",
-            background:
-              "conic-gradient(from 270deg at 50% 0%, transparent 55deg, rgba(124,110,250,0.18) 85deg, rgba(34,211,238,0.07) 115deg, transparent 155deg)",
-            filter: "blur(14px)",
-          }}
         />
         <div className="wrapper relative z-10 text-center">
           <div className="pill mb-6 mx-auto">Pricing</div>
-          <h1
-            className="font-display font-black text-white mb-6"
-            style={{
-              fontSize: "clamp(2.6rem, 7vw, 4.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-            }}
-          >
+          <h1 className="font-display font-black text-foreground mb-6 text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
             Simple, transparent <span className="grad-text">pricing.</span>
           </h1>
-          <p
-            className="text-text-lo max-w-xl mx-auto leading-relaxed"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
-          >
+          <p className="text-subtle max-w-xl mx-auto leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
             Start free. Upgrade when you outgrow it. Cancel anytime, no
             questions asked.
           </p>
@@ -163,10 +146,9 @@ export default async function PricingPage() {
             {trust.map(({ icon: Icon, label }, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 text-text-lo"
-                style={{ fontSize: "13px" }}
+                className="flex items-center gap-2 text-subtle text-label"
               >
-                <Icon size={14} className="text-primary" />
+                <Icon size={14} className="text-accent" />
                 <span>{label}</span>
               </div>
             ))}
@@ -182,19 +164,19 @@ export default async function PricingPage() {
       />
 
       {/* ── Benefits ── */}
-      <section className="py-24 px-6 border-t border-white/5">
+      <section className="py-24 px-6 border-t border-foreground/5">
         <div className="wrapper">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="pill mb-5 mx-auto bg-primary/5 text-primary border-primary/20">
+            <div className="pill mb-5 mx-auto bg-accent/5 text-accent border-accent/20">
               Why Choose ECODrIx
             </div>
-            <h2 className="text-[clamp(2.2rem,4.5vw,3.8rem)] text-white font-display font-black tracking-tight leading-[1.05] mb-5">
+            <h2 className="text-[clamp(2.2rem,4.5vw,3.8rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
               Built for{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-cyan">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
                 your success.
               </span>
             </h2>
-            <p className="text-[#64647A] text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed">
               Every plan is designed to help you grow, with features that scale
               with your business needs.
             </p>
@@ -204,39 +186,23 @@ export default async function PricingPage() {
             {benefits.map((benefit, i) => (
               <div
                 key={i}
-                className="group relative p-px bg-white/10 hover:bg-white/20 transition-colors duration-500 no-collapse"
-                style={{
-                  clipPath:
-                    "polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)",
-                }}
+                className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-2xl"
               >
-                <div
-                  className="bg-[#0A0A10] h-full p-6 relative overflow-hidden flex flex-col no-collapse"
-                  style={{
-                    clipPath:
-                      "polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px)",
-                  }}
-                >
+                <div className="bg-surface h-full p-6 relative overflow-hidden flex flex-col no-collapse rounded-2xl">
                   <div className="mb-4">
-                    <div
-                      className="w-12 h-12 flex items-center justify-center mb-4 bg-primary/10 polygon-icon"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)",
-                      }}
-                    >
-                      <benefit.icon size={20} className="text-primary" />
+                    <div className="w-12 h-12 flex items-center justify-center mb-4 bg-accent/10 polygon-icon rounded-xl">
+                      <benefit.icon size={20} className="text-accent" />
                     </div>
-                    <h3 className="text-white font-bold text-lg mb-2 leading-tight">
+                    <h3 className="text-foreground font-bold text-lg mb-2 leading-tight">
                       {benefit.title}
                     </h3>
                     {benefit.planName && (
-                      <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary mb-3">
+                      <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent mb-3">
                         {benefit.planName} Plan
                       </div>
                     )}
                   </div>
-                  <p className="text-[#64647A] text-sm leading-relaxed flex-1">
+                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">
                     {benefit.description}
                   </p>
                 </div>
@@ -247,24 +213,20 @@ export default async function PricingPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="sep-top py-24 px-6" style={{ background: "#060608" }}>
+      <section className="sep-top py-24 px-6 bg-background">
         <div className="wrapper">
           <div className="pill mb-6">FAQ</div>
-          <h2
-            className="font-display font-black text-white mb-16"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-16 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             Common questions.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
             {faqs.map(({ q, a }, i) => (
-              <div key={i} className="p-8 bg-[#0A0A10]">
-                <h4 className="text-white font-bold mb-3 text-base">{q}</h4>
-                <p className="text-text-lo text-sm leading-relaxed">{a}</p>
+              <div key={i} className="p-8 bg-surface">
+                <h4 className="text-foreground font-bold mb-3 text-base">
+                  {q}
+                </h4>
+                <p className="text-subtle text-sm leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -274,25 +236,15 @@ export default async function PricingPage() {
       {/* ── Bottom CTA ── */}
       <section className="py-24 px-6 text-center">
         <div className="wrapper max-w-2xl mx-auto">
-          <h2
-            className="font-display font-black text-white mb-5"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-5 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             Ready to get started?
           </h2>
-          <p className="text-text-lo mb-10 leading-relaxed">
+          <p className="text-subtle mb-10 leading-relaxed">
             Free forever plan. No credit card. Setup in under 15 minutes.
           </p>
           <a
             href="https://app.ecodrix.com/auth/signup"
-            className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-[13px] text-black transition-all duration-300 hover:shadow-[0_0_40px_rgba(124,110,250,0.35)] bg-linear-to-r from-primary to-cyan polygon-button"
-            style={{
-              clipPath:
-                "polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)",
-            }}
+            className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-label text-accent-foreground transition-all duration-300 hover:shadow-[0_0_40px_rgba(43,77,203,0.35)] bg-linear-to-r from-accent to-brand-purple polygon-button rounded-2xl"
           >
             Start for Free
             <ArrowRight

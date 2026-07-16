@@ -7,6 +7,7 @@ import Image from "next/image";
 
 const links = [
   { label: "Platform", href: "/platform" },
+  { label: "Compare", href: "/compare" },
   { label: "Brands", href: "/brands" },
   { label: "Founder", href: "/founder" },
   { label: "About", href: "/about" },
@@ -100,10 +101,10 @@ export function Navbar() {
           display: "flex",
           alignItems: "center",
           transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          background: scrolled ? "rgba(6, 6, 9, 0.75)" : "transparent",
+          background: scrolled ? "rgba(255, 255, 255, 0.75)" : "transparent",
           backdropFilter: scrolled ? "blur(16px) saturate(180%)" : "none",
           borderBottom: scrolled
-            ? "1px solid rgba(255, 255, 255, 0.08)"
+            ? "1px solid rgba(15, 23, 42, 0.08)"
             : "1px solid transparent",
         }}
       >
@@ -139,10 +140,10 @@ export function Navbar() {
                   e.preventDefault();
                   nav(l.href);
                 }}
-                className="text-[13px] font-bold tracking-widest uppercase text-[#888899] hover:text-white transition-all duration-300 relative py-2 overflow-hidden group"
+                className="text-[13px] font-semibold tracking-wide text-muted-foreground hover:text-foreground transition-all duration-300 relative py-2 overflow-hidden group"
               >
                 {l.label}
-                <span className="absolute bottom-0 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <span className="absolute bottom-0 left-0 w-full h-px bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </a>
             ))}
           </div>
@@ -158,32 +159,19 @@ export function Navbar() {
                   nav("#contact");
                 }
               }}
-              className="hidden sm:flex items-center gap-2 h-10 px-6 text-black text-[13px] font-bold uppercase tracking-widest transition-all duration-300 polygon-button group/cta relative overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, #ffffff, #f0f0f0)",
-                clipPath:
-                  "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-              }}
+              className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full text-accent-foreground text-sm font-semibold bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))] hover:shadow-[0_0_24px_rgba(43,77,203,0.3)] hover:scale-[1.02] transition-all duration-300 group/cta"
             >
-              <span className="relative z-10 group-hover/cta:text-white transition-colors duration-300">
-                Join Waitlist
-              </span>
+              Join Waitlist
               <ArrowRight
                 size={14}
-                className="relative z-10 group-hover/cta:text-white group-hover/cta:translate-x-1 transition-all duration-300"
-              />
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-[#7C6EFA] to-[#22D3EE] opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
-                style={{
-                  clipPath:
-                    "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-                }}
+                className="group-hover/cta:translate-x-1 transition-transform duration-300"
               />
             </a>
 
             <button
               onClick={() => setOpen(true)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center bg-white/5 border border-white/10 text-white polygon-icon"
+              aria-label="Open menu"
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-surface border border-border text-foreground hover:border-accent transition-colors"
             >
               <Menu size={20} />
             </button>
@@ -201,11 +189,12 @@ export function Navbar() {
       {/* Mobile Menu Content */}
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 bottom-0 w-[300px] z-200 bg-[#0A0A10] border-l border-white/10 p-10 flex flex-col translate-x-full lg:hidden"
+        className="fixed top-0 right-0 bottom-0 w-[300px] z-200 bg-surface border-l border-foreground/10 p-10 flex flex-col translate-x-full lg:hidden"
       >
         <button
           onClick={() => setOpen(false)}
-          className="self-end w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 text-white mb-12 polygon-icon"
+          aria-label="Close menu"
+          className="self-end w-11 h-11 flex items-center justify-center rounded-lg bg-surface border border-border text-foreground mb-12 hover:border-accent transition-colors"
         >
           <X size={24} />
         </button>
@@ -219,7 +208,7 @@ export function Navbar() {
                 e.preventDefault();
                 nav(l.href);
               }}
-              className="mob-link text-3xl font-display font-black text-white hover:text-[#7C6EFA] transition-colors"
+              className="mob-link text-3xl font-display font-black text-foreground hover:text-accent transition-colors"
             >
               {l.label}
             </a>
@@ -235,7 +224,7 @@ export function Navbar() {
                 nav("#contact");
               }
             }}
-            className="flex items-center justify-center h-14 w-full bg-[#7C6EFA] text-white font-bold polygon-button"
+            className="flex items-center justify-center h-14 w-full rounded-full bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))] text-accent-foreground font-semibold"
           >
             Join Waitlist
           </a>

@@ -95,7 +95,10 @@ export default async function PlatformModulePage({
   ];
 
   return (
-    <main className="bg-background text-white min-h-screen overflow-x-hidden">
+    <div
+      className="bg-background text-foreground min-h-screen overflow-x-hidden"
+      style={{ "--m": m.color } as React.CSSProperties}
+    >
       {/* JSON-LD: SoftwareApplication + Breadcrumb + FAQ */}
       <script
         type="application/ld+json"
@@ -136,86 +139,51 @@ export default async function PlatformModulePage({
       {/* ── Hero ── */}
       <section className="pt-40 pb-16 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px]"
           aria-hidden
           style={{
-            width: "700px",
-            height: "400px",
             background: `conic-gradient(from 270deg at 50% 0%, transparent 55deg, ${m.color}33 85deg, ${m.color}11 115deg, transparent 155deg)`,
-            filter: "blur(14px)",
           }}
         />
         <div className="wrapper relative z-10">
           {/* Breadcrumb */}
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-xs text-text-lo mb-6"
+            className="flex items-center gap-2 text-xs text-subtle mb-6"
           >
-            <Link href="/" className="hover:text-white transition-colors">
+            <Link href="/" className="hover:text-foreground transition-colors">
               Home
             </Link>
             <span>/</span>
             <Link
               href="/platform"
-              className="hover:text-white transition-colors"
+              className="hover:text-foreground transition-colors"
             >
               Platform
             </Link>
             <span>/</span>
-            <span className="text-white">{m.name}</span>
+            <span className="text-foreground">{m.name}</span>
           </nav>
 
-          <div
-            className="pill mb-6"
-            style={{
-              color: m.color,
-              borderColor: `${m.color}40`,
-              background: `${m.color}10`,
-            }}
-          >
+          <div className="pill mb-6 text-[var(--m)] border-[var(--m)]/25 bg-[var(--m)]/6">
             {m.brand}
           </div>
-          <h1
-            className="font-display font-black text-white mb-6 max-w-4xl"
-            style={{
-              fontSize: "clamp(2.6rem, 7vw, 4.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-            }}
-          >
+          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
             {m.name}.
           </h1>
-          <p
-            className="max-w-2xl leading-relaxed mb-8"
-            style={{
-              fontSize: "clamp(1.1rem, 2.2vw, 1.4rem)",
-              color: "#A8A8B3",
-            }}
-          >
+          <p className="max-w-2xl leading-relaxed mb-8 text-muted-foreground text-[clamp(1.1rem,2.2vw,1.4rem)]">
             {m.tagline}
           </p>
-          <p
-            className="text-text-lo max-w-3xl leading-relaxed"
-            style={{ fontSize: "clamp(1rem, 1.8vw, 1.05rem)" }}
-          >
+          <p className="text-subtle max-w-3xl leading-relaxed text-[clamp(1rem,1.8vw,1.05rem)]">
             {m.longDescription}
           </p>
 
           {m.apiBase && (
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <span className="text-xs uppercase tracking-widest font-mono text-text-lo">
+              <span className="text-xs uppercase tracking-widest font-mono text-subtle">
                 API base
               </span>
-              <code
-                className="font-mono text-[12px] text-white"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  padding: "6px 12px",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  clipPath:
-                    "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-                }}
-              >
+              <code className="font-mono text-[12px] text-foreground bg-foreground/4 px-3 py-1.5 border border-foreground/8 rounded-lg">
                 {API_URL}
                 {m.apiBase}
               </code>
@@ -225,16 +193,10 @@ export default async function PlatformModulePage({
       </section>
 
       {/* ── Features ── */}
-      <section className="py-20 px-6 sep-top" style={{ background: "#060608" }}>
+      <section className="py-20 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Capabilities</div>
-          <h2
-            className="font-display font-black text-white mb-12"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             What ships in {m.brand}.
           </h2>
 
@@ -242,26 +204,14 @@ export default async function PlatformModulePage({
             {m.features.map((f, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 p-5"
-                style={{
-                  background: "#0D0D14",
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  clipPath:
-                    "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-                }}
+                className="flex items-start gap-3 p-5 bg-surface border border-foreground/5 rounded-xl"
               >
-                <div
-                  className="shrink-0 w-6 h-6 flex items-center justify-center mt-0.5"
-                  style={{
-                    background: `${m.color}15`,
-                    border: `1px solid ${m.color}40`,
-                    clipPath:
-                      "polygon(0 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)",
-                  }}
-                >
-                  <Check size={12} style={{ color: m.color }} />
+                <div className="shrink-0 w-6 h-6 flex items-center justify-center mt-0.5 rounded bg-[var(--m)]/8 border border-[var(--m)]/25">
+                  <Check size={12} className="text-[var(--m)]" />
                 </div>
-                <p className="text-text-mid text-sm leading-relaxed">{f}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {f}
+                </p>
               </div>
             ))}
           </div>
@@ -272,21 +222,17 @@ export default async function PlatformModulePage({
       <section className="py-24 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Common questions</div>
-          <h2
-            className="font-display font-black text-white mb-12"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             About {m.brand}.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
             {moduleFaqs.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-[#0A0A10]">
-                <h3 className="text-white font-bold mb-3 text-base">{q}</h3>
-                <p className="text-text-lo text-sm leading-relaxed">{a}</p>
+              <div key={q} className="p-8 bg-surface">
+                <h3 className="text-foreground font-bold mb-3 text-base">
+                  {q}
+                </h3>
+                <p className="text-subtle text-sm leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -294,16 +240,10 @@ export default async function PlatformModulePage({
       </section>
 
       {/* ── Cross-links to other modules ── */}
-      <section className="py-20 px-6 sep-top" style={{ background: "#060608" }}>
+      <section className="py-20 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Continue exploring</div>
-          <h2
-            className="font-display font-black text-white mb-10"
-            style={{
-              fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-10 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
             More modules in the ECODrIx platform.
           </h2>
 
@@ -312,28 +252,21 @@ export default async function PlatformModulePage({
               <Link
                 key={other.slug}
                 href={`/platform/${other.slug}`}
-                className="group flex items-center justify-between p-6 border border-white/8 hover:border-white/20 transition-colors"
-                style={{
-                  background: "rgba(255,255,255,0.02)",
-                  clipPath:
-                    "polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px)",
-                }}
+                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-2xl bg-foreground/[0.02]"
+                style={{ "--o": other.color } as React.CSSProperties}
               >
                 <div>
-                  <div
-                    className="text-[10px] font-mono uppercase tracking-widest mb-2"
-                    style={{ color: other.color }}
-                  >
+                  <div className="text-[10px] font-mono uppercase tracking-widest mb-2 text-[var(--o)]">
                     {other.brand}
                   </div>
-                  <div className="text-white font-bold text-base mb-1">
+                  <div className="text-foreground font-bold text-base mb-1">
                     {other.name}
                   </div>
-                  <div className="text-text-lo text-xs">{other.tagline}</div>
+                  <div className="text-subtle text-xs">{other.tagline}</div>
                 </div>
                 <ArrowRight
                   size={18}
-                  className="text-text-lo group-hover:text-white group-hover:translate-x-1 transition-all"
+                  className="text-subtle group-hover:text-foreground group-hover:translate-x-1 transition-all"
                 />
               </Link>
             ))}
@@ -342,7 +275,7 @@ export default async function PlatformModulePage({
           <div className="mt-8">
             <Link
               href="/platform"
-              className="inline-flex items-center gap-2 text-text-lo hover:text-white text-sm transition-colors"
+              className="inline-flex items-center gap-2 text-subtle hover:text-foreground text-sm transition-colors"
             >
               <ArrowRight size={14} className="rotate-180" />
               All platform modules
@@ -350,6 +283,6 @@ export default async function PlatformModulePage({
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

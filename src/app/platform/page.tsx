@@ -61,7 +61,7 @@ const PLATFORM_FAQS = [
 
 export default function PlatformIndexPage() {
   return (
-    <main className="bg-background text-white min-h-screen overflow-x-hidden">
+    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
       {/* JSON-LD: ItemList + FAQ + Breadcrumb */}
       <script
         type="application/ld+json"
@@ -101,37 +101,20 @@ export default function PlatformIndexPage() {
       {/* ── Hero ── */}
       <section className="pt-40 pb-16 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden
-          style={{
-            width: "700px",
-            height: "400px",
-            background:
-              "conic-gradient(from 270deg at 50% 0%, transparent 55deg, rgba(124,110,250,0.18) 85deg, rgba(34,211,238,0.07) 115deg, transparent 155deg)",
-            filter: "blur(14px)",
-          }}
         />
         <div className="wrapper relative z-10">
           <div className="pill mb-8">Platform</div>
-          <h1
-            className="font-display font-black text-white mb-8 max-w-4xl"
-            style={{
-              fontSize: "clamp(2.6rem, 7vw, 4.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-            }}
-          >
+          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
             Every module in <span className="grad-text">ECODrIx.</span>
           </h1>
-          <p
-            className="text-text-lo max-w-2xl leading-relaxed mb-6"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
-          >
+          <p className="text-subtle max-w-2xl leading-relaxed mb-6 text-[clamp(1rem,2vw,1.15rem)]">
             ECODrIx is one platform with many surfaces. Each module is a
             self-contained product, exposed through a clean public API at{" "}
             <a
               href={API_URL}
-              className="text-primary underline underline-offset-4"
+              className="text-accent underline underline-offset-4"
             >
               api.ecodrix.com
             </a>
@@ -148,54 +131,24 @@ export default function PlatformIndexPage() {
               <Link
                 key={m.slug}
                 href={`/platform/${m.slug}`}
-                className="group relative p-px transition-colors duration-300"
-                style={{
-                  clipPath:
-                    "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                  background: "rgba(255,255,255,0.06)",
-                }}
+                className="group relative p-px rounded-2xl transition-colors duration-300 bg-foreground/6"
+                style={{ "--tile": m.color } as React.CSSProperties}
               >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{
-                    background: `${m.color}14`,
-                    clipPath:
-                      "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                  }}
-                />
-                <div
-                  className="relative h-full p-7 flex flex-col"
-                  style={{
-                    background: "#0D0D14",
-                    clipPath:
-                      "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                  }}
-                >
-                  <div
-                    className="w-1 h-8 mb-5"
-                    style={{ background: m.color }}
-                  />
-                  <span
-                    className="text-[10px] font-mono uppercase tracking-widest mb-2"
-                    style={{ color: m.color }}
-                  >
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
+                <div className="relative h-full p-7 flex flex-col rounded-2xl bg-surface">
+                  <div className="w-1 h-8 mb-5 bg-[var(--tile)]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest mb-2 text-[var(--tile)]">
                     {m.brand}
                   </span>
-                  <h3 className="text-white font-bold text-lg mb-2">
+                  <h3 className="text-foreground font-bold text-lg mb-2">
                     {m.name}
                   </h3>
-                  <p className="text-text-lo text-sm leading-relaxed mb-5 flex-1">
+                  <p className="text-subtle text-sm leading-relaxed mb-5 flex-1">
                     {m.tagline}
                   </p>
                   <div className="flex items-center justify-between mt-auto">
                     {m.apiBase ? (
-                      <code
-                        className="font-mono text-[10px] text-text-mid"
-                        style={{
-                          background: "rgba(255,255,255,0.04)",
-                          padding: "3px 8px",
-                        }}
-                      >
+                      <code className="font-mono text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
                         {m.apiBase}
                       </code>
                     ) : (
@@ -203,7 +156,7 @@ export default function PlatformIndexPage() {
                     )}
                     <ArrowRight
                       size={16}
-                      className="text-text-lo group-hover:text-white group-hover:translate-x-1 transition-all"
+                      className="text-subtle group-hover:text-foreground group-hover:translate-x-1 transition-all"
                     />
                   </div>
                 </div>
@@ -214,29 +167,25 @@ export default function PlatformIndexPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-6 sep-top" style={{ background: "#060608" }}>
+      <section className="py-24 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Platform questions</div>
-          <h2
-            className="font-display font-black text-white mb-12"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             How the platform works.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
             {PLATFORM_FAQS.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-[#0A0A10]">
-                <h3 className="text-white font-bold mb-3 text-base">{q}</h3>
-                <p className="text-text-lo text-sm leading-relaxed">{a}</p>
+              <div key={q} className="p-8 bg-surface">
+                <h3 className="text-foreground font-bold mb-3 text-base">
+                  {q}
+                </h3>
+                <p className="text-subtle text-sm leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
