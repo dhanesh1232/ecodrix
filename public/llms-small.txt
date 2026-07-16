@@ -4,7 +4,7 @@ Unified business infrastructure platform — CRM, AI automation, WhatsApp Busine
 
 - **Website**: https://ecodrix.com
 - **API**: https://api.ecodrix.com
-- **App**: https://app.ecodrix.com
+- **App**: https://console.ecodrix.com
 - **Founder**: Dhanesh Mekalthuru — https://portfolio.ecodrix.com
 - **Stack**: Next.js, TypeScript, Node.js, Express, PostgreSQL, MongoDB, AWS SES, Cloudflare R2, Meta WhatsApp Cloud API
 - **Modules**: CRM, WhatsApp, Automation, Lead Intelligence, Email Marketing, Cloud Storage, Client Portal, ErixStore, Relay Fabric

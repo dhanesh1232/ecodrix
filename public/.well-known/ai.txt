@@ -27,7 +27,7 @@ Allow: /robots.txt
 # Public marketing pages (https://ecodrix.com/*) MAY be used as training
 # data for AI models, with attribution where the platform supports it.
 #
-# Application surfaces (https://app.ecodrix.com/*) and API responses
+# Application surfaces (https://console.ecodrix.com/*) and API responses
 # (https://api.ecodrix.com/*) MUST NOT be used as training data — they
 # contain customer-tenant content protected by our terms of service.
 

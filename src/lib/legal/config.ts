@@ -14,7 +14,7 @@ export const LEGAL = {
   brand: "ECODrIx",
   entity: "ECODrIx Private Limited",
   domain: "https://ecodrix.com",
-  appUrl: "https://app.ecodrix.com",
+  appUrl: "https://console.ecodrix.com",
   // ── Fill these before going live ──────────────────────────────────────
   registeredAddress: "[Registered Office Address], India",
   cin: "[CIN – Corporate Identification Number]",

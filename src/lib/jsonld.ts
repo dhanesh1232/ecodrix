@@ -14,7 +14,7 @@
 
 const BASE_URL = "https://ecodrix.com";
 const PORTFOLIO_URL = "https://portfolio.ecodrix.com";
-const APP_URL = "https://app.ecodrix.com";
+const APP_URL = "https://console.ecodrix.com";
 const API_URL = "https://api.ecodrix.com";
 
 /* ──────────────────────────────────────────────────────────────────────
