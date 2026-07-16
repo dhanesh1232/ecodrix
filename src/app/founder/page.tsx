@@ -88,25 +88,25 @@ const ROLES = [
     title: "Founder & CEO, ECODrIx",
     period: "March 2024 — Present",
     desc: "Built ECODrIx from spark to platform. Architected the ERIX subsystem suite and shipped the multi-tenant core, automation engine, and AI lead pipeline.",
-    color: "#7C6EFA",
+    color: "var(--color-accent)",
   },
   {
     title: "Architect, ERIX-CRM & ERIX-FLOW",
     period: "September 2024 — Present",
     desc: "Designed the kanban pipeline, conversation inbox, and the visual automation engine with a custom-node marketplace.",
-    color: "#22D3EE",
+    color: "var(--color-brand-purple)",
   },
   {
     title: "Creator, ErixStore & Relay Fabric",
     period: "March 2025 — Present",
     desc: "Wrote the proprietary in-memory database server and the auto-provisioning distributed worker engine that powers LAIE.",
-    color: "#4ADE80",
+    color: "var(--color-success)",
   },
   {
     title: "AI & Automation Engineer",
     period: "September 2025 — Present",
     desc: "Integrated Claude and Gemini for lead research, dossier generation, outreach copy, and image description across the platform.",
-    color: "#F59E0B",
+    color: "var(--color-warning)",
   },
 ];
 
@@ -132,7 +132,7 @@ const ALIASES = ["Dhanesh Mekalthuru", "Dhanesh M.", "Erix", "erix.dhanesh"];
 
 export default function FounderPage() {
   return (
-    <main className="bg-background text-white min-h-screen overflow-x-hidden">
+    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
       {/* JSON-LD payloads — Person + FAQPage + Breadcrumb */}
       <script
         type="application/ld+json"
@@ -164,48 +164,28 @@ export default function FounderPage() {
       {/* ── Hero ── */}
       <section className="pt-40 pb-20 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden
-          style={{
-            width: "700px",
-            height: "400px",
-            background:
-              "conic-gradient(from 270deg at 50% 0%, transparent 55deg, rgba(124,110,250,0.18) 85deg, rgba(34,211,238,0.07) 115deg, transparent 155deg)",
-            filter: "blur(14px)",
-          }}
         />
         <div className="wrapper relative z-10">
           <div className="pill mb-8">
             <Sparkles size={11} />
             Founder profile
           </div>
-          <h1
-            className="font-display font-black text-white mb-8 max-w-4xl"
-            style={{
-              fontSize: "clamp(2.6rem, 7vw, 4.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-            }}
-          >
+          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
             Meet <span className="grad-text">Dhanesh Mekalthuru</span> — founder
             of ECODrIx and the ERIX suite.
           </h1>
 
           <div className="max-w-3xl space-y-5">
-            <p
-              className="text-text-lo leading-relaxed"
-              style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
-            >
+            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
               Dhanesh Mekalthuru — known online as <strong>Erix</strong> — is a
               full-stack engineer and SaaS founder based in Andhra Pradesh,
               India. He started ECODrIx in March 2024 after a year of building
               client systems that all needed the same stitched-together stack:
               CRM, WhatsApp, email marketing, automation, and storage.
             </p>
-            <p
-              className="text-text-lo leading-relaxed"
-              style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
-            >
+            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
               Two years later, that frustration is a platform. ECODrIx now
               serves 50+ businesses with the ERIX suite — ERIX-CRM, ERIX-FLOW
               visual automation, ERIX-LAIE lead intelligence, ErixStore
@@ -217,8 +197,7 @@ export default function FounderPage() {
               {ALIASES.map((alias) => (
                 <span
                   key={alias}
-                  className="polygon-tag text-text-mid"
-                  style={{ background: "rgba(124,110,250,0.08)" }}
+                  className="polygon-tag text-muted-foreground bg-accent/8"
                 >
                   Also known as: {alias}
                 </span>
@@ -227,16 +206,16 @@ export default function FounderPage() {
 
             {/* Quick contact */}
             <div className="flex flex-wrap items-center gap-5 pt-6 text-sm">
-              <span className="flex items-center gap-2 text-text-lo">
-                <MapPin size={14} className="text-primary" />
+              <span className="flex items-center gap-2 text-subtle">
+                <MapPin size={14} className="text-accent" />
                 Andhra Pradesh, India
               </span>
-              <span className="flex items-center gap-2 text-text-lo">
-                <Mail size={14} className="text-primary" />
+              <span className="flex items-center gap-2 text-subtle">
+                <Mail size={14} className="text-accent" />
                 dhanesh@ecodrix.com
               </span>
-              <span className="flex items-center gap-2 text-text-lo">
-                <BsWhatsapp size={14} className="text-[#4ADE80]" />
+              <span className="flex items-center gap-2 text-subtle">
+                <BsWhatsapp size={14} className="text-success" />
                 +91 81439 63821
               </span>
             </div>
@@ -245,9 +224,9 @@ export default function FounderPage() {
       </section>
 
       {/* ── At-a-glance ── */}
-      <section className="border-y border-white/5">
+      <section className="border-y border-foreground/5">
         <div className="wrapper">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-white/5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-foreground/5">
             {[
               { value: "March 2024", label: "ECODrIx founded" },
               { value: "5+", label: "ERIX subsystems shipped" },
@@ -258,16 +237,10 @@ export default function FounderPage() {
                 key={label}
                 className="flex flex-col items-center justify-center py-10 px-4"
               >
-                <span
-                  className="grad-text font-display font-black mb-2 text-center"
-                  style={{
-                    fontSize: "clamp(1.4rem, 3vw, 2.4rem)",
-                    letterSpacing: "-0.04em",
-                  }}
-                >
+                <span className="grad-text font-display font-black mb-2 text-center text-[clamp(1.4rem,3vw,2.4rem)] tracking-[-0.04em]">
                   {value}
                 </span>
-                <span className="text-text-lo text-sm font-medium text-center">
+                <span className="text-subtle text-sm font-medium text-center">
                   {label}
                 </span>
               </div>
@@ -280,13 +253,7 @@ export default function FounderPage() {
       <section className="py-24 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Roles</div>
-          <h2
-            className="font-display font-black text-white mb-12"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             What Dhanesh builds.
           </h2>
 
@@ -294,31 +261,17 @@ export default function FounderPage() {
             {ROLES.map((r) => (
               <div
                 key={r.title}
-                className="relative p-px"
-                style={{
-                  clipPath:
-                    "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                }}
+                className="relative p-px rounded-2xl bg-foreground/6"
+                style={{ "--tile": r.color } as React.CSSProperties}
               >
-                <div
-                  className="relative h-full p-7"
-                  style={{
-                    background: "#0D0D14",
-                    clipPath:
-                      "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)",
-                  }}
-                >
-                  <span
-                    className="font-mono text-[10px] font-bold block mb-3 uppercase tracking-widest"
-                    style={{ color: r.color }}
-                  >
+                <div className="relative h-full p-7 rounded-2xl bg-surface">
+                  <span className="font-mono text-[10px] font-bold block mb-3 uppercase tracking-widest text-[var(--tile)]">
                     {r.period}
                   </span>
-                  <h3 className="text-white font-bold text-lg mb-3">
+                  <h3 className="text-foreground font-bold text-lg mb-3">
                     {r.title}
                   </h3>
-                  <p className="text-text-lo text-sm leading-relaxed">
+                  <p className="text-subtle text-sm leading-relaxed">
                     {r.desc}
                   </p>
                 </div>
@@ -329,24 +282,20 @@ export default function FounderPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-6 sep-top" style={{ background: "#060608" }}>
+      <section className="py-24 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Frequently asked</div>
-          <h2
-            className="font-display font-black text-white mb-12"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              letterSpacing: "-0.04em",
-            }}
-          >
+          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
             Things people ask about Dhanesh.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
             {FOUNDER_FAQS.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-[#0A0A10]">
-                <h3 className="text-white font-bold mb-3 text-base">{q}</h3>
-                <p className="text-text-lo text-sm leading-relaxed">{a}</p>
+              <div key={q} className="p-8 bg-surface">
+                <h3 className="text-foreground font-bold mb-3 text-base">
+                  {q}
+                </h3>
+                <p className="text-subtle text-sm leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -358,13 +307,7 @@ export default function FounderPage() {
         <div className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div>
             <div className="pill mb-6">Elsewhere</div>
-            <h2
-              className="font-display font-black text-white mb-6"
-              style={{
-                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-                letterSpacing: "-0.04em",
-              }}
-            >
+            <h2 className="font-display font-black text-foreground mb-6 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
               Find Dhanesh online.
             </h2>
             <div className="flex flex-wrap gap-3 mb-6">
@@ -374,12 +317,7 @@ export default function FounderPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-text-mid border border-white/8 hover:text-white hover:border-primary/30 transition-colors"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    clipPath:
-                      "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-                  }}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-lg bg-foreground/3"
                 >
                   <Icon size={14} />
                   {label}
@@ -389,23 +327,18 @@ export default function FounderPage() {
                 href={PORTFOLIO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-text-mid border border-white/8 hover:text-white hover:border-primary/30 transition-colors"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  clipPath:
-                    "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-                }}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-lg bg-foreground/3"
               >
                 <ArrowRight size={14} />
                 portfolio.ecodrix.com
               </a>
             </div>
-            <p className="text-text-lo text-sm leading-relaxed">
+            <p className="text-subtle text-sm leading-relaxed">
               The full developer portfolio — projects, services, FAQs, and
               process — lives at{" "}
               <a
                 href={PORTFOLIO_URL}
-                className="text-primary underline underline-offset-4"
+                className="text-accent underline underline-offset-4"
               >
                 portfolio.ecodrix.com
               </a>
@@ -415,13 +348,7 @@ export default function FounderPage() {
 
           <div>
             <div className="pill mb-6">Explore</div>
-            <h2
-              className="font-display font-black text-white mb-6"
-              style={{
-                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-                letterSpacing: "-0.04em",
-              }}
-            >
+            <h2 className="font-display font-black text-foreground mb-6 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
               The ECODrIx ecosystem.
             </h2>
             <div className="flex flex-col gap-3">
@@ -445,22 +372,17 @@ export default function FounderPage() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="group flex items-center justify-between p-5 border border-white/8 hover:border-primary/30 transition-colors"
-                  style={{
-                    background: "rgba(255,255,255,0.02)",
-                    clipPath:
-                      "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-                  }}
+                  className="group flex items-center justify-between p-5 border border-foreground/8 hover:border-accent/30 transition-colors rounded-xl bg-foreground/[0.02]"
                 >
                   <div>
-                    <div className="text-white font-bold text-sm mb-1">
+                    <div className="text-foreground font-bold text-sm mb-1">
                       {l.title}
                     </div>
-                    <div className="text-text-lo text-xs">{l.desc}</div>
+                    <div className="text-subtle text-xs">{l.desc}</div>
                   </div>
                   <ArrowRight
                     size={16}
-                    className="text-text-lo group-hover:text-primary group-hover:translate-x-1 transition-all"
+                    className="text-subtle group-hover:text-accent group-hover:translate-x-1 transition-all"
                   />
                 </Link>
               ))}
@@ -468,6 +390,6 @@ export default function FounderPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

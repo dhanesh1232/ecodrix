@@ -20,7 +20,7 @@ const pillars = [
   {
     id: "growth",
     icon: Globe,
-    color: "#22D3EE",
+    color: "var(--color-brand-purple)",
     title: "Websites, SEO & Campaigns",
     desc: "From custom Next.js applications to targeted Meta + Google Ads. We build high-performance digital assets that rank on search engines and convert cold traffic into booked appointments.",
     tags: ["Next.js", "Technical SEO", "Google/Meta Ads"],
@@ -28,7 +28,7 @@ const pillars = [
   {
     id: "crm",
     icon: Users,
-    color: "#7C6EFA",
+    color: "var(--color-accent)",
     title: "Sales CRM & Lead Pipeline",
     desc: "A full Kanban CRM equipped with algorithmic lead scoring, custom stages, activity logs, and revenue forecasting. Replaces disjointed third-party tools with one integrated, blazing-fast system.",
     tags: ["Kanban Board", "Lead Scoring", "Revenue Forecast"],
@@ -36,7 +36,7 @@ const pillars = [
   {
     id: "automation",
     icon: Zap,
-    color: "#4ADE80",
+    color: "var(--color-success)",
     title: "WhatsApp & Automations",
     desc: "Send WhatsApp templates via Meta Cloud API, auto-schedule Google Meet consultations, and fire intelligent AWS SES email campaigns using our powerful 20+ trigger automation engine.",
     tags: ["WhatsApp Inbox", "Google Meet", "AWS SES Campaigns"],
@@ -83,16 +83,16 @@ export function ProductSpotlight() {
     <section
       ref={containerRef}
       id="product"
-      className="relative bg-background border-t border-[rgba(124,110,250,0.15)] min-h-full"
+      className="relative bg-background border-t border-accent/15 min-h-full"
     >
       <div className="wrapper relative z-10 h-full">
         {/* Mobile Header (Only visible on small screens) */}
         <div className="md:hidden pt-20 pb-10">
           <div className="pill mb-4">Enterprise Engine</div>
-          <h2 className="text-4xl text-white font-display font-black tracking-tight leading-tight mb-4">
+          <h2 className="text-4xl text-foreground font-display font-black tracking-tight leading-tight mb-4">
             Everything your <span className="grad-text">innovation</span> needs.
           </h2>
-          <p className="text-[#64647A] text-lg">
+          <p className="text-muted-foreground text-lg">
             From your first landing page to a fully white-labeled multi-tenant
             SaaS product.
           </p>
@@ -103,26 +103,25 @@ export function ProductSpotlight() {
           <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col pb-[30vh] pt-0 md:pt-[20vh] relative">
             {/* Desktop Header */}
             <div className="hidden md:block mb-32 shrink-0 relative z-10">
-              <div className="pill mb-5 border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)]">
+              <div className="pill mb-5 border-foreground/[0.08] bg-foreground/[0.02]">
                 Enterprise Engine
               </div>
-              <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] text-white font-display font-black tracking-tight leading-[1.05] mb-5">
+              <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
                 Everything your <span className="grad-text">innovation</span>{" "}
                 needs.
               </h2>
-              <p className="text-[#64647A] text-[clamp(1rem,1.5vw,1.1rem)] leading-relax max-w-[400px]">
+              <p className="text-muted-foreground text-[clamp(1rem,1.5vw,1.1rem)] leading-relax max-w-[400px]">
                 Four steps. Zero silos. We combine bespoke web development with
                 a production-grade backend engine.
               </p>
             </div>
 
             {/* The Track Line */}
-            <div className="hidden md:block absolute left-[-20px] top-[20vh] bottom-[30vh] w-[2px] bg-gradient-to-b from-transparent via-[rgba(255,255,255,0.05)] to-transparent" />
+            <div className="hidden md:block absolute left-[-20px] top-[20vh] bottom-[30vh] w-[2px] bg-linear-to-b from-transparent via-foreground/5 to-transparent" />
             <div
-              className="hidden md:block absolute left-[-20px] w-[2px] bg-primary shadow-[0_0_15px_var(--color-primary)] transition-all duration-700 ease-out rounded-full"
+              className="hidden md:block absolute left-[-20px] w-[2px] h-[100px] bg-accent shadow-[0_0_15px_var(--color-accent)] transition-all duration-700 ease-out rounded-full"
               style={{
                 top: `calc(20vh + ${activeStep * 300}px + 100px)`,
-                height: "100px",
               }}
             />
 
@@ -137,64 +136,54 @@ export function ProductSpotlight() {
                     return;
                   }}
                   data-index={i}
-                  className="step-block relative min-h-[50vh] flex flex-col justify-center py-10 px-8 transition-all duration-700 ease-out mb-10"
-                  style={{
-                    opacity: isActive ? 1 : 0.25,
-                    transform: isActive ? "translateX(10px)" : "translateX(0)",
-                  }}
+                  style={{ "--c": pillar.color } as React.CSSProperties}
+                  className={`step-block relative min-h-[50vh] flex flex-col justify-center py-10 px-8 transition-all duration-700 ease-out mb-10 ${
+                    isActive
+                      ? "opacity-100 translate-x-[10px]"
+                      : "opacity-25 translate-x-0"
+                  }`}
                 >
-                  {/* Geometric Background & Border (Polygon Brand Style) */}
+                  {/* Geometric Background & Border */}
                   <div
-                    className="absolute inset-0 bg-background border border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-700 z-[-1]"
-                    style={{
-                      clipPath:
-                        "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)",
-                      background: isActive
-                        ? "linear-gradient(135deg, rgba(124,110,250,0.05) 0%, rgba(34,211,238,0.02) 100%)"
-                        : "transparent",
-                    }}
+                    className={`absolute inset-0 border border-foreground/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-700 z-[-1] rounded-xl ${
+                      isActive
+                        ? "bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_5%,transparent)_0%,color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)_100%)]"
+                        : "bg-transparent"
+                    }`}
                   >
                     {isActive && (
-                      <div
-                        className="absolute inset-[1px] bg-[#0A0A10]"
-                        style={{
-                          clipPath:
-                            "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)",
-                        }}
-                      />
+                      <div className="absolute inset-[1px] bg-surface rounded-xl" />
                     )}
                   </div>
 
                   {isActive && (
-                    <div className="absolute inset-0 bg-primary/20 blur-[60px] opacity-20 z-[-2] pointer-events-none" aria-hidden="true" />
+                    <div
+                      className="absolute inset-0 bg-accent/20 blur-[60px] opacity-20 z-[-2] pointer-events-none"
+                      aria-hidden="true"
+                    />
                   )}
 
                   <div className="w-14 h-14 flex items-center justify-center mb-8 transition-all duration-500 relative">
                     <div
-                      className="absolute inset-0 bg-white/5 border border-white/10"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)",
-                        background: isActive
-                          ? `${pillar.color}15`
-                          : "rgba(255,255,255,0.02)",
-                        borderColor: isActive
-                          ? `${pillar.color}40`
-                          : "rgba(255,255,255,0.05)",
-                      }}
+                      className={`absolute inset-0 rounded-lg ${
+                        isActive
+                          ? "bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)]"
+                          : "bg-foreground/[0.02] border border-foreground/5"
+                      }`}
                     />
                     <Icon
                       size={26}
-                      color={isActive ? pillar.color : "#64647A"}
-                      className="relative z-10"
+                      className={`relative z-10 ${
+                        isActive ? "text-[var(--c)]" : "text-muted-foreground"
+                      }`}
                     />
                   </div>
 
-                  <h3 className="text-3xl text-white font-display font-bold tracking-tight mb-5 relative z-10">
+                  <h3 className="text-3xl text-foreground font-display font-bold tracking-tight mb-5 relative z-10">
                     {pillar.title}
                   </h3>
 
-                  <p className="text-[#A8A8B3] text-[15px] leading-[1.8] mb-8 max-w-[420px] relative z-10">
+                  <p className="text-muted-foreground text-[15px] leading-[1.8] mb-8 max-w-[420px] relative z-10">
                     {pillar.desc}
                   </p>
 
@@ -205,24 +194,13 @@ export function ProductSpotlight() {
                         className="px-3.5 py-1.5 text-[11px] font-mono tracking-wider transition-colors duration-500 relative"
                       >
                         <div
-                          className="absolute inset-0 border border-white/5"
-                          style={{
-                            clipPath:
-                              "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
-                            background: isActive
-                              ? "rgba(255,255,255,0.05)"
-                              : "transparent",
-                            borderColor: isActive
-                              ? "rgba(255,255,255,0.1)"
-                              : "rgba(255,255,255,0.03)",
-                          }}
+                          className={`absolute inset-0 rounded-md ${
+                            isActive
+                              ? "bg-foreground/5 border border-foreground/10"
+                              : "bg-transparent border border-foreground/[0.03]"
+                          }`}
                         />
-                        <span
-                          className="relative z-10"
-                          style={{ color: isActive ? "#E0E0F0" : "#64647A" }}
-                        >
-                          {tag}
-                        </span>
+                        <span className="relative z-10 text-accent">{tag}</span>
                       </span>
                     ))}
                   </div>
@@ -233,48 +211,21 @@ export function ProductSpotlight() {
 
           {/* RIGHT: Sticky Visual Container */}
           <div className="hidden md:flex w-[55%] lg:w-[60%] sticky top-6 h-screen max-h-[900px] items-center justify-end pl-12 lg:pl-20 py-20 pointer-events-none self-start">
-            <div
-              className="relative w-full h-[600px] bg-linear-to-br from-[#1C1A27] to-[#0A0A10] shadow-[0_0_80px_rgba(124,110,250,0.08)] isolate p-px"
-              style={{
-                clipPath:
-                  "polygon(0 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%)",
-              }}
-            >
-              <div
-                className="absolute inset-px bg-[#0A0A10] overflow-hidden"
-                style={{
-                  clipPath:
-                    "polygon(0 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%)",
-                }}
-              >
+            <div className="relative w-full h-[600px] bg-linear-to-br from-elevated to-surface shadow-[0_0_80px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] isolate p-px rounded-2xl">
+              <div className="absolute inset-px bg-surface overflow-hidden rounded-2xl">
                 {/* Premium Glow effect behind the container */}
-                <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent pointer-events-none -z-10" aria-hidden="true" />
+                <div
+                  className="absolute inset-0 bg-linear-to-br from-accent/10 to-transparent pointer-events-none -z-10"
+                  aria-hidden="true"
+                />
 
-                <div className="absolute top-0 left-0 right-0 h-10 border-b border-[rgba(255,255,255,0.05)] bg-white/5 backdrop-blur-md flex items-center justify-between px-5 z-20">
+                <div className="absolute top-0 left-0 right-0 h-10 border-b border-foreground/5 bg-foreground/5 backdrop-blur-md flex items-center justify-between px-5 z-20">
                   <div className="flex gap-2">
-                    <div
-                      className="w-3 h-3 bg-[#EF4444] opacity-80 shadow-[0_0_10px_#EF4444]"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%)",
-                      }}
-                    />
-                    <div
-                      className="w-3 h-3 bg-[#EAB308] opacity-80 shadow-[0_0_10px_#EAB308]"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%)",
-                      }}
-                    />
-                    <div
-                      className="w-3 h-3 bg-primary opacity-80 shadow-[0_0_10px_var(--color-primary)]"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%)",
-                      }}
-                    />
+                    <div className="w-3 h-3 rounded-sm bg-error opacity-80 shadow-[0_0_10px_var(--color-error)]" />
+                    <div className="w-3 h-3 rounded-sm bg-warning opacity-80 shadow-[0_0_10px_var(--color-warning)]" />
+                    <div className="w-3 h-3 rounded-sm bg-accent opacity-80 shadow-[0_0_10px_var(--color-accent)]" />
                   </div>
-                  <div className="font-mono text-[10px] text-[#64647A] tracking-widest uppercase">
+                  <div className="font-mono text-[10px] text-muted-foreground tracking-widest uppercase">
                     ECODrIx Workspace
                   </div>
                 </div>
@@ -282,33 +233,36 @@ export function ProductSpotlight() {
                 {/* View 0: Web & SEO */}
                 <VisualWrapper active={activeStep === 0}>
                   <div className="p-10 h-full flex flex-col pt-16 relative">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)] pointer-events-none" aria-hidden="true" />
+                    <div
+                      className="absolute inset-0 bg-[radial-gradient(circle_at_center,color-mix(in_srgb,var(--color-brand-purple)_5%,transparent)_0%,transparent_70%)] pointer-events-none"
+                      aria-hidden="true"
+                    />
                     <div className="flex justify-between items-end mb-10 relative z-10">
                       <div>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 rounded-full bg-[#22D3EE] animate-pulse shadow-[0_0_10px_#22D3EE]" />
-                          <p className="text-[#22D3EE] font-mono text-xs uppercase tracking-widest">
+                          <div className="w-2 h-2 rounded-full bg-brand-purple animate-pulse shadow-[0_0_10px_var(--color-brand-purple)]" />
+                          <p className="text-brand-purple font-mono text-xs uppercase tracking-widest">
                             Live Metrics
                           </p>
                         </div>
-                        <p className="text-white text-5xl font-display font-bold tabular-nums tracking-tight">
+                        <p className="text-foreground text-5xl font-display font-bold tabular-nums tracking-tight">
                           <MetricCounter
                             value={142590}
                             active={activeStep === 0}
                           />
                         </p>
-                        <p className="text-[#64647A] text-sm mt-1 uppercase tracking-widest">
+                        <p className="text-muted-foreground text-sm mt-1 uppercase tracking-widest">
                           Organic Visitors / mo
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <span className="px-3 py-1.5 rounded-full bg-[#22D3EE]/10 border border-[#22D3EE]/20 text-[#22D3EE] text-xs font-mono flex items-center gap-1 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                        <span className="px-3 py-1.5 rounded-full bg-brand-purple/10 border border-brand-purple/20 text-brand-purple text-xs font-mono flex items-center gap-1 shadow-[0_0_15px_color-mix(in_srgb,var(--color-brand-purple)_20%,transparent)]">
                           <Activity size={12} /> +24.8%
                         </span>
                       </div>
                     </div>
                     {/* Fake Code / Traffic Graph */}
-                    <div className="flex-1 border border-white/5 bg-[#11111A]/50 backdrop-blur-sm rounded-2xl flex items-end p-6 gap-4 relative z-10 shadow-[inner_0_0_40px_rgba(34,211,238,0.02)]">
+                    <div className="flex-1 border border-foreground/5 bg-elevated/50 backdrop-blur-sm rounded-2xl flex items-end p-6 gap-4 relative z-10 shadow-[inset_0_0_40px_color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)]">
                       <AnimatedBars active={activeStep === 0} />
                     </div>
                   </div>
@@ -316,21 +270,15 @@ export function ProductSpotlight() {
 
                 {/* View 1: CRM Kanban */}
                 <VisualWrapper active={activeStep === 1}>
-                  <div className="p-8 h-full pt-20 flex gap-5 overflow-hidden bg-[radial-gradient(ellipse_at_bottom_right,rgba(124,110,250,0.1),transparent_50%)]">
+                  <div className="p-8 h-full pt-20 flex gap-5 overflow-hidden bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_srgb,var(--color-accent)_10%,transparent),transparent_50%)]">
                     {/* Column 1 */}
-                    <div
-                      className="flex-1 bg-white/[0.02] backdrop-blur-md p-5 border border-white/5 flex flex-col gap-4 shadow-[inset_0_0_20px_rgba(255,255,255,0.01)] h-max pb-10 relative z-10"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%)",
-                      }}
-                    >
+                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max pb-10 relative z-10 rounded-xl">
                       <div className="flex items-center justify-between">
-                        <p className="text-[#7C6EFA] font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#7C6EFA] shadow-[0_0_8px_#7C6EFA]" />
+                        <p className="text-accent font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
                           Inbound
                         </p>
-                        <span className="text-[#64647A] text-xs font-mono bg-white/5 px-2 py-0.5 rounded">
+                        <span className="text-muted-foreground text-xs font-mono bg-foreground/5 px-2 py-0.5 rounded">
                           2
                         </span>
                       </div>
@@ -341,7 +289,7 @@ export function ProductSpotlight() {
                         score={85}
                         active={activeStep === 1}
                         delay={0.1}
-                        color="#7C6EFA"
+                        color="#2b4dcb"
                       />
                       <AnimatedKanbanCard
                         title="Apollo Diagnostics"
@@ -354,19 +302,13 @@ export function ProductSpotlight() {
                       />
                     </div>
                     {/* Column 2 */}
-                    <div
-                      className="flex-1 bg-white/[0.02] backdrop-blur-md p-5 border border-white/5 flex flex-col gap-4 shadow-[inset_0_0_20px_rgba(255,255,255,0.01)] h-max mt-6 pb-12 relative z-10"
-                      style={{
-                        clipPath:
-                          "polygon(0 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%)",
-                      }}
-                    >
+                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max mt-6 pb-12 relative z-10 rounded-xl">
                       <div className="flex items-center justify-between">
-                        <p className="text-cyan font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_8px_var(--color-cyan)]" />
+                        <p className="text-brand-purple font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-purple shadow-[0_0_8px_var(--color-brand-purple)]" />
                           Consulted
                         </p>
-                        <span className="text-[#64647A] text-xs font-mono bg-white/5 px-2 py-0.5 rounded">
+                        <span className="text-muted-foreground text-xs font-mono bg-foreground/5 px-2 py-0.5 rounded">
                           1
                         </span>
                       </div>
@@ -377,7 +319,7 @@ export function ProductSpotlight() {
                         score={92}
                         active={activeStep === 1}
                         delay={0.5}
-                        color="#22D3EE"
+                        color="#8d1fae"
                       />
                     </div>
                   </div>
@@ -385,57 +327,69 @@ export function ProductSpotlight() {
 
                 {/* View 2: Automation Trigger Code */}
                 <VisualWrapper active={activeStep === 2}>
-                  <div className="p-0 h-full flex flex-col pt-12 bg-black">
-                    <div className="px-6 py-3 border-b border-white/5 bg-[#0D0D14] flex items-center gap-3">
-                      <div className="px-2 py-1 bg-[#4ADE80]/10 text-[#4ADE80] rounded text-[10px] font-mono font-bold">
+                  <div className="p-0 h-full flex flex-col pt-12 bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_srgb,var(--color-accent)_10%,transparent),transparent_50%)]">
+                    <div className="px-6 py-3 border-b border-foreground/5 bg-surface flex items-center gap-3">
+                      <div className="px-2 py-1 bg-success/10 text-success rounded text-[10px] font-mono font-bold">
                         POST
                       </div>
-                      <p className="text-[#A8A8B3] font-mono text-xs">
+                      <p className="text-muted-foreground font-mono text-xs">
                         api/v1/workflows/trigger
                       </p>
                     </div>
-                    <div className="flex-1 relative p-8 font-mono text-sm leading-[1.8] overflow-hidden bg-[radial-gradient(circle_at_center,rgba(74,222,128,0.03)_0%,transparent_100%)]">
-                      <div className="absolute left-0 top-0 bottom-0 w-8 bg-[#0a0a0f] border-r border-white/5 flex flex-col items-center py-8 text-[11px] text-[#444] gap-2 select-none">
+                    <div className="flex-1 relative p-8 font-mono text-sm leading-[1.8] overflow-hidden bg-[radial-gradient(circle_at_center,color-mix(in_srgb,var(--color-success)_3%,transparent)_0%,transparent_100%)]">
+                      <div className="absolute left-0 top-0 bottom-0 w-8 bg-background border-r border-foreground/5 flex flex-col items-center py-8 text-[11px] text-muted-foreground gap-2 select-none">
                         {Array.from({ length: 12 }).map((_, i) => (
                           <span key={i}>{i + 1}</span>
                         ))}
                       </div>
                       <div className="pl-6">
-                        <span className="text-[#F472B6]">await</span>{" "}
-                        <span className="text-[#22D3EE]">ECOD</span>.
-                        <span className="text-[#EAB308]">trigger</span>({"{"}
+                        <span className="text-brand-purple">await</span>{" "}
+                        <span className="text-brand-purple">ECOD</span>.
+                        <span className="text-warning">trigger</span>({"{"}
                         <br />
                         &nbsp;&nbsp;
-                        <span className="text-[#A8A8B3]">event:</span>{" "}
-                        <span className="text-[#4ADE80]">
+                        <span className="text-muted-foreground">
+                          event:
+                        </span>{" "}
+                        <span className="text-success">
                           &apos;appointment.confirmed&apos;
                         </span>
                         ,<br />
                         &nbsp;&nbsp;
-                        <span className="text-[#A8A8B3]">payload:</span> {"{"}
+                        <span className="text-muted-foreground">
+                          payload:
+                        </span>{" "}
+                        {"{"}
                         <br />
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-[#A8A8B3]">contact:</span>{" "}
-                        <span className="text-[#4ADE80]">
+                        <span className="text-muted-foreground">
+                          contact:
+                        </span>{" "}
+                        <span className="text-success">
                           &apos;+91 98765 43210&apos;
                         </span>
                         ,<br />
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-[#A8A8B3]">name:</span>{" "}
-                        <span className="text-[#4ADE80]">
+                        <span className="text-muted-foreground">
+                          name:
+                        </span>{" "}
+                        <span className="text-success">
                           &apos;Dr. Sharma&apos;
                         </span>
                         <br />
                         &nbsp;&nbsp;{"}"},<br />
                         &nbsp;&nbsp;
-                        <span className="text-[#A8A8B3]">actions:</span> [<br />
+                        <span className="text-muted-foreground">
+                          actions:
+                        </span>{" "}
+                        [<br />
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-[#4ADE80]">
+                        <span className="text-success">
                           &apos;generate_meet_link&apos;
                         </span>
                         ,<br />
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-[#4ADE80]">
+                        <span className="text-success">
                           &apos;send_whatsapp_template&apos;
                         </span>
                         <br />
@@ -443,7 +397,7 @@ export function ProductSpotlight() {
                         <br />
                         {"}"});
                         <br />
-                        <span className="inline-block w-2.5 h-4 bg-[#22D3EE] animate-pulse mt-1 shadow-[0_0_8px_#22D3EE]" />
+                        <span className="inline-block w-2.5 h-4 bg-brand-purple animate-pulse mt-1 shadow-[0_0_8px_var(--color-brand-purple)]" />
                       </div>
 
                       {/* Floating Execution Toast */}
@@ -454,19 +408,25 @@ export function ProductSpotlight() {
 
                 {/* View 3: SaaS Provisioning */}
                 <VisualWrapper active={activeStep === 3}>
-                  <div className="p-8 h-full pt-20 flex flex-col bg-[#0D0D14] relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" aria-hidden="true" />
+                  <div className="p-8 h-full pt-20 flex flex-col bg-surface relative overflow-hidden">
+                    <div
+                      className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"
+                      aria-hidden="true"
+                    />
                     <div className="flex flex-col items-center justify-center mb-10 relative z-10 text-center">
-                      <div className="absolute w-32 h-32 bg-[#F472B6]/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
-                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-[#F472B6] to-[#7C6EFA] p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
-                        <div className="w-full h-full bg-[#111] rounded-2xl flex items-center justify-center">
-                          <GitBranch size={24} color="#F472B6" />
+                      <div
+                        className="absolute w-32 h-32 bg-brand-purple/20 rounded-full blur-2xl pointer-events-none"
+                        aria-hidden="true"
+                      />
+                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-brand-purple to-accent p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
+                        <div className="w-full h-full bg-foreground rounded-2xl flex items-center justify-center">
+                          <GitBranch size={24} className="text-[#F472B6]" />
                         </div>
                       </div>
-                      <p className="text-white font-display text-xl font-bold tracking-tight">
+                      <p className="text-foreground font-display text-xl font-bold tracking-tight">
                         Tenant Architecture
                       </p>
-                      <p className="text-[#64647A] text-sm mt-1">
+                      <p className="text-muted-foreground text-sm mt-1">
                         us-east-1 (N. Virginia)
                       </p>
                     </div>
@@ -476,47 +436,43 @@ export function ProductSpotlight() {
                         {
                           l: "Isolated DB",
                           v: "MongoDB Cluster",
-                          c: "var(--color-cyan)",
+                          c: "var(--color-brand-purple)",
                           icon: <Globe size={14} />,
                         },
                         {
                           l: "API Auth",
                           v: "sk_live_9f8a...",
-                          c: "var(--color-primary)",
+                          c: "var(--color-accent)",
                           icon: <GitBranch size={14} />,
                         },
                         {
                           l: "Custom Domain",
                           v: "app.client.com",
-                          c: "var(--color-cyan)",
+                          c: "var(--color-brand-purple)",
                           icon: <Globe size={14} />,
                         },
                         {
                           l: "Edge Functions",
                           v: "Deployed",
-                          c: "var(--color-primary)",
+                          c: "var(--color-accent)",
                           icon: <Zap size={14} />,
                         },
                       ].map((item, i) => (
                         <div
                           key={i}
-                          className="bg-[#1A1A24]/60 backdrop-blur-md border border-white/5 p-4 flex flex-col justify-center relative overflow-hidden group hover:border-white/10 transition-colors"
-                          style={{
-                            clipPath:
-                              "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
-                          }}
+                          style={{ "--c": item.c } as React.CSSProperties}
+                          className="bg-elevated/60 backdrop-blur-md border border-foreground/5 p-4 flex flex-col justify-center relative overflow-hidden group hover:border-foreground/10 transition-colors rounded-lg"
                         >
-                          <div className="absolute -right-4 -top-4 w-12 h-12 bg-white/5 rounded-full blur-[10px] group-hover:bg-white/10 transition-colors" />
+                          <div className="absolute -right-4 -top-4 w-12 h-12 bg-foreground/5 rounded-full blur-[10px] group-hover:bg-foreground/10 transition-colors" />
                           <div className="flex items-center gap-2 mb-2">
-                            <div className="text-[#A8A8B3]">{item.icon}</div>
-                            <p className="text-[#A8A8B3] text-xs font-mono">
+                            <div className="text-muted-foreground">
+                              {item.icon}
+                            </div>
+                            <p className="text-muted-foreground text-xs font-mono">
                               {item.l}
                             </p>
                           </div>
-                          <p
-                            className="font-mono text-[13px] tracking-wide"
-                            style={{ color: item.c }}
-                          >
+                          <p className="font-mono text-[13px] tracking-wide text-[var(--c)]">
                             {item.v}
                           </p>
                         </div>
@@ -524,13 +480,7 @@ export function ProductSpotlight() {
                     </div>
 
                     <div className="mt-6 relative z-10">
-                      <button
-                        className="w-full relative overflow-hidden bg-gradient-to-br from-primary to-cyan text-white border-none py-4 font-mono text-[13px] hover:shadow-[0_0_30px_rgba(124,110,250,0.5)] transition-all font-bold group cursor-pointer"
-                        style={{
-                          clipPath:
-                            "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
-                        }}
-                      >
+                      <button className="w-full relative overflow-hidden bg-linear-to-br from-accent to-brand-purple text-accent-foreground border-none py-4 font-mono text-[13px] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_50%,transparent)] transition-all font-bold group cursor-pointer rounded-lg">
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           Deploy New Tenant{" "}
                           <ArrowRight
@@ -538,7 +488,7 @@ export function ProductSpotlight() {
                             className="group-hover:translate-x-1 transition-transform"
                           />
                         </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-in-out z-0" />
+                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-in-out z-0" />
                       </button>
                     </div>
                   </div>
@@ -562,8 +512,9 @@ function VisualWrapper({
 }) {
   return (
     <div
-      className="absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none"
-      style={{ opacity: active ? 1 : 0, zIndex: active ? 10 : 0 }}
+      className={`absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none ${
+        active ? "opacity-100 z-10" : "opacity-0 z-0"
+      }`}
     >
       {children}
     </div>
@@ -584,13 +535,10 @@ function AnimatedBars({ active }: { active: boolean }) {
       {heights.map((h, i) => (
         <div key={i} className="flex-1 flex flex-col justify-end group h-full">
           <div
-            className="w-full bg-linear-to-t from-[#22D3EE]/5 to-[#22D3EE]/60 rounded-t-sm transition-all duration-300 group-hover:to-[#22D3EE] relative opacity-80 group-hover:opacity-100"
-            style={{ 
-              height: active ? `${h}%` : "0%",
-              transition: "height 0.5s ease-out"
-            }}
+            className="w-full bg-linear-to-t from-brand-purple/5 to-brand-purple/60 rounded-t-sm transition-[height] duration-500 ease-out group-hover:to-brand-purple relative opacity-80 group-hover:opacity-100"
+            style={{ height: active ? `${h}%` : "0%" }}
           >
-            <div className="w-full h-[2px] bg-[#22D3EE] shadow-[0_0_10px_#22D3EE] absolute top-0" />
+            <div className="w-full h-[2px] bg-brand-purple shadow-[0_0_10px_var(--color-brand-purple)] absolute top-0" />
           </div>
         </div>
       ))}
@@ -604,7 +552,7 @@ function AnimatedKanbanCard({
   score,
   active,
   delay = 0,
-  color = "#7C6EFA",
+  color = "#2b4dcb",
   dim = false,
 }: {
   title: string;
@@ -621,43 +569,22 @@ function AnimatedKanbanCard({
   return (
     <div
       ref={cardRef}
-      className="bg-[#1A1A24] p-5 border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] relative cursor-default hover:-translate-y-1 transition-transform group"
-      style={{
-        clipPath:
-          "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
-        opacity: active ? (dim ? 0.5 : 1) : 0.3,
-        transform: active ? "translateX(0)" : "translateX(-20px)",
-        transition: "all 0.5s ease-out"
-      }}
+      style={{ "--c": color } as React.CSSProperties}
+      className={`bg-elevated p-5 border border-foreground/10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] relative cursor-default hover:-translate-y-1 group rounded-lg transition-all duration-500 ease-out ${
+        active ? (dim ? "opacity-50" : "opacity-100") : "opacity-30"
+      } ${active ? "translate-x-0" : "-translate-x-[20px]"}`}
     >
-      <div
-        className="w-8 h-8 absolute -top-3 -right-3 flex items-center justify-center border-4 border-[#1A1A24] shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-all group-hover:scale-110"
-        style={{
-          clipPath:
-            "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)",
-          background: `linear-gradient(135deg, ${color}, ${color}dd)`,
-          boxShadow: `0 0 20px ${color}40`,
-        }}
-      >
-        <span className="text-white text-[10px] font-bold">{score}</span>
+      <div className="w-8 h-8 absolute -top-3 -right-3 flex items-center justify-center border-4 border-elevated transition-all group-hover:scale-110 rounded-md bg-[linear-gradient(135deg,var(--c),color-mix(in_srgb,var(--c)_85%,transparent))] shadow-[0_0_20px_color-mix(in_srgb,var(--c)_25%,transparent)]">
+        <span className="text-foreground text-[10px] font-bold">{score}</span>
       </div>
-      <p className="text-white text-[13px] font-semibold mb-1">{title}</p>
-      <p className="text-[#64647A] text-[11px] mb-4 flex items-center gap-1.5">
+      <p className="text-foreground text-[13px] font-semibold mb-1">{title}</p>
+      <p className="text-muted-foreground text-[11px] mb-4 flex items-center gap-1.5">
         <Globe size={12} /> {source}
       </p>
-      <div
-        className="w-full bg-[#111] h-1.5 mb-1 overflow-hidden"
-        style={{
-          clipPath:
-            "polygon(0 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%)",
-        }}
-      >
+      <div className="w-full bg-foreground h-1.5 mb-1 overflow-hidden rounded-sm">
         <div
-          className="h-full shadow-[0_0_10px_rgba(255,255,255,0.1)] transition-all duration-1000 ease-out"
-          style={{ 
-            background: color, 
-            width: active ? `${score}%` : "0%"
-          }}
+          className="h-full bg-[var(--c)] shadow-[0_0_10px_color-mix(in_srgb,var(--color-foreground)_10%,transparent)] transition-all duration-1000 ease-out"
+          style={{ width: active ? `${score}%` : "0%" }}
         />
       </div>
     </div>
@@ -681,16 +608,15 @@ function AutomationSequence({ active }: { active: boolean }) {
   }, [active]);
 
   return (
-    <div className="absolute bottom-8 right-8 bg-[#1A1A24]/90 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-4 min-w-[220px]">
+    <div className="absolute bottom-8 right-8 bg-elevated/90 backdrop-blur-md p-5 rounded-xl border border-foreground/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-4 min-w-[220px]">
       <div
         className={`flex items-center gap-3 transition-all duration-500 ${stages[0] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
       >
         <CheckCircle2
           size={16}
-          color="#4ADE80"
-          className="drop-shadow-[0_0_5px_#4ADE80]"
+          className="text-success drop-shadow-[0_0_5px_var(--color-success)]"
         />
-        <span className="text-white text-xs font-sans">
+        <span className="text-foreground text-xs font-sans">
           Meet link generated
         </span>
       </div>
@@ -699,10 +625,9 @@ function AutomationSequence({ active }: { active: boolean }) {
       >
         <CheckCircle2
           size={16}
-          color="#4ADE80"
-          className="drop-shadow-[0_0_5px_#4ADE80]"
+          className="text-success drop-shadow-[0_0_5px_var(--color-success)]"
         />
-        <span className="text-white text-xs font-sans">
+        <span className="text-foreground text-xs font-sans">
           WhatsApp message sent
         </span>
       </div>
@@ -710,15 +635,14 @@ function AutomationSequence({ active }: { active: boolean }) {
         className={`flex items-center gap-3 transition-all duration-500 delay-500 ${stages[2] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
       >
         {!stages[2] ? (
-          <div className="w-4 h-4 rounded-full border-2 border-[#22D3EE] border-t-transparent animate-spin shadow-[0_0_10px_#22D3EE]" />
+          <div className="w-4 h-4 rounded-full border-2 border-brand-purple border-t-transparent animate-spin shadow-[0_0_10px_var(--color-brand-purple)]" />
         ) : (
           <CheckCircle2
             size={16}
-            color="#4ADE80"
-            className="drop-shadow-[0_0_5px_#4ADE80]"
+            className="text-success drop-shadow-[0_0_5px_var(--color-success)]"
           />
         )}
-        <span className="text-white text-xs font-sans">
+        <span className="text-foreground text-xs font-sans">
           {stages[2] ? "CRM Record Updated" : "Updating CRM record..."}
         </span>
       </div>

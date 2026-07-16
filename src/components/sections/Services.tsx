@@ -13,8 +13,8 @@ import {
 import { BsWhatsapp } from "react-icons/bs";
 
 const C = {
-  purple: "#7C6EFA",
-  cyan: "#22D3EE",
+  purple: "#2b4dcb",
+  cyan: "#8d1fae",
   green: "#4ADE80",
   orange: "#FB923C",
   pink: "#F472B6",
@@ -145,16 +145,16 @@ export function Services() {
     >
       <div className="wrapper relative z-10">
         <header className="srv-header mb-20 max-w-3xl">
-          <div className="pill mb-4 text-primary border-primary/20 bg-primary/5">
+          <div className="pill mb-4 text-accent border-accent/20 bg-accent/5">
             What&apos;s Inside
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 tracking-tighter">
+          <h2 className="text-4xl md:text-5xl font-display font-black text-foreground mb-6 tracking-tighter">
             Everything You Need,{" "}
-            <span className="bg-linear-to-r from-primary to-cyan bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-accent to-brand-purple bg-clip-text text-transparent">
               Nothing You Don&apos;t.
             </span>
           </h2>
-          <p className="text-lg text-[#64647A] leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Six fully integrated tools under one roof. No separate logins, no
             duct-tape integrations, no hidden costs.
           </p>
@@ -169,7 +169,7 @@ export function Services() {
 
       {/* Background radial atmosphere */}
       <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
         aria-hidden="true"
       />
     </section>
@@ -202,7 +202,7 @@ function ServiceCard({ service }: { service: Service }) {
 
   return (
     <div
-      className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 ${
+      className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 rounded-2xl ${
         service.span === 7
           ? "lg:col-span-7 md:col-span-6"
           : service.span === 5
@@ -211,23 +211,19 @@ function ServiceCard({ service }: { service: Service }) {
       }`}
       onClick={() => nav(service.link)}
       style={{
-        clipPath:
-          "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
         backgroundColor: isHovered
-          ? `${service.color}40`
-          : "rgba(255,255,255,0.06)",
-        boxShadow: isHovered ? `0 20px 50px -12px ${service.color}20` : "none",
+          ? `color-mix(in srgb, ${service.color} 40%, transparent)`
+          : "var(--color-border)",
+        boxShadow: isHovered
+          ? `0 20px 50px -12px color-mix(in srgb, ${service.color} 25%, transparent)`
+          : "none",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
         ref={ref}
-        className="h-full w-full relative p-8 lg:p-10 bg-[#0D0D14] overflow-hidden transition-colors duration-500"
-        style={{
-          clipPath:
-            "polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)",
-        }}
+        className="h-full w-full relative p-8 lg:p-10 bg-surface overflow-hidden transition-colors duration-500 rounded-[15px]"
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
       >
@@ -242,7 +238,7 @@ function ServiceCard({ service }: { service: Service }) {
 
         {/* Icon */}
         <div
-          className="mb-10 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-500 border border-white/5 relative z-10 group-hover:scale-110 group-hover:rotate-3 shadow-lg"
+          className="mb-10 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-500 border border-foreground/5 relative z-10 group-hover:scale-110 group-hover:rotate-3 shadow-lg"
           style={{
             background: `${service.color}15`,
             color: service.color,
@@ -267,11 +263,11 @@ function ServiceCard({ service }: { service: Service }) {
           </div>
         )}
 
-        <h3 className="text-2xl font-display font-black text-white mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-300 relative z-10">
+        <h3 className="text-2xl font-display font-black text-foreground mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-accent group-hover:to-brand-purple transition-all duration-300 relative z-10">
           {service.title}
         </h3>
 
-        <p className="text-[#64647A] text-base leading-relaxed mb-10 group-hover:text-[#888899] transition-colors relative z-10">
+        <p className="text-muted-foreground text-base leading-relaxed mb-10 group-hover:text-muted-foreground transition-colors relative z-10">
           {service.description}
         </p>
 
@@ -279,7 +275,7 @@ function ServiceCard({ service }: { service: Service }) {
           {service.features.map((feat) => (
             <li
               key={feat}
-              className="flex items-center gap-3 text-sm text-[#64647A] group-hover:text-[#A8A8B3] transition-colors"
+              className="flex items-center gap-3 text-sm text-muted-foreground group-hover:text-muted-foreground transition-colors"
             >
               <div
                 className="w-1.5 h-1.5 rounded-full"

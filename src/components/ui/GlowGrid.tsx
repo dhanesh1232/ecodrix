@@ -60,7 +60,7 @@ export function GlowGrid() {
             <path
               d={`M ${cellSize} 0 L 0 0 0 ${cellSize}`}
               fill="none"
-              stroke="rgba(108,99,255,0.07)"
+              stroke="rgba(43, 77, 203,0.07)"
               strokeWidth="1"
             />
           </pattern>
@@ -72,28 +72,14 @@ export function GlowGrid() {
       {dots.map((dot, i) => (
         <div
           key={i}
-          className="grid-dot absolute opacity-40"
-          style={{
-            left: `${dot.x}px`,
-            top: `${dot.y}px`,
-            width: "3px",
-            height: "3px",
-            borderRadius: "50%",
-            background: "#6C63FF",
-            boxShadow: "0 0 6px 2px rgba(108,99,255,0.6)",
-            transform: "translate(-50%, -50%)",
-          }}
+          className="grid-dot absolute opacity-40 w-[3px] h-[3px] rounded-full bg-accent -translate-x-1/2 -translate-y-1/2 shadow-[0_0_6px_2px_color-mix(in_srgb,var(--color-accent)_60%,transparent)]"
+          // JS-computed grid coordinates — must stay inline
+          style={{ left: `${dot.x}px`, top: `${dot.y}px` }}
         />
       ))}
 
       {/* Radial gradient overlay - fades grid at edges */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 30%, #0A0A0F 80%)",
-        }}
-      />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--color-background)_80%)]" />
     </div>
   );
 }

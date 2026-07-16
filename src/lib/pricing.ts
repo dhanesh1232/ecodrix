@@ -2,7 +2,7 @@
  * Pricing helpers for the public landing page.
  *
  * Fetches live plans + add-ons from the platform backend
- * (`GET /api/platform/plans/public`), with a static fallback for when the
+ * (`GET /v1/api/platform/billing/plans/public`), with a static fallback for when the
  * API is unreachable. Includes a feature humaniser that turns the unified
  * `plan.features` jsonb into a curated bullet list for marketing display.
  *
@@ -23,6 +23,12 @@ export interface PlanFeatures {
     pipelines?: Quota;
     broadcasts?: boolean;
     customFields?: boolean;
+    aiAgent?: boolean;
+    esignsPerMonth?: Quota;
+    /** Invoice PDF exports per month (rehomed from the retired editor). */
+    pdfExport?: Quota;
+    /** In-product AI assists per month (rehomed from the retired editor). */
+    aiAssists?: Quota;
   };
   laie?: {
     auditsPerMonth?: Quota;
@@ -30,18 +36,12 @@ export interface PlanFeatures {
     seoChecks?: boolean;
     customReports?: boolean;
   };
-  editor?: {
-    comments?: boolean;
-    versions?: Quota;
-    mentions?: boolean;
-    pdfExport?: Quota;
-    templates?: Quota;
-    aiCalls?: Quota;
-    collaboration?: Quota;
-    customBranding?: boolean;
-    whiteLabel?: boolean;
-    webhooks?: boolean;
-    embedsPerDoc?: Quota;
+  connect?: {
+    channels?: Quota;
+    whatsapp?: boolean;
+    email?: boolean;
+    instagram?: boolean;
+    telegram?: boolean;
   };
   cloud_storage?: {
     storageGB?: Quota;
@@ -80,8 +80,10 @@ export interface PublicPlan {
   slug: PlanSlug | string;
   name: string;
   tier: number;
-  priceMonthlyUsd: number;
-  priceYearlyUsd: number;
+  /** `null` = custom / contact-sales pricing (Enterprise). */
+  priceMonthlyUsd: number | null;
+  /** `null` = custom / contact-sales pricing (Enterprise). */
+  priceYearlyUsd: number | null;
   currency: string;
   features: PlanFeatures;
   isDefault: boolean;
@@ -94,7 +96,7 @@ export interface PublicAddon {
   service:
     | "erix"
     | "laie"
-    | "editor"
+    | "connect"
     | "cloud_storage"
     | "ai"
     | "platform"
@@ -129,7 +131,7 @@ function getApiUrl(): string {
  */
 export async function fetchPublicPlans(): Promise<PublicPlansResponse | null> {
   try {
-    const url = `${getApiUrl().replace(/\/$/, "")}/api/platform/plans/public`;
+    const url = `${getApiUrl().replace(/\/$/, "")}/v1/api/platform/billing/plans/public`;
     // The `next.revalidate` field is a Next.js extension to RequestInit; cast
     // through `unknown` so this file type-checks even without next-env.d.ts
     // being in scope of this module's diagnostic context.
@@ -147,10 +149,16 @@ export async function fetchPublicPlans(): Promise<PublicPlansResponse | null> {
 
 // ─── Display helpers ───────────────────────────────────────────────────────
 
-/** Format a USD integer as `$X` or `$X,XXX`. */
-export function formatUsd(usd: number): string {
-  if (usd === 0) return "$0";
-  return `$${usd.toLocaleString("en-US")}`;
+/**
+ * Format an integer amount in the plan's currency (₹ for INR, $ for USD, …).
+ * Whole numbers only — plans are billed in whole major units.
+ */
+export function formatMoney(amount: number, currency = "USD"): string {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: currency || "USD",
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
 /** Format a quota value: number, "unlimited", or "0" → "—". */
@@ -179,8 +187,11 @@ function fmtStorage(gb: Quota | undefined): string {
  * Yearly discount % vs paying monthly for 12 months.
  * Returns 0 for free plans or when there's no discount.
  */
-export function yearlyDiscountPct(monthly: number, yearly: number): number {
-  if (monthly <= 0 || yearly <= 0) return 0;
+export function yearlyDiscountPct(
+  monthly: number | null,
+  yearly: number | null,
+): number {
+  if (!monthly || !yearly || monthly <= 0 || yearly <= 0) return 0;
   return Math.round(((monthly * 12 - yearly) / (monthly * 12)) * 100);
 }
 
@@ -192,7 +203,6 @@ export function humaniseFeatures(plan: PublicPlan): string[] {
   const f = plan.features ?? {};
   const erix = f.erix ?? {};
   const laie = f.laie ?? {};
-  const editor = f.editor ?? {};
   const storage = f.cloud_storage ?? {};
   const workflows = f.workflows ?? {};
   const ai = f.ai ?? {};
@@ -204,7 +214,7 @@ export function humaniseFeatures(plan: PublicPlan): string[] {
         `${fmtQuota(erix.agents)} agent`,
         `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
         fmtStorage(storage.storageGB),
-        `${fmtQuota(editor.pdfExport)} PDF exports/month`,
+        `${fmtQuota(erix.pdfExport)} invoice PDF exports/month`,
         `${fmtQuota(workflows.activeWorkflows)} active workflow`,
         `${fmtQuota(erix.whatsappMessages)} WhatsApp messages/month`,
         "Accessibility & SEO checks",
@@ -217,9 +227,9 @@ export function humaniseFeatures(plan: PublicPlan): string[] {
         `${fmtQuota(erix.agents)} agents`,
         `${fmtQuota(erix.whatsappMessages)} WhatsApp messages/month`,
         `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
+        `${fmtQuota(erix.aiAssists)} AI assists/month`,
         fmtStorage(storage.storageGB),
         `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
-        "Comments, mentions & versions",
         `${fmtQuota(workflows.activeWorkflows)} active workflows`,
         "Webhooks & broadcasts",
         "Email support",
@@ -230,12 +240,12 @@ export function humaniseFeatures(plan: PublicPlan): string[] {
         `Up to ${fmtQuota(erix.contacts)} contacts`,
         `${fmtQuota(erix.agents)} agents`,
         `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        `${fmtQuota(editor.collaboration)} collaborators per doc`,
+        `${fmtQuota(erix.aiAssists)} AI assists/month`,
         fmtStorage(storage.storageGB),
+        "AI agent auto-reply across channels",
         "Custom branding & domain",
         `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
         `${fmtQuota(workflows.activeWorkflows)} active workflows`,
-        "AI embeddings & semantic search",
         "99% uptime SLA",
       ];
 
@@ -244,9 +254,9 @@ export function humaniseFeatures(plan: PublicPlan): string[] {
         `Up to ${fmtQuota(erix.contacts)} contacts`,
         `${fmtQuota(erix.agents)} agents`,
         `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        `${fmtQuota(editor.collaboration)} collaborators per doc`,
+        `${fmtQuota(erix.aiAssists)} AI assists/month`,
         fmtStorage(storage.storageGB),
-        "Priority support",
+        "Priority support & white-label",
         `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
         `${fmtQuota(workflows.activeWorkflows)} active workflows`,
         "Custom branding & domain",
@@ -296,21 +306,21 @@ export function planVisualStyle(slug: string): PlanVisualStyle {
   switch (slug) {
     case "free":
       return {
-        color: "#64647A",
-        colorClass: "text-[#B0B0CC]",
-        bgClass: "bg-white/5",
+        color: "#64748B",
+        colorClass: "text-[#334155]",
+        bgClass: "bg-[#0F172A]/5",
       };
     case "starter":
       return {
-        color: "#7C6EFA",
-        colorClass: "text-[#7C6EFA]",
-        bgClass: "bg-[#7C6EFA]/10",
+        color: "#2b4dcb",
+        colorClass: "text-[#2b4dcb]",
+        bgClass: "bg-[#2b4dcb]/10",
       };
     case "growth":
       return {
-        color: "#22D3EE",
-        colorClass: "text-[#22D3EE]",
-        bgClass: "bg-[#22D3EE]/10",
+        color: "#8d1fae",
+        colorClass: "text-[#8d1fae]",
+        bgClass: "bg-[#8d1fae]/10",
       };
     case "scale":
       return {
@@ -320,15 +330,15 @@ export function planVisualStyle(slug: string): PlanVisualStyle {
       };
     case "enterprise":
       return {
-        color: "#A89EFD",
-        colorClass: "text-[#A89EFD]",
-        bgClass: "bg-[#A89EFD]/10",
+        color: "#b34fcf",
+        colorClass: "text-[#b34fcf]",
+        bgClass: "bg-[#b34fcf]/10",
       };
     default:
       return {
-        color: "#7C6EFA",
-        colorClass: "text-[#7C6EFA]",
-        bgClass: "bg-[#7C6EFA]/10",
+        color: "#2b4dcb",
+        colorClass: "text-[#2b4dcb]",
+        bgClass: "bg-[#2b4dcb]/10",
       };
   }
 }
@@ -372,11 +382,11 @@ export function planCtaHref(slug: string): string {
 
 export const ADDON_SERVICE_LABEL: Record<string, string> = {
   cloud_storage: "Cloud Storage",
-  editor: "Editor",
   ai: "AI",
   platform: "Platform",
   erix: "ERIX",
   laie: "LAIE",
+  connect: "Connect",
 };
 
 export function formatAddonPrice(addon: PublicAddon): string {
@@ -387,11 +397,11 @@ export function formatAddonPrice(addon: PublicAddon): string {
         ? "per GB"
         : (addon.priceUnit ?? "month");
 
-  // Pay-as-you-go entries store $0/month — display the unit price only.
+  // Pay-as-you-go entries store 0/month — display the unit price only.
   if (addon.priceMonthlyUsd === 0 && addon.priceUnit !== "month") {
     return `Pay-as-you-go · $0.05 / ${unit}`;
   }
-  return `${formatUsd(addon.priceMonthlyUsd)} / ${unit}`;
+  return `${formatMoney(addon.priceMonthlyUsd, "USD")} / ${unit}`;
 }
 
 export function groupAddonsByService(
@@ -403,8 +413,8 @@ export function groupAddonsByService(
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key)!.push(a);
   }
-  // Stable order: cloud_storage, editor, ai, platform, then anything else.
-  const order = ["cloud_storage", "editor", "ai", "platform"];
+  // Stable order: cloud_storage, ai, platform, then anything else.
+  const order = ["cloud_storage", "ai", "platform"];
   const sortedKeys = [
     ...order.filter((k) => groups.has(k)),
     ...[...groups.keys()].filter((k) => !order.includes(k)),
@@ -429,15 +439,20 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     tier: 0,
     priceMonthlyUsd: 0,
     priceYearlyUsd: 0,
-    currency: "USD",
+    currency: "INR",
     isDefault: true,
     features: {
-      erix: { contacts: 100, agents: 1, whatsappMessages: 1000 },
+      erix: {
+        contacts: 100,
+        agents: 1,
+        whatsappMessages: 200,
+        pdfExport: 5,
+        aiAssists: 0,
+      },
       laie: { auditsPerMonth: 5 },
-      editor: { pdfExport: 5 },
       cloud_storage: { storageGB: 1, bandwidthGB: 5 },
       workflows: { activeWorkflows: 1 },
-      ai: { callsPerMonth: 0 },
+      ai: { callsPerMonth: 50 },
       sla: "none",
     },
   },
@@ -445,17 +460,23 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "starter",
     name: "Starter",
     tier: 10,
-    priceMonthlyUsd: 29,
-    priceYearlyUsd: 290,
-    currency: "USD",
+    priceMonthlyUsd: 2999,
+    priceYearlyUsd: 29990,
+    currency: "INR",
     isDefault: false,
     features: {
-      erix: { contacts: 2000, agents: 3, whatsappMessages: 10000 },
+      erix: {
+        contacts: 1000,
+        agents: 3,
+        whatsappMessages: 2000,
+        pdfExport: 50,
+        aiAssists: 50,
+        broadcasts: true,
+      },
       laie: { auditsPerMonth: 50 },
-      editor: { pdfExport: 100, comments: true, mentions: true },
-      cloud_storage: { storageGB: 25, bandwidthGB: 100 },
-      workflows: { activeWorkflows: 10 },
-      ai: { callsPerMonth: 100 },
+      cloud_storage: { storageGB: 10, bandwidthGB: 50 },
+      workflows: { activeWorkflows: 5 },
+      ai: { callsPerMonth: 500 },
       sla: "none",
     },
   },
@@ -463,20 +484,86 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "growth",
     name: "Growth",
     tier: 20,
-    priceMonthlyUsd: 79,
-    priceYearlyUsd: 790,
-    currency: "USD",
+    priceMonthlyUsd: 8999,
+    priceYearlyUsd: 89990,
+    currency: "INR",
     isDefault: false,
     features: {
-      erix: { contacts: 25000, agents: 10, whatsappMessages: 100000 },
-      laie: { auditsPerMonth: 500 },
-      editor: { pdfExport: 1000, comments: true, collaboration: 5 },
-      cloud_storage: { storageGB: 250, bandwidthGB: 1000, customDomain: true },
-      workflows: { activeWorkflows: 100 },
-      ai: { callsPerMonth: 1000 },
+      erix: {
+        contacts: 5000,
+        agents: 10,
+        whatsappMessages: 10000,
+        pdfExport: 200,
+        aiAssists: 300,
+        aiAgent: true,
+      },
+      laie: { auditsPerMonth: 200 },
+      cloud_storage: { storageGB: 50, bandwidthGB: 200, customDomain: true },
+      workflows: { activeWorkflows: 20 },
+      ai: { callsPerMonth: 2500 },
       customBranding: true,
       customDomain: true,
       sla: "99",
+    },
+  },
+  {
+    slug: "scale",
+    name: "Scale",
+    tier: 30,
+    priceMonthlyUsd: 19999,
+    priceYearlyUsd: 199990,
+    currency: "INR",
+    isDefault: false,
+    features: {
+      erix: {
+        contacts: 25000,
+        agents: 25,
+        whatsappMessages: 50000,
+        pdfExport: 1000,
+        aiAssists: 1500,
+        aiAgent: true,
+      },
+      laie: { auditsPerMonth: 1000 },
+      cloud_storage: { storageGB: 200, bandwidthGB: 1000, customDomain: true },
+      workflows: { activeWorkflows: 100 },
+      ai: { callsPerMonth: 10000 },
+      customBranding: true,
+      customDomain: true,
+      whiteLabel: true,
+      prioritySupport: true,
+      sla: "99.9",
+    },
+  },
+  {
+    slug: "enterprise",
+    name: "Enterprise",
+    tier: 40,
+    priceMonthlyUsd: null,
+    priceYearlyUsd: null,
+    currency: "INR",
+    isDefault: false,
+    features: {
+      erix: {
+        contacts: "unlimited",
+        agents: "unlimited",
+        whatsappMessages: "unlimited",
+        pdfExport: "unlimited",
+        aiAssists: "unlimited",
+        aiAgent: true,
+      },
+      laie: { auditsPerMonth: "unlimited" },
+      cloud_storage: {
+        storageGB: "unlimited",
+        bandwidthGB: "unlimited",
+        customDomain: true,
+      },
+      workflows: { activeWorkflows: "unlimited" },
+      ai: { callsPerMonth: "unlimited" },
+      customBranding: true,
+      customDomain: true,
+      whiteLabel: true,
+      prioritySupport: true,
+      sla: "99.99",
     },
   },
 ];

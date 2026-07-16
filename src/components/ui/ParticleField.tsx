@@ -32,7 +32,7 @@ export function ParticleField() {
     const PARTICLE_COUNT = 80;
     const REPEL_RADIUS = 120;
     const CONNECT_RADIUS = 140;
-    const colors = ["#6C63FF", "#6C63FF", "#00D4FF", "#9B8FFF"];
+    const colors = ["#2b4dcb", "#2b4dcb", "#8d1fae", "#9B8FFF"];
 
     const particles: Particle[] = [];
 
@@ -147,7 +147,7 @@ export function ParticleField() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(108,99,255,${alpha})`;
+            ctx.strokeStyle = `rgba(43, 77, 203,${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

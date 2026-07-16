@@ -15,7 +15,7 @@ export default async function Image() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#060608",
+        background: "var(--color-background)",
         position: "relative",
       }}
     >
@@ -29,7 +29,7 @@ export default async function Image() {
           height: "500px",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(124,110,250,0.3) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(43, 77, 203,0.3) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -64,7 +64,7 @@ export default async function Image() {
           style={{
             fontSize: "28px",
             fontWeight: 800,
-            color: "#7C6EFA",
+            color: "var(--color-accent)",
             letterSpacing: "-0.02em",
             marginBottom: "24px",
             fontFamily: "sans-serif",
@@ -78,7 +78,7 @@ export default async function Image() {
           style={{
             fontSize: "56px",
             fontWeight: 900,
-            color: "#ffffff",
+            color: "var(--color-accent-foreground)",
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
             marginBottom: "8px",
@@ -94,7 +94,7 @@ export default async function Image() {
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
             marginBottom: "24px",
-            background: "linear-gradient(135deg, #A89EFD, #7C6EFA, #22D3EE)",
+            background: "linear-gradient(135deg, #b34fcf, #2b4dcb, #8d1fae)",
             backgroundClip: "text",
             color: "transparent",
             fontFamily: "sans-serif",
@@ -107,7 +107,7 @@ export default async function Image() {
         <div
           style={{
             fontSize: "20px",
-            color: "#8888A0",
+            color: "var(--color-muted-foreground)",
             maxWidth: "600px",
             lineHeight: 1.5,
             fontFamily: "sans-serif",
@@ -134,9 +134,9 @@ export default async function Image() {
                 style={{
                   padding: "6px 14px",
                   fontSize: "13px",
-                  color: "#A89EFD",
-                  background: "rgba(124,110,250,0.1)",
-                  border: "1px solid rgba(124,110,250,0.25)",
+                  color: "var(--color-brand-purple)",
+                  background: "rgba(43, 77, 203,0.1)",
+                  border: "1px solid rgba(43, 77, 203,0.25)",
                   fontFamily: "monospace",
                 }}
               >
@@ -155,7 +155,7 @@ export default async function Image() {
           display: "flex",
           alignItems: "center",
           gap: "8px",
-          color: "#64647A",
+          color: "var(--color-muted-foreground)",
           fontSize: "14px",
           fontFamily: "sans-serif",
         }}

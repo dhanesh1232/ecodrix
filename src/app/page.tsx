@@ -82,13 +82,24 @@ const ENTITY_FAQS = [
 
 export default function Home() {
   return (
-    <main className="w-full">
+    <div className="w-full">
       {/* Entity FAQ JSON-LD — drives "who is …" answer-engine results. */}
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getFAQSchema(ENTITY_FAQS)),
+        }}
+      />
+      {/* Scroll reveal — vanilla IntersectionObserver, no React hydration needed */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            if(typeof IntersectionObserver!=='undefined'){
+              var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+              document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.reveal-up,.stagger-children').forEach(function(el){o.observe(el)})});
+            }
+          `,
         }}
       />
       <div className="bg-background flex flex-col">
@@ -107,6 +118,6 @@ export default function Home() {
       {/* Pricing hidden pre-launch — waitlist replaces it */}
       {/* <Pricing /> */}
       <Contact />
-    </main>
+    </div>
   );
 }
