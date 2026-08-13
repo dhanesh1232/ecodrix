@@ -243,7 +243,7 @@ export default async function PricingPage() {
             Free forever plan. No credit card. Setup in under 15 minutes.
           </p>
           <a
-            href="https://app.ecodrix.com/auth/signup"
+            href="https://console.ecodrix.com/auth/signup"
             className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-label text-accent-foreground transition-all duration-300 hover:shadow-[0_0_40px_rgba(43,77,203,0.35)] bg-linear-to-r from-accent to-brand-purple polygon-button rounded-2xl"
           >
             Start for Free

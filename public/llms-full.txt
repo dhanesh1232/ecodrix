@@ -122,7 +122,7 @@ Base URL: `https://api.ecodrix.com`
 | Storage | `/api/saas/storage` | tenant API key | https://ecodrix.com/platform/cloud-storage |
 | Client portal | `/api/portal/v1` | portal JWT | https://ecodrix.com/platform/client-portal |
 | Channel connections | `/api/connect/v1/connections` | tenant resolver | https://ecodrix.com/platform |
-| Auth | `/api/auth/login`, `/api/auth/refresh` | public + cookie | https://app.ecodrix.com |
+| Auth | `/api/auth/login`, `/api/auth/refresh` | public + cookie | https://console.ecodrix.com |
 | Billing | `/api/platform/subscriptions` | session | https://ecodrix.com/pricing |
 | Relay admin | `/api/laie/v1/relays` | x-core-api-key | https://ecodrix.com/platform/relay-fabric |
 

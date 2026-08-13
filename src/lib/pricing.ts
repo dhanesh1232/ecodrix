@@ -363,7 +363,7 @@ export function planDescription(slug: string): string {
 
 // ─── CTA helpers ───────────────────────────────────────────────────────────
 
-const APP_URL = "https://app.ecodrix.com";
+const APP_URL = "https://console.ecodrix.com";
 
 export function planCtaLabel(slug: string): string {
   if (slug === "free") return "Start Free";

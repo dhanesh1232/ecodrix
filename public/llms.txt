@@ -2,7 +2,7 @@
 
 > ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp Business API, email marketing, B2B lead intelligence, and cloud storage. It powers the ERIX product suite (ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, Relay Fabric). Founded March 2024 by Dhanesh Mekalthuru.
 
-ECODrIx replaces 5–10 separate SaaS subscriptions with one platform. The marketing site is at https://ecodrix.com, the application at https://app.ecodrix.com, the public REST + Socket.IO API at https://api.ecodrix.com, and the founder's portfolio at https://portfolio.ecodrix.com.
+ECODrIx replaces 5–10 separate SaaS subscriptions with one platform. The marketing site is at https://ecodrix.com, the application at https://console.ecodrix.com, the public REST + Socket.IO API at https://api.ecodrix.com, and the founder's portfolio at https://portfolio.ecodrix.com.
 
 ## Platform modules
 
