@@ -1,6 +1,118 @@
 // Server Component — SEO-first, all content in DOM, animations are CSS-only
 import { ArrowRight, Zap } from "lucide-react";
 
+/**
+ * Inline SVG grid with glowing animated lines that travel along paths.
+ * - Pure CSS animation (no JS, no hydration cost)
+ * - Renders server-side in the HTML for instant paint
+ * - Uses stroke-dasharray + stroke-dashoffset animation for the "traveling light" effect
+ * - Masked at edges so it fades naturally into the background
+ */
+function GlowGrid() {
+  // Grid config
+  const cols = 18;
+  const rows = 12;
+  const cellSize = 64;
+  const w = cols * cellSize;
+  const h = rows * cellSize;
+
+  // Generate vertical and horizontal line paths
+  const verticals = Array.from({ length: cols + 1 }, (_, i) => i * cellSize);
+  const horizontals = Array.from({ length: rows + 1 }, (_, i) => i * cellSize);
+
+  return (
+    <div
+      className="absolute inset-0 pointer-events-none overflow-hidden"
+      aria-hidden="true"
+      style={{
+        maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 72%)",
+        WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 72%)",
+      }}
+    >
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] min-w-[1100px]"
+        fill="none"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {/* Static grid lines — very faint */}
+        {verticals.map((x) => (
+          <line
+            key={`v-${x}`}
+            x1={x} y1={0} x2={x} y2={h}
+            stroke="var(--color-border)"
+            strokeWidth="0.5"
+            opacity="0.4"
+          />
+        ))}
+        {horizontals.map((y) => (
+          <line
+            key={`h-${y}`}
+            x1={0} y1={y} x2={w} y2={y}
+            stroke="var(--color-border)"
+            strokeWidth="0.5"
+            opacity="0.4"
+          />
+        ))}
+
+        {/* Glowing animated lines traveling along grid paths */}
+        {/* Vertical glowing lines — travel top to bottom */}
+        <line
+          x1={cellSize * 4} y1={0} x2={cellSize * 4} y2={h}
+          className="glow-line glow-line-v1"
+          stroke="url(#glow-blue)" strokeWidth="1.5"
+        />
+        <line
+          x1={cellSize * 9} y1={0} x2={cellSize * 9} y2={h}
+          className="glow-line glow-line-v2"
+          stroke="url(#glow-purple)" strokeWidth="1.5"
+        />
+        <line
+          x1={cellSize * 14} y1={0} x2={cellSize * 14} y2={h}
+          className="glow-line glow-line-v3"
+          stroke="url(#glow-blue)" strokeWidth="1.5"
+        />
+
+        {/* Horizontal glowing lines — travel left to right */}
+        <line
+          x1={0} y1={cellSize * 3} x2={w} y2={cellSize * 3}
+          className="glow-line glow-line-h1"
+          stroke="url(#glow-purple)" strokeWidth="1.5"
+        />
+        <line
+          x1={0} y1={cellSize * 7} x2={w} y2={cellSize * 7}
+          className="glow-line glow-line-h2"
+          stroke="url(#glow-blue)" strokeWidth="1.5"
+        />
+        <line
+          x1={0} y1={cellSize * 10} x2={w} y2={cellSize * 10}
+          className="glow-line glow-line-h3"
+          stroke="url(#glow-crimson)" strokeWidth="1"
+        />
+
+        {/* Gradient defs for glow colors */}
+        <defs>
+          <linearGradient id="glow-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(37,99,235,0)" />
+            <stop offset="50%" stopColor="rgba(37,99,235,0.6)" />
+            <stop offset="100%" stopColor="rgba(37,99,235,0)" />
+          </linearGradient>
+          <linearGradient id="glow-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(124,58,237,0)" />
+            <stop offset="50%" stopColor="rgba(124,58,237,0.5)" />
+            <stop offset="100%" stopColor="rgba(124,58,237,0)" />
+          </linearGradient>
+          <linearGradient id="glow-crimson" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(220,38,38,0)" />
+            <stop offset="50%" stopColor="rgba(220,38,38,0.35)" />
+            <stop offset="100%" stopColor="rgba(220,38,38,0)" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  );
+}
+
 export function HeroStatic() {
   return (
     <section
@@ -8,13 +120,14 @@ export function HeroStatic() {
       aria-label="ECODrIx — Your business. One command."
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* ── Background — light, brand-tinted, no dark vignette ── */}
+      {/* ── Background ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Soft brand aura, top-center */}
+        {/* Soft brand aura */}
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[860px] h-[540px] rounded-full opacity-70 blur-[70px] hero-float bg-[radial-gradient(ellipse_at_center,var(--color-accent-muted)_0%,transparent_70%)]" />
-        {/* Faint grid, masked to fade at the edges */}
-        <div className="absolute inset-0 opacity-50 [background-size:64px_64px] bg-[linear-gradient(var(--color-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-border)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black_30%,transparent_75%)] [-webkit-mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black_30%,transparent_75%)]" />
       </div>
+
+      {/* ── SVG Animated Glow Grid ── */}
+      <GlowGrid />
 
       {/* ── Main content ── */}
       <div className="relative z-10 text-center px-6 wrapper flex flex-col items-center my-auto">
@@ -24,7 +137,7 @@ export function HeroStatic() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
           </span>
-          Early Access Open · June 2026
+          Early Access Open · Aug 2026
         </div>
 
         {/* Headline */}
@@ -86,7 +199,7 @@ export function HeroStatic() {
         </div>
       </div>
 
-      {/* Bottom fade into the page canvas */}
+      {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-10 bg-[linear-gradient(to_bottom,transparent,var(--color-background))]" />
     </section>
   );

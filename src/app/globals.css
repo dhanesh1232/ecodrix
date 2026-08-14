@@ -811,3 +811,85 @@ html.lenis body {
     animation: none !important;
   }
 }
+
+/* ── Hero SVG Glow Grid Animations ────────────────────────────────────────
+ * Lightweight CSS-only animation for SVG lines.
+ * Uses stroke-dasharray to create a short visible segment,
+ * then animates stroke-dashoffset to "travel" it along the path.
+ * No JS, no hydration, renders in initial HTML payload.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+.glow-line {
+  stroke-dasharray: 120 600;
+  stroke-linecap: round;
+  opacity: 0.7;
+  filter: blur(0.5px);
+}
+
+/* Vertical lines — travel top to bottom */
+.glow-line-v1 {
+  animation: glowTravelV 8s linear infinite;
+}
+.glow-line-v2 {
+  animation: glowTravelV 10s linear infinite;
+  animation-delay: -3s;
+}
+.glow-line-v3 {
+  animation: glowTravelV 12s linear infinite;
+  animation-delay: -7s;
+}
+
+/* Horizontal lines — travel left to right */
+.glow-line-h1 {
+  animation: glowTravelH 9s linear infinite;
+  animation-delay: -2s;
+}
+.glow-line-h2 {
+  animation: glowTravelH 11s linear infinite;
+  animation-delay: -5s;
+}
+.glow-line-h3 {
+  animation: glowTravelH 13s linear infinite;
+  animation-delay: -9s;
+}
+
+@keyframes glowTravelV {
+  0% {
+    stroke-dashoffset: 720;
+  }
+  100% {
+    stroke-dashoffset: -720;
+  }
+}
+
+@keyframes glowTravelH {
+  0% {
+    stroke-dashoffset: 1200;
+  }
+  100% {
+    stroke-dashoffset: -1200;
+  }
+}
+
+/* Reduce glow intensity on mobile for performance */
+@media (max-width: 767px) {
+  .glow-line {
+    stroke-dasharray: 80 800;
+    opacity: 0.4;
+  }
+  .glow-line-v2,
+  .glow-line-v3,
+  .glow-line-h2,
+  .glow-line-h3 {
+    display: none;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .glow-line {
+    animation: none !important;
+    opacity: 0.3;
+    stroke-dasharray: none;
+  }
+}
