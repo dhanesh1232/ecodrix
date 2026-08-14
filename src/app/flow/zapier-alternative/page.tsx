@@ -175,7 +175,7 @@ export default function ZapierAlternativePage() {
             FLOW vs Zapier for Indian SMBs.
           </h2>
           <div className="overflow-hidden border border-foreground/8">
-            <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-mono bg-foreground/3">
+            <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-sans bg-foreground/3">
               <div className="p-4 text-subtle">Dimension</div>
               <div className="p-4 font-bold text-brand-purple">
                 ECODrIx FLOW

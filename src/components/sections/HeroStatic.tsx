@@ -1,113 +1,97 @@
-// Server Component — SEO-first, all content in DOM, animations are CSS-only
+// Server Component — SEO-first, all content in DOM, animations are CSS-only.
+// Inspired by portfolio.ecodrix.com's dot-grid + glow approach,
+// adapted for light-mode SaaS with animated SVG grid lines.
 import { ArrowRight, Zap } from "lucide-react";
 
 /**
- * Inline SVG grid with glowing animated lines that travel along paths.
- * - Pure CSS animation (no JS, no hydration cost)
- * - Renders server-side in the HTML for instant paint
- * - Uses stroke-dasharray + stroke-dashoffset animation for the "traveling light" effect
- * - Masked at edges so it fades naturally into the background
+ * SVG grid with animated glowing pulses traveling along the lines.
+ * - Inline SVG = renders in first HTML paint (no JS blocking)
+ * - CSS keyframes handle all animation (zero runtime cost)
+ * - Radial mask fades grid edges naturally
+ * - Mobile: fewer lines for performance
  */
-function GlowGrid() {
-  // Grid config
-  const cols = 18;
-  const rows = 12;
-  const cellSize = 64;
+function AnimatedGrid() {
+  const cellSize = 56;
+  const cols = 20;
+  const rows = 14;
   const w = cols * cellSize;
   const h = rows * cellSize;
 
-  // Generate vertical and horizontal line paths
-  const verticals = Array.from({ length: cols + 1 }, (_, i) => i * cellSize);
-  const horizontals = Array.from({ length: rows + 1 }, (_, i) => i * cellSize);
-
   return (
     <div
-      className="absolute inset-0 pointer-events-none overflow-hidden"
+      className="absolute inset-0 pointer-events-none select-none"
       aria-hidden="true"
       style={{
-        maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 72%)",
-        WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 72%)",
+        maskImage: "radial-gradient(ellipse 72% 65% at 50% 42%, black 25%, transparent 72%)",
+        WebkitMaskImage: "radial-gradient(ellipse 72% 65% at 50% 42%, black 25%, transparent 72%)",
       }}
     >
       <svg
         viewBox={`0 0 ${w} ${h}`}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] min-w-[1100px]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] min-w-[1000px]"
         fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Static grid lines — very faint */}
-        {verticals.map((x) => (
-          <line
-            key={`v-${x}`}
-            x1={x} y1={0} x2={x} y2={h}
-            stroke="var(--color-border)"
-            strokeWidth="0.5"
-            opacity="0.4"
-          />
-        ))}
-        {horizontals.map((y) => (
-          <line
-            key={`h-${y}`}
-            x1={0} y1={y} x2={w} y2={y}
-            stroke="var(--color-border)"
-            strokeWidth="0.5"
-            opacity="0.4"
-          />
-        ))}
-
-        {/* Glowing animated lines traveling along grid paths */}
-        {/* Vertical glowing lines — travel top to bottom */}
-        <line
-          x1={cellSize * 4} y1={0} x2={cellSize * 4} y2={h}
-          className="glow-line glow-line-v1"
-          stroke="url(#glow-blue)" strokeWidth="1.5"
-        />
-        <line
-          x1={cellSize * 9} y1={0} x2={cellSize * 9} y2={h}
-          className="glow-line glow-line-v2"
-          stroke="url(#glow-purple)" strokeWidth="1.5"
-        />
-        <line
-          x1={cellSize * 14} y1={0} x2={cellSize * 14} y2={h}
-          className="glow-line glow-line-v3"
-          stroke="url(#glow-blue)" strokeWidth="1.5"
-        />
-
-        {/* Horizontal glowing lines — travel left to right */}
-        <line
-          x1={0} y1={cellSize * 3} x2={w} y2={cellSize * 3}
-          className="glow-line glow-line-h1"
-          stroke="url(#glow-purple)" strokeWidth="1.5"
-        />
-        <line
-          x1={0} y1={cellSize * 7} x2={w} y2={cellSize * 7}
-          className="glow-line glow-line-h2"
-          stroke="url(#glow-blue)" strokeWidth="1.5"
-        />
-        <line
-          x1={0} y1={cellSize * 10} x2={w} y2={cellSize * 10}
-          className="glow-line glow-line-h3"
-          stroke="url(#glow-crimson)" strokeWidth="1"
-        />
-
-        {/* Gradient defs for glow colors */}
         <defs>
-          <linearGradient id="glow-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+          {/* Glow gradients — short luminous segment that fades at ends */}
+          <linearGradient id="g-v-blue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgba(37,99,235,0)" />
-            <stop offset="50%" stopColor="rgba(37,99,235,0.6)" />
+            <stop offset="40%" stopColor="rgba(37,99,235,0.7)" />
+            <stop offset="60%" stopColor="rgba(37,99,235,0.7)" />
             <stop offset="100%" stopColor="rgba(37,99,235,0)" />
           </linearGradient>
-          <linearGradient id="glow-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="g-v-purple" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgba(124,58,237,0)" />
-            <stop offset="50%" stopColor="rgba(124,58,237,0.5)" />
+            <stop offset="40%" stopColor="rgba(124,58,237,0.6)" />
+            <stop offset="60%" stopColor="rgba(124,58,237,0.6)" />
             <stop offset="100%" stopColor="rgba(124,58,237,0)" />
           </linearGradient>
-          <linearGradient id="glow-crimson" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="g-h-blue" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="rgba(37,99,235,0)" />
+            <stop offset="40%" stopColor="rgba(37,99,235,0.6)" />
+            <stop offset="60%" stopColor="rgba(37,99,235,0.6)" />
+            <stop offset="100%" stopColor="rgba(37,99,235,0)" />
+          </linearGradient>
+          <linearGradient id="g-h-red" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="rgba(220,38,38,0)" />
-            <stop offset="50%" stopColor="rgba(220,38,38,0.35)" />
+            <stop offset="40%" stopColor="rgba(220,38,38,0.4)" />
+            <stop offset="60%" stopColor="rgba(220,38,38,0.4)" />
             <stop offset="100%" stopColor="rgba(220,38,38,0)" />
           </linearGradient>
         </defs>
+
+        {/* Static grid — faint dots at intersections */}
+        {Array.from({ length: (cols + 1) * (rows + 1) }, (_, idx) => {
+          const col = idx % (cols + 1);
+          const row = Math.floor(idx / (cols + 1));
+          return (
+            <circle
+              key={idx}
+              cx={col * cellSize}
+              cy={row * cellSize}
+              r="1"
+              fill="var(--color-border)"
+              opacity="0.5"
+            />
+          );
+        })}
+
+        {/* Animated vertical glow lines */}
+        <line x1={cellSize * 5} y1={0} x2={cellSize * 5} y2={h}
+          className="glow-line glow-line-v1" stroke="url(#g-v-blue)" strokeWidth="2" />
+        <line x1={cellSize * 10} y1={0} x2={cellSize * 10} y2={h}
+          className="glow-line glow-line-v2" stroke="url(#g-v-purple)" strokeWidth="1.5" />
+        <line x1={cellSize * 15} y1={0} x2={cellSize * 15} y2={h}
+          className="glow-line glow-line-v3" stroke="url(#g-v-blue)" strokeWidth="1.5" />
+
+        {/* Animated horizontal glow lines */}
+        <line x1={0} y1={cellSize * 4} x2={w} y2={cellSize * 4}
+          className="glow-line glow-line-h1" stroke="url(#g-h-blue)" strokeWidth="2" />
+        <line x1={0} y1={cellSize * 8} x2={w} y2={cellSize * 8}
+          className="glow-line glow-line-h2" stroke="url(#g-h-red)" strokeWidth="1.5" />
+        <line x1={0} y1={cellSize * 11} x2={w} y2={cellSize * 11}
+          className="glow-line glow-line-h3" stroke="url(#g-h-blue)" strokeWidth="1" />
       </svg>
     </div>
   );
@@ -120,14 +104,13 @@ export function HeroStatic() {
       aria-label="ECODrIx — Your business. One command."
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* ── Background ── */}
+      {/* ── Background aura ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Soft brand aura */}
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[860px] h-[540px] rounded-full opacity-70 blur-[70px] hero-float bg-[radial-gradient(ellipse_at_center,var(--color-accent-muted)_0%,transparent_70%)]" />
       </div>
 
-      {/* ── SVG Animated Glow Grid ── */}
-      <GlowGrid />
+      {/* ── Animated SVG Grid ── */}
+      <AnimatedGrid />
 
       {/* ── Main content ── */}
       <div className="relative z-10 text-center px-6 wrapper flex flex-col items-center my-auto">

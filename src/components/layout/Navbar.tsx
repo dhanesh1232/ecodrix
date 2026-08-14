@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const links = [
   { label: "Platform", href: "/platform" },
@@ -18,6 +21,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -132,25 +136,38 @@ export function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-10">
-            {links.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  nav(l.href);
-                }}
-                className="text-[13px] font-semibold tracking-wide text-muted-foreground hover:text-foreground transition-all duration-300 relative py-2 overflow-hidden group"
-              >
-                {l.label}
-                <span className="absolute bottom-0 left-0 w-full h-px bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </a>
-            ))}
+            {links.map((l) => {
+              const isActive = pathname === l.href || pathname?.startsWith(l.href + "/");
+              return (
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    nav(l.href);
+                  }}
+                  className={cn(
+                    "text-[13px] group font-display font-semibold tracking-wide transition-colors duration-300 relative",
+                    isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  <span className={cn(
+                    "py-1 relative after:absolute after:content-[''] after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent after:rounded-full",
+                    "after:transition-transform after:duration-500 after:ease-out",
+                    isActive
+                      ? "after:scale-x-100 after:origin-left"
+                      : "after:scale-x-0 after:origin-right group-hover:after:origin-left group-hover:after:scale-x-100",
+                  )}>
+                    {l.label}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <a
+            <Link
               href="/#contact"
               onClick={(e) => {
                 // Smooth scroll only when already on the home page
@@ -166,7 +183,7 @@ export function Navbar() {
                 size={14}
                 className="group-hover/cta:translate-x-1 transition-transform duration-300"
               />
-            </a>
+            </Link>
 
             <button
               onClick={() => setOpen(true)}
@@ -200,23 +217,32 @@ export function Navbar() {
         </button>
 
         <div className="flex flex-col gap-6">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={(e) => {
-                e.preventDefault();
-                nav(l.href);
-              }}
-              className="mob-link text-3xl font-display font-black text-foreground hover:text-accent transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            const isActive = pathname === l.href || pathname?.startsWith(l.href + "/");
+            return (
+              <Link
+                key={l.label}
+                href={l.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  nav(l.href);
+                }}
+                className={cn(
+                  "mob-link text-3xl font-display font-black transition-colors flex items-center gap-3",
+                  isActive ? "text-accent" : "text-foreground hover:text-accent",
+                )}
+              >
+                {isActive && (
+                  <span className="w-2 h-2 rounded-full bg-accent shrink-0" />
+                )}
+                {l.label}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="mt-auto">
-          <a
+          <Link
             href="/#contact"
             onClick={(e) => {
               if (window.location.pathname === "/") {
@@ -227,7 +253,7 @@ export function Navbar() {
             className="flex items-center justify-center h-14 w-full rounded-full bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))] text-accent-foreground font-semibold"
           >
             Join Waitlist
-          </a>
+          </Link>
         </div>
       </div>
     </>

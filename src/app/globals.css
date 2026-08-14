@@ -17,112 +17,119 @@
 
 /* ── Raw brand tokens (console palette) — light `:root`, dark `.dark` ──────── */
 :root {
-  /* Brand — official ECODrIx logo palette (constant across themes) */
-  --brand-blue: #2b4dcb;
-  --brand-purple: #8d1fae;
-  --brand-crimson: #b03a3b;
+  /* ─── Surfaces (light-first for marketing, dark for dashboards) ─── */
+  --canvas: #ffffff;
+  --surface: #f8fafc;
+  --elevated: #ffffff;
+  --overlay: rgba(15, 23, 42, 0.6);
 
-  --accent: #2b4dcb;
-  --accent-hover: #3d5fe0;
-  --accent-active: #1e3cb4;
-  --accent-foreground: #ffffff;
+  /* ─── Text (4-step hierarchy) ─── */
+  --ink: #0f172a;
+  --ink-secondary: #334155;
+  --ink-muted: #64748b;
+  --ink-disabled: #94a3b8;
 
-  /* Status (used only for status, never branding) */
+  /* ─── Borders (2-step: hairline for structure, strong for emphasis) ─── */
+  --hairline: #e2e8f0;
+  --hairline-strong: #cbd5e1;
+
+  /* ─── Accent (Blue 600 — the ONLY interactive color) ─── */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-muted: #eff6ff;
+  --accent-fg: #ffffff;
+
+  /* ─── Brand marks (logo tricolor — NOT for UI fills) ─── */
+  --brand-blue: #2563eb;
+  --brand-purple: #7c3aed;
+  --brand-crimson: #dc2626;
+
+  /* ─── Semantic ─── */
   --success: #10b981;
   --warning: #f59e0b;
-  --error: #f43f5e;
+  --error: #dc2626;
 
-  /* Light surfaces — off-white page so white cards lift off it */
-  --background: #ffffff;
-  --surface: #ecf0fa;
-  --elevated: #ffffff;
+  /* ─── Legacy compat aliases (keep existing components working) ─── */
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --muted-foreground: var(--ink-muted);
+  --subtle: var(--ink-disabled);
+  --border: var(--hairline);
+  --border-strong: var(--hairline-strong);
+  --accent-foreground: var(--accent-fg);
+  --muted: var(--surface);
+  --input: var(--canvas);
 
-  /* Light text — charcoal on white */
-  --foreground: #0c1420;
-  --muted-foreground: #51607a;
-  --subtle: #8b97a9;
-
-  /* Light borders */
-  --border: rgba(12, 20, 32, 0.1);
-  --border-strong: rgba(12, 20, 32, 0.16);
-
-  /* Tints / fills */
-  --accent-muted: rgba(43, 77, 203, 0.1);
-  --muted: #eef1f7;
-  --input: #ffffff;
-  --footer-bg: #334155;
+  /* ─── Shadows (used sparingly — depth via surface-color, not shadow) ─── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px -4px rgba(0, 0, 0, 0.08);
 
   color-scheme: light;
 }
 
 .dark {
-  --background: #07080c;
-  --surface: #0f1218;
-  --elevated: #191d27;
+  --canvas: #09090b;
+  --surface: #111113;
+  --elevated: #1a1a1f;
+  --overlay: rgba(0, 0, 0, 0.7);
 
-  --foreground: #f6f7fa;
-  --muted-foreground: #a7adbd;
-  --subtle: #6b7280;
+  --ink: #fafafa;
+  --ink-secondary: #d4d4d8;
+  --ink-muted: #a1a1aa;
+  --ink-disabled: #52525b;
 
-  --border: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.2);
+  --hairline: #27272a;
+  --hairline-strong: #3f3f46;
 
-  --accent-muted: rgba(43, 77, 203, 0.14);
-  --muted: #191d27;
-  --input: #191d27;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-muted: rgba(59, 130, 246, 0.1);
+  --accent-fg: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
 
   color-scheme: dark;
 }
 
-/* ── @theme — Tailwind token map (console tokens + marketing aliases) ──────── */
+/* ── @theme — Tailwind token map ───────────────────────────────────────────── */
 @theme inline {
-  /* One project typeface — Roboto for display + body. `--font-syne` kept as an
-   * alias → Roboto so any legacy `font-syne`/`var(--font-syne)` usage stays on
-   * the single family. Mono is JetBrains, reserved for genuine code. */
-  --font-display: var(--font-roboto), system-ui, sans-serif;
-  --font-sans: var(--font-roboto), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
-  --font-syne: var(--font-roboto), system-ui, sans-serif;
+  /* Typography — Syne for display (bold only), Inter for everything else */
+  --font-display: var(--font-syne), "Syne", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-syne: var(--font-syne), "Syne", system-ui, sans-serif;
 
-  /* Brand */
+  /* Brand marks */
   --color-brand-blue: var(--brand-blue);
   --color-brand-purple: var(--brand-purple);
   --color-brand-crimson: var(--brand-crimson);
+
+  /* Accent (interactive) */
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-muted);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-foreground: var(--accent-fg);
 
-  /* Surfaces / text / borders (console names) */
-  --color-background: var(--background);
+  /* Surfaces */
+  --color-background: var(--canvas);
   --color-surface: var(--surface);
   --color-elevated: var(--elevated);
-  --color-foreground: var(--foreground);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-subtle: var(--subtle);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--ink);
+  --color-muted-foreground: var(--ink-muted);
+  --color-subtle: var(--ink-disabled);
+  --color-border: var(--hairline);
+  --color-border-strong: var(--hairline-strong);
   --color-ring: var(--accent);
-  --color-muted: var(--muted);
-  --color-input: var(--input);
+  --color-muted: var(--surface);
+  --color-input: var(--canvas);
 
   /* Status */
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
-
-  /* Type scale */
-  --text-display-xl: 72px;
-  --text-display-lg: 52px;
-  --text-display-md: 40px;
-  --text-display-sm: 32px;
-  --text-title-lg: 24px;
-  --text-title-md: 20px;
-  --text-title-sm: 18px;
-  --text-label: 13px;
-  --text-body-lg: 18px;
-  --text-body-md: 16px;
-  --text-body-sm: 14px;
 }
 
 /* ── Base layer ───────────────────────────────────────────────────────────── */
@@ -131,7 +138,7 @@
   *::before,
   *::after {
     box-sizing: border-box;
-    border-color: var(--color-border);
+    border-color: var(--hairline);
   }
 
   html {
@@ -428,7 +435,7 @@
     border-radius: 100px;
     background: var(--color-accent-muted);
     border: 1px solid var(--color-border-strong);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 12px;
     color: var(--color-accent);
     letter-spacing: 0.02em;
@@ -480,7 +487,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -813,69 +820,68 @@ html.lenis body {
 }
 
 /* ── Hero SVG Glow Grid Animations ────────────────────────────────────────
- * Lightweight CSS-only animation for SVG lines.
- * Uses stroke-dasharray to create a short visible segment,
- * then animates stroke-dashoffset to "travel" it along the path.
- * No JS, no hydration, renders in initial HTML payload.
+ * BMW-inspired: precise, engineered, decisive motion.
+ * Short luminous segments travel the grid like data through infrastructure.
+ * CSS-only — renders server-side, zero JS hydration cost.
  * ──────────────────────────────────────────────────────────────────────── */
 
 .glow-line {
-  stroke-dasharray: 120 600;
+  stroke-dasharray: 90 500;
   stroke-linecap: round;
-  opacity: 0.7;
-  filter: blur(0.5px);
+  opacity: 0.8;
+  will-change: stroke-dashoffset;
 }
 
-/* Vertical lines — travel top to bottom */
+/* Vertical lines — travel top to bottom at varied speeds */
 .glow-line-v1 {
-  animation: glowTravelV 8s linear infinite;
+  animation: glowTravelV 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 .glow-line-v2 {
-  animation: glowTravelV 10s linear infinite;
-  animation-delay: -3s;
+  animation: glowTravelV 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -2.5s;
 }
 .glow-line-v3 {
-  animation: glowTravelV 12s linear infinite;
-  animation-delay: -7s;
+  animation: glowTravelV 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -6s;
 }
 
 /* Horizontal lines — travel left to right */
 .glow-line-h1 {
-  animation: glowTravelH 9s linear infinite;
-  animation-delay: -2s;
+  animation: glowTravelH 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -1.5s;
 }
 .glow-line-h2 {
-  animation: glowTravelH 11s linear infinite;
-  animation-delay: -5s;
+  animation: glowTravelH 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -4s;
 }
 .glow-line-h3 {
-  animation: glowTravelH 13s linear infinite;
-  animation-delay: -9s;
+  animation: glowTravelH 11s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -8s;
 }
 
 @keyframes glowTravelV {
   0% {
-    stroke-dashoffset: 720;
+    stroke-dashoffset: 590;
   }
   100% {
-    stroke-dashoffset: -720;
+    stroke-dashoffset: -590;
   }
 }
 
 @keyframes glowTravelH {
   0% {
-    stroke-dashoffset: 1200;
+    stroke-dashoffset: 1100;
   }
   100% {
-    stroke-dashoffset: -1200;
+    stroke-dashoffset: -1100;
   }
 }
 
-/* Reduce glow intensity on mobile for performance */
+/* Mobile: fewer lines, subtler effect */
 @media (max-width: 767px) {
   .glow-line {
-    stroke-dasharray: 80 800;
-    opacity: 0.4;
+    stroke-dasharray: 60 700;
+    opacity: 0.5;
   }
   .glow-line-v2,
   .glow-line-v3,
@@ -889,7 +895,7 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .glow-line {
     animation: none !important;
-    opacity: 0.3;
+    opacity: 0.25;
     stroke-dasharray: none;
   }
 }

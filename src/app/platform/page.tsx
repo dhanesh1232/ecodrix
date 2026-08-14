@@ -137,7 +137,7 @@ export default function PlatformIndexPage() {
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
                 <div className="relative h-full p-7 flex flex-col rounded-2xl bg-surface">
                   <div className="w-1 h-8 mb-5 bg-[var(--tile)]" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest mb-2 text-[var(--tile)]">
+                  <span className="text-[10px] font-sans uppercase tracking-widest mb-2 text-[var(--tile)]">
                     {m.brand}
                   </span>
                   <h3 className="text-foreground font-bold text-lg mb-2">
@@ -148,7 +148,7 @@ export default function PlatformIndexPage() {
                   </p>
                   <div className="flex items-center justify-between mt-auto">
                     {m.apiBase ? (
-                      <code className="font-mono text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
+                      <code className="font-sans text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
                         {m.apiBase}
                       </code>
                     ) : (

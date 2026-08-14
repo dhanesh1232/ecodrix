@@ -116,7 +116,7 @@ export function Numbers() {
               <p className="text-foreground font-bold text-[13px] mb-1">
                 {s.label}
               </p>
-              <p className="text-muted-foreground text-[11px] font-mono">
+              <p className="text-muted-foreground text-[11px] font-sans">
                 {s.note}
               </p>
             </div>
@@ -139,7 +139,7 @@ export function Numbers() {
             >
               {/* Number badge — per-step brand color (data-driven) */}
               <div
-                className="inline-flex items-center justify-center w-9 h-9 mb-4 rounded-lg font-mono text-xs font-bold"
+                className="inline-flex items-center justify-center w-9 h-9 mb-4 rounded-lg font-sans text-xs font-bold"
                 style={{
                   background: `color-mix(in srgb, ${step.color} 14%, transparent)`,
                   border: `1px solid color-mix(in srgb, ${step.color} 28%, transparent)`,

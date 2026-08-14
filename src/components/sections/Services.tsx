@@ -251,7 +251,7 @@ function ServiceCard({ service }: { service: Service }) {
         {/* Badge */}
         {service.badge && (
           <div
-            className="absolute top-10 right-10 text-[10px] font-mono px-3 py-1 rounded-full border z-10"
+            className="absolute top-10 right-10 text-[10px] font-sans px-3 py-1 rounded-full border z-10"
             style={{
               background: `${service.color}15`,
               borderColor: `${service.color}40`,

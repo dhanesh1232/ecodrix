@@ -58,7 +58,7 @@ export const ServiceCard = ({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="px-3 py-1 bg-foreground/5 border border-foreground/10 rounded-full text-[10px] font-mono text-foreground/50 uppercase tracking-wider"
+              className="px-3 py-1 bg-foreground/5 border border-foreground/10 rounded-full text-[10px] font-sans text-foreground/50 uppercase tracking-wider"
             >
               {tag}
             </span>

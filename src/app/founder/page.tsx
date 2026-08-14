@@ -265,7 +265,7 @@ export default function FounderPage() {
                 style={{ "--tile": r.color } as React.CSSProperties}
               >
                 <div className="relative h-full p-7 rounded-2xl bg-surface">
-                  <span className="font-mono text-[10px] font-bold block mb-3 uppercase tracking-widest text-[var(--tile)]">
+                  <span className="font-sans text-[10px] font-bold block mb-3 uppercase tracking-widest text-[var(--tile)]">
                     {r.period}
                   </span>
                   <h3 className="text-foreground font-bold text-lg mb-3">

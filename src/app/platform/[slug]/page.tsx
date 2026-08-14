@@ -180,10 +180,10 @@ export default async function PlatformModulePage({
 
           {m.apiBase && (
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <span className="text-xs uppercase tracking-widest font-mono text-subtle">
+              <span className="text-xs uppercase tracking-widest font-sans text-subtle">
                 API base
               </span>
-              <code className="font-mono text-[12px] text-foreground bg-foreground/4 px-3 py-1.5 border border-foreground/8 rounded-lg">
+              <code className="font-sans text-[12px] text-foreground bg-foreground/4 px-3 py-1.5 border border-foreground/8 rounded-lg">
                 {API_URL}
                 {m.apiBase}
               </code>
@@ -256,7 +256,7 @@ export default async function PlatformModulePage({
                 style={{ "--o": other.color } as React.CSSProperties}
               >
                 <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest mb-2 text-[var(--o)]">
+                  <div className="text-[10px] font-sans uppercase tracking-widest mb-2 text-[var(--o)]">
                     {other.brand}
                   </div>
                   <div className="text-foreground font-bold text-base mb-1">

@@ -188,14 +188,14 @@ export default function BrandsPage() {
                   <h3 className="text-foreground font-bold text-lg mb-1">
                     {b.name}
                   </h3>
-                  <p className="text-xs font-mono uppercase tracking-widest mb-3 text-[var(--tile)]">
+                  <p className="text-xs font-sans uppercase tracking-widest mb-3 text-[var(--tile)]">
                     {b.tagline}
                   </p>
                   <p className="text-subtle text-sm leading-relaxed mb-5">
                     {b.desc}
                   </p>
                   <div className="flex items-center justify-between">
-                    <code className="font-mono text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
+                    <code className="font-sans text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
                       {b.code}
                     </code>
                     <ArrowRight

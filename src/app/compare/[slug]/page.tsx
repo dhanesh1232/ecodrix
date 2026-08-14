@@ -158,7 +158,7 @@ export default async function ComparePage({
 
           <div className="overflow-hidden border border-foreground/8 rounded-sm">
             {/* header row */}
-            <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-mono bg-foreground/3">
+            <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-sans bg-foreground/3">
               <div className="p-4 text-subtle">Feature</div>
               <div className="p-4 font-bold text-[var(--c)]">
                 ECODrIx (ERIX)

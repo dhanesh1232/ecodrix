@@ -17,7 +17,7 @@ export const TrustedBy = () => {
       <div className="absolute left-0 top-0 w-24 h-full pointer-events-none bg-[linear-gradient(90deg,var(--color-background),transparent)]" />
       <div className="absolute right-0 top-0 w-24 h-full pointer-events-none bg-[linear-gradient(270deg,var(--color-background),transparent)]" />
 
-      <div className="max-w-7xl mx-auto px-6 mb-8 text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-mono">
+      <div className="max-w-7xl mx-auto px-6 mb-8 text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-sans">
         Trusted by ambitious teams across India & UK
       </div>
 

@@ -199,7 +199,7 @@ export function LaieShowcase() {
               style={
                 { "--seg": steps[activeIndex].color } as React.CSSProperties
               }
-              className="hidden md:inline text-[11px] font-mono font-bold tracking-widest uppercase transition-colors duration-500 text-[var(--seg)]"
+              className="hidden md:inline text-[11px] font-sans font-bold tracking-widest uppercase transition-colors duration-500 text-[var(--seg)]"
             >
               {steps[activeIndex].title}
             </span>
@@ -261,10 +261,10 @@ export function LaieShowcase() {
 
                     {/* Step + badge */}
                     <div className="flex items-center justify-between mb-2 relative z-10">
-                      <span className="font-mono text-[11px] font-bold tracking-widest text-[var(--c)]">
+                      <span className="font-sans text-[11px] font-bold tracking-widest text-[var(--c)]">
                         STEP {step.num}
                       </span>
-                      <span className="text-[9px] font-mono px-2.5 py-1 tracking-widest uppercase rounded-md bg-[color-mix(in_srgb,var(--c)_6%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
+                      <span className="text-[9px] font-sans px-2.5 py-1 tracking-widest uppercase rounded-md bg-[color-mix(in_srgb,var(--c)_6%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
                         {step.badge}
                       </span>
                     </div>

@@ -157,7 +157,7 @@ export default function BroadcastLimitsPage() {
             How many you can reach per 24 hours.
           </h2>
           <div className="overflow-hidden border border-foreground/8">
-            <div className="grid grid-cols-[1fr_1.5fr_1.5fr] text-xs uppercase tracking-widest font-mono bg-foreground/3">
+            <div className="grid grid-cols-[1fr_1.5fr_1.5fr] text-xs uppercase tracking-widest font-sans bg-foreground/3">
               <div className="p-4 text-subtle">Tier</div>
               <div className="p-4 text-foreground">Limit</div>
               <div className="p-4 text-muted-foreground">Notes</div>

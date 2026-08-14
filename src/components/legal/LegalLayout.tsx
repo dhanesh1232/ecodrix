@@ -132,7 +132,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
             {/* Sticky ToC */}
             <aside className="lg:sticky lg:top-32 lg:self-start">
               <div className="polygon-card p-6">
-                <h2 className="font-mono text-[10px] font-bold text-foreground mb-4 uppercase tracking-widest">
+                <h2 className="font-sans text-[10px] font-bold text-foreground mb-4 uppercase tracking-widest">
                   Contents
                 </h2>
                 <nav className="space-y-2">

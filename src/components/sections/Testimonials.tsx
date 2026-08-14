@@ -95,7 +95,7 @@ export function Testimonials() {
 
       <div className="wrapper relative z-10">
         <header className="test-header mb-20 text-center max-w-2xl mx-auto">
-          <div className="pill mb-6 mx-auto bg-foreground/5 border-foreground/10 uppercase tracking-widest text-[10px] font-mono">
+          <div className="pill mb-6 mx-auto bg-foreground/5 border-foreground/10 uppercase tracking-widest text-[10px] font-sans">
             Early Users
           </div>
           <h2 className="text-[clamp(2.5rem,5vw,4rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-6">
@@ -139,7 +139,7 @@ export function Testimonials() {
                   <h4 className="text-foreground font-display font-bold text-base">
                     {t.name}
                   </h4>
-                  <p className="text-accent font-mono text-[10px] uppercase tracking-widest">
+                  <p className="text-accent font-sans text-[10px] uppercase tracking-widest">
                     {t.role}
                   </p>
                 </div>

@@ -191,7 +191,7 @@ export function Contact() {
                 size={13}
                 className="text-[var(--c)] transition-transform duration-300 group-hover:scale-110"
               />
-              <span className="text-[11px] font-mono text-muted-foreground tracking-wide">
+              <span className="text-[11px] font-sans text-muted-foreground tracking-wide">
                 {f.title}
               </span>
             </div>
@@ -216,7 +216,7 @@ export function Contact() {
                     <span className="text-sm text-muted-foreground">
                       Position:
                     </span>
-                    <span className="text-3xl font-mono font-black text-accent">
+                    <span className="text-3xl font-sans font-black text-accent">
                       #{position}
                     </span>
                   </div>
@@ -239,7 +239,7 @@ export function Contact() {
                       </p>
                       <div className="flex items-center gap-2">
                         <div className="flex-1 px-3 py-2 overflow-hidden rounded-lg bg-background border border-accent/25">
-                          <span className="text-[11px] font-mono text-accent truncate block">
+                          <span className="text-[11px] font-sans text-accent truncate block">
                             {typeof window !== "undefined"
                               ? `${window.location.origin}?ref=${referralCode}`
                               : ""}
@@ -247,7 +247,7 @@ export function Contact() {
                         </div>
                         <button
                           onClick={copyReferralLink}
-                          className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-mono font-bold text-accent transition-all duration-300 hover:scale-105 rounded-lg bg-accent/10 border border-accent/30"
+                          className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-sans font-bold text-accent transition-all duration-300 hover:scale-105 rounded-lg bg-accent/10 border border-accent/30"
                         >
                           <Copy size={11} />
                           {copied ? "Copied!" : "Copy"}
@@ -262,7 +262,7 @@ export function Contact() {
                       setPosition(null);
                       setReferralCode(null);
                     }}
-                    className="text-accent text-sm hover:underline mt-4 inline-flex items-center gap-1 font-mono"
+                    className="text-accent text-sm hover:underline mt-4 inline-flex items-center gap-1 font-sans"
                   >
                     <ArrowRight size={12} className="rotate-180" /> Back
                   </button>
@@ -282,7 +282,7 @@ export function Contact() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-sans font-bold">
                         Full Name *
                       </Label>
                       <Input
@@ -290,13 +290,13 @@ export function Contact() {
                         placeholder="John Doe"
                       />
                       {errors.name && (
-                        <p className="text-error text-[10px] font-mono">
+                        <p className="text-error text-[10px] font-sans">
                           {errors.name.message}
                         </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-sans font-bold">
                         Email *
                       </Label>
                       <Input
@@ -311,7 +311,7 @@ export function Contact() {
                         placeholder="john@company.com"
                       />
                       {errors.email && (
-                        <p className="text-error text-[10px] font-mono">
+                        <p className="text-error text-[10px] font-sans">
                           {errors.email.message}
                         </p>
                       )}
@@ -320,7 +320,7 @@ export function Contact() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-sans font-bold">
                         Phone
                       </Label>
                       <Controller
@@ -336,7 +336,7 @@ export function Contact() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                      <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-sans font-bold">
                         Company
                       </Label>
                       <Input
@@ -347,7 +347,7 @@ export function Contact() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-mono font-bold">
+                    <Label className="text-muted-foreground uppercase text-[10px] tracking-[0.12em] font-sans font-bold">
                       What interests you most? *
                     </Label>
                     <Controller
@@ -373,7 +373,7 @@ export function Contact() {
                       )}
                     />
                     {errors.interest && (
-                      <p className="text-error text-[10px] font-mono">
+                      <p className="text-error text-[10px] font-sans">
                         {errors.interest.message}
                       </p>
                     )}
@@ -451,7 +451,7 @@ export function Contact() {
                       <Icon size={14} className="text-[var(--c)]" />
                     </div>
                     <div>
-                      <p className="text-[9px] text-muted-foreground font-mono uppercase tracking-[0.15em] mb-0.5">
+                      <p className="text-[9px] text-muted-foreground font-sans uppercase tracking-[0.15em] mb-0.5">
                         {label}
                       </p>
                       {href ? (
@@ -483,7 +483,7 @@ export function Contact() {
 
               {/* Benefits */}
               <div className="mb-7">
-                <p className="text-[9px] text-muted-foreground font-mono uppercase tracking-[0.15em] mb-4">
+                <p className="text-[9px] text-muted-foreground font-sans uppercase tracking-[0.15em] mb-4">
                   Early access includes
                 </p>
                 <div className="space-y-3">

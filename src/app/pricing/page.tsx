@@ -197,7 +197,7 @@ export default async function PricingPage() {
                       {benefit.title}
                     </h3>
                     {benefit.planName && (
-                      <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent mb-3">
+                      <div className="text-[10px] font-sans font-bold uppercase tracking-widest text-accent mb-3">
                         {benefit.planName} Plan
                       </div>
                     )}

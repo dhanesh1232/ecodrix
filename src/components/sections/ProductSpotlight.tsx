@@ -191,7 +191,7 @@ export function ProductSpotlight() {
                     {pillar.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3.5 py-1.5 text-[11px] font-mono tracking-wider transition-colors duration-500 relative"
+                        className="px-3.5 py-1.5 text-[11px] font-sans tracking-wider transition-colors duration-500 relative"
                       >
                         <div
                           className={`absolute inset-0 rounded-md ${
@@ -225,7 +225,7 @@ export function ProductSpotlight() {
                     <div className="w-3 h-3 rounded-sm bg-warning opacity-80 shadow-[0_0_10px_var(--color-warning)]" />
                     <div className="w-3 h-3 rounded-sm bg-accent opacity-80 shadow-[0_0_10px_var(--color-accent)]" />
                   </div>
-                  <div className="font-mono text-[10px] text-muted-foreground tracking-widest uppercase">
+                  <div className="font-sans text-[10px] text-muted-foreground tracking-widest uppercase">
                     ECODrIx Workspace
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export function ProductSpotlight() {
                       <div>
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 rounded-full bg-brand-purple animate-pulse shadow-[0_0_10px_var(--color-brand-purple)]" />
-                          <p className="text-brand-purple font-mono text-xs uppercase tracking-widest">
+                          <p className="text-brand-purple font-sans text-xs uppercase tracking-widest">
                             Live Metrics
                           </p>
                         </div>
@@ -256,7 +256,7 @@ export function ProductSpotlight() {
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <span className="px-3 py-1.5 rounded-full bg-brand-purple/10 border border-brand-purple/20 text-brand-purple text-xs font-mono flex items-center gap-1 shadow-[0_0_15px_color-mix(in_srgb,var(--color-brand-purple)_20%,transparent)]">
+                        <span className="px-3 py-1.5 rounded-full bg-brand-purple/10 border border-brand-purple/20 text-brand-purple text-xs font-sans flex items-center gap-1 shadow-[0_0_15px_color-mix(in_srgb,var(--color-brand-purple)_20%,transparent)]">
                           <Activity size={12} /> +24.8%
                         </span>
                       </div>
@@ -274,11 +274,11 @@ export function ProductSpotlight() {
                     {/* Column 1 */}
                     <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max pb-10 relative z-10 rounded-xl">
                       <div className="flex items-center justify-between">
-                        <p className="text-accent font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
+                        <p className="text-accent font-sans text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
                           Inbound
                         </p>
-                        <span className="text-muted-foreground text-xs font-mono bg-foreground/5 px-2 py-0.5 rounded">
+                        <span className="text-muted-foreground text-xs font-sans bg-foreground/5 px-2 py-0.5 rounded">
                           2
                         </span>
                       </div>
@@ -304,11 +304,11 @@ export function ProductSpotlight() {
                     {/* Column 2 */}
                     <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max mt-6 pb-12 relative z-10 rounded-xl">
                       <div className="flex items-center justify-between">
-                        <p className="text-brand-purple font-mono text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
+                        <p className="text-brand-purple font-sans text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-brand-purple shadow-[0_0_8px_var(--color-brand-purple)]" />
                           Consulted
                         </p>
-                        <span className="text-muted-foreground text-xs font-mono bg-foreground/5 px-2 py-0.5 rounded">
+                        <span className="text-muted-foreground text-xs font-sans bg-foreground/5 px-2 py-0.5 rounded">
                           1
                         </span>
                       </div>
@@ -329,14 +329,14 @@ export function ProductSpotlight() {
                 <VisualWrapper active={activeStep === 2}>
                   <div className="p-0 h-full flex flex-col pt-12 bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_srgb,var(--color-accent)_10%,transparent),transparent_50%)]">
                     <div className="px-6 py-3 border-b border-foreground/5 bg-surface flex items-center gap-3">
-                      <div className="px-2 py-1 bg-success/10 text-success rounded text-[10px] font-mono font-bold">
+                      <div className="px-2 py-1 bg-success/10 text-success rounded text-[10px] font-sans font-bold">
                         POST
                       </div>
-                      <p className="text-muted-foreground font-mono text-xs">
+                      <p className="text-muted-foreground font-sans text-xs">
                         api/v1/workflows/trigger
                       </p>
                     </div>
-                    <div className="flex-1 relative p-8 font-mono text-sm leading-[1.8] overflow-hidden bg-[radial-gradient(circle_at_center,color-mix(in_srgb,var(--color-success)_3%,transparent)_0%,transparent_100%)]">
+                    <div className="flex-1 relative p-8 font-sans text-sm leading-[1.8] overflow-hidden bg-[radial-gradient(circle_at_center,color-mix(in_srgb,var(--color-success)_3%,transparent)_0%,transparent_100%)]">
                       <div className="absolute left-0 top-0 bottom-0 w-8 bg-background border-r border-foreground/5 flex flex-col items-center py-8 text-[11px] text-muted-foreground gap-2 select-none">
                         {Array.from({ length: 12 }).map((_, i) => (
                           <span key={i}>{i + 1}</span>
@@ -468,11 +468,11 @@ export function ProductSpotlight() {
                             <div className="text-muted-foreground">
                               {item.icon}
                             </div>
-                            <p className="text-muted-foreground text-xs font-mono">
+                            <p className="text-muted-foreground text-xs font-sans">
                               {item.l}
                             </p>
                           </div>
-                          <p className="font-mono text-[13px] tracking-wide text-[var(--c)]">
+                          <p className="font-sans text-[13px] tracking-wide text-[var(--c)]">
                             {item.v}
                           </p>
                         </div>
@@ -480,7 +480,7 @@ export function ProductSpotlight() {
                     </div>
 
                     <div className="mt-6 relative z-10">
-                      <button className="w-full relative overflow-hidden bg-linear-to-br from-accent to-brand-purple text-accent-foreground border-none py-4 font-mono text-[13px] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_50%,transparent)] transition-all font-bold group cursor-pointer rounded-lg">
+                      <button className="w-full relative overflow-hidden bg-linear-to-br from-accent to-brand-purple text-accent-foreground border-none py-4 font-sans text-[13px] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_50%,transparent)] transition-all font-bold group cursor-pointer rounded-lg">
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           Deploy New Tenant{" "}
                           <ArrowRight

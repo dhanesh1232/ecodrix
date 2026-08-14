@@ -86,7 +86,7 @@ export function Work() {
                 {/* Content */}
                 <div className="p-8 lg:p-10 flex-1 flex flex-col relative z-10 h-full no-collapse">
                   <div className="flex justify-between items-start mb-8 no-collapse">
-                    <span className="font-mono text-[11px] font-bold tracking-widest px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-md text-[var(--c)]">
+                    <span className="font-sans text-[11px] font-bold tracking-widest px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-md text-[var(--c)]">
                       {p.num} :: {p.category}
                     </span>
                     <div className="w-10 h-10 flex items-center justify-center bg-foreground/5 border border-foreground/10 text-[var(--c)]">
@@ -109,7 +109,7 @@ export function Work() {
                         {p.techTags.map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] font-mono text-muted-foreground px-2 py-1 bg-foreground/5 border border-foreground/5 rounded-md"
+                            className="text-[10px] font-sans text-muted-foreground px-2 py-1 bg-foreground/5 border border-foreground/5 rounded-md"
                           >
                             {t}
                           </span>
@@ -118,7 +118,7 @@ export function Work() {
                     </div>
 
                     {/* Result Badge */}
-                    <div className="flex items-center justify-between text-xs font-mono pt-4">
+                    <div className="flex items-center justify-between text-xs font-sans pt-4">
                       <span className="flex items-center gap-2 text-[var(--c)]">
                         <span className="w-1.5 h-1.5 rounded-full animate-pulse shrink-0 bg-[var(--c)]" />
                         {p.result}
@@ -137,7 +137,7 @@ export function Work() {
 
         {/* CTA */}
         <div className="pt-16 text-center flex flex-col items-center">
-          <p className="text-muted-foreground font-mono text-sm mb-8 uppercase tracking-widest">
+          <p className="text-muted-foreground font-sans text-sm mb-8 uppercase tracking-widest">
             No credit card required · Setup in under 15 minutes
           </p>
           <button

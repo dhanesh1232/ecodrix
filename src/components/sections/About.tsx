@@ -104,7 +104,7 @@ export function About() {
                     <h3 className="text-foreground font-display font-bold text-lg tracking-tight">
                       Founder & CEO
                     </h3>
-                    <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-accent mt-0.5">
+                    <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-accent mt-0.5">
                       Founder & Builder
                     </p>
                   </div>
@@ -162,7 +162,7 @@ export function About() {
                       <Icon size={14} />
                     </a>
                   ))}
-                  <span className="ml-auto text-muted-foreground font-mono text-[9px] uppercase tracking-widest">
+                  <span className="ml-auto text-muted-foreground font-sans text-[9px] uppercase tracking-widest">
                     Est. March 2024
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export function About() {
                   <p className="font-display font-black text-lg grad-text">
                     {s.value}
                   </p>
-                  <p className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider mt-0.5">
+                  <p className="text-[9px] text-muted-foreground font-sans uppercase tracking-wider mt-0.5">
                     {s.label}
                   </p>
                 </div>
@@ -189,7 +189,7 @@ export function About() {
 
           {/* Right: Timeline */}
           <div className="relative pl-0 lg:pl-4">
-            <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.2em] mb-8">
+            <p className="text-muted-foreground font-sans text-[10px] uppercase tracking-[0.2em] mb-8">
               March 2024 → Present
             </p>
 
@@ -214,7 +214,7 @@ export function About() {
                   {/* Content card */}
                   <div className="flex-1 p-5 mb-4 transition-all duration-300 group-hover:translate-x-1 rounded-2xl bg-surface border border-foreground/5">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-[9px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded-md bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
+                      <span className="text-[9px] font-sans font-bold tracking-widest uppercase px-2 py-0.5 rounded-md bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
                         {m.year}
                       </span>
                     </div>
@@ -235,7 +235,7 @@ export function About() {
                     <Rocket size={14} className="text-accent" />
                   </div>
                 </div>
-                <span className="text-[11px] font-mono text-accent tracking-widest uppercase">
+                <span className="text-[11px] font-sans text-accent tracking-widest uppercase">
                   Building in public →
                 </span>
               </div>

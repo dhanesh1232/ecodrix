@@ -109,7 +109,7 @@ export function Pricing() {
 
                 <div className="mb-8 relative z-10 no-collapse">
                   <h3
-                    className={`font-mono text-[11px] font-bold uppercase tracking-widest mb-4 ${plan.colorClass}`}
+                    className={`font-sans text-[11px] font-bold uppercase tracking-widest mb-4 ${plan.colorClass}`}
                   >
                     {plan.name}
                   </h3>

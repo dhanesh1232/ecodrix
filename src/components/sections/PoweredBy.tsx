@@ -70,7 +70,7 @@ function MarqueeItem({
       >
         <Icon size={13} />
       </div>
-      <span className="text-[11px] font-mono text-muted-foreground tracking-wide whitespace-nowrap">
+      <span className="text-[11px] font-sans text-muted-foreground tracking-wide whitespace-nowrap">
         {label}
       </span>
     </div>

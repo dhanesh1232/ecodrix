@@ -204,7 +204,7 @@ export default function AboutPage() {
                 {/* hover tint — uses the card's accent color at low opacity */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.09] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
                 <div className="relative h-full p-8 rounded-2xl bg-surface">
-                  <span className="font-mono text-[11px] font-bold block mb-5 text-[var(--tile)]">
+                  <span className="font-sans text-[11px] font-bold block mb-5 text-[var(--tile)]">
                     {num}
                   </span>
                   <h3 className="text-foreground font-bold text-lg mb-3">
@@ -234,7 +234,7 @@ export default function AboutPage() {
             {stack.map((tech) => (
               <span
                 key={tech}
-                className="px-4 py-2 font-mono text-[12px] text-subtle border border-foreground/8 transition-colors duration-200 hover:text-foreground hover:border-accent/30 rounded-lg bg-foreground/3"
+                className="px-4 py-2 font-sans text-[12px] text-subtle border border-foreground/8 transition-colors duration-200 hover:text-foreground hover:border-accent/30 rounded-lg bg-foreground/3"
               >
                 {tech}
               </span>

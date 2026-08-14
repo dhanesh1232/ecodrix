@@ -165,7 +165,7 @@ export default function PricingPlansSection({
               Yearly
               {yearlyPct > 0 && (
                 <span
-                  className={`text-[10px] font-mono px-1.5 py-0.5 ${
+                  className={`text-[10px] font-sans px-1.5 py-0.5 ${
                     billing === "yearly"
                       ? "bg-accent-foreground/20 text-accent-foreground"
                       : "bg-success/15 text-success"
@@ -216,7 +216,7 @@ export default function PricingPlansSection({
 
                     <div className="mb-6 relative z-10 no-collapse">
                       <h3
-                        className={`font-mono text-[11px] font-bold uppercase tracking-widest mb-4 ${style.colorClass}`}
+                        className={`font-sans text-[11px] font-bold uppercase tracking-widest mb-4 ${style.colorClass}`}
                       >
                         {plan.name}
                       </h3>
@@ -231,7 +231,7 @@ export default function PricingPlansSection({
                         )}
                       </div>
                       {hint && (
-                        <p className="text-[11px] text-success font-mono mb-2">
+                        <p className="text-[11px] text-success font-sans mb-2">
                           {hint}
                         </p>
                       )}
@@ -282,7 +282,7 @@ export default function PricingPlansSection({
             <div className="mt-8 p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-300 rounded-2xl">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 px-8 py-7 bg-surface rounded-[15px]">
                 <div>
-                  <div className="font-mono text-[11px] font-bold uppercase tracking-widest text-accent mb-2">
+                  <div className="font-sans text-[11px] font-bold uppercase tracking-widest text-accent mb-2">
                     Enterprise / Custom
                   </div>
                   <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">
@@ -335,7 +335,7 @@ export default function PricingPlansSection({
                       <div className="w-9 h-9 flex items-center justify-center bg-accent/10 rounded-md">
                         <Icon size={16} className="text-accent" />
                       </div>
-                      <h3 className="font-mono text-[12px] font-bold uppercase tracking-widest text-foreground">
+                      <h3 className="font-sans text-[12px] font-bold uppercase tracking-widest text-foreground">
                         {group.label}
                       </h3>
                     </div>
@@ -356,7 +356,7 @@ export default function PricingPlansSection({
                                   {addon.description ?? ""}
                                 </p>
                               </div>
-                              <span className="shrink-0 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-widest text-success bg-success/10 border border-success/20 rounded-md">
+                              <span className="shrink-0 px-2 py-0.5 text-[9px] font-sans font-bold uppercase tracking-widest text-success bg-success/10 border border-success/20 rounded-md">
                                 All plans
                               </span>
                             </div>
@@ -364,7 +364,7 @@ export default function PricingPlansSection({
                               <span className="text-foreground font-display font-bold text-lg">
                                 {formatAddonPrice(addon)}
                               </span>
-                              <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+                              <span className="text-[10px] font-sans uppercase tracking-widest text-muted-foreground">
                                 {addon.feature}
                               </span>
                             </div>
