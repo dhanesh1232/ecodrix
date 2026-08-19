@@ -66,7 +66,7 @@ export default async function PlatformModulePage({
   const idx = PLATFORM_MODULES.findIndex((x) => x.slug === slug);
   const prev =
     PLATFORM_MODULES[
-      (idx - 1 + PLATFORM_MODULES.length) % PLATFORM_MODULES.length
+    (idx - 1 + PLATFORM_MODULES.length) % PLATFORM_MODULES.length
     ];
   const next = PLATFORM_MODULES[(idx + 1) % PLATFORM_MODULES.length];
 
@@ -86,11 +86,11 @@ export default async function PlatformModulePage({
     },
     ...(m.apiBase
       ? [
-          {
-            q: `Does ${m.brand} have a public API?`,
-            a: `Yes. ${m.brand} exposes its endpoints at ${API_URL}${m.apiBase}. Authentication uses tenant API keys (x-api-key + x-client-code) for SaaS-console traffic, or scoped tokens for LAIE and admin surfaces. Full reference is available in the API documentation.`,
-          },
-        ]
+        {
+          q: `Does ${m.brand} have a public API?`,
+          a: `Yes. ${m.brand} exposes its endpoints at ${API_URL}${m.apiBase}. Authentication uses tenant API keys (x-api-key + x-client-code) for SaaS-console traffic, or scoped tokens for LAIE and admin surfaces. Full reference is available in the API documentation.`,
+        },
+      ]
       : []),
   ];
 
@@ -183,7 +183,7 @@ export default async function PlatformModulePage({
               <span className="text-xs uppercase tracking-widest font-sans text-subtle">
                 API base
               </span>
-              <code className="font-sans text-[12px] text-foreground bg-foreground/4 px-3 py-1.5 border border-foreground/8 rounded-lg">
+              <code className="font-sans text-[12px] text-foreground bg-foreground/4 px-3 py-1.5 border border-foreground/8 rounded-none">
                 {API_URL}
                 {m.apiBase}
               </code>
@@ -204,7 +204,7 @@ export default async function PlatformModulePage({
             {m.features.map((f, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 p-5 bg-surface border border-foreground/5 rounded-xl"
+                className="flex items-start gap-3 p-5 bg-surface border border-foreground/5 rounded-none"
               >
                 <div className="shrink-0 w-6 h-6 flex items-center justify-center mt-0.5 rounded bg-[var(--m)]/8 border border-[var(--m)]/25">
                   <Check size={12} className="text-[var(--m)]" />
@@ -252,7 +252,7 @@ export default async function PlatformModulePage({
               <Link
                 key={other.slug}
                 href={`/platform/${other.slug}`}
-                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-2xl bg-foreground/[0.02]"
+                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-none bg-foreground/[0.02]"
                 style={{ "--o": other.color } as React.CSSProperties}
               >
                 <div>

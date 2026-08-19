@@ -169,7 +169,7 @@ export default function LaieAuditPage() {
             {CHECKS.map(({ icon: Icon, t, d }) => (
               <div
                 key={t}
-                className="flex items-start gap-4 p-6 bg-surface border border-foreground/5 rounded-xl"
+                className="flex items-start gap-4 p-6 bg-surface border border-foreground/5 rounded-none"
               >
                 <div className="shrink-0 w-10 h-10 flex items-center justify-center bg-warning/8 border border-warning/25">
                   <Icon size={18} className="text-warning" />

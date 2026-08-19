@@ -30,7 +30,7 @@ function Block({ block }: { block: LegalBlock }) {
   }
   if ("note" in block) {
     return (
-      <div className="p-4 text-muted-foreground text-sm leading-relaxed bg-accent/6 border border-accent/25 rounded-lg">
+      <div className="p-4 text-muted-foreground text-sm leading-relaxed bg-accent/6 border border-accent/25 rounded-none">
         {block.note}
       </div>
     );
@@ -142,7 +142,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                       <a
                         key={section.id}
                         href={`#${section.id}`}
-                        className="flex items-center gap-3 text-[13px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded-lg hover:bg-foreground/3 group"
+                        className="flex items-center gap-3 text-[13px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded-none hover:bg-foreground/3 group"
                       >
                         <Icon
                           size={14}

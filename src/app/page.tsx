@@ -56,7 +56,7 @@ const ENTITY_FAQS = [
   },
   {
     q: "What is ECODrIx?",
-    a: "ECODrIx is a unified business infrastructure platform that combines CRM, AI automation, WhatsApp Business API, email marketing, and cloud storage in a single product. It replaces 5–10 separate SaaS subscriptions for growing businesses, agencies, and service providers. ECODrIx was founded in March 2024 and serves customers across India and globally.",
+    a: "ECODrIx is a unified business infrastructure platform that combines CRM, AI automation, WhatsApp Business API, email marketing, and cloud storage in a single product. It replaces 5–10 separate SaaS subscriptions for growing businesses, agencies, and service providers. ECODrIx was founded in August 2025 and serves customers across India and globally.",
   },
   {
     q: "What is ERIX?",

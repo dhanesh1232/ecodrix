@@ -3,6 +3,8 @@
  * Used by Server Components and generateStaticParams/generateMetadata.
  */
 
+import { cache } from "react";
+
 const API_BASE = process.env.API_URL || "https://api.ecodrix.com";
 
 export interface BlogPost {
@@ -43,25 +45,37 @@ interface BlogListResponse {
 
 /**
  * Fetch all published blog posts from the server's public endpoint.
- * Uses ISR with 60s revalidation so the blog stays fresh without
- * rebuilding the entire site.
+ * Uses ISR with 60s revalidation. 5s timeout prevents build/dev hangs
+ * when the API is unreachable.
  */
-export async function getPublishedBlogs(): Promise<BlogPost[]> {
+/**
+ * Fetch all published blog posts. Cached per-request via React.cache()
+ * so generateMetadata + page component share a single fetch.
+ */
+export const getPublishedBlogs = cache(async (): Promise<BlogPost[]> => {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
     const res = await fetch(`${API_BASE}/v1/api/platform/admin/blogs`, {
       next: { revalidate: 60 },
+      signal: controller.signal,
+      headers: {
+        "x-core-api-key": process.env.ECODRIX_CORE_API_KEY || "",
+      },
     });
+
+    clearTimeout(timeout);
+
     if (!res.ok) return [];
     const json: BlogListResponse = await res.json();
-    // Filter to only published posts (the public endpoint should already do
-    // this, but belt-and-suspenders for SEO — never show draft URLs).
     return (json.data || []).filter(
       (post) => post.isPublished && post.status === "published",
     );
   } catch {
     return [];
   }
-}
+});
 
 /**
  * Fetch a single blog post by slug.

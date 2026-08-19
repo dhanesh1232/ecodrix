@@ -160,7 +160,7 @@ export function Services() {
           </p>
         </header>
 
-        <div className="srv-grid grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+        <div className="srv-grid grid grid-cols-1 md:grid-cols-12 gap-2.5 lg:gap-5">
           {services.map((s, i) => (
             <ServiceCard key={i} service={s} />
           ))}
@@ -202,13 +202,12 @@ function ServiceCard({ service }: { service: Service }) {
 
   return (
     <div
-      className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 rounded-2xl ${
-        service.span === 7
-          ? "lg:col-span-7 md:col-span-6"
-          : service.span === 5
-            ? "lg:col-span-5 md:col-span-6"
-            : "lg:col-span-4 md:col-span-6"
-      }`}
+      className={`srv-card group relative p-px cursor-pointer transition-all duration-500 col-span-1 rounded-none ${service.span === 7
+        ? "lg:col-span-7 md:col-span-6"
+        : service.span === 5
+          ? "lg:col-span-5 md:col-span-6"
+          : "lg:col-span-4 md:col-span-6"
+        }`}
       onClick={() => nav(service.link)}
       style={{
         backgroundColor: isHovered
@@ -223,7 +222,7 @@ function ServiceCard({ service }: { service: Service }) {
     >
       <div
         ref={ref}
-        className="h-full w-full relative p-8 lg:p-10 bg-surface overflow-hidden transition-colors duration-500 rounded-[15px]"
+        className="h-full w-full relative p-8 lg:p-10 bg-surface overflow-hidden transition-colors duration-500 rounded-none"
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
       >
@@ -232,13 +231,13 @@ function ServiceCard({ service }: { service: Service }) {
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
           aria-hidden="true"
           style={{
-            background: `radial-gradient(circle at 100% 0%, ${service.color}10 0%, transparent 50%)`,
+            background: `radial-gradient(circle at 100% 0%, ${service.color}5 0%, transparent 50%)`,
           }}
         />
 
         {/* Icon */}
         <div
-          className="mb-10 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-500 border border-foreground/5 relative z-10 group-hover:scale-110 group-hover:rotate-3 shadow-lg"
+          className="mb-10 w-16 h-16 rounded-none flex items-center justify-center text-3xl transition-all duration-500 border border-foreground/5 relative z-10 group-hover:scale-110 group-hover:rotate-3 shadow-lg"
           style={{
             background: `${service.color}15`,
             color: service.color,
@@ -263,7 +262,7 @@ function ServiceCard({ service }: { service: Service }) {
           </div>
         )}
 
-        <h3 className="text-2xl font-display font-black text-foreground mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-accent group-hover:to-brand-purple transition-all duration-300 relative z-10">
+        <h3 className={`text-2xl font-display font-black text-foreground mb-4 tracking-tight group-hover:text-[${service.color}] transition-all duration-300 relative z-10`}>
           {service.title}
         </h3>
 

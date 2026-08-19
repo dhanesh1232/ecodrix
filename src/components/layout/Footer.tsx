@@ -130,7 +130,7 @@ export function Footer() {
                     alt="ECODrIx"
                     width={160}
                     height={100}
-                    className="h-20 w-[160px] object-contain transition-all duration-300 group-hover:scale-105"
+                    className="h-20 w-auto object-contain transition-all duration-300 group-hover:scale-105"
                     priority
                   />
                 </div>
@@ -170,7 +170,7 @@ export function Footer() {
             {/* Links Columns */}
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title} className="lg:col-span-1">
-                <h4 className="text-subtle font-bold text-[11px] tracking-[0.2em] uppercase mb-6">
+                <h4 className="text-subtle font-bold text-[11px] tracking-[0.2em] mb-6">
                   {title}
                 </h4>
                 <ul className="space-y-4">
@@ -184,7 +184,7 @@ export function Footer() {
                             nav(link.href);
                           }
                         }}
-                        className="text-muted-foreground hover:text-input text-[15px] font-medium transition-colors duration-300 flex items-center group"
+                        className="text-muted-foreground hover:text-foreground text-[15px] font-medium transition-colors duration-300 flex items-center group"
                       >
                         {link.label}
                         <ArrowUpRight
@@ -205,13 +205,13 @@ export function Footer() {
           {/* Bottom Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 order-2 md:order-1">
-              <p className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
+              <p className="text-muted-foreground text-xs font-bold tracking-widest">
                 © 2026 ECODrIx.
               </p>
               <div className="flex flex-col gap-2">
                 <Link
                   href="mailto:support@ecodrix.com"
-                  className="text-muted-foreground hover:text-input text-[11px] font-bold tracking-widest uppercase transition-colors"
+                  className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-widest transition-colors"
                 >
                   support@ecodrix.com
                 </Link>
@@ -223,13 +223,13 @@ export function Footer() {
                     new Event("ecodrix:open-cookie-preferences"),
                   )
                 }
-                className="text-muted-foreground hover:text-input text-[11px] font-bold tracking-widest uppercase transition-colors"
+                className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-widest transition-colors"
               >
                 Cookie Preferences
               </button>
             </div>
 
-            <p className="text-muted-foreground text-xs font-bold tracking-widest uppercase order-1 md:order-2 flex items-center gap-2">
+            <p className="text-muted-foreground text-xs font-bold tracking-widest order-1 md:order-2 flex items-center gap-2">
               Engineered with{" "}
               <span className="text-accent animate-pulse">✦</span> in India
             </p>

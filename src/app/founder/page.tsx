@@ -59,7 +59,7 @@ const FOUNDER_FAQS = [
   },
   {
     q: "What companies has Dhanesh Mekalthuru founded?",
-    a: "Dhanesh Mekalthuru founded ECODrIx in March 2024. ECODrIx operates the ERIX product suite — ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, and Relay Fabric — serving 50+ businesses across India and globally.",
+    a: "Dhanesh Mekalthuru founded ECODrIx in August 2025. ECODrIx operates the ERIX product suite — ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, and Relay Fabric — serving 50+ businesses across India and globally.",
   },
   {
     q: "What does Dhanesh Mekalthuru build?",
@@ -86,25 +86,25 @@ const FOUNDER_FAQS = [
 const ROLES = [
   {
     title: "Founder & CEO, ECODrIx",
-    period: "March 2024 — Present",
+    period: "August 2025 — Present",
     desc: "Built ECODrIx from spark to platform. Architected the ERIX subsystem suite and shipped the multi-tenant core, automation engine, and AI lead pipeline.",
     color: "var(--color-accent)",
   },
   {
     title: "Architect, ERIX-CRM & ERIX-FLOW",
-    period: "September 2024 — Present",
+    period: "November 2025 — Present",
     desc: "Designed the kanban pipeline, conversation inbox, and the visual automation engine with a custom-node marketplace.",
     color: "var(--color-brand-purple)",
   },
   {
     title: "Creator, ErixStore & Relay Fabric",
-    period: "March 2025 — Present",
+    period: "August 2025 — Present",
     desc: "Wrote the proprietary in-memory database server and the auto-provisioning distributed worker engine that powers LAIE.",
     color: "var(--color-success)",
   },
   {
     title: "AI & Automation Engineer",
-    period: "September 2025 — Present",
+    period: "November 2025 — Present",
     desc: "Integrated Claude and Gemini for lead research, dossier generation, outreach copy, and image description across the platform.",
     color: "var(--color-warning)",
   },
@@ -181,7 +181,7 @@ export default function FounderPage() {
             <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
               Dhanesh Mekalthuru — known online as <strong>Erix</strong> — is a
               full-stack engineer and SaaS founder based in Andhra Pradesh,
-              India. He started ECODrIx in March 2024 after a year of building
+              India. He started ECODrIx in August 2025 after a year of building
               client systems that all needed the same stitched-together stack:
               CRM, WhatsApp, email marketing, automation, and storage.
             </p>
@@ -228,7 +228,7 @@ export default function FounderPage() {
         <div className="wrapper">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-foreground/5">
             {[
-              { value: "March 2024", label: "ECODrIx founded" },
+              { value: "August 2025", label: "ECODrIx founded" },
               { value: "5+", label: "ERIX subsystems shipped" },
               { value: "80+", label: "API endpoints in production" },
               { value: "50+", label: "Businesses served" },
@@ -261,10 +261,10 @@ export default function FounderPage() {
             {ROLES.map((r) => (
               <div
                 key={r.title}
-                className="relative p-px rounded-2xl bg-foreground/6"
+                className="relative p-px rounded-none bg-foreground/6"
                 style={{ "--tile": r.color } as React.CSSProperties}
               >
-                <div className="relative h-full p-7 rounded-2xl bg-surface">
+                <div className="relative h-full p-7 rounded-none bg-surface">
                   <span className="font-sans text-[10px] font-bold block mb-3 uppercase tracking-widest text-[var(--tile)]">
                     {r.period}
                   </span>
@@ -317,7 +317,7 @@ export default function FounderPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-lg bg-foreground/3"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-none bg-foreground/3"
                 >
                   <Icon size={14} />
                   {label}
@@ -327,7 +327,7 @@ export default function FounderPage() {
                 href={PORTFOLIO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-lg bg-foreground/3"
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-none bg-foreground/3"
               >
                 <ArrowRight size={14} />
                 portfolio.ecodrix.com
@@ -372,7 +372,7 @@ export default function FounderPage() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="group flex items-center justify-between p-5 border border-foreground/8 hover:border-accent/30 transition-colors rounded-xl bg-foreground/[0.02]"
+                  className="group flex items-center justify-between p-5 border border-foreground/8 hover:border-accent/30 transition-colors rounded-none bg-foreground/[0.02]"
                 >
                   <div>
                     <div className="text-foreground font-bold text-sm mb-1">

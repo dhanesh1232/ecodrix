@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Mail, BarChart3, Zap, Cloud, Calendar } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ECODrIx is a unified business infrastructure platform founded in March 2024 in India. We help businesses automate operations, manage customers, and scale growth.",
+    "ECODrIx is a unified business infrastructure platform founded in August 2025 in India. We help businesses automate operations, manage customers, and scale growth.",
   alternates: { canonical: "https://ecodrix.com/about" },
 };
 
 const stats = [
-  { value: "2024", label: "Founded" },
+  { value: "2025", label: "Founded" },
   { value: "50+", label: "Businesses onboarded" },
   { value: "6", label: "Tools in one platform" },
   { value: "99.9%", label: "Uptime SLA" },
@@ -48,31 +48,37 @@ const products = [
     name: "CRM & Lead Pipeline",
     desc: "Kanban pipeline with lead scoring, activity logs, and revenue forecasting.",
     color: "var(--color-accent)",
+    icon: BarChart3,
   },
   {
     name: "WhatsApp Business API",
     desc: "Official Meta Cloud API for broadcasts, templates, and unified inbox.",
     color: "var(--color-success)",
+    icon: BsWhatsapp,
   },
   {
     name: "Automation Engine",
     desc: "20+ triggers, multi-step sequences, conditional logic — no code required.",
     color: "var(--color-brand-purple)",
+    icon: Zap,
   },
   {
     name: "Email Marketing",
     desc: "Powered by AWS SES. Drag-and-drop builder, segmentation, and analytics.",
     color: "#F472B6",
+    icon: Mail,
   },
   {
     name: "Cloud Storage",
     desc: "Secure file management linked directly to contacts and deals.",
     color: "#FB923C",
+    icon: Cloud,
   },
   {
     name: "Meeting Scheduler",
     desc: "Google Calendar integration with automatic Meet link generation via WhatsApp.",
     color: "var(--color-accent)",
+    icon: Calendar,
   },
 ];
 
@@ -95,7 +101,7 @@ export default function AboutPage() {
       {/* ── Hero ── */}
       <section className="pt-40 pb-24 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden
         />
         <div className="wrapper relative z-10">
@@ -144,8 +150,8 @@ export default function AboutPage() {
       <section className="py-24 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Mission</div>
-          <div className="p-px rounded-2xl bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
-            <div className="px-10 py-10 rounded-2xl bg-surface">
+          <div className="p-px rounded-none bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
+            <div className="px-10 py-10 rounded-none bg-surface">
               <p className="text-foreground font-display font-bold leading-relaxed text-[clamp(1.2rem,2.5vw,1.6rem)] tracking-[-0.02em]">
                 Empower businesses to automate operations and scale growth —
                 without needing a technical team or expensive enterprise
@@ -169,17 +175,25 @@ export default function AboutPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/5">
-            {products.map(({ name, desc, color }) => (
+            {products.map(({ name, desc, color, icon: Icon }) => (
               <div
                 key={name}
-                className="p-8 bg-background hover:bg-surface transition-colors duration-200"
+                className="group p-8 bg-background hover:bg-surface transition-colors duration-200"
                 style={{ "--bar": color } as React.CSSProperties}
               >
-                <div className="w-1 h-8 mb-6 bg-[var(--bar)]" />
+                {/* Pipe sweeps left→right on hover to reveal icon. On unhover, sweeps right→left to cover icon again. */}
+                <div className="relative w-8 h-8 mb-6 overflow-hidden">
+                  {/* Icon — always in place behind the sweep */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Icon size={16} style={{ color: "var(--bar)" }} />
+                  </div>
+                  {/* Sweep cover — starts covering (translate-x-0), moves right on hover (translate-x-full), returns on unhover */}
+                  <div className="absolute inset-0 bg-(--bar) z-2 -translate-x-full lg:group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+                </div>
                 <h3 className="text-foreground font-bold text-base mb-3">
                   {name}
                 </h3>
-                <p className="text-subtle text-sm leading-relaxed">{desc}</p>
+                <p className="text-foreground/40 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -198,13 +212,11 @@ export default function AboutPage() {
             {values.map(({ num, color, title, desc }) => (
               <div
                 key={num}
-                className="group relative p-px rounded-2xl transition-colors duration-300 bg-foreground/6"
+                className="group relative p-px rounded-none transition-colors duration-300 bg-foreground/6"
                 style={{ "--tile": color } as React.CSSProperties}
               >
-                {/* hover tint — uses the card's accent color at low opacity */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.09] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
-                <div className="relative h-full p-8 rounded-2xl bg-surface">
-                  <span className="font-sans text-[11px] font-bold block mb-5 text-[var(--tile)]">
+                <div className="relative h-full p-8 rounded-none bg-surface">
+                  <span className="font-sans text-[11px] font-bold block mb-5 text-(--tile)">
                     {num}
                   </span>
                   <h3 className="text-foreground font-bold text-lg mb-3">
@@ -234,7 +246,7 @@ export default function AboutPage() {
             {stack.map((tech) => (
               <span
                 key={tech}
-                className="px-4 py-2 font-sans text-[12px] text-subtle border border-foreground/8 transition-colors duration-200 hover:text-foreground hover:border-accent/30 rounded-lg bg-foreground/3"
+                className="px-4 py-2 font-sans text-[12px] text-foreground/50 border border-foreground/8 transition-colors duration-200 hover:text-foreground hover:border-accent/30 rounded-none bg-foreground/3"
               >
                 {tech}
               </span>
@@ -246,8 +258,8 @@ export default function AboutPage() {
       {/* ── Contact CTA ── */}
       <section className="py-24 px-6">
         <div className="wrapper">
-          <div className="p-px rounded-2xl bg-foreground/6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-2xl bg-surface">
+          <div className="p-px rounded-none bg-foreground/6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-none bg-surface">
               <div>
                 <h2 className="font-display font-black text-foreground mb-3 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
                   Want to talk to the founder?
@@ -260,7 +272,7 @@ export default function AboutPage() {
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                 <a
                   href="mailto:contact@ecodrix.com"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-accent-foreground rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(43,77,203,0.3)] bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))]"
+                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground rounded-none transition-all duration-300 hover:shadow-[0_0_30px_rgba(43,77,203,0.3)] bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))]"
                 >
                   <Mail size={14} />
                   Email us
@@ -273,7 +285,7 @@ export default function AboutPage() {
                   href="https://wa.me/918143963821"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground border border-foreground/10 transition-all duration-300 hover:border-success/40 hover:text-success rounded-xl bg-foreground/4"
+                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground border border-foreground/10 transition-all duration-300 hover:border-success/40 hover:text-success rounded-none bg-foreground/4"
                 >
                   <BsWhatsapp size={14} />
                   WhatsApp

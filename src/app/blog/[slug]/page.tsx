@@ -4,14 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { getBlogBySlug, getPublishedBlogs } from "@/lib/api";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
+import { BlogContent } from "@/components/blog/BlogContent";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const posts = await getPublishedBlogs();
-  return posts.map((post) => ({ slug: post.slug! }));
+  // Don't fetch at build time — render on demand with ISR
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -34,11 +35,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: post.author?.name ? [post.author.name] : undefined,
       images: post.featuredImage?.url
         ? [
-            {
-              url: post.featuredImage.url,
-              alt: post.featuredImage.altText || post.title || "",
-            },
-          ]
+          {
+            url: post.featuredImage.url,
+            alt: post.featuredImage.altText || post.title || "",
+          },
+        ]
         : undefined,
     },
     twitter: {
@@ -83,7 +84,7 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      <article className="mx-auto max-w-3xl px-5 py-16 sm:py-24">
+      <article className="mx-auto max-w-7xl px-5 py-16 sm:py-24">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
@@ -141,7 +142,7 @@ export default async function BlogPostPage({ params }: Props) {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground"
+                  className="rounded-none border border-border px-2 py-0.5 text-xs text-muted-foreground"
                 >
                   #{tag}
                 </span>
@@ -152,7 +153,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Featured image */}
         {post.featuredImage?.url && (
-          <div className="relative mb-10 aspect-[2/1] overflow-hidden rounded-2xl">
+          <div className="relative mb-10 aspect-[2/1] overflow-hidden rounded-none">
             <Image
               src={post.featuredImage.url}
               alt={post.featuredImage.altText || post.title || ""}
@@ -165,16 +166,10 @@ export default async function BlogPostPage({ params }: Props) {
         )}
 
         {/* Body */}
-        <div
-          className="prose prose-lg prose-neutral dark:prose-invert max-w-none
-            prose-headings:font-display prose-headings:tracking-tight
-            prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-            prose-img:rounded-xl prose-pre:bg-muted"
-          dangerouslySetInnerHTML={{ __html: post.body || "" }}
-        />
+        <BlogContent html={post.body || ""} />
 
         {/* Footer CTA */}
-        <footer className="mt-16 rounded-2xl border border-border bg-muted/50 p-8 text-center">
+        <footer className="mt-16 rounded-none border border-border bg-muted/50 p-8 text-center">
           <p className="text-lg font-semibold text-foreground">
             Ready to automate your business?
           </p>
@@ -184,7 +179,7 @@ export default async function BlogPostPage({ params }: Props) {
           </p>
           <Link
             href="/pricing"
-            className="mt-4 inline-block rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-accent/90"
+            className="mt-4 inline-block rounded-none bg-accent px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-accent/90"
           >
             Get Started →
           </Link>

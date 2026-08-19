@@ -132,12 +132,16 @@ function getApiUrl(): string {
 export async function fetchPublicPlans(): Promise<PublicPlansResponse | null> {
   try {
     const url = `${getApiUrl().replace(/\/$/, "")}/v1/api/platform/billing/plans/public`;
-    // The `next.revalidate` field is a Next.js extension to RequestInit; cast
-    // through `unknown` so this file type-checks even without next-env.d.ts
-    // being in scope of this module's diagnostic context.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
     const res = await fetch(url, {
       next: { revalidate: 300 },
+      signal: controller.signal,
     } as unknown as RequestInit);
+
+    clearTimeout(timeout);
+
     if (!res.ok) return null;
     const data = (await res.json()) as PublicPlansResponse;
     if (!data || !Array.isArray(data.plans)) return null;

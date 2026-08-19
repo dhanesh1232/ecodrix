@@ -35,6 +35,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.ecodrix.com" },
       { protocol: "https", hostname: "ecodrix.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
     ],
     // Modern formats improve LCP — Next.js serves WebP/AVIF automatically
     formats: ["image/avif", "image/webp"],

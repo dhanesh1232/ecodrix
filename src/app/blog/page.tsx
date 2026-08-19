@@ -4,6 +4,9 @@ import Image from "next/image";
 import { getPublishedBlogs } from "@/lib/api";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
 
+// Render on demand — don't block build waiting for API
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog — ECODrIx",
   description:
@@ -22,7 +25,7 @@ export default async function BlogListPage() {
   const posts = await getPublishedBlogs();
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+    <div className="mx-auto max-w-7xl px-5 py-16 sm:py-24 flex-1 flex flex-col">
       <header className="mb-12 text-center">
         <h1 className="font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
           Blog
@@ -34,15 +37,17 @@ export default async function BlogListPage() {
       </header>
 
       {posts.length === 0 ? (
-        <p className="text-center text-muted-foreground">
-          No posts published yet. Check back soon.
-        </p>
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-center text-muted-foreground">
+            No posts published yet. Check back soon.
+          </p>
+        </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <article
               key={post.id}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
+              className="group relative flex flex-col overflow-hidden rounded-none border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
             >
               {post.featuredImage?.url && (
                 <div className="relative aspect-video overflow-hidden">

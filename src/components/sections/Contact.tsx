@@ -95,7 +95,7 @@ export function Contact() {
       .then((d) => {
         if (d.data?.total) setWaitlistCount(d.data.total);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const onSubmit = async (data: FormData) => {
@@ -164,7 +164,7 @@ export function Contact() {
 
           {/* Live counter */}
           {waitlistCount > 0 && (
-            <div className="mt-6 inline-flex items-center gap-3 px-5 py-2.5 rounded-xl bg-elevated border border-border">
+            <div className="mt-6 inline-flex items-center gap-3 px-5 py-2.5 rounded-none bg-elevated border border-border">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
@@ -185,7 +185,7 @@ export function Contact() {
             <div
               key={f.title}
               style={{ "--c": f.color } as React.CSSProperties}
-              className="group flex items-center gap-2 px-3 py-2 transition-all duration-300 hover:scale-105 rounded-lg bg-elevated border border-border"
+              className="group flex items-center gap-2 px-3 py-2 transition-all duration-300 hover:scale-105 rounded-none bg-elevated border border-border"
             >
               <f.icon
                 size={13}
@@ -201,18 +201,18 @@ export function Contact() {
         {/* ── Main content: Form + Side panel ── */}
         <div className="flex flex-col lg:grid lg:grid-cols-[1fr_340px] gap-4 max-w-5xl mx-auto">
           {/* Form panel */}
-          <div className="transition-all duration-500 rounded-2xl bg-surface border border-accent/15">
-            <div className="p-6 sm:p-8 lg:p-10 rounded-2xl">
+          <div className="transition-all duration-500 rounded-none bg-surface border border-accent/15">
+            <div className="p-6 sm:p-8 lg:p-10 rounded-none">
               {state === "sent" ? (
                 /* ── Success state ── */
                 <div className="text-center py-12 space-y-5">
-                  <div className="w-20 h-20 flex items-center justify-center mx-auto rounded-lg bg-success/10 border border-success/30">
+                  <div className="w-20 h-20 flex items-center justify-center mx-auto rounded-none bg-success/10 border border-success/30">
                     <CheckCircle2 size={32} className="text-success" />
                   </div>
                   <h3 className="text-2xl font-display font-black text-foreground">
                     You&apos;re on the list!
                   </h3>
-                  <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30">
+                  <div className="inline-flex items-center gap-3 px-6 py-3 rounded-none bg-accent/10 border border-accent/30">
                     <span className="text-sm text-muted-foreground">
                       Position:
                     </span>
@@ -227,7 +227,7 @@ export function Contact() {
 
                   {/* Referral */}
                   {referralCode && (
-                    <div className="mt-6 p-5 max-w-sm mx-auto text-left rounded-2xl bg-surface border border-accent/20">
+                    <div className="mt-6 p-5 max-w-sm mx-auto text-left rounded-none bg-surface border border-accent/20">
                       <div className="flex items-center gap-2 mb-2">
                         <Share2 size={14} className="text-accent" />
                         <span className="text-sm font-display font-bold text-foreground">
@@ -238,7 +238,7 @@ export function Contact() {
                         Each friend who joins bumps you up 3 positions.
                       </p>
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 px-3 py-2 overflow-hidden rounded-lg bg-background border border-accent/25">
+                        <div className="flex-1 px-3 py-2 overflow-hidden rounded-none bg-background border border-accent/25">
                           <span className="text-[11px] font-sans text-accent truncate block">
                             {typeof window !== "undefined"
                               ? `${window.location.origin}?ref=${referralCode}`
@@ -247,7 +247,7 @@ export function Contact() {
                         </div>
                         <button
                           onClick={copyReferralLink}
-                          className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-sans font-bold text-accent transition-all duration-300 hover:scale-105 rounded-lg bg-accent/10 border border-accent/30"
+                          className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-sans font-bold text-accent transition-all duration-300 hover:scale-105 rounded-none bg-accent/10 border border-accent/30"
                         >
                           <Copy size={11} />
                           {copied ? "Copied!" : "Copy"}
@@ -383,11 +383,10 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={state !== "idle"}
-                    className={`w-full group relative overflow-hidden mt-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed rounded-xl px-6 py-4 ${
-                      state === "sending"
-                        ? "bg-accent/40"
-                        : "bg-[linear-gradient(135deg,var(--color-accent),var(--color-brand-purple))]"
-                    }`}
+                    className={`w-full group relative overflow-hidden mt-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed rounded-none px-6 py-4 ${state === "sending"
+                      ? "bg-accent/40"
+                      : "bg-[linear-gradient(135deg,var(--color-accent),var(--color-brand-purple))]"
+                      }`}
                   >
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(105deg,transparent_40%,color-mix(in_srgb,var(--color-foreground)_15%,transparent)_50%,transparent_60%)]" />
@@ -415,8 +414,8 @@ export function Contact() {
           </div>
 
           {/* ── Side panel ── */}
-          <div className="rounded-2xl bg-surface border border-border">
-            <div className="p-6 sm:p-7 flex flex-col h-full rounded-2xl">
+          <div className="rounded-none bg-surface border border-border">
+            <div className="p-6 sm:p-7 flex flex-col h-full rounded-none">
               {/* Contact info */}
               <div className="space-y-5 mb-7">
                 {[
@@ -447,7 +446,7 @@ export function Contact() {
                     style={{ "--c": color } as React.CSSProperties}
                     className="flex gap-3 items-start group"
                   >
-                    <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 rounded-lg bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_15%,transparent)]">
+                    <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 rounded-none bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_15%,transparent)]">
                       <Icon size={14} className="text-[var(--c)]" />
                     </div>
                     <div>
@@ -514,7 +513,7 @@ export function Contact() {
                       style={{ "--c": color } as React.CSSProperties}
                       className="flex items-center gap-3"
                     >
-                      <div className="w-6 h-6 flex items-center justify-center flex-shrink-0 rounded-lg bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_15%,transparent)]">
+                      <div className="w-6 h-6 flex items-center justify-center flex-shrink-0 rounded-none bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_15%,transparent)]">
                         <Icon size={11} className="text-[var(--c)]" />
                       </div>
                       <span className="text-[13px] text-foreground/80">
@@ -543,7 +542,7 @@ export function Contact() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-accent transition-all duration-300 hover:scale-110 rounded-lg bg-elevated border border-border"
+                    className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-accent transition-all duration-300 hover:scale-110 rounded-none bg-elevated border border-border"
                   >
                     <Icon size={14} />
                   </a>

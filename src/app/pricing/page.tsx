@@ -186,11 +186,11 @@ export default async function PricingPage() {
             {benefits.map((benefit, i) => (
               <div
                 key={i}
-                className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-2xl"
+                className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-none"
               >
-                <div className="bg-surface h-full p-6 relative overflow-hidden flex flex-col no-collapse rounded-2xl">
+                <div className="bg-surface h-full p-6 relative overflow-hidden flex flex-col no-collapse rounded-none">
                   <div className="mb-4">
-                    <div className="w-12 h-12 flex items-center justify-center mb-4 bg-accent/10 polygon-icon rounded-xl">
+                    <div className="w-12 h-12 flex items-center justify-center mb-4 bg-accent/10 polygon-icon rounded-none">
                       <benefit.icon size={20} className="text-accent" />
                     </div>
                     <h3 className="text-foreground font-bold text-lg mb-2 leading-tight">
@@ -244,7 +244,7 @@ export default async function PricingPage() {
           </p>
           <a
             href="https://console.ecodrix.com/auth/signup"
-            className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-label text-accent-foreground transition-all duration-300 hover:shadow-[0_0_40px_rgba(43,77,203,0.35)] bg-linear-to-r from-accent to-brand-purple polygon-button rounded-2xl"
+            className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest text-label text-accent-foreground transition-all duration-300 hover:shadow-[0_0_40px_rgba(43,77,203,0.35)] bg-linear-to-r from-accent to-brand-purple polygon-button rounded-none"
           >
             Start for Free
             <ArrowRight

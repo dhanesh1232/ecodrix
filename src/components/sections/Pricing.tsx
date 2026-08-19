@@ -81,15 +81,14 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto grid-no-collapse">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-6xl mx-auto grid-no-collapse">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`group relative p-px transition-colors duration-500 no-collapse rounded-2xl ${
-                plan.popular
-                  ? "bg-linear-to-br from-brand-purple/50 to-accent/50"
-                  : "bg-foreground/10 hover:bg-foreground/20"
-              }`}
+              className={`group relative p-px transition-colors duration-500 no-collapse rounded-none ${plan.popular
+                ? "bg-linear-to-br from-brand-purple/50 to-accent/50"
+                : "bg-foreground/10 hover:bg-foreground/20"
+                }`}
             >
               {plan.popular && (
                 <div
@@ -99,7 +98,7 @@ export function Pricing() {
                   Most Popular
                 </div>
               )}
-              <div className="bg-surface h-full p-8 relative overflow-hidden flex flex-col no-collapse rounded-[15px]">
+              <div className="bg-surface h-full p-8 relative overflow-hidden flex flex-col no-collapse rounded-none">
                 {plan.popular && (
                   <div
                     className="absolute top-0 right-0 w-64 h-64 bg-brand-purple/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
@@ -132,7 +131,7 @@ export function Pricing() {
                   {plan.features.map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <div
-                        className={`w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 rounded-md ${plan.bgClass}`}
+                        className={`w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 rounded-none ${plan.bgClass}`}
                       >
                         <Check size={12} className={plan.colorClass} />
                       </div>
@@ -155,11 +154,10 @@ export function Pricing() {
 
                 <a
                   href="/#contact"
-                  className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-widest text-[12px] transition-all duration-300 flex items-center justify-center gap-2 group/btn relative z-10 ${
-                    plan.popular
-                      ? "bg-accent text-accent-foreground hover:bg-accent-hover"
-                      : "bg-surface text-foreground border border-border-strong hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                  }`}
+                  className={`w-full py-4 px-6 rounded-none font-bold uppercase tracking-widest text-[12px] transition-all duration-300 flex items-center justify-center gap-2 group/btn relative z-10 ${plan.popular
+                    ? "bg-accent text-accent-foreground hover:bg-accent-hover"
+                    : "bg-surface text-foreground border border-border-strong hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                    }`}
                 >
                   {plan.cta}
                   <ArrowRight
@@ -176,7 +174,7 @@ export function Pricing() {
         <div className="text-center mt-12">
           <Link
             href="/pricing"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-surface text-foreground border border-border-strong hover:bg-accent hover:text-accent-foreground hover:border-accent font-bold uppercase tracking-widest text-[12px] transition-all duration-300 group"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-none bg-surface text-foreground border border-border-strong hover:bg-accent hover:text-accent-foreground hover:border-accent font-bold uppercase tracking-widest text-[12px] transition-all duration-300 group"
           >
             View All Plans & Features
             <ExternalLink

@@ -1,14 +1,11 @@
-// Server Component — SEO-first, all content in DOM, animations are CSS-only.
-// Inspired by portfolio.ecodrix.com's dot-grid + glow approach,
-// adapted for light-mode SaaS with animated SVG grid lines.
+// Server Component — SSR, CSS-only animations, zero JS hydration cost.
 import { ArrowRight, Zap } from "lucide-react";
 
 /**
- * SVG grid with animated glowing pulses traveling along the lines.
- * - Inline SVG = renders in first HTML paint (no JS blocking)
- * - CSS keyframes handle all animation (zero runtime cost)
- * - Radial mask fades grid edges naturally
- * - Mobile: fewer lines for performance
+ * 3D perspective-tilted SVG grid with glowing animated pulses.
+ * The grid tilts back (rotateX) so the bottom appears closer and
+ * the top recedes — like a floor plane extending to the horizon.
+ * All animation via CSS keyframes. Renders in initial HTML payload.
  */
 function AnimatedGrid() {
   const cellSize = 56;
@@ -19,80 +16,87 @@ function AnimatedGrid() {
 
   return (
     <div
-      className="absolute inset-0 pointer-events-none select-none"
+      className="absolute inset-0 pointer-events-none select-none overflow-hidden"
       aria-hidden="true"
-      style={{
-        maskImage: "radial-gradient(ellipse 72% 65% at 50% 42%, black 25%, transparent 72%)",
-        WebkitMaskImage: "radial-gradient(ellipse 72% 65% at 50% 42%, black 25%, transparent 72%)",
-      }}
+      style={{ perspective: "1200px", perspectiveOrigin: "50% 35%" }}
     >
-      <svg
-        viewBox={`0 0 ${w} ${h}`}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] min-w-[1000px]"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
+      {/* Inner wrapper gets the 3D tilt */}
+      <div
+        className="absolute inset-[-20%] top-[10%]"
+        style={{
+          transform: "rotateX(52deg)",
+          transformOrigin: "50% 50%",
+          maskImage: "radial-gradient(ellipse 75% 65% at 50% 50%, black 15%, transparent 68%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 65% at 50% 50%, black 15%, transparent 68%)",
+        }}
       >
-        <defs>
-          {/* Glow gradients — short luminous segment that fades at ends */}
-          <linearGradient id="g-v-blue" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(37,99,235,0)" />
-            <stop offset="40%" stopColor="rgba(37,99,235,0.7)" />
-            <stop offset="60%" stopColor="rgba(37,99,235,0.7)" />
-            <stop offset="100%" stopColor="rgba(37,99,235,0)" />
-          </linearGradient>
-          <linearGradient id="g-v-purple" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(124,58,237,0)" />
-            <stop offset="40%" stopColor="rgba(124,58,237,0.6)" />
-            <stop offset="60%" stopColor="rgba(124,58,237,0.6)" />
-            <stop offset="100%" stopColor="rgba(124,58,237,0)" />
-          </linearGradient>
-          <linearGradient id="g-h-blue" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="rgba(37,99,235,0)" />
-            <stop offset="40%" stopColor="rgba(37,99,235,0.6)" />
-            <stop offset="60%" stopColor="rgba(37,99,235,0.6)" />
-            <stop offset="100%" stopColor="rgba(37,99,235,0)" />
-          </linearGradient>
-          <linearGradient id="g-h-red" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="rgba(220,38,38,0)" />
-            <stop offset="40%" stopColor="rgba(220,38,38,0.4)" />
-            <stop offset="60%" stopColor="rgba(220,38,38,0.4)" />
-            <stop offset="100%" stopColor="rgba(220,38,38,0)" />
-          </linearGradient>
-        </defs>
+        <svg
+          viewBox={`0 0 ${w} ${h}`}
+          className="w-full h-full"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <defs>
+            <linearGradient id="g-v-blue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(37,99,235,0)" />
+              <stop offset="40%" stopColor="rgba(37,99,235,0.7)" />
+              <stop offset="60%" stopColor="rgba(37,99,235,0.7)" />
+              <stop offset="100%" stopColor="rgba(37,99,235,0)" />
+            </linearGradient>
+            <linearGradient id="g-v-purple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(124,58,237,0)" />
+              <stop offset="40%" stopColor="rgba(124,58,237,0.6)" />
+              <stop offset="60%" stopColor="rgba(124,58,237,0.6)" />
+              <stop offset="100%" stopColor="rgba(124,58,237,0)" />
+            </linearGradient>
+            <linearGradient id="g-h-blue" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="rgba(37,99,235,0)" />
+              <stop offset="40%" stopColor="rgba(37,99,235,0.6)" />
+              <stop offset="60%" stopColor="rgba(37,99,235,0.6)" />
+              <stop offset="100%" stopColor="rgba(37,99,235,0)" />
+            </linearGradient>
+            <linearGradient id="g-h-red" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="rgba(220,38,38,0)" />
+              <stop offset="40%" stopColor="rgba(220,38,38,0.4)" />
+              <stop offset="60%" stopColor="rgba(220,38,38,0.4)" />
+              <stop offset="100%" stopColor="rgba(220,38,38,0)" />
+            </linearGradient>
+          </defs>
 
-        {/* Static grid — faint dots at intersections */}
-        {Array.from({ length: (cols + 1) * (rows + 1) }, (_, idx) => {
-          const col = idx % (cols + 1);
-          const row = Math.floor(idx / (cols + 1));
-          return (
-            <circle
-              key={idx}
-              cx={col * cellSize}
-              cy={row * cellSize}
-              r="1"
-              fill="var(--color-border)"
-              opacity="0.5"
-            />
-          );
-        })}
+          {/* Static grid — faint dots at every intersection */}
+          {Array.from({ length: (cols + 1) * (rows + 1) }, (_, idx) => {
+            const col = idx % (cols + 1);
+            const row = Math.floor(idx / (cols + 1));
+            return (
+              <circle
+                key={idx}
+                cx={col * cellSize}
+                cy={row * cellSize}
+                r="1"
+                fill="var(--color-border)"
+                opacity="0.5"
+              />
+            );
+          })}
 
-        {/* Animated vertical glow lines */}
-        <line x1={cellSize * 5} y1={0} x2={cellSize * 5} y2={h}
-          className="glow-line glow-line-v1" stroke="url(#g-v-blue)" strokeWidth="2" />
-        <line x1={cellSize * 10} y1={0} x2={cellSize * 10} y2={h}
-          className="glow-line glow-line-v2" stroke="url(#g-v-purple)" strokeWidth="1.5" />
-        <line x1={cellSize * 15} y1={0} x2={cellSize * 15} y2={h}
-          className="glow-line glow-line-v3" stroke="url(#g-v-blue)" strokeWidth="1.5" />
+          {/* Animated vertical glow lines */}
+          <line x1={cellSize * 5} y1={0} x2={cellSize * 5} y2={h}
+            className="glow-line glow-line-v1" stroke="url(#g-v-blue)" strokeWidth="2" />
+          <line x1={cellSize * 10} y1={0} x2={cellSize * 10} y2={h}
+            className="glow-line glow-line-v2" stroke="url(#g-v-purple)" strokeWidth="1.5" />
+          <line x1={cellSize * 15} y1={0} x2={cellSize * 15} y2={h}
+            className="glow-line glow-line-v3" stroke="url(#g-v-blue)" strokeWidth="1.5" />
 
-        {/* Animated horizontal glow lines */}
-        <line x1={0} y1={cellSize * 4} x2={w} y2={cellSize * 4}
-          className="glow-line glow-line-h1" stroke="url(#g-h-blue)" strokeWidth="2" />
-        <line x1={0} y1={cellSize * 8} x2={w} y2={cellSize * 8}
-          className="glow-line glow-line-h2" stroke="url(#g-h-red)" strokeWidth="1.5" />
-        <line x1={0} y1={cellSize * 11} x2={w} y2={cellSize * 11}
-          className="glow-line glow-line-h3" stroke="url(#g-h-blue)" strokeWidth="1" />
-      </svg>
+          {/* Animated horizontal glow lines */}
+          <line x1={0} y1={cellSize * 4} x2={w} y2={cellSize * 4}
+            className="glow-line glow-line-h1" stroke="url(#g-h-blue)" strokeWidth="2" />
+          <line x1={0} y1={cellSize * 8} x2={w} y2={cellSize * 8}
+            className="glow-line glow-line-h2" stroke="url(#g-h-red)" strokeWidth="1.5" />
+          <line x1={0} y1={cellSize * 11} x2={w} y2={cellSize * 11}
+            className="glow-line glow-line-h3" stroke="url(#g-h-blue)" strokeWidth="1" />
+        </svg>
+      </div>
     </div>
   );
 }
@@ -109,7 +113,7 @@ export function HeroStatic() {
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[860px] h-[540px] rounded-full opacity-70 blur-[70px] hero-float bg-[radial-gradient(ellipse_at_center,var(--color-accent-muted)_0%,transparent_70%)]" />
       </div>
 
-      {/* ── Animated SVG Grid ── */}
+      {/* ── 3D Tilted Animated SVG Grid ── */}
       <AnimatedGrid />
 
       {/* ── Main content ── */}
@@ -137,21 +141,12 @@ export function HeroStatic() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 hero-enter [animation-delay:350ms]">
-          <a
-            href="#contact"
-            className="btn-primary inline-flex items-center gap-2.5 group"
-          >
+          <a href="#contact" className="btn-primary inline-flex items-center gap-2.5 group">
             <Zap size={15} />
             Join the Waitlist
-            <ArrowRight
-              size={15}
-              className="group-hover:translate-x-1 transition-transform duration-200"
-            />
+            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
           </a>
-          <a
-            href="#services"
-            className="btn-ghost inline-flex items-center gap-2"
-          >
+          <a href="#services" className="btn-ghost inline-flex items-center gap-2">
             Explore Platform
             <ArrowRight size={14} className="opacity-50" />
           </a>
@@ -172,10 +167,7 @@ export function HeroStatic() {
               className="hero-node inline-flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium rounded-full border border-border bg-surface text-muted-foreground"
               style={{ animationDelay: `${600 + i * 80}ms` }}
             >
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ background: f.color }}
-              />
+              <span className="w-2 h-2 rounded-full" style={{ background: f.color }} />
               {f.label}
             </span>
           ))}

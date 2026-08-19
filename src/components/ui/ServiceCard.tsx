@@ -24,7 +24,7 @@ export const ServiceCard = ({
   return (
     <div
       className={cn(
-        "group relative h-[400px] rounded-3xl overflow-hidden glass-card transition-all duration-500 hover:-translate-y-2",
+        "group relative h-[400px] rounded-none overflow-hidden glass-card transition-all duration-500 hover:-translate-y-2",
         className,
       )}
     >
@@ -42,7 +42,7 @@ export const ServiceCard = ({
 
       {/* Content */}
       <div className="relative h-full p-8 flex flex-col justify-end z-10">
-        <div className="w-14 h-14 rounded-2xl bg-foreground/10 border border-foreground/20 backdrop-blur-md flex items-center justify-center text-foreground mb-6 transform group-hover:scale-110 group-hover:bg-accent group-hover:border-accent group-hover:text-accent-foreground transition-all duration-500">
+        <div className="w-14 h-14 rounded-none bg-foreground/10 border border-foreground/20 backdrop-blur-md flex items-center justify-center text-foreground mb-6 transform group-hover:scale-110 group-hover:bg-accent group-hover:border-accent group-hover:text-accent-foreground transition-all duration-500">
           <Icon size={28} />
         </div>
 

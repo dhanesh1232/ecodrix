@@ -137,22 +137,20 @@ export function ProductSpotlight() {
                   }}
                   data-index={i}
                   style={{ "--c": pillar.color } as React.CSSProperties}
-                  className={`step-block relative min-h-[50vh] flex flex-col justify-center py-10 px-8 transition-all duration-700 ease-out mb-10 ${
-                    isActive
-                      ? "opacity-100 translate-x-[10px]"
-                      : "opacity-25 translate-x-0"
-                  }`}
+                  className={`step-block relative min-h-[50vh] flex flex-col justify-center py-10 px-8 transition-all duration-700 ease-out mb-10 ${isActive
+                    ? "opacity-100 translate-x-[10px]"
+                    : "opacity-25 translate-x-0"
+                    }`}
                 >
                   {/* Geometric Background & Border */}
                   <div
-                    className={`absolute inset-0 border border-foreground/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-700 z-[-1] rounded-xl ${
-                      isActive
-                        ? "bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_5%,transparent)_0%,color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)_100%)]"
-                        : "bg-transparent"
-                    }`}
+                    className={`absolute inset-0 border border-foreground/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-700 z-[-1] rounded-none ${isActive
+                      ? "bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_5%,transparent)_0%,color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)_100%)]"
+                      : "bg-transparent"
+                      }`}
                   >
                     {isActive && (
-                      <div className="absolute inset-[1px] bg-surface rounded-xl" />
+                      <div className="absolute inset-[1px] bg-surface rounded-none" />
                     )}
                   </div>
 
@@ -165,17 +163,15 @@ export function ProductSpotlight() {
 
                   <div className="w-14 h-14 flex items-center justify-center mb-8 transition-all duration-500 relative">
                     <div
-                      className={`absolute inset-0 rounded-lg ${
-                        isActive
-                          ? "bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)]"
-                          : "bg-foreground/[0.02] border border-foreground/5"
-                      }`}
+                      className={`absolute inset-0 rounded-none ${isActive
+                        ? "bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)]"
+                        : "bg-foreground/[0.02] border border-foreground/5"
+                        }`}
                     />
                     <Icon
                       size={26}
-                      className={`relative z-10 ${
-                        isActive ? "text-[var(--c)]" : "text-muted-foreground"
-                      }`}
+                      className={`relative z-10 ${isActive ? "text-[var(--c)]" : "text-muted-foreground"
+                        }`}
                     />
                   </div>
 
@@ -194,11 +190,10 @@ export function ProductSpotlight() {
                         className="px-3.5 py-1.5 text-[11px] font-sans tracking-wider transition-colors duration-500 relative"
                       >
                         <div
-                          className={`absolute inset-0 rounded-md ${
-                            isActive
-                              ? "bg-foreground/5 border border-foreground/10"
-                              : "bg-transparent border border-foreground/[0.03]"
-                          }`}
+                          className={`absolute inset-0 rounded-none ${isActive
+                            ? "bg-foreground/5 border border-foreground/10"
+                            : "bg-transparent border border-foreground/[0.03]"
+                            }`}
                         />
                         <span className="relative z-10 text-accent">{tag}</span>
                       </span>
@@ -211,8 +206,8 @@ export function ProductSpotlight() {
 
           {/* RIGHT: Sticky Visual Container */}
           <div className="hidden md:flex w-[55%] lg:w-[60%] sticky top-6 h-screen max-h-[900px] items-center justify-end pl-12 lg:pl-20 py-20 pointer-events-none self-start">
-            <div className="relative w-full h-[600px] bg-linear-to-br from-elevated to-surface shadow-[0_0_80px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] isolate p-px rounded-2xl">
-              <div className="absolute inset-px bg-surface overflow-hidden rounded-2xl">
+            <div className="relative w-full h-[600px] bg-linear-to-br from-elevated to-surface shadow-[0_0_80px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] isolate p-px rounded-none">
+              <div className="absolute inset-px bg-surface overflow-hidden rounded-none">
                 {/* Premium Glow effect behind the container */}
                 <div
                   className="absolute inset-0 bg-linear-to-br from-accent/10 to-transparent pointer-events-none -z-10"
@@ -221,9 +216,9 @@ export function ProductSpotlight() {
 
                 <div className="absolute top-0 left-0 right-0 h-10 border-b border-foreground/5 bg-foreground/5 backdrop-blur-md flex items-center justify-between px-5 z-20">
                   <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-sm bg-error opacity-80 shadow-[0_0_10px_var(--color-error)]" />
-                    <div className="w-3 h-3 rounded-sm bg-warning opacity-80 shadow-[0_0_10px_var(--color-warning)]" />
-                    <div className="w-3 h-3 rounded-sm bg-accent opacity-80 shadow-[0_0_10px_var(--color-accent)]" />
+                    <div className="w-3 h-3 rounded-none bg-error opacity-80 shadow-[0_0_10px_var(--color-error)]" />
+                    <div className="w-3 h-3 rounded-none bg-warning opacity-80 shadow-[0_0_10px_var(--color-warning)]" />
+                    <div className="w-3 h-3 rounded-none bg-accent opacity-80 shadow-[0_0_10px_var(--color-accent)]" />
                   </div>
                   <div className="font-sans text-[10px] text-muted-foreground tracking-widest uppercase">
                     ECODrIx Workspace
@@ -262,7 +257,7 @@ export function ProductSpotlight() {
                       </div>
                     </div>
                     {/* Fake Code / Traffic Graph */}
-                    <div className="flex-1 border border-foreground/5 bg-elevated/50 backdrop-blur-sm rounded-2xl flex items-end p-6 gap-4 relative z-10 shadow-[inset_0_0_40px_color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)]">
+                    <div className="flex-1 border border-foreground/5 bg-elevated/50 backdrop-blur-sm rounded-none flex items-end p-6 gap-4 relative z-10 shadow-[inset_0_0_40px_color-mix(in_srgb,var(--color-brand-purple)_2%,transparent)]">
                       <AnimatedBars active={activeStep === 0} />
                     </div>
                   </div>
@@ -272,7 +267,7 @@ export function ProductSpotlight() {
                 <VisualWrapper active={activeStep === 1}>
                   <div className="p-8 h-full pt-20 flex gap-5 overflow-hidden bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_srgb,var(--color-accent)_10%,transparent),transparent_50%)]">
                     {/* Column 1 */}
-                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max pb-10 relative z-10 rounded-xl">
+                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max pb-10 relative z-10 rounded-none">
                       <div className="flex items-center justify-between">
                         <p className="text-accent font-sans text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
@@ -302,7 +297,7 @@ export function ProductSpotlight() {
                       />
                     </div>
                     {/* Column 2 */}
-                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max mt-6 pb-12 relative z-10 rounded-xl">
+                    <div className="flex-1 bg-foreground/[0.02] backdrop-blur-md p-5 border border-foreground/5 flex flex-col gap-4 shadow-[inset_0_0_20px_color-mix(in_srgb,var(--color-foreground)_1%,transparent)] h-max mt-6 pb-12 relative z-10 rounded-none">
                       <div className="flex items-center justify-between">
                         <p className="text-brand-purple font-sans text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-brand-purple shadow-[0_0_8px_var(--color-brand-purple)]" />
@@ -418,8 +413,8 @@ export function ProductSpotlight() {
                         className="absolute w-32 h-32 bg-brand-purple/20 rounded-full blur-2xl pointer-events-none"
                         aria-hidden="true"
                       />
-                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-brand-purple to-accent p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
-                        <div className="w-full h-full bg-foreground rounded-2xl flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-none bg-linear-to-br from-brand-purple to-accent p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
+                        <div className="w-full h-full bg-foreground rounded-none flex items-center justify-center">
                           <GitBranch size={24} className="text-[#F472B6]" />
                         </div>
                       </div>
@@ -434,8 +429,8 @@ export function ProductSpotlight() {
                     <div className="grid grid-cols-2 gap-4 flex-1 relative z-10">
                       {[
                         {
-                          l: "Isolated DB",
-                          v: "MongoDB Cluster",
+                          l: "Isolated RLS Database",
+                          v: "Postgre SQL",
                           c: "var(--color-brand-purple)",
                           icon: <Globe size={14} />,
                         },
@@ -461,7 +456,7 @@ export function ProductSpotlight() {
                         <div
                           key={i}
                           style={{ "--c": item.c } as React.CSSProperties}
-                          className="bg-elevated/60 backdrop-blur-md border border-foreground/5 p-4 flex flex-col justify-center relative overflow-hidden group hover:border-foreground/10 transition-colors rounded-lg"
+                          className="bg-elevated/60 backdrop-blur-md border border-foreground/5 p-4 flex flex-col justify-center relative overflow-hidden group hover:border-foreground/10 transition-colors rounded-none"
                         >
                           <div className="absolute -right-4 -top-4 w-12 h-12 bg-foreground/5 rounded-full blur-[10px] group-hover:bg-foreground/10 transition-colors" />
                           <div className="flex items-center gap-2 mb-2">
@@ -480,7 +475,7 @@ export function ProductSpotlight() {
                     </div>
 
                     <div className="mt-6 relative z-10">
-                      <button className="w-full relative overflow-hidden bg-linear-to-br from-accent to-brand-purple text-accent-foreground border-none py-4 font-sans text-[13px] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_50%,transparent)] transition-all font-bold group cursor-pointer rounded-lg">
+                      <button className="w-full relative overflow-hidden bg-linear-to-br from-accent to-brand-purple text-accent-foreground border-none py-4 font-sans text-[13px] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_50%,transparent)] transition-all font-bold group cursor-pointer rounded-none">
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           Deploy New Tenant{" "}
                           <ArrowRight
@@ -512,9 +507,8 @@ function VisualWrapper({
 }) {
   return (
     <div
-      className={`absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none ${
-        active ? "opacity-100 z-10" : "opacity-0 z-0"
-      }`}
+      className={`absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none ${active ? "opacity-100 z-10" : "opacity-0 z-0"
+        }`}
     >
       {children}
     </div>
@@ -570,18 +564,17 @@ function AnimatedKanbanCard({
     <div
       ref={cardRef}
       style={{ "--c": color } as React.CSSProperties}
-      className={`bg-elevated p-5 border border-foreground/10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] relative cursor-default hover:-translate-y-1 group rounded-lg transition-all duration-500 ease-out ${
-        active ? (dim ? "opacity-50" : "opacity-100") : "opacity-30"
-      } ${active ? "translate-x-0" : "-translate-x-[20px]"}`}
+      className={`bg-elevated p-5 border border-foreground/10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] relative cursor-default hover:-translate-y-1 group rounded-none transition-all duration-500 ease-out ${active ? (dim ? "opacity-50" : "opacity-100") : "opacity-30"
+        } ${active ? "translate-x-0" : "-translate-x-[20px]"}`}
     >
-      <div className="w-8 h-8 absolute -top-3 -right-3 flex items-center justify-center border-4 border-elevated transition-all group-hover:scale-110 rounded-md bg-[linear-gradient(135deg,var(--c),color-mix(in_srgb,var(--c)_85%,transparent))] shadow-[0_0_20px_color-mix(in_srgb,var(--c)_25%,transparent)]">
+      <div className="w-8 h-8 absolute -top-3 -right-3 flex items-center justify-center border-4 border-elevated transition-all group-hover:scale-110 rounded-none bg-[linear-gradient(135deg,var(--c),color-mix(in_srgb,var(--c)_85%,transparent))] shadow-[0_0_20px_color-mix(in_srgb,var(--c)_25%,transparent)]">
         <span className="text-foreground text-[10px] font-bold">{score}</span>
       </div>
       <p className="text-foreground text-[13px] font-semibold mb-1">{title}</p>
       <p className="text-muted-foreground text-[11px] mb-4 flex items-center gap-1.5">
         <Globe size={12} /> {source}
       </p>
-      <div className="w-full bg-foreground h-1.5 mb-1 overflow-hidden rounded-sm">
+      <div className="w-full bg-foreground h-1.5 mb-1 overflow-hidden rounded-none">
         <div
           className="h-full bg-[var(--c)] shadow-[0_0_10px_color-mix(in_srgb,var(--color-foreground)_10%,transparent)] transition-all duration-1000 ease-out"
           style={{ width: active ? `${score}%` : "0%" }}
@@ -608,7 +601,7 @@ function AutomationSequence({ active }: { active: boolean }) {
   }, [active]);
 
   return (
-    <div className="absolute bottom-8 right-8 bg-elevated/90 backdrop-blur-md p-5 rounded-xl border border-foreground/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-4 min-w-[220px]">
+    <div className="absolute bottom-8 right-8 bg-elevated/90 backdrop-blur-md p-5 rounded-none border border-foreground/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-4 min-w-[220px]">
       <div
         className={`flex items-center gap-3 transition-all duration-500 ${stages[0] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
       >

@@ -79,14 +79,14 @@ export function Work() {
             <div
               key={i}
               style={{ "--c": p.color } as React.CSSProperties}
-              className={`group hover:bg-[color-mix(in_srgb,var(--c)_10%,transparent)] relative p-px isolate transition-transform duration-500 hover:-translate-y-2 h-full flex flex-col no-collapse rounded-2xl shadow-md bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-foreground)_5%,transparent),color-mix(in_srgb,var(--color-foreground)_1%,transparent))]`}
+              className={`group hover:bg-[color-mix(in_srgb,var(--c)_10%,transparent)] relative p-px isolate transition-transform duration-500 hover:-translate-y-2 h-full flex flex-col no-collapse rounded-none shadow-md bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-foreground)_5%,transparent),color-mix(in_srgb,var(--color-foreground)_1%,transparent))]`}
             >
               {/* Inner Background for 1px Border effect */}
-              <div className="relative bg-inherit flex-1 overflow-hidden flex flex-col transition-colors duration-500 no-collapse rounded-2xl">
+              <div className="relative bg-inherit flex-1 overflow-hidden flex flex-col transition-colors duration-500 no-collapse rounded-none">
                 {/* Content */}
                 <div className="p-8 lg:p-10 flex-1 flex flex-col relative z-10 h-full no-collapse">
                   <div className="flex justify-between items-start mb-8 no-collapse">
-                    <span className="font-sans text-[11px] font-bold tracking-widest px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-md text-[var(--c)]">
+                    <span className="font-sans text-[11px] font-bold tracking-widest px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-none text-[var(--c)]">
                       {p.num} :: {p.category}
                     </span>
                     <div className="w-10 h-10 flex items-center justify-center bg-foreground/5 border border-foreground/10 text-[var(--c)]">
@@ -109,7 +109,7 @@ export function Work() {
                         {p.techTags.map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] font-sans text-muted-foreground px-2 py-1 bg-foreground/5 border border-foreground/5 rounded-md"
+                            className="text-[10px] font-sans text-muted-foreground px-2 py-1 bg-foreground/5 border border-foreground/5 rounded-none"
                           >
                             {t}
                           </span>
@@ -146,9 +146,9 @@ export function Work() {
                 .querySelector("#contact")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group relative p-px bg-foreground/10 hover:bg-accent transition-all duration-300 hover:scale-[1.02] inline-block rounded-xl"
+            className="group relative p-px bg-foreground/10 hover:bg-accent transition-all duration-300 hover:scale-[1.02] inline-block rounded-none"
           >
-            <div className="px-10 py-2.5 bg-surface h-full w-full flex items-center justify-center gap-3 group-hover:bg-transparent transition-colors duration-300 rounded-xl">
+            <div className="px-10 py-2.5 bg-surface h-full w-full flex items-center justify-center gap-3 group-hover:bg-transparent transition-colors duration-300 rounded-none">
               <span className="relative z-10 flex items-center gap-2 text-foreground group-hover:text-accent-foreground font-semibold tracking-wide">
                 Join Waitlist
                 <ArrowUpRight

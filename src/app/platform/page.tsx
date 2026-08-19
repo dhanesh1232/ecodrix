@@ -131,11 +131,11 @@ export default function PlatformIndexPage() {
               <Link
                 key={m.slug}
                 href={`/platform/${m.slug}`}
-                className="group relative p-px rounded-2xl transition-colors duration-300 bg-foreground/6"
+                className="group relative p-px rounded-none transition-colors duration-300 bg-foreground/6"
                 style={{ "--tile": m.color } as React.CSSProperties}
               >
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
-                <div className="relative h-full p-7 flex flex-col rounded-2xl bg-surface">
+                <div className="absolute inset-0 rounded-none opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
+                <div className="relative h-full p-7 flex flex-col rounded-none bg-surface">
                   <div className="w-1 h-8 mb-5 bg-[var(--tile)]" />
                   <span className="text-[10px] font-sans uppercase tracking-widest mb-2 text-[var(--tile)]">
                     {m.brand}

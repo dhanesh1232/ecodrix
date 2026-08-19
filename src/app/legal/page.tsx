@@ -49,7 +49,7 @@ export default function LegalIndexPage() {
               <Link
                 key={doc.slug}
                 href={legalHref(doc.slug)}
-                className="group flex items-start justify-between gap-4 p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-2xl"
+                className="group flex items-start justify-between gap-4 p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-none"
               >
                 <div>
                   <div className="text-[10px] font-sans uppercase tracking-widest mb-2 text-brand-purple">

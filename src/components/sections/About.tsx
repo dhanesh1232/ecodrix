@@ -10,33 +10,33 @@ import {
 
 const milestones = [
   {
-    year: "Mar 2024",
+    year: "Aug 2025",
     label: "The Spark",
-    desc: "Built first WhatsApp automation for a local clinic. Realized every SMB was duct-taping 5–7 tools together.",
+    desc: "Started as a freelance studio — building web apps, automations, and WhatsApp integrations for SMB clients across India.",
     color: "var(--color-accent)",
   },
   {
-    year: "Sep 2024",
+    year: "Nov 2025",
     label: "Architecture",
-    desc: "Designed multi-tenant core — isolated databases, custom job queue, event-driven automation engine.",
+    desc: "Every client needed the same stack. Designed multi-tenant core — isolated databases, job queue, event-driven engine — to serve all of them from one platform.",
     color: "var(--color-brand-purple)",
   },
   {
-    year: "Mar 2025",
+    year: "Feb 2026",
     label: "Platform Shipped",
-    desc: "WhatsApp CRM, booking, payments, email marketing, admin panel live. Published npm packages.",
+    desc: "WhatsApp CRM, booking, payments, email marketing, admin panel live. Migrated freelance clients onto the platform. Published npm packages.",
     color: "var(--color-success)",
   },
   {
-    year: "Sep 2025",
+    year: "May 2026",
     label: "AI Engine (LAIE)",
-    desc: "Built autonomous lead gen with Claude/GPT-4. Browser automation, proxy rotation, actor runtime.",
+    desc: "Transitioned from freelance services to product. Built autonomous lead gen with Claude/GPT-4 — browser automation, proxy rotation, actor runtime.",
     color: "var(--color-warning)",
   },
   {
-    year: "2026",
-    label: "Early Access",
-    desc: "Onboarding first clients. Public API, component library, and waitlist live.",
+    year: "Aug 2026",
+    label: "Early Access Beta",
+    desc: "Public beta live. No longer taking freelance clients — fully product-first. API, SDK, and waitlist open.",
     color: "#F472B6",
   },
 ];
@@ -72,7 +72,7 @@ export function About() {
             <span className="grad-text">felt the pain.</span>
           </h2>
           <p className="text-muted-foreground text-[15px] md:text-lg leading-relaxed">
-            ECODrIx started in March 2024 as a personal frustration — managing
+            ECODrIx started in August 2025 as a personal frustration — managing
             separate tools for CRM, WhatsApp, email, and storage for every
             client. Two years later, it&apos;s a full platform.
           </p>
@@ -83,8 +83,8 @@ export function About() {
           {/* Left: Founder card + stats */}
           <div className="flex flex-col gap-6 lg:sticky lg:top-20 self-start">
             {/* Founder card */}
-            <div className="relative p-px rounded-2xl bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_30%,transparent),color-mix(in_srgb,var(--color-brand-purple)_15%,transparent),color-mix(in_srgb,var(--color-foreground)_5%,transparent))]">
-              <div className="bg-surface p-7 md:p-8 flex flex-col gap-6 relative overflow-hidden rounded-2xl">
+            <div className="relative p-px rounded-none bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_30%,transparent),color-mix(in_srgb,var(--color-brand-purple)_15%,transparent),color-mix(in_srgb,var(--color-foreground)_5%,transparent))]">
+              <div className="bg-surface p-7 md:p-8 flex flex-col gap-6 relative overflow-hidden rounded-none">
                 {/* Corner glow */}
                 <div
                   className="absolute top-0 right-0 w-32 h-32 pointer-events-none bg-[radial-gradient(circle_at_100%_0%,color-mix(in_srgb,var(--color-accent)_10%,transparent)_0%,transparent_70%)]"
@@ -93,8 +93,8 @@ export function About() {
 
                 {/* Avatar + name */}
                 <div className="flex items-center gap-4 relative z-10">
-                  <div className="relative shrink-0 w-14 h-14 p-px rounded-lg bg-[linear-gradient(135deg,var(--color-accent),var(--color-brand-purple))]">
-                    <div className="w-full h-full bg-elevated flex items-center justify-center rounded-lg">
+                  <div className="relative shrink-0 w-14 h-14 p-px rounded-none bg-[linear-gradient(135deg,var(--color-accent),var(--color-brand-purple))]">
+                    <div className="w-full h-full bg-elevated flex items-center justify-center rounded-none">
                       <span className="text-xl font-display font-black text-foreground">
                         D
                       </span>
@@ -157,13 +157,13 @@ export function About() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-accent transition-all duration-300 hover:scale-110 rounded-lg bg-foreground/[0.03] border border-foreground/[0.08]"
+                      className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-accent transition-all duration-300 hover:scale-110 rounded-none bg-foreground/[0.03] border border-foreground/[0.08]"
                     >
                       <Icon size={14} />
                     </a>
                   ))}
                   <span className="ml-auto text-muted-foreground font-sans text-[9px] uppercase tracking-widest">
-                    Est. March 2024
+                    Est. August 2025
                   </span>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export function About() {
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="text-center py-3 px-2 rounded-lg bg-surface border border-foreground/[0.06]"
+                  className="text-center py-3 px-2 rounded-none bg-surface border border-foreground/[0.06]"
                 >
                   <p className="font-display font-black text-lg grad-text">
                     {s.value}
@@ -190,7 +190,7 @@ export function About() {
           {/* Right: Timeline */}
           <div className="relative pl-0 lg:pl-4">
             <p className="text-muted-foreground font-sans text-[10px] uppercase tracking-[0.2em] mb-8">
-              March 2024 → Present
+              August 2025 → Present
             </p>
 
             {/* Timeline track */}
@@ -206,15 +206,15 @@ export function About() {
                 >
                   {/* Node */}
                   <div className="relative z-10 flex flex-col items-center shrink-0">
-                    <div className="w-9 h-9 flex items-center justify-center transition-all duration-300 group-hover:scale-110 rounded-lg bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)] shadow-[0_0_12px_color-mix(in_srgb,var(--c)_8%,transparent)]">
+                    <div className="w-9 h-9 flex items-center justify-center transition-all duration-300 group-hover:scale-110 rounded-none bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)] shadow-[0_0_12px_color-mix(in_srgb,var(--c)_8%,transparent)]">
                       <div className="w-2.5 h-2.5 rounded-full bg-[var(--c)] shadow-[0_0_6px_color-mix(in_srgb,var(--c)_38%,transparent)]" />
                     </div>
                   </div>
 
                   {/* Content card */}
-                  <div className="flex-1 p-5 mb-4 transition-all duration-300 group-hover:translate-x-1 rounded-2xl bg-surface border border-foreground/5">
+                  <div className="flex-1 p-5 mb-4 transition-all duration-300 group-hover:translate-x-1 rounded-none bg-surface border border-foreground/5">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-[9px] font-sans font-bold tracking-widest uppercase px-2 py-0.5 rounded-md bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
+                      <span className="text-[9px] font-sans font-bold tracking-widest uppercase px-2 py-0.5 rounded-none bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
                         {m.year}
                       </span>
                     </div>
@@ -231,7 +231,7 @@ export function About() {
               {/* "Now" indicator */}
               <div className="flex gap-5 items-center">
                 <div className="relative z-10 flex flex-col items-center shrink-0">
-                  <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-accent/10 border border-accent/40">
+                  <div className="w-9 h-9 flex items-center justify-center rounded-none bg-accent/10 border border-accent/40">
                     <Rocket size={14} className="text-accent" />
                   </div>
                 </div>

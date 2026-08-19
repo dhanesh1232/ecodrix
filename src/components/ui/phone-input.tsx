@@ -117,7 +117,7 @@ export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
           // tabIndex=-1 on country select → tab skips it, only click works
           countrySelectProps={{ tabIndex: -1 }}
           className={cn(
-            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-lg transition-all duration-200",
+            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-none transition-all duration-200",
             "bg-elevated border border-border-strong",
             "hover:border-accent/40",
             "focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25",

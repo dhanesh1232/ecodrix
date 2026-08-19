@@ -78,7 +78,7 @@ export function AuditForm() {
 
   if (state === "sent") {
     return (
-      <div className="max-w-2xl p-6 flex items-start gap-4 bg-success/6 border border-success/30 rounded-2xl">
+      <div className="max-w-2xl p-6 flex items-start gap-4 bg-success/6 border border-success/30 rounded-none">
         <CheckCircle2 size={22} className="text-success shrink-0 mt-0.5" />
         <div>
           <h3 className="text-foreground font-bold mb-1">
@@ -96,7 +96,7 @@ export function AuditForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl">
-      <div className="p-4 flex flex-col gap-3 bg-foreground/[0.02] border border-foreground/8 rounded-xl">
+      <div className="p-4 flex flex-col gap-3 bg-foreground/[0.02] border border-foreground/8 rounded-none">
         {/* Audit target */}
         <div className="flex items-center gap-2 px-3 bg-foreground/[0.03]">
           <Search size={16} className="text-subtle shrink-0" />
@@ -154,7 +154,7 @@ export function AuditForm() {
         <button
           type="submit"
           disabled={state === "sending"}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm disabled:opacity-60 bg-warning rounded-lg"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm disabled:opacity-60 bg-warning rounded-none"
         >
           {state === "sending" ? (
             <>

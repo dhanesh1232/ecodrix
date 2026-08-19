@@ -57,7 +57,7 @@ export function Stats() {
     <div className="w-full border-y border-border relative z-30">
       <div className="wrapper grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-border">
         {[
-          { target: 60, suffix: "+", label: "API Endpoints" },
+          { target: 180, suffix: "+", label: "API Endpoints" },
           { target: 6, suffix: "", label: "Tools in One Platform" },
           { target: 20, suffix: "+", label: "Automation Triggers" },
           { target: 99, suffix: ".9%", label: "Uptime SLA" },

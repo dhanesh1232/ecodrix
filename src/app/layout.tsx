@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, JetBrains_Mono } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
@@ -16,23 +16,21 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/layout/LenisProvider";
 
-// Single project typeface — Roboto. Used for both body and display so the
-// whole site shares one font (900 available for display headings).
-const roboto = Roboto({
-  variable: "--font-roboto",
+// Display font — Syne for headings (matches portfolio.ecodrix.com)
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "600", "700", "800"],
   display: "swap",
   preload: true,
 });
 
-// Code-only font — used for genuine monospace (code snippets).
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+// Body font — Inter for readability
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  preload: false,
-  adjustFontFallback: false,
+  preload: true,
 });
 
 const BASE_URL = "https://ecodrix.com";
@@ -141,7 +139,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="light" className={cn("font-sans")}>
+    <html lang="en" data-theme="dark" className={cn("font-sans dark")}>
       <head>
         {/* Google Consent Mode v2 — MUST run before GTM/GA so tags respect
             the default-denied state until the user makes a choice in the
@@ -233,7 +231,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${roboto.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${syne.variable} ${inter.variable} antialiased`}
       >
         <noscript
           dangerouslySetInnerHTML={{
@@ -241,10 +239,6 @@ export default function RootLayout({
       height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           }}
         />
-        {/* Skip link and others follow BELOW the noscript */}
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         {/* SPA page view tracking — fires on every client-side navigation */}
         <GoogleAnalytics />
         {/* Core Web Vitals reporting to GA4 */}

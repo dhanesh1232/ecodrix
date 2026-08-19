@@ -111,7 +111,7 @@ export function Testimonials() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="group relative rounded-2xl border border-border bg-surface p-8 flex flex-col transition-all duration-300 hover:-translate-y-2 hover:border-accent hover:shadow-[0_20px_50px_-12px_var(--color-accent-muted)]"
+              className="group relative rounded-none border border-border bg-surface p-8 flex flex-col transition-all duration-300 hover:-translate-y-2 hover:border-accent hover:shadow-[0_20px_50px_-12px_var(--color-accent-muted)]"
             >
               {/* Rating */}
               <div className="flex gap-1 mb-6">

@@ -121,7 +121,7 @@ export default function CompareHubPage() {
               <Link
                 key={c.slug}
                 href={`/compare/${c.slug}`}
-                className="group flex flex-col justify-between p-7 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-2xl bg-foreground/[0.02]"
+                className="group flex flex-col justify-between p-7 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-none bg-foreground/[0.02]"
                 style={{ "--c": c.color } as React.CSSProperties}
               >
                 <div>

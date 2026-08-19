@@ -59,9 +59,9 @@ function MarqueeItem({
   color: string;
 }) {
   return (
-    <div className="inline-flex items-center gap-2.5 px-4 py-2.5 shrink-0 rounded-lg border border-border bg-foreground/[0.02]">
+    <div className="inline-flex items-center gap-2.5 px-4 py-2.5 shrink-0 rounded-none border border-border bg-foreground/[0.02]">
       <div
-        className="w-7 h-7 flex items-center justify-center shrink-0 rounded-md"
+        className="w-7 h-7 flex items-center justify-center shrink-0 rounded-none"
         style={{
           background: `color-mix(in srgb, ${color} 10%, transparent)`,
           border: `1px solid color-mix(in srgb, ${color} 20%, transparent)`,

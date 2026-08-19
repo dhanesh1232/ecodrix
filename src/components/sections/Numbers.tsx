@@ -104,7 +104,7 @@ export function Numbers() {
     >
       <div className="wrapper relative z-10">
         {/* Stats band */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-border bg-border mb-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-none overflow-hidden border border-border bg-border mb-20">
           {stats.map((s) => (
             <div key={s.label} className="bg-surface px-7 py-9 text-center">
               <div className="flex items-end justify-center gap-px mb-1.5">
@@ -135,11 +135,11 @@ export function Numbers() {
           {process.map((step) => (
             <div
               key={step.num}
-              className="group rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_16px_48px_-8px_var(--color-accent-muted)]"
+              className="group rounded-none border border-border bg-surface p-7 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_16px_48px_-8px_var(--color-accent-muted)]"
             >
               {/* Number badge — per-step brand color (data-driven) */}
               <div
-                className="inline-flex items-center justify-center w-9 h-9 mb-4 rounded-lg font-sans text-xs font-bold"
+                className="inline-flex items-center justify-center w-9 h-9 mb-4 rounded-none font-sans text-xs font-bold"
                 style={{
                   background: `color-mix(in srgb, ${step.color} 14%, transparent)`,
                   border: `1px solid color-mix(in srgb, ${step.color} 28%, transparent)`,

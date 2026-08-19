@@ -165,9 +165,8 @@ export default function BroadcastLimitsPage() {
             {TIERS.map((t, i) => (
               <div
                 key={t.tier}
-                className={`grid grid-cols-[1fr_1.5fr_1.5fr] text-sm border-t border-foreground/5 ${
-                  i % 2 ? "" : "bg-foreground/1"
-                }`}
+                className={`grid grid-cols-[1fr_1.5fr_1.5fr] text-sm border-t border-foreground/5 ${i % 2 ? "" : "bg-foreground/1"
+                  }`}
               >
                 <div className="p-4 text-foreground font-semibold">
                   {t.tier}
@@ -185,7 +184,7 @@ export default function BroadcastLimitsPage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/connect/whatsapp-api-guide"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-[#25D366] rounded-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-[#25D366] rounded-none"
             >
               Read the API setup guide <ArrowRight size={16} />
             </Link>

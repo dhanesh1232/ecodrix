@@ -179,11 +179,11 @@ export default function BrandsPage() {
               <Link
                 key={b.name}
                 href={b.href}
-                className="group relative p-px rounded-2xl transition-colors duration-300 bg-foreground/6"
+                className="group relative p-px rounded-none transition-colors duration-300 bg-foreground/6"
                 style={{ "--tile": b.color } as React.CSSProperties}
               >
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
-                <div className="relative h-full p-7 rounded-2xl bg-surface">
+                <div className="absolute inset-0 rounded-none opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
+                <div className="relative h-full p-7 rounded-none bg-surface">
                   <div className="w-1 h-8 mb-5 bg-[var(--tile)]" />
                   <h3 className="text-foreground font-bold text-lg mb-1">
                     {b.name}

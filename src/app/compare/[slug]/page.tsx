@@ -134,7 +134,7 @@ export default async function ComparePage({
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm rounded-xl bg-[var(--c)]"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm rounded-none bg-[var(--c)]"
             >
               Start 14-day free trial <ArrowRight size={16} />
             </Link>
@@ -156,7 +156,7 @@ export default async function ComparePage({
             ERIX vs {c.competitor}, feature by feature.
           </h2>
 
-          <div className="overflow-hidden border border-foreground/8 rounded-sm">
+          <div className="overflow-hidden border border-foreground/8 rounded-none">
             {/* header row */}
             <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-sans bg-foreground/3">
               <div className="p-4 text-subtle">Feature</div>
@@ -168,9 +168,8 @@ export default async function ComparePage({
             {c.rows.map((row, i) => (
               <div
                 key={row.dimension}
-                className={`grid grid-cols-3 text-sm border-t border-foreground/5 ${
-                  i % 2 ? "" : "bg-foreground/[0.01]"
-                }`}
+                className={`grid grid-cols-3 text-sm border-t border-foreground/5 ${i % 2 ? "" : "bg-foreground/[0.01]"
+                  }`}
               >
                 <div className="p-4 text-muted-foreground font-medium">
                   {row.dimension}
@@ -196,7 +195,7 @@ export default async function ComparePage({
       {/* ── When each wins (trust-building honesty) ── */}
       <section className="py-20 px-6">
         <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-8 rounded-2xl bg-[var(--c)]/4 border border-[var(--c)]/20">
+          <div className="p-8 rounded-none bg-[var(--c)]/4 border border-[var(--c)]/20">
             <h3 className="text-foreground font-bold mb-3">
               When ERIX is the better pick
             </h3>
@@ -204,7 +203,7 @@ export default async function ComparePage({
               {c.ecodrixBestFor}
             </p>
           </div>
-          <div className="p-8 rounded-2xl bg-foreground/[0.02] border border-foreground/8">
+          <div className="p-8 rounded-none bg-foreground/[0.02] border border-foreground/8">
             <h3 className="text-foreground font-bold mb-3">
               When {c.competitor} is the better pick
             </h3>
@@ -251,7 +250,7 @@ export default async function ComparePage({
               <Link
                 key={other.slug}
                 href={`/compare/${other.slug}`}
-                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-2xl bg-foreground/[0.02]"
+                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-none bg-foreground/[0.02]"
               >
                 <div>
                   <div className="text-foreground font-bold text-base mb-1">

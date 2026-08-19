@@ -153,7 +153,7 @@ export default function ZapierAlternativePage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-brand-purple rounded-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-brand-purple rounded-none"
             >
               Start 14-day free trial <ArrowRight size={16} />
             </Link>
@@ -185,9 +185,8 @@ export default function ZapierAlternativePage() {
             {ROWS.map((row, i) => (
               <div
                 key={row.dimension}
-                className={`grid grid-cols-3 text-sm border-t border-foreground/5 ${
-                  i % 2 ? "" : "bg-foreground/1"
-                }`}
+                className={`grid grid-cols-3 text-sm border-t border-foreground/5 ${i % 2 ? "" : "bg-foreground/1"
+                  }`}
               >
                 <div className="p-4 text-muted-foreground font-medium">
                   {row.dimension}

@@ -139,7 +139,7 @@ export default async function UseCasePage({
           <div className="flex flex-wrap gap-3">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-(--uc) rounded-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-(--uc) rounded-none"
             >
               Start 14-day free trial <ArrowRight size={16} />
             </Link>
@@ -164,7 +164,7 @@ export default async function UseCasePage({
             {u.problems.map((p) => (
               <div
                 key={p}
-                className="flex items-start gap-3 p-5 bg-surface border border-foreground/5 rounded-xl"
+                className="flex items-start gap-3 p-5 bg-surface border border-foreground/5 rounded-none"
               >
                 <AlertCircle
                   size={16}
@@ -190,7 +190,7 @@ export default async function UseCasePage({
             {u.solutions.map((s) => (
               <div
                 key={s.title}
-                className="p-6 bg-foreground/2 border border-foreground/8 rounded-xl"
+                className="p-6 bg-foreground/2 border border-foreground/8 rounded-none"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Check size={16} className="text-(--uc)" />
@@ -246,7 +246,7 @@ export default async function UseCasePage({
                 <Link
                   key={o.slug}
                   href={`/erix/${o.slug}`}
-                  className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-2xl"
+                  className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-none"
                 >
                   <div>
                     <div className="text-foreground font-bold text-base mb-1">

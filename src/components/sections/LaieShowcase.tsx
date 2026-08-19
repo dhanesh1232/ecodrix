@@ -184,7 +184,7 @@ export function LaieShowcase() {
                   key={s.num}
                   style={{ "--seg": s.color } as React.CSSProperties}
                   className={cn(
-                    "h-1.5 rounded-sm transition-all duration-500",
+                    "h-1.5 rounded-none transition-all duration-500",
                     i === activeIndex ? "w-7" : "w-2",
                     i === activeIndex
                       ? "bg-[var(--seg)] shadow-[0_0_10px_color-mix(in_srgb,var(--seg)_50%,transparent)]"
@@ -220,7 +220,7 @@ export function LaieShowcase() {
             className={cn(
               "flex items-stretch gap-5 md:gap-6 lg:gap-8 w-max",
               isDesktop
-                ? "will-change-transform h-full pl-[max(40px,calc((100vw-1200px)/2+40px))] pr-[calc(100vw/2)]"
+                ? "will-change-transform h-full pl-[max(20px,calc((100vw-1200px)/2+20px))] pr-[calc(100vw/2)]"
                 : "pl-5 pr-5",
             )}
           >
@@ -233,21 +233,21 @@ export function LaieShowcase() {
                   key={step.num}
                   style={{ "--c": step.color } as React.CSSProperties}
                   className={cn(
-                    "group shrink-0 transition-all duration-500 p-px rounded-2xl",
+                    "group shrink-0 transition-all duration-500 p-px rounded-none",
                     !isDesktop && "snap-center",
                     isDesktop
                       ? "w-[min(45vw,560px)] h-full"
                       : "w-[min(80vw,340px)] min-h-[380px]",
                     isActive
-                      ? "bg-[color-mix(in_srgb,var(--c)_16%,transparent)] shadow-[0_20px_60px_-10px_color-mix(in_srgb,var(--c)_12%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--c)_12%,transparent)]"
+                      ? "bg-[color-mix(in_srgb,var(--c)_5%,transparent)] shadow-[0_10px_40px_-10px_color-mix(in_srgb,var(--c)_8%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--c)_8%,transparent)]"
                       : "bg-foreground/5",
                     isDesktop &&
-                      (isActive
-                        ? "opacity-100 scale-100"
-                        : "opacity-60 scale-[0.97]"),
+                    (isActive
+                      ? "opacity-100 scale-100"
+                      : "opacity-60 scale-[0.95]"),
                   )}
                 >
-                  <div className="h-full w-full relative flex flex-col p-6 md:p-8 lg:p-10 overflow-hidden rounded-2xl bg-surface">
+                  <div className="h-full w-full relative flex flex-col p-6 md:p-8 lg:p-10 overflow-hidden rounded-none bg-surface">
                     {/* Corner glow */}
                     <div
                       className={cn(
@@ -264,7 +264,7 @@ export function LaieShowcase() {
                       <span className="font-sans text-[11px] font-bold tracking-widest text-[var(--c)]">
                         STEP {step.num}
                       </span>
-                      <span className="text-[9px] font-sans px-2.5 py-1 tracking-widest uppercase rounded-md bg-[color-mix(in_srgb,var(--c)_6%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)] text-[var(--c)]">
+                      <span className="text-[9px] font-sans px-2.5 py-1 tracking-widest uppercase rounded-none bg-[color-mix(in_srgb,var(--c)_6%,transparent)] border border-[color-mix(in_srgb,var(--c)_14%,transparent)] text-[var(--c)]">
                         {step.badge}
                       </span>
                     </div>
@@ -272,9 +272,7 @@ export function LaieShowcase() {
                     {/* Icon */}
                     <div
                       className={cn(
-                        "mb-2 md:mb-3 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2 rounded-lg text-[var(--c)] bg-[color-mix(in_srgb,var(--c)_7%,transparent)] border border-[color-mix(in_srgb,var(--c)_19%,transparent)]",
-                        isActive &&
-                          "shadow-[0_0_20px_color-mix(in_srgb,var(--c)_12%,transparent)]",
+                        "mb-2 md:mb-3 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2 rounded-none text-[var(--c)]",
                       )}
                     >
                       <Icon size={24} />

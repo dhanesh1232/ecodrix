@@ -170,7 +170,7 @@ export default function GreenTickPage() {
             {STEPS.map((s, i) => (
               <li
                 key={s.name}
-                className="flex items-start gap-5 p-6 bg-surface border border-foreground/5 rounded-xl"
+                className="flex items-start gap-5 p-6 bg-surface border border-foreground/5 rounded-none"
               >
                 <span className="shrink-0 w-9 h-9 flex items-center justify-center font-display font-black text-sm bg-[#25D366]/8 border border-[#25D366]/25 text-[#25D366]">
                   {i + 1}
@@ -190,7 +190,7 @@ export default function GreenTickPage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/connect/whatsapp-api-guide"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-[#25D366] rounded-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-accent-foreground text-sm bg-[#25D366] rounded-none"
             >
               Start with the API guide <ArrowRight size={16} />
             </Link>
