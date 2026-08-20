@@ -10,38 +10,44 @@ import { HeroStatic } from "@/components/sections/HeroStatic";
 import { Stats } from "@/components/sections/Stats";
 import { getFAQSchema } from "@/lib/jsonld";
 
-// Dynamically load below-the-fold sections to reduce initial JS bundle
+// Dynamically load below-the-fold sections — ssr:false reduces initial HTML size
 const PoweredBy = dynamic(() =>
   import("@/components/sections/PoweredBy").then((mod) => mod.PoweredBy),
+
 );
 const Services = dynamic(() =>
   import("@/components/sections/Services").then((mod) => mod.Services),
+
 );
 const ProductSpotlight = dynamic(() =>
   import("@/components/sections/ProductSpotlight").then(
     (mod) => mod.ProductSpotlight,
   ),
+
 );
 const LaieShowcase = dynamic(
   () => import("@/components/sections/LaieShowcase"),
+
 );
 const Numbers = dynamic(() =>
   import("@/components/sections/Numbers").then((mod) => mod.Numbers),
+
 );
 const Work = dynamic(() =>
   import("@/components/sections/Work").then((mod) => mod.Work),
+
 );
 const Testimonials = dynamic(() =>
   import("@/components/sections/Testimonials").then((mod) => mod.Testimonials),
+
 );
 const About = dynamic(() =>
   import("@/components/sections/About").then((mod) => mod.About),
-);
-const Pricing = dynamic(() =>
-  import("@/components/sections/Pricing").then((mod) => mod.Pricing),
+
 );
 const Contact = dynamic(() =>
   import("@/components/sections/Contact").then((mod) => mod.Contact),
+
 );
 
 /**

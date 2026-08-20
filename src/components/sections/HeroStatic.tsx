@@ -9,9 +9,9 @@ import Link from "next/link";
  * All animation via CSS keyframes. Renders in initial HTML payload.
  */
 function AnimatedGrid() {
-  const cellSize = 56;
-  const cols = 20;
-  const rows = 14;
+  const cellSize = 80;
+  const cols = 14;
+  const rows = 10;
   const w = cols * cellSize;
   const h = rows * cellSize;
 
