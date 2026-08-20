@@ -37,7 +37,7 @@ const milestones = [
     year: "Aug 2026",
     label: "Early Access Beta",
     desc: "Public beta live. No longer taking freelance clients — fully product-first. API, SDK, and waitlist open.",
-    color: "#F472B6",
+    color: "var(--color-cat-meeting)",
   },
 ];
 
@@ -206,8 +206,8 @@ export function About() {
                 >
                   {/* Node */}
                   <div className="relative z-10 flex flex-col items-center shrink-0">
-                    <div className="w-9 h-9 flex items-center justify-center transition-all duration-300 group-hover:scale-110 rounded-none bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)] shadow-[0_0_12px_color-mix(in_srgb,var(--c)_8%,transparent)]">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[var(--c)] shadow-[0_0_6px_color-mix(in_srgb,var(--c)_38%,transparent)]" />
+                    <div className="w-9 h-9 flex items-center justify-center transition-all duration-300 group-hover:scale-110 rounded-none bg-[color-mix(in_srgb,var(--c)_8%,transparent)] border border-[color-mix(in_srgb,var(--c)_25%,transparent)] shadow-none">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[var(--c)] shadow-none" />
                     </div>
                   </div>
 

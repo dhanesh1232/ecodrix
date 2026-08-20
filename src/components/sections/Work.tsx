@@ -149,7 +149,7 @@ export function Work() {
             className="group relative p-px bg-foreground/10 hover:bg-accent transition-all duration-300 hover:scale-[1.02] inline-block rounded-none"
           >
             <div className="px-10 py-2.5 bg-surface h-full w-full flex items-center justify-center gap-3 group-hover:bg-transparent transition-colors duration-300 rounded-none">
-              <span className="relative z-10 flex items-center gap-2 text-foreground group-hover:text-accent-foreground font-semibold tracking-wide">
+              <span className="relative z-10 flex items-center gap-2 text-foreground group-hover:text-foreground font-semibold tracking-wide">
                 Join Waitlist
                 <ArrowUpRight
                   size={16}

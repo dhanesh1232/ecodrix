@@ -49,6 +49,14 @@
   --warning: #f59e0b;
   --error: #ef4444;
 
+  /* ─── Category accents (controlled palette for product/feature indicators) ─── */
+  --cat-whatsapp: #25d366;
+  --cat-email: #f59e0b;
+  --cat-automation: #a78bfa;
+  --cat-storage: #34d399;
+  --cat-meeting: #f87171;
+  --cat-ai: #c084fc;
+
   /* Legacy compat aliases */
   --background: var(--canvas);
   --foreground: var(--text);
@@ -92,6 +100,14 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+
+  /* Category accents */
+  --color-cat-whatsapp: var(--cat-whatsapp);
+  --color-cat-email: var(--cat-email);
+  --color-cat-automation: var(--cat-automation);
+  --color-cat-storage: var(--cat-storage);
+  --color-cat-meeting: var(--cat-meeting);
+  --color-cat-ai: var(--cat-ai);
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */

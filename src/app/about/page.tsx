@@ -37,7 +37,7 @@ const values = [
   },
   {
     num: "04",
-    color: "#F472B6",
+    color: "var(--color-cat-meeting)",
     title: "Customer success is our success",
     desc: "We respond to every support request personally. Your growth is the only metric that matters to us.",
   },
@@ -65,13 +65,13 @@ const products = [
   {
     name: "Email Marketing",
     desc: "Powered by AWS SES. Drag-and-drop builder, segmentation, and analytics.",
-    color: "#F472B6",
+    color: "var(--color-cat-meeting)",
     icon: Mail,
   },
   {
     name: "Cloud Storage",
     desc: "Secure file management linked directly to contacts and deals.",
-    color: "#FB923C",
+    color: "var(--color-cat-email)",
     icon: Cloud,
   },
   {

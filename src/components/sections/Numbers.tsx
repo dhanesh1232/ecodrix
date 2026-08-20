@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const stats = [
   {
-    value: 60,
+    value: 180,
     suffix: "+",
     label: "API Endpoints",
     note: "One unified platform",
@@ -135,7 +135,7 @@ export function Numbers() {
           {process.map((step) => (
             <div
               key={step.num}
-              className="group rounded-none border border-border bg-surface p-7 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_16px_48px_-8px_var(--color-accent-muted)]"
+              className="group rounded-none border border-border bg-surface p-7 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-none"
             >
               {/* Number badge — per-step brand color (data-driven) */}
               <div

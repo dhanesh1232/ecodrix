@@ -187,7 +187,7 @@ export function LaieShowcase() {
                     "h-1.5 rounded-none transition-all duration-500",
                     i === activeIndex ? "w-7" : "w-2",
                     i === activeIndex
-                      ? "bg-[var(--seg)] shadow-[0_0_10px_color-mix(in_srgb,var(--seg)_50%,transparent)]"
+                      ? "bg-[var(--seg)] shadow-none"
                       : i < activeIndex
                         ? "bg-[color-mix(in_srgb,var(--seg)_50%,transparent)]"
                         : "bg-foreground/10",
@@ -239,7 +239,7 @@ export function LaieShowcase() {
                       ? "w-[min(45vw,560px)] h-full"
                       : "w-[min(80vw,340px)] min-h-[380px]",
                     isActive
-                      ? "bg-[color-mix(in_srgb,var(--c)_5%,transparent)] shadow-[0_10px_40px_-10px_color-mix(in_srgb,var(--c)_8%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--c)_8%,transparent)]"
+                      ? "bg-[color-mix(in_srgb,var(--c)_5%,transparent)] shadow-none"
                       : "bg-foreground/5",
                     isDesktop &&
                     (isActive
@@ -247,7 +247,7 @@ export function LaieShowcase() {
                       : "opacity-60 scale-[0.95]"),
                   )}
                 >
-                  <div className="h-full w-full relative flex flex-col p-6 md:p-8 lg:p-10 overflow-hidden rounded-none bg-surface">
+                  <div className={cn("h-full w-full relative flex flex-col p-6 md:p-8 lg:p-10 overflow-hidden rounded-none bg-surface", isActive && "hover:border hover:border-accent")}>
                     {/* Corner glow */}
                     <div
                       className={cn(
@@ -307,7 +307,7 @@ export function LaieShowcase() {
                         className={cn(
                           "h-[2px] w-12 md:w-16 rounded-full transition-all duration-500",
                           isActive
-                            ? "bg-[linear-gradient(90deg,var(--c),color-mix(in_srgb,var(--c)_25%,transparent))] shadow-[0_0_8px_color-mix(in_srgb,var(--c)_25%,transparent)]"
+                            ? "bg-[linear-gradient(90deg,var(--c),color-mix(in_srgb,var(--c)_25%,transparent))] shadow-none"
                             : "bg-[color-mix(in_srgb,var(--c)_8%,transparent)]",
                         )}
                       />
@@ -323,7 +323,7 @@ export function LaieShowcase() {
         <div className="wrapper text-center py-4 md:py-5 flex flex-col items-center gap-1.5">
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 text-accent-foreground font-semibold text-sm btn-primary"
+            className="inline-flex items-center gap-2 text-foreground font-semibold text-sm btn-primary"
           >
             <Sparkles size={15} />
             Get Early Access to LAIE

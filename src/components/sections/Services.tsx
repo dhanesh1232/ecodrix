@@ -13,11 +13,11 @@ import {
 import { BsWhatsapp } from "react-icons/bs";
 
 const C = {
-  purple: "#2b4dcb",
-  cyan: "#8d1fae",
-  green: "#4ADE80",
-  orange: "#FB923C",
-  pink: "#F472B6",
+  purple: "var(--color-accent)",
+  cyan: "var(--color-cat-automation)",
+  green: "var(--color-cat-whatsapp)",
+  orange: "var(--color-cat-email)",
+  pink: "var(--color-cat-meeting)",
 };
 
 type Service = {
@@ -211,11 +211,12 @@ function ServiceCard({ service }: { service: Service }) {
       onClick={() => nav(service.link)}
       style={{
         backgroundColor: isHovered
-          ? `color-mix(in srgb, ${service.color} 40%, transparent)`
+          ? `color-mix(in srgb, ${service.color} 20%, transparent)`
           : "var(--color-border)",
         boxShadow: isHovered
-          ? `0 20px 50px -12px color-mix(in srgb, ${service.color} 25%, transparent)`
+          ? `0 20px 50px -12px color-mix(in srgb, ${service.color} 5%, transparent)`
           : "none",
+        borderColor: isHovered ? service.color : "none"
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

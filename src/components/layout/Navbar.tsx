@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -21,12 +21,16 @@ export function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   useEffect(() => {
     if (!menuRef.current || !overlayRef.current) return;
@@ -46,11 +50,16 @@ export function Navbar() {
 
   const nav = (href: string) => {
     setOpen(false);
-    if (!href.startsWith("#")) { window.location.href = href; return; }
-    const target = document.querySelector(href);
-    if (target) {
-      const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
-      window.scrollTo({ top, behavior: "smooth" });
+    if (href.startsWith("#")) {
+      // Hash scroll on same page
+      const target = document.querySelector(href);
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    } else {
+      // Client-side navigation — no full reload
+      router.push(href);
     }
   };
 
@@ -66,7 +75,7 @@ export function Navbar() {
       >
         <div className="wrapper flex items-center justify-between w-full">
           {/* Logo */}
-          <a href="/" onClick={(e) => { e.preventDefault(); nav("/"); }} className="flex items-center group">
+          <Link href="/" className="flex items-center group">
             <Image
               src="/logo.svg"
               alt="ECODrIx"
@@ -75,7 +84,7 @@ export function Navbar() {
               className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               priority
             />
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-10">
@@ -85,7 +94,6 @@ export function Navbar() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  onClick={(e) => { e.preventDefault(); nav(l.href); }}
                   className={cn(
                     "group text-[13px] font-display font-semibold tracking-wide transition-colors duration-300 relative",
                     isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
@@ -154,7 +162,6 @@ export function Navbar() {
               <Link
                 key={l.label}
                 href={l.href}
-                onClick={(e) => { e.preventDefault(); nav(l.href); }}
                 className={cn(
                   "mob-link text-3xl font-display font-bold transition-colors flex items-center gap-3",
                   isActive ? "text-accent" : "text-foreground hover:text-accent",

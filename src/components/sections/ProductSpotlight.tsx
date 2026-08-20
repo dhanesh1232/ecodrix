@@ -44,7 +44,7 @@ const pillars = [
   {
     id: "saas",
     icon: GitBranch,
-    color: "#F472B6",
+    color: "var(--color-cat-meeting)",
     title: "True White-Label SaaS",
     desc: "We can deploy this entire infrastructure as a multi-tenant SaaS under your brand. Every client gets an isolated MongoDB database, dedicated API keys, and custom domain configuration.",
     tags: ["Multi-Tenant", "Isolated DB", "Custom Domains"],
@@ -140,7 +140,7 @@ export function ProductSpotlight() {
                   className={`step-block relative min-h-[50vh] flex flex-col justify-center py-10 px-8 transition-all duration-700 ease-out mb-10 ${isActive
                     ? "opacity-100 translate-x-[10px]"
                     : "opacity-25 translate-x-0"
-                    }`}
+                    } hover:border-[var(--c)]`}
                 >
                   {/* Geometric Background & Border */}
                   <div
@@ -284,7 +284,7 @@ export function ProductSpotlight() {
                         score={85}
                         active={activeStep === 1}
                         delay={0.1}
-                        color="#2b4dcb"
+                        color="var(--color-accent)"
                       />
                       <AnimatedKanbanCard
                         title="Apollo Diagnostics"
@@ -292,7 +292,7 @@ export function ProductSpotlight() {
                         score={40}
                         active={activeStep === 1}
                         delay={0.3}
-                        color="#FB923C"
+                        color="var(--color-cat-email)"
                         dim
                       />
                     </div>
@@ -314,7 +314,7 @@ export function ProductSpotlight() {
                         score={92}
                         active={activeStep === 1}
                         delay={0.5}
-                        color="#8d1fae"
+                        color="var(--color-cat-automation)"
                       />
                     </div>
                   </div>
@@ -415,7 +415,7 @@ export function ProductSpotlight() {
                       />
                       <div className="w-16 h-16 rounded-none bg-linear-to-br from-brand-purple to-accent p-px mb-4 shadow-[0_0_30px_rgba(244,114,182,0.3)]">
                         <div className="w-full h-full bg-foreground rounded-none flex items-center justify-center">
-                          <GitBranch size={24} className="text-[#F472B6]" />
+                          <GitBranch size={24} className="text-[var(--color-cat-meeting)]" />
                         </div>
                       </div>
                       <p className="text-foreground font-display text-xl font-bold tracking-tight">
@@ -546,7 +546,7 @@ function AnimatedKanbanCard({
   score,
   active,
   delay = 0,
-  color = "#2b4dcb",
+  color = "var(--color-accent)",
   dim = false,
 }: {
   title: string;

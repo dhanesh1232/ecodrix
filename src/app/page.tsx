@@ -5,6 +5,7 @@
 // real content without executing JavaScript.
 
 import dynamic from "next/dynamic";
+import Script from "next/script";
 import { HeroStatic } from "@/components/sections/HeroStatic";
 import { Stats } from "@/components/sections/Stats";
 import { getFAQSchema } from "@/lib/jsonld";
@@ -83,25 +84,13 @@ const ENTITY_FAQS = [
 export default function Home() {
   return (
     <div className="w-full">
-      {/* Entity FAQ JSON-LD — drives "who is …" answer-engine results. */}
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema(ENTITY_FAQS)),
-        }}
-      />
-      {/* Scroll reveal — vanilla IntersectionObserver, no React hydration needed */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            if(typeof IntersectionObserver!=='undefined'){
-              var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-              document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.reveal-up,.stagger-children').forEach(function(el){o.observe(el)})});
-            }
-          `,
-        }}
-      />
+      {/* Scroll reveal — IntersectionObserver for .reveal-up/.stagger-children */}
+      <Script id="scroll-reveal" strategy="afterInteractive">
+        {`if(typeof IntersectionObserver!=='undefined'){
+          var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+          document.querySelectorAll('.reveal-up,.stagger-children').forEach(function(el){o.observe(el)});
+        }`}
+      </Script>
       <div className="bg-background flex flex-col">
         {/* Render static hero immediately for fast FCP/LCP */}
         <HeroStatic />

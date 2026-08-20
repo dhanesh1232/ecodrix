@@ -1,5 +1,6 @@
 // Server Component — SSR, CSS-only animations, zero JS hydration cost.
 import { ArrowRight, Zap } from "lucide-react";
+import Link from "next/link";
 
 /**
  * 3D perspective-tilted SVG grid with glowing animated pulses.
@@ -141,26 +142,26 @@ export function HeroStatic() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 hero-enter [animation-delay:350ms]">
-          <a href="#contact" className="btn-primary inline-flex items-center gap-2.5 group">
+          <Link href="#contact" className="btn-primary inline-flex items-center text-foreground gap-2.5 group">
             <Zap size={15} />
             Join the Waitlist
             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
-          </a>
-          <a href="#services" className="btn-ghost inline-flex items-center gap-2">
+          </Link>
+          <Link href="#services" className="btn-ghost inline-flex items-center gap-2">
             Explore Platform
             <ArrowRight size={14} className="opacity-50" />
-          </a>
+          </Link>
         </div>
 
         {/* Feature chips */}
         <div className="flex items-center justify-center gap-2.5 md:gap-3 flex-wrap hero-enter [animation-delay:500ms]">
           {[
             { label: "CRM", color: "var(--color-accent)" },
-            { label: "WhatsApp", color: "#25D366" },
-            { label: "Email", color: "var(--color-warning)" },
-            { label: "AI Engine", color: "var(--color-brand-purple)" },
-            { label: "Booking", color: "var(--color-brand-crimson)" },
-            { label: "Storage", color: "var(--color-success)" },
+            { label: "WhatsApp", color: "var(--color-cat-whatsapp)" },
+            { label: "Email", color: "var(--color-cat-email)" },
+            { label: "AI Engine", color: "var(--color-cat-ai)" },
+            { label: "Booking", color: "var(--color-cat-meeting)" },
+            { label: "Storage", color: "var(--color-cat-storage)" },
           ].map((f, i) => (
             <span
               key={f.label}

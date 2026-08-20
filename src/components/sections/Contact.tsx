@@ -58,12 +58,12 @@ const interests = [
 const features = [
   { icon: BarChart3, title: "CRM Engine", color: "var(--color-accent)" },
   { icon: Zap, title: "Automations", color: "var(--color-brand-purple)" },
-  { icon: MessageCircle, title: "WhatsApp", color: "#25D366" },
+  { icon: MessageCircle, title: "WhatsApp", color: "var(--color-cat-whatsapp)" },
   { icon: Send, title: "Email", color: "var(--color-warning)" },
-  { icon: Video, title: "Meetings", color: "#EA4335" },
+  { icon: Video, title: "Meetings", color: "var(--color-cat-meeting)" },
   { icon: Bot, title: "LAIE AI", color: "var(--color-brand-purple)" },
   { icon: Package, title: "Job Queue", color: "var(--color-brand-purple)" },
-  { icon: Cloud, title: "Storage", color: "#3B82F6" },
+  { icon: Cloud, title: "Storage", color: "var(--color-accent)" },
 ];
 
 export function Contact() {
@@ -431,7 +431,7 @@ export function Contact() {
                     label: "WhatsApp",
                     value: "Message us →",
                     href: "https://wa.me/918143963821",
-                    color: "#25D366",
+                    color: "var(--color-cat-whatsapp)",
                   },
                   {
                     icon: MapPin,

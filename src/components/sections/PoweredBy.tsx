@@ -16,8 +16,8 @@ import {
 } from "react-icons/bs";
 
 const row1 = [
-  { label: "WhatsApp CRM", icon: BsWhatsapp, color: "#25D366" },
-  { label: "Google Ads", icon: BsGoogle, color: "#4285F4" },
+  { label: "WhatsApp CRM", icon: BsWhatsapp, color: "var(--color-cat-whatsapp)" },
+  { label: "Google Ads", icon: BsGoogle, color: "var(--color-accent)" },
   { label: "SEO Engine", icon: BsSearch, color: "var(--color-brand-purple)" },
   {
     label: "Email Campaigns",
@@ -29,13 +29,13 @@ const row1 = [
     icon: BsGraphUpArrow,
     color: "var(--color-success)",
   },
-  { label: "Google Meet", icon: BsCameraVideo, color: "#EA4335" },
+  { label: "Google Meet", icon: BsCameraVideo, color: "var(--color-cat-meeting)" },
 ];
 
 const row2 = [
-  { label: "Meta Ads", icon: BsMeta, color: "#0668E1" },
-  { label: "Automation Rules", icon: BsGear, color: "#FB923C" },
-  { label: "SES Email", icon: BsLightningCharge, color: "#F472B6" },
+  { label: "Meta Ads", icon: BsMeta, color: "var(--color-accent)" },
+  { label: "Automation Rules", icon: BsGear, color: "var(--color-cat-email)" },
+  { label: "SES Email", icon: BsLightningCharge, color: "var(--color-cat-meeting)" },
   {
     label: "Kanban CRM",
     icon: BsLayoutTextSidebarReverse,
@@ -46,7 +46,7 @@ const row2 = [
     icon: BsBoxes,
     color: "var(--color-brand-purple)",
   },
-  { label: "WhatsApp Inbox", icon: BsShieldCheck, color: "#25D366" },
+  { label: "WhatsApp Inbox", icon: BsShieldCheck, color: "var(--color-cat-whatsapp)" },
 ];
 
 function MarqueeItem({
