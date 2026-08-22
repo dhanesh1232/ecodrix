@@ -69,7 +69,7 @@ export function Pricing() {
           <div className="pill mb-5 mx-auto bg-accent/5 text-accent border-accent/20">
             Pricing Plans
           </div>
-          <h2 className="text-[clamp(2.2rem,4.5vw,3.8rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
+          <h2 className="text-3xl sm:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
             Start free,{" "}
             <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
               scale as you grow.

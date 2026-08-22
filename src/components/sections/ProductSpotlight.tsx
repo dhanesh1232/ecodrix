@@ -106,11 +106,11 @@ export function ProductSpotlight() {
               <div className="pill mb-5 border-foreground/[0.08] bg-foreground/[0.02]">
                 Enterprise Engine
               </div>
-              <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
+              <h2 className="text-3xl sm:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
                 Everything your <span className="grad-text">innovation</span>{" "}
                 needs.
               </h2>
-              <p className="text-muted-foreground text-[clamp(1rem,1.5vw,1.1rem)] leading-relax max-w-[400px]">
+              <p className="text-muted-foreground text-base leading-relax max-w-[400px]">
                 Four steps. Zero silos. We combine bespoke web development with
                 a production-grade backend engine.
               </p>

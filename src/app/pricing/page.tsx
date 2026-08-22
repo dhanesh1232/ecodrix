@@ -133,10 +133,10 @@ export default async function PricingPage() {
         />
         <div className="wrapper relative z-10 text-center">
           <div className="pill mb-6 mx-auto">Pricing</div>
-          <h1 className="font-display font-black text-foreground mb-6 text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-6 text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             Simple, transparent <span className="grad-text">pricing.</span>
           </h1>
-          <p className="text-subtle max-w-xl mx-auto leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
+          <p className="text-subtle max-w-xl mx-auto leading-relaxed text-base">
             Start free. Upgrade when you outgrow it. Cancel anytime, no
             questions asked.
           </p>
@@ -170,7 +170,7 @@ export default async function PricingPage() {
             <div className="pill mb-5 mx-auto bg-accent/5 text-accent border-accent/20">
               Why Choose ECODrIx
             </div>
-            <h2 className="text-[clamp(2.2rem,4.5vw,3.8rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
+            <h2 className="text-3xl sm:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
               Built for{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
                 your success.
@@ -216,7 +216,7 @@ export default async function PricingPage() {
       <section className="sep-top py-24 px-6 bg-background">
         <div className="wrapper">
           <div className="pill mb-6">FAQ</div>
-          <h2 className="font-display font-black text-foreground mb-16 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-16 text-2xl md:text-3xl tracking-[-0.04em]">
             Common questions.
           </h2>
 
@@ -236,7 +236,7 @@ export default async function PricingPage() {
       {/* ── Bottom CTA ── */}
       <section className="py-24 px-6 text-center">
         <div className="wrapper max-w-2xl mx-auto">
-          <h2 className="font-display font-black text-foreground mb-5 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-5 text-2xl md:text-3xl tracking-[-0.04em]">
             Ready to get started?
           </h2>
           <p className="text-subtle mb-10 leading-relaxed">

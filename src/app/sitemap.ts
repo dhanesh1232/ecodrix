@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
+import { getProductPages } from "@/lib/product-pages";
 import { COMPARISONS } from "@/lib/comparisons";
-import { USE_CASES } from "@/lib/use-cases";
 import { LEGAL_DOCS } from "@/lib/legal/documents";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
-import { getPublishedBlogs } from "@/lib/api";
+import { blogs } from "@/lib/api";
 
 /**
  * Generates /sitemap.xml via Next.js App Router convention.
@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.95,
     },
     {
-      url: `${BASE_URL}/brands`,
+      url: `${BASE_URL}/platform`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
@@ -61,7 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/connect/whatsapp-api-guide`,
+      url: `${BASE_URL}/platform/erix-connect/whatsapp-api-guide`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -73,19 +73,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/connect/green-tick`,
+      url: `${BASE_URL}/platform/erix-connect/green-tick`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/connect/whatsapp-broadcast-limits`,
+      url: `${BASE_URL}/platform/erix-connect/whatsapp-broadcast-limits`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/flow/zapier-alternative`,
+      url: `${BASE_URL}/platform/erix-flow/zapier-alternative`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
@@ -113,17 +113,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
+  // Product sub-pages (capabilities, use-cases, guides) — auto-derived.
+  const subPageRoutes: MetadataRoute.Sitemap = PLATFORM_MODULES.flatMap((m) =>
+    getProductPages(m.slug).map((p) => ({
+      url: `${BASE_URL}/platform/${m.slug}/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+  );
+
   const compareRoutes: MetadataRoute.Sitemap = COMPARISONS.map((c) => ({
     url: `${BASE_URL}/compare/${c.slug}`,
     lastModified: now,
     changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
-  const useCaseRoutes: MetadataRoute.Sitemap = USE_CASES.map((u) => ({
-    url: `${BASE_URL}/erix/${u.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
     priority: 0.8,
   }));
 
@@ -149,7 +152,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Blog posts — fetched dynamically from the server's public API.
-  const posts = await getPublishedBlogs();
+  const posts = await blogs.fetchPublishedPosts();
   const blogRoutes: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/blog`,
@@ -168,8 +171,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes,
     ...moduleRoutes,
+    ...subPageRoutes,
     ...compareRoutes,
-    ...useCaseRoutes,
     ...blogRoutes,
     ...legalRoutes,
     ...anchorRoutes,

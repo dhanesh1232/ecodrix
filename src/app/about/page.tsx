@@ -99,26 +99,26 @@ export default function AboutPage() {
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
       {/* ── Hero ── */}
-      <section className="pt-40 pb-24 px-6 relative overflow-hidden">
+      <section className="pt-14 pb-8 px-6 relative overflow-hidden">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden
         />
         <div className="wrapper relative z-10">
           <div className="pill mb-8">About ECODrIx</div>
-          <h1 className="font-display font-black text-foreground mb-8 max-w-3xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-8 max-w-3xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             We got tired of paying for{" "}
             <span className="grad-text">10 different tools.</span>
           </h1>
           <div className="max-w-2xl space-y-5">
-            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.1rem)]">
+            <p className="text-subtle leading-relaxed text-base">
               ECODrIx started in 2025 when we were building digital systems for
               clients across India. Every client needed the same stack — a CRM,
               WhatsApp automation, email campaigns, and a place to store files.
               They were paying for 5–10 separate tools that didn't talk to each
               other.
             </p>
-            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.1rem)]">
+            <p className="text-subtle leading-relaxed text-base">
               So we built it once, properly, and made it available as a
               platform. ECODrIx is that platform — unified business
               infrastructure for growing teams.
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 key={label}
                 className="flex flex-col items-center justify-center py-10 px-4"
               >
-                <span className="grad-text font-display font-black mb-2 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+                <span className="grad-text font-display font-black mb-2 text-2xl md:text-3xl tracking-[-0.04em]">
                   {value}
                 </span>
                 <span className="text-subtle text-sm font-medium">{label}</span>
@@ -147,7 +147,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Mission ── */}
-      <section className="py-24 px-6">
+      <section className="py-18 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Mission</div>
           <div className="p-px rounded-none bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
@@ -163,10 +163,10 @@ export default function AboutPage() {
       </section>
 
       {/* ── What we build ── */}
-      <section className="py-24 px-6 sep-top bg-background">
+      <section className="py-18 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Platform</div>
-          <h2 className="font-display font-black text-foreground mb-4 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-4 text-2xl md:text-3xl tracking-[-0.04em]">
             What we build.
           </h2>
           <p className="text-subtle mb-14 max-w-xl leading-relaxed">
@@ -181,14 +181,14 @@ export default function AboutPage() {
                 className="group p-8 bg-background hover:bg-surface transition-colors duration-200"
                 style={{ "--bar": color } as React.CSSProperties}
               >
-                {/* Pipe sweeps left→right on hover to reveal icon. On unhover, sweeps right→left to cover icon again. */}
-                <div className="relative w-8 h-8 mb-6 overflow-hidden">
-                  {/* Icon — always in place behind the sweep */}
+                {/* Pipe starts at left, sweeps to right edge on hover, stays there until unhover */}
+                <div className="relative w-8 h-8 mb-6">
+                  {/* Icon — fades in after pipe arrives */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Icon size={16} style={{ color: "var(--bar)" }} />
+                    <Icon size={16} style={{ color: "var(--bar)" }} className="opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-150" />
                   </div>
-                  {/* Sweep cover — starts covering (translate-x-0), moves right on hover (translate-x-full), returns on unhover */}
-                  <div className="absolute inset-0 bg-(--bar) z-2 -translate-x-full lg:group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+                  {/* Pipe — sits at left (0), translates to right edge on hover */}
+                  <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-(--bar) translate-x-0 lg:group-hover:translate-x-7.5 transition-transform duration-400 ease-out" />
                 </div>
                 <h3 className="text-foreground font-bold text-base mb-3">
                   {name}
@@ -201,10 +201,10 @@ export default function AboutPage() {
       </section>
 
       {/* ── How we work ── */}
-      <section className="py-24 px-6">
+      <section className="py-18 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Values</div>
-          <h2 className="font-display font-black text-foreground mb-14 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-14 text-2xl md:text-3xl tracking-[-0.04em]">
             How we work.
           </h2>
 
@@ -231,10 +231,10 @@ export default function AboutPage() {
       </section>
 
       {/* ── Built on AWS ── */}
-      <section className="py-24 px-6 sep-top bg-background">
+      <section className="py-18 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Infrastructure</div>
-          <h2 className="font-display font-black text-foreground mb-5 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-5 text-2xl md:text-3xl tracking-[-0.04em]">
             Built on AWS.
           </h2>
           <p className="text-subtle mb-12 max-w-2xl leading-relaxed">
@@ -256,12 +256,12 @@ export default function AboutPage() {
       </section>
 
       {/* ── Contact CTA ── */}
-      <section className="py-24 px-6">
+      <section className="py-18 px-6">
         <div className="wrapper">
           <div className="p-px rounded-none bg-foreground/6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-none bg-surface">
               <div>
-                <h2 className="font-display font-black text-foreground mb-3 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
+                <h2 className="font-display font-black text-foreground mb-3 text-xl md:text-2xl tracking-[-0.04em]">
                   Want to talk to the founder?
                 </h2>
                 <p className="text-subtle text-sm leading-relaxed max-w-md">

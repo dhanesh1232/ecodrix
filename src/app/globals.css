@@ -282,7 +282,7 @@
     align-items: center;
     gap: 8px;
     background: var(--accent);
-    color: var(--canvas);
+    color: var(--foreground);
     font-weight: 600;
     font-size: 14px;
     letter-spacing: 0.02em;
@@ -718,141 +718,11 @@ html.lenis body {
   }
 }
 
-/* ── Blog Content Styles ───────────────────────────────────────────────
- * Scoped styles for rendered blog HTML. No @tailwindcss/typography needed.
- * ──────────────────────────────────────────────────────────────────────── */
-
+/* ── Blog Content — minimal fallback (classes injected by BlogContent component) ── */
 .blog-content {
   font-size: 1.0625rem;
   line-height: 1.8;
   color: var(--text-muted);
-  max-width: 720px;
 }
-
-.blog-content h1,
-.blog-content h2,
-.blog-content h3,
-.blog-content h4 {
-  color: var(--text);
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-top: 2.5em;
-  margin-bottom: 0.75em;
-  line-height: 1.2;
-}
-.blog-content h1 {
-  font-size: 2rem;
-}
-.blog-content h2 {
-  font-size: 1.5rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0.5em;
-}
-.blog-content h3 {
-  font-size: 1.25rem;
-}
-.blog-content h4 {
-  font-size: 1.1rem;
-}
-
-.blog-content p {
-  margin-bottom: 1.5em;
-}
-
-.blog-content a {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid var(--accent-dim);
-  transition: border-color 0.2s ease;
-}
-.blog-content a:hover {
-  border-color: var(--accent);
-}
-
-.blog-content strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.blog-content ul,
-.blog-content ol {
-  margin-bottom: 1.5em;
-  padding-left: 1.5em;
-}
-.blog-content ul {
-  list-style: disc;
-}
-.blog-content ol {
-  list-style: decimal;
-}
-.blog-content li {
-  margin-bottom: 0.5em;
-}
-.blog-content li::marker {
-  color: var(--accent);
-}
-
-.blog-content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 0.75em 1.25em;
-  margin: 1.5em 0;
-  background: var(--surface);
-  color: var(--text);
-  font-style: italic;
-}
-
-.blog-content code {
-  font-family: var(--font-sans);
-  font-size: 0.875em;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 0.15em 0.4em;
-}
-
-.blog-content pre {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 1.25em 1.5em;
-  overflow-x: auto;
-  margin: 1.5em 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-.blog-content pre code {
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.blog-content img {
-  max-width: 100%;
-  height: auto;
-  margin: 2em 0;
-  border: 1px solid var(--border);
-}
-
-.blog-content hr {
-  border: none;
-  height: 1px;
-  background: var(--border);
-  margin: 3em 0;
-}
-
-.blog-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5em 0;
-  font-size: 0.9375rem;
-}
-.blog-content th,
-.blog-content td {
-  border: 1px solid var(--border);
-  padding: 0.75em 1em;
-  text-align: left;
-}
-.blog-content th {
-  background: var(--surface);
-  color: var(--text);
-  font-weight: 600;
-}
+.blog-content > *:first-child { margin-top: 0; }
+.blog-content > *:last-child { margin-bottom: 0; }

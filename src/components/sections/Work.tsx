@@ -60,7 +60,7 @@ export function Work() {
         <div className="w-head mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
             <div className="pill mb-6">Who Uses ECODrIx</div>
-            <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] text-foreground font-display font-black tracking-tight leading-[1.05]">
+            <h2 className="text-4xl sm:text-5xl text-foreground font-display font-black tracking-tight leading-[1.05]">
               Built for businesses that are{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
                 done with manual work.

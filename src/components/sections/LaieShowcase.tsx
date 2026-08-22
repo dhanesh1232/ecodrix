@@ -166,7 +166,7 @@ export function LaieShowcase() {
               <Brain size={11} />
               LAIE — Lead AI Engine
             </div>
-            <h2 className="font-display font-black text-foreground leading-[1.05] text-[clamp(1.6rem,3.5vw,2.6rem)] tracking-[-0.04em]">
+            <h2 className="font-display font-black text-foreground leading-[1.05] text-xl md:text-2xl tracking-[-0.04em]">
               AI That Finds Your{" "}
               <span className="grad-text">Next 500 Customers.</span>
             </h2>

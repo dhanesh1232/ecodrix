@@ -56,7 +56,7 @@ const HUB_FAQS = [
 
 export default function CompareHubPage() {
   return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
+    <div className="bg-background text-foreground min-h-full! overflow-x-hidden">
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
@@ -93,17 +93,17 @@ export default function CompareHubPage() {
       />
 
       {/* ── Hero ── */}
-      <section className="pt-40 pb-16 px-6 relative overflow-hidden">
+      <section className="pt-14 pb-8 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.2)_85deg,rgba(43,77,203,0.067)_115deg,transparent_155deg)]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.2)_85deg,rgba(43,77,203,0.067)_115deg,transparent_155deg)]"
           aria-hidden
         />
         <div className="wrapper relative z-10">
           <div className="pill mb-6">Compare</div>
-          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-[clamp(2.4rem,6.5vw,4.2rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             The best WhatsApp CRM in India.
           </h1>
-          <p className="max-w-3xl leading-relaxed text-muted-foreground text-[clamp(1rem,2vw,1.2rem)]">
+          <p className="max-w-3xl leading-relaxed text-muted-foreground text-base">
             Wati, AiSensy, and Interakt all run on the official Meta WhatsApp
             Cloud API — and so does ECODrIx. The difference is what you get
             around the messaging: ERIX bundles a full CRM, no-code automation,
@@ -125,7 +125,7 @@ export default function CompareHubPage() {
                 style={{ "--c": c.color } as React.CSSProperties}
               >
                 <div>
-                  <div className="pill mb-4 text-[var(--c)] border-[var(--c)]/25 bg-[var(--c)]/6">
+                  <div className="pill mb-4 text-(--c) border-(--c)/25 bg-(--c)/6">
                     vs {c.competitor}
                   </div>
                   <h2 className="text-foreground font-bold text-lg mb-2">
@@ -145,7 +145,7 @@ export default function CompareHubPage() {
                         >
                           <Check
                             size={13}
-                            className="shrink-0 mt-0.5 text-[var(--c)]"
+                            className="shrink-0 mt-0.5 text-(--c)"
                           />
                           {r.dimension}
                         </li>
@@ -169,7 +169,7 @@ export default function CompareHubPage() {
       <section className="py-20 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Common questions</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
             Choosing a WhatsApp CRM in India.
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">

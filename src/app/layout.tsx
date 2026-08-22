@@ -11,6 +11,8 @@ import {
 } from "@/lib/jsonld";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { WebVitals } from "@/components/analytics/WebVitals";
+import { VisitorTracker } from "@/components/analytics/VisitorTracker";
+import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
 import { CookieConsent } from "@/components/legal/CookieConsent";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -139,24 +141,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" className={cn("font-sans dark")}>
+    <html lang="en" data-theme="dark" data-scroll-behavior="smooth" className={cn("font-sans dark")}>
       <head>
-        {/* Google Consent Mode v2 — MUST run before GTM/GA so tags respect
-            the default-denied state until the user makes a choice in the
-            cookie banner. functionality/security storage stay granted. */}
-        <Script id="consent-default" strategy="beforeInteractive">
-          {`window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent','default',{
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'granted',
-      security_storage:'granted',
-      wait_for_update:500
-    });`}
-        </Script>
+        {/* Google Consent Mode v2 — synchronous, must run before any GTM/GA */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
+          }}
+        />
 
         {/* Google Tag Manager — loaded with beforeInteractive so the
             container is available before page-view events fire, but Next's
@@ -241,6 +233,8 @@ export default function RootLayout({
         />
         {/* SPA page view tracking — fires on every client-side navigation */}
         <GoogleAnalytics />
+        <VisitorTracker />
+        <AutoEventTracker />
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
         <div className="bg-background text-foreground overflow-clip min-h-screen flex flex-col">

@@ -89,7 +89,7 @@ function Counter({ target }: { target: number }) {
   return (
     <span
       ref={ref}
-      className="grad-text font-display font-black leading-none text-[clamp(2.5rem,4.5vw,3.8rem)]"
+      className="grad-text font-display font-black leading-none text-4xl"
     >
       {count}
     </span>
@@ -126,7 +126,7 @@ export function Numbers() {
         {/* How It Works */}
         <div className="mb-12">
           <div className="pill mb-5">How It Works</div>
-          <h2 className="font-display font-black text-foreground tracking-[-0.04em] text-[clamp(2rem,4vw,3rem)]">
+          <h2 className="font-display font-black text-foreground tracking-[-0.04em] text-2xl md:text-3xl">
             Up and running in <span className="grad-text">3 steps.</span>
           </h2>
         </div>

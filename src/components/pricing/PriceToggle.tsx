@@ -309,7 +309,7 @@ export default function PricingPlansSection({
               <div className="pill mb-5 mx-auto bg-brand-purple/5 text-brand-purple border-brand-purple/20">
                 Add-Ons
               </div>
-              <h2 className="text-[clamp(2rem,4.2vw,3.4rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-4">
+              <h2 className="text-3xl md:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-4">
                 Stack on top of any{" "}
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
                   plan.

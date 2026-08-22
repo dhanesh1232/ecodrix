@@ -31,10 +31,10 @@ export default function LegalIndexPage() {
             <Scale size={12} />
             Legal & Policies
           </div>
-          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-[clamp(2.4rem,6.5vw,4.2rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             Legal & compliance.
           </h1>
-          <p className="max-w-3xl leading-relaxed text-[clamp(1rem,2vw,1.2rem)] text-muted-foreground">
+          <p className="max-w-3xl leading-relaxed text-base text-muted-foreground">
             Everything governing your use of {LEGAL.brand} — the terms you agree
             to, how we handle data, and the policies that keep the platform safe
             and compliant. Operated by {LEGAL.entity}.

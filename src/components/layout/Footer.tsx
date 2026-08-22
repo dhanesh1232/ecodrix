@@ -4,58 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa6";
 import Link from "next/link";
-
-/**
- * Oversized brand wordmark — a clean grayscale watermark that smoothly reveals
- * the brand gradient (blue → purple → crimson) on hover. Rendered as SVG so it
- * stays crisp and fills the width at any size.
- */
-function BrandWordmark({ text }: { text: string }) {
-  const VIEW_W = 1000;
-  const VIEW_H = 230;
-
-  const wmTextProps = {
-    x: VIEW_W / 2,
-    y: VIEW_H * 0.8,
-    textAnchor: "middle" as const,
-    textLength: VIEW_W - 16,
-    lengthAdjust: "spacingAndGlyphs" as const,
-    fontFamily: "var(--font-roboto), system-ui, sans-serif",
-    fontWeight: 900,
-    fontSize: VIEW_H * 0.9,
-    letterSpacing: "-0.04em",
-  };
-
-  return (
-    <svg
-      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-      className="wm-group w-full h-auto block select-none"
-      role="img"
-      aria-label={text}
-    >
-      <defs>
-        <linearGradient id="ecodrix-wm-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="var(--color-brand-blue)" />
-          <stop offset="55%" stopColor="var(--color-brand-purple)" />
-          <stop offset="100%" stopColor="var(--color-brand-crimson)" />
-        </linearGradient>
-      </defs>
-
-      {/* Grayscale base + gradient overlay that crossfades in on hover
-          (opacity transitions smoothly; a fill→gradient tween cannot). */}
-      <text {...wmTextProps} className="wm-text-base">
-        {text}
-      </text>
-      <text
-        {...wmTextProps}
-        className="wm-text-grad"
-        fill="url(#ecodrix-wm-grad)"
-      >
-        {text}
-      </text>
-    </svg>
-  );
-}
+import { BrandWordmark } from "./WordMark";
 
 export function Footer() {
   const nav = (href: string) => {
@@ -80,7 +29,6 @@ export function Footer() {
     Company: [
       { label: "About ECODrIx", href: "/about" },
       { label: "Founder", href: "/founder" },
-      { label: "Brands", href: "/brands" },
       { label: "Contact", href: "/#contact" },
       { label: "Support", href: "mailto:support@ecodrix.com" },
       { label: "Careers", href: "mailto:contact@ecodrix.com" },
@@ -126,7 +74,7 @@ export function Footer() {
               >
                 <div className="relative flex items-center">
                   <Image
-                    src="/logo.png"
+                    src="/logo.svg"
                     alt="ECODrIx"
                     width={160}
                     height={100}
@@ -170,13 +118,13 @@ export function Footer() {
             {/* Links Columns */}
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title} className="lg:col-span-1">
-                <h4 className="text-subtle font-bold text-[11px] tracking-[0.2em] mb-6">
+                <h4 className="text-foreground font-bold text-[11px] tracking-[0.2em] mb-4">
                   {title}
                 </h4>
                 <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.label}>
-                      <a
+                      <Link
                         href={link.href}
                         onClick={(e) => {
                           if (link.href.startsWith("#")) {
@@ -191,7 +139,7 @@ export function Footer() {
                           size={14}
                           className="ml-1 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all"
                         />
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

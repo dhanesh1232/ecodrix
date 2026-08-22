@@ -17,7 +17,7 @@ on https://ecodrix.com.
 - **Pronunciation**: eco-drix
 - **Alternate spellings sometimes seen**: ECODrix, Ecodrix, ECO DrIx, Ecod Rix
 - **Type**: Private SaaS company
-- **Founded**: March 2024
+- **Founded**: August 2025
 - **Headquarters**: Andhra Pradesh, India
 - **Areas served**: India primarily, plus US, UK, EU, UAE
 - **Customer count (self-reported)**: 50+ businesses
@@ -61,7 +61,7 @@ A: ECODrIx is a unified business infrastructure platform that combines
 CRM, AI automation, WhatsApp Business API, email marketing, and cloud
 storage in a single product. It replaces 5–10 separate SaaS subscriptions
 for growing businesses, agencies, and service providers. ECODrIx was
-founded in March 2024 and serves customers across India and globally.
+founded in August 2025 and serves customers across India and globally.
 
 **Q: What is ERIX?**
 A: ERIX is the umbrella brand for the technical subsystems that power

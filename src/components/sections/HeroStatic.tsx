@@ -129,13 +129,13 @@ export function HeroStatic() {
         </div>
 
         {/* Headline */}
-        <h1 className="font-display font-bold hero-enter [animation-delay:100ms] tracking-[-0.04em] leading-[1.05] text-[clamp(2.75rem,8vw,5.5rem)] min-h-[clamp(5.5rem,16vw,12rem)]">
+        <h1 className="font-display font-bold hero-enter [animation-delay:100ms] tracking-[-0.04em] leading-[1.05] text-5xl sm:text-6xl min-h-[clamp(5.5rem,16vw,12rem)]">
           <span className="block text-foreground">Your Business.</span>
           <span className="block grad-text">One Command.</span>
         </h1>
 
         {/* Subheadline */}
-        <p className="max-w-[540px] leading-relaxed mt-3 mb-6 hero-enter text-muted-foreground [animation-delay:220ms] text-[clamp(15px,1.6vw,18px)]">
+        <p className="max-w-[540px] leading-relaxed mt-3 mb-6 hero-enter text-muted-foreground [animation-delay:220ms] text-base">
           CRM, WhatsApp, email, AI lead gen, booking, and cloud storage —
           unified in one platform. Set up in 15 minutes. No credit card.
         </p>

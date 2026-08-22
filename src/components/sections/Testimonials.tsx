@@ -98,7 +98,7 @@ export function Testimonials() {
           <div className="pill mb-6 mx-auto bg-foreground/5 border-foreground/10 uppercase tracking-widest text-[10px] font-sans">
             Early Users
           </div>
-          <h2 className="text-[clamp(2.5rem,5vw,4rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-6">
+          <h2 className="text-4xl sm:text-5xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-6">
             Trusted by <span className="grad-text">growing businesses.</span>
           </h2>
           <p className="text-muted-foreground text-lg">

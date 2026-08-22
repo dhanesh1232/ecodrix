@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { PLATFORM_MODULES } from "@/lib/platform-modules";
+import { PLATFORM_MODULES, getProductModules, getInfraModules } from "@/lib/platform-modules";
 import {
   getBreadcrumbSchema,
   getItemListSchema,
@@ -99,17 +99,17 @@ export default function PlatformIndexPage() {
       />
 
       {/* ── Hero ── */}
-      <section className="pt-40 pb-16 px-6 relative overflow-hidden">
+      <section className="py-8 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
           aria-hidden
         />
         <div className="wrapper relative z-10">
           <div className="pill mb-8">Platform</div>
-          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             Every module in <span className="grad-text">ECODrIx.</span>
           </h1>
-          <p className="text-subtle max-w-2xl leading-relaxed mb-6 text-[clamp(1rem,2vw,1.15rem)]">
+          <p className="text-subtle max-w-2xl leading-relaxed mb-6 text-base">
             ECODrIx is one platform with many surfaces. Each module is a
             self-contained product, exposed through a clean public API at{" "}
             <a
@@ -123,44 +123,101 @@ export default function PlatformIndexPage() {
         </div>
       </section>
 
-      {/* ── Module grid ── */}
+      {/* ── Products ── */}
       <section className="py-16 px-6">
         <div className="wrapper">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PLATFORM_MODULES.map((m) => (
-              <Link
-                key={m.slug}
-                href={`/platform/${m.slug}`}
-                className="group relative p-px rounded-none transition-colors duration-300 bg-foreground/6"
-                style={{ "--tile": m.color } as React.CSSProperties}
-              >
-                <div className="absolute inset-0 rounded-none opacity-0 group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none bg-[var(--tile)]" />
-                <div className="relative h-full p-7 flex flex-col rounded-none bg-surface">
-                  <div className="w-1 h-8 mb-5 bg-[var(--tile)]" />
-                  <span className="text-[10px] font-sans uppercase tracking-widest mb-2 text-[var(--tile)]">
-                    {m.brand}
-                  </span>
-                  <h3 className="text-foreground font-bold text-lg mb-2">
-                    {m.name}
-                  </h3>
-                  <p className="text-subtle text-sm leading-relaxed mb-5 flex-1">
-                    {m.tagline}
-                  </p>
-                  <div className="flex items-center justify-between mt-auto">
-                    {m.apiBase ? (
-                      <code className="font-sans text-[10px] text-muted-foreground bg-foreground/4 px-2 py-[3px]">
-                        {m.apiBase}
-                      </code>
-                    ) : (
-                      <span />
+          <div className="mb-8">
+            <span className="section-tag">Products</span>
+          </div>
+          <div className="flex flex-col divide-y divide-border border-y border-border">
+            {getProductModules().map((m) => (
+              <div key={m.slug} className="py-10 group" id={m.slug}>
+                <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+                  {/* Left: title + desc */}
+                  <div className="lg:w-1/2">
+                    <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
+                      <span className="text-[10px] font-sans uppercase tracking-widest text-accent">{m.brand}</span>
+                    </Link>
+                    <h2 className="font-display text-2xl font-bold text-foreground mb-3 tracking-tight">
+                      <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">
+                        {m.name}
+                      </Link>
+                    </h2>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">{m.description}</p>
+                    <Link
+                      href={`/platform/${m.slug}`}
+                      className="inline-flex items-center group gap-2 btn-primary text-sm text-foreground font-medium transition-all"
+                    >
+                      Learn more <ArrowRight size={13} className="group-hover:translate-x-1 duration-300 ease-in-out" />
+                    </Link>
+                  </div>
+                  {/* Right: features */}
+                  <div className="lg:w-1/2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                      {m.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <span className="text-accent mt-1 shrink-0">—</span>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    {m.apiBase && (
+                      <p className="mt-4 text-[11px] text-muted-foreground">
+                        API: <code className="text-accent">{m.apiBase}</code>
+                      </p>
                     )}
-                    <ArrowRight
-                      size={16}
-                      className="text-subtle group-hover:text-foreground group-hover:translate-x-1 transition-all"
-                    />
                   </div>
                 </div>
-              </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Infrastructure ── */}
+      <section className="py-16 px-6">
+        <div className="wrapper">
+          <div className="mb-8">
+            <span className="section-tag">Infrastructure</span>
+          </div>
+          <div className="flex flex-col divide-y divide-border border-y border-border">
+            {getInfraModules().map((m) => (
+              <div key={m.slug} className="py-10 group" id={m.slug}>
+                <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+                  <div className="lg:w-1/2">
+                    <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
+                      <span className="text-[10px] font-sans uppercase tracking-widest text-muted-foreground group-hover:text-accent transition-colors">{m.brand}</span>
+                    </Link>
+                    <h2 className="font-display text-xl font-bold text-foreground mb-3 tracking-tight">
+                      <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">
+                        {m.name}
+                      </Link>
+                    </h2>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">{m.description}</p>
+                    <Link
+                      href={`/platform/${m.slug}`}
+                      className="inline-flex btn-primary items-center gap-2 text-sm text-foreground font-medium group transition-all"
+                    >
+                      Learn more <ArrowRight size={13} className="group-hover:translate-x-1 ease-in-out duration-300" />
+                    </Link>
+                  </div>
+                  <div className="lg:w-1/2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                      {m.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <span className="text-accent mt-1 shrink-0">—</span>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    {m.apiBase && (
+                      <p className="mt-4 text-[11px] text-muted-foreground">
+                        API: <code className="text-accent">{m.apiBase}</code>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -170,7 +227,7 @@ export default function PlatformIndexPage() {
       <section className="py-24 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Platform questions</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
             How the platform works.
           </h2>
 

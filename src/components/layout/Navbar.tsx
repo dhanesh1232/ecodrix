@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import { Menu, X, ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -67,7 +66,7 @@ export function Navbar() {
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] flex items-center transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "sticky top-0 left-0 right-0 z-[100] flex items-center transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
             ? "h-[72px] bg-[rgba(8,10,14,0.85)] backdrop-blur-xl border-b border-[var(--border)]"
             : "h-[88px] bg-transparent border-b border-transparent"
@@ -76,13 +75,12 @@ export function Navbar() {
         <div className="wrapper flex items-center justify-between w-full">
           {/* Logo */}
           <Link href="/" className="flex items-center group">
-            <Image
+            <img
               src="/logo.svg"
               alt="ECODrIx"
               width={120}
               height={48}
               className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-              priority
             />
           </Link>
 

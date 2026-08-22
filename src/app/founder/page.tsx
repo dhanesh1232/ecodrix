@@ -172,20 +172,20 @@ export default function FounderPage() {
             <Sparkles size={11} />
             Founder profile
           </div>
-          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-[clamp(2.6rem,7vw,4.5rem)] tracking-[-0.04em] leading-[1.05]">
+          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
             Meet <span className="grad-text">Dhanesh Mekalthuru</span> — founder
             of ECODrIx and the ERIX suite.
           </h1>
 
           <div className="max-w-3xl space-y-5">
-            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
+            <p className="text-subtle leading-relaxed text-base">
               Dhanesh Mekalthuru — known online as <strong>Erix</strong> — is a
               full-stack engineer and SaaS founder based in Andhra Pradesh,
               India. He started ECODrIx in August 2025 after a year of building
               client systems that all needed the same stitched-together stack:
               CRM, WhatsApp, email marketing, automation, and storage.
             </p>
-            <p className="text-subtle leading-relaxed text-[clamp(1rem,2vw,1.15rem)]">
+            <p className="text-subtle leading-relaxed text-base">
               Two years later, that frustration is a platform. ECODrIx now
               serves 50+ businesses with the ERIX suite — ERIX-CRM, ERIX-FLOW
               visual automation, ERIX-LAIE lead intelligence, ErixStore
@@ -253,7 +253,7 @@ export default function FounderPage() {
       <section className="py-24 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Roles</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
             What Dhanesh builds.
           </h2>
 
@@ -285,7 +285,7 @@ export default function FounderPage() {
       <section className="py-24 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Frequently asked</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-[clamp(2rem,4vw,3rem)] tracking-[-0.04em]">
+          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
             Things people ask about Dhanesh.
           </h2>
 
@@ -307,7 +307,7 @@ export default function FounderPage() {
         <div className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div>
             <div className="pill mb-6">Elsewhere</div>
-            <h2 className="font-display font-black text-foreground mb-6 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
+            <h2 className="font-display font-black text-foreground mb-6 text-xl md:text-2xl tracking-[-0.04em]">
               Find Dhanesh online.
             </h2>
             <div className="flex flex-wrap gap-3 mb-6">
@@ -348,7 +348,7 @@ export default function FounderPage() {
 
           <div>
             <div className="pill mb-6">Explore</div>
-            <h2 className="font-display font-black text-foreground mb-6 text-[clamp(1.6rem,3vw,2.2rem)] tracking-[-0.04em]">
+            <h2 className="font-display font-black text-foreground mb-6 text-xl md:text-2xl tracking-[-0.04em]">
               The ECODrIx ecosystem.
             </h2>
             <div className="flex flex-col gap-3">

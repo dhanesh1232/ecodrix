@@ -67,7 +67,7 @@ export function About() {
             <Code2 size={11} />
             The Founder
           </div>
-          <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
+          <h2 className="text-3xl md:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
             Built solo by someone who{" "}
             <span className="grad-text">felt the pain.</span>
           </h2>

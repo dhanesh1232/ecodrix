@@ -154,7 +154,7 @@ export function Contact() {
             <Rocket size={11} />
             Early Access · Limited Spots
           </div>
-          <h2 className="font-display font-black text-foreground mb-5 tracking-tighter text-[clamp(2.2rem,5vw,3.8rem)]">
+          <h2 className="font-display font-black text-foreground mb-5 tracking-tighter text-3xl sm:text-4xl">
             Join the <span className="grad-text">Waitlist.</span>
           </h2>
           <p className="text-[15px] md:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto">
