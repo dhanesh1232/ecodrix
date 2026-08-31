@@ -82,6 +82,7 @@ export function Navbar() {
               height={48}
               className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
+            <span className="font-display font-black text-xl tracking-tight text-foreground">ECODrIx</span>
           </Link>
 
           {/* Desktop Links */}
