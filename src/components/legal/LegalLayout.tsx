@@ -116,7 +116,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
       </div>
 
       <div className="relative wrapper">
-        <div className="pt-32 pb-24 lg:pt-40 lg:pb-32">
+        <div className="py-14">
           <Link
             href="/legal"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 group"
@@ -128,7 +128,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
             All legal documents
           </Link>
 
-          <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-16">
+          <div className="grid lg:grid-cols-[280px_1fr] gap-3 lg:gap-6">
             {/* Sticky ToC */}
             <aside className="lg:sticky lg:top-32 lg:self-start">
               <div className="polygon-card p-6">
