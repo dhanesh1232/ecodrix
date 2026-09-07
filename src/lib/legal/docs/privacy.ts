@@ -152,6 +152,24 @@ export const privacyDoc: LegalDoc = {
       ],
     },
     {
+      id: "google-limited-use",
+      title: "Google API Services & Limited Use",
+      icon: Lock,
+      body: [
+        "When you connect a Google account (e.g., Google Calendar), ECODrIx accesses only the data needed to deliver the feature you enabled: creating and managing calendar events for the appointments you book, and reading free/busy intervals to avoid scheduling clashes. We request the minimum scopes required for this.",
+        {
+          note: "ECODrIx's use and transfer of information received from Google APIs adheres to the Google API Services User Data Policy, including the Limited Use requirements. The use of raw or derived user data received from Google Workspace APIs will adhere to the Google User Data Policy, including the Limited Use requirements.",
+        },
+        {
+          list: [
+            "We do not use Google Workspace data — raw, aggregated, or derived — to develop, train, or improve foundational or generalised AI/ML models.",
+            "We do not transfer or sell Google user data, except as needed to provide or improve the connected feature, comply with law, or as part of a merger or acquisition with user notice.",
+            "Humans do not read your Google data except with your explicit consent, for security or abuse investigations, to comply with law, or where the data has been aggregated and anonymised.",
+          ],
+        },
+      ],
+    },
+    {
       id: "cookies",
       title: "Cookies & Tracking",
       icon: Cookie,
