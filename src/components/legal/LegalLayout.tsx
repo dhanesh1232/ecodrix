@@ -30,7 +30,7 @@ function Block({ block }: { block: LegalBlock }) {
   }
   if ("note" in block) {
     return (
-      <div className="p-4 text-muted-foreground text-sm leading-relaxed bg-accent/6 border border-accent/25 rounded-none">
+      <div className="p-4 text-muted-foreground text-sm leading-relaxed bg-accent/6 border border-accent/25 rounded-md">
         {block.note}
       </div>
     );
@@ -43,7 +43,7 @@ function Block({ block }: { block: LegalBlock }) {
             key={i}
             className="flex items-start gap-3 text-muted-foreground text-base"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-brand-purple mt-2 shrink-0" />
+            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
             <span>{item}</span>
           </li>
         ))}
@@ -73,7 +73,7 @@ function Block({ block }: { block: LegalBlock }) {
               {block.table.headers.map((h) => (
                 <th
                   key={h}
-                  className="text-left p-3 text-foreground font-bold text-xs uppercase tracking-wider"
+                  className="text-left p-3 text-foreground font-bold text-xs"
                 >
                   {h}
                 </th>
@@ -112,7 +112,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
       {/* Background atmosphere */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full opacity-20 blur-[80px] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_30%,transparent)_0%,transparent_70%)]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full opacity-15 blur-[70px] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-brand-purple)_25%,transparent)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full opacity-15 blur-[70px] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_25%,transparent)_0%,transparent_70%)]" />
       </div>
 
       <div className="relative wrapper">
@@ -132,7 +132,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
             {/* Sticky ToC */}
             <aside className="lg:sticky lg:top-32 lg:self-start">
               <div className="polygon-card p-6">
-                <h2 className="font-sans text-[10px] font-bold text-foreground mb-4 uppercase tracking-widest">
+                <h2 className="font-sans text-[10px] font-bold text-foreground mb-4">
                   Contents
                 </h2>
                 <nav className="space-y-2">
@@ -142,11 +142,11 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                       <a
                         key={section.id}
                         href={`#${section.id}`}
-                        className="flex items-center gap-3 text-[13px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded-none hover:bg-foreground/3 group"
+                        className="flex items-center gap-3 text-[13px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded-md hover:bg-foreground/3 group"
                       >
                         <Icon
                           size={14}
-                          className="text-brand-purple/60 group-hover:text-brand-purple transition-colors shrink-0"
+                          className="text-accent/60 group-hover:text-accent transition-colors shrink-0"
                         />
                         <span>{section.title}</span>
                       </a>
@@ -159,7 +159,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
             {/* Main */}
             <div>
               <div className="mb-12">
-                <div className="pill bg-brand-purple/10 text-brand-purple border-brand-purple/20">
+                <div className="pill bg-accent/10 text-accent border-accent/20">
                   <Scale size={12} />
                   {doc.pill}
                 </div>
@@ -188,16 +188,16 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                       id={section.id}
                       className="scroll-mt-32"
                     >
-                      <div className="polygon-card noise p-8 lg:p-10 hover:border-brand-purple/30 transition-all duration-300">
+                      <div className="polygon-card noise p-8 lg:p-10 hover:border-accent/30 transition-all duration-300">
                         <div className="flex items-start gap-4 mb-6">
-                          <div className="polygon-icon w-12 h-12 flex items-center justify-center bg-brand-purple/10 shrink-0">
-                            <Icon size={20} className="text-brand-purple" />
+                          <div className="polygon-icon w-12 h-12 flex items-center justify-center bg-accent/10 shrink-0">
+                            <Icon size={20} className="text-accent" />
                           </div>
                           <div className="flex-1">
                             <h2 className="text-2xl lg:text-3xl font-display font-black text-foreground mb-2 tracking-tight">
                               {idx + 1}. {section.title}
                             </h2>
-                            <div className="h-0.5 w-12 rounded-full mt-3 bg-[linear-gradient(135deg,var(--color-brand-purple)_0%,var(--color-accent)_50%,var(--color-brand-purple)_100%)]" />
+                            <div className="h-0.5 w-12 rounded-full mt-3 bg-[linear-gradient(135deg,var(--color-accent)_0%,var(--color-accent)_50%,var(--color-accent)_100%)]" />
                           </div>
                         </div>
                         <div className="space-y-4">
@@ -212,7 +212,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
               </div>
 
               {/* Footer CTA */}
-              <div className="mt-16 polygon-card noise p-8 bg-linear-to-br from-brand-purple/5 to-accent/5">
+              <div className="mt-16 polygon-card noise p-8 bg-linear-to-br from-accent/5 to-accent/5">
                 <h3 className="text-xl font-display font-black text-foreground mb-2">
                   Questions about this document?
                 </h3>
@@ -221,7 +221,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                 </p>
                 <Link
                   href="/#contact"
-                  className="btn-primary inline-flex items-center gap-2 bg-[linear-gradient(135deg,var(--color-brand-purple),var(--color-accent))]"
+                  className="btn-primary inline-flex items-center gap-2 bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent))]"
                 >
                   Contact Us
                   <ArrowRight size={14} />

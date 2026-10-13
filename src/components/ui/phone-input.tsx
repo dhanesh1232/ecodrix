@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import "react-phone-number-input/style.css";
 
 export interface StyledPhoneProps {
+  id?: string;
   value?: string;
   onChange?: (value: string | undefined) => void;
   error?: boolean;
@@ -95,7 +96,7 @@ function detectCountry(): string {
  */
 export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
   (
-    { className, value, onChange, error, placeholder = "Enter phone number" },
+    { id, className, value, onChange, error, placeholder = "Enter phone number" },
     ref,
   ) => {
     const [defaultCountry, setDefaultCountry] = React.useState<string>("IN");
@@ -108,16 +109,16 @@ export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
       <div className="w-full">
         <PhoneInput
           ref={ref}
+          id={id}
           international
           defaultCountry={defaultCountry as any}
           value={value}
           onChange={onChange as (value?: string) => void}
           inputComponent={PhoneInputField as any}
           placeholder={placeholder}
-          // tabIndex=-1 on country select → tab skips it, only click works
-          countrySelectProps={{ tabIndex: -1 }}
+          countrySelectProps={{ "aria-label": "Country code" }}
           className={cn(
-            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-none transition-all duration-200",
+            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-md transition-all duration-200",
             "bg-elevated border border-border-strong",
             "hover:border-accent/40",
             "focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25",

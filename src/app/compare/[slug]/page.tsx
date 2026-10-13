@@ -116,12 +116,12 @@ export default async function ComparePage({
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/#contact"
-              className="inline-flex group items-center gap-2 px-6 py-3 font-semibold text-foreground text-sm rounded-none bg-(--c)"
+              className="inline-flex group items-center gap-2 px-6 py-3 font-semibold text-foreground text-sm rounded-md bg-(--c)"
             >
-              Know More <ArrowRight size={16} className="translate-x-0 group-hover:translate-x-1 ease-in-out duration-300" />
+              Learn more <ArrowRight size={16} className="translate-x-0 group-hover:translate-x-1 ease-in-out duration-300" />
             </Link>
             <Link
-              href="/platform/crm"
+              href="/platform/erix-crm"
               className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-foreground text-sm border border-foreground/15 hover:border-foreground/30 transition-colors"
             >
               Explore ERIX CRM
@@ -138,9 +138,9 @@ export default async function ComparePage({
             ERIX vs {c.competitor}, feature by feature.
           </h2>
 
-          <div className="overflow-hidden border border-foreground/8 rounded-none">
+          <div className="overflow-hidden border border-foreground/8 rounded-md">
             {/* header row */}
-            <div className="grid grid-cols-3 text-xs uppercase tracking-widest font-sans bg-foreground/3">
+            <div className="grid grid-cols-3 text-xs font-sans bg-foreground/3">
               <div className="p-4 text-subtle">Feature</div>
               <div className="p-4 font-bold text-(--c)">
                 ECODrIx (ERIX)
@@ -176,7 +176,7 @@ export default async function ComparePage({
       {/* ── When each wins (trust-building honesty) ── */}
       <section className="py-14 px-6">
         <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-8 rounded-none bg-(--c)/4 border border-(--c)/20">
+          <div className="p-8 rounded-md bg-(--c)/4 border border-(--c)/20">
             <h3 className="text-foreground font-bold mb-3">
               When ERIX is the better pick
             </h3>
@@ -184,7 +184,7 @@ export default async function ComparePage({
               {c.ecodrixBestFor}
             </p>
           </div>
-          <div className="p-8 rounded-none bg-foreground/2 border border-foreground/8">
+          <div className="p-8 rounded-md bg-foreground/2 border border-foreground/8">
             <h3 className="text-foreground font-bold mb-3">
               When {c.competitor} is the better pick
             </h3>
@@ -231,7 +231,7 @@ export default async function ComparePage({
               <Link
                 key={other.slug}
                 href={`/compare/${other.slug}`}
-                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-none bg-foreground/2"
+                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-md bg-foreground/2"
               >
                 <div>
                   <div className="text-foreground font-bold text-base mb-1">

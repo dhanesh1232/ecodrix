@@ -17,7 +17,7 @@ export const CRM_PAGES: SubPage[] = [
   // Capabilities
   {
     slug: "lead-pipeline",
-    title: "Kanban Lead Pipeline",
+    title: "Kanban lead pipeline",
     description: "Drag-and-drop pipeline with custom stages, lead scoring, and revenue forecasting.",
     type: "capability",
     sections: [
@@ -29,7 +29,7 @@ export const CRM_PAGES: SubPage[] = [
   },
   {
     slug: "client-portal",
-    title: "Client Portal & Projects",
+    title: "Client portal & projects",
     description: "Credentialed client login, project workspaces, document exchange, e-signature.",
     type: "capability",
     sections: [
@@ -40,7 +40,7 @@ export const CRM_PAGES: SubPage[] = [
   },
   {
     slug: "commerce",
-    title: "Invoicing & Commerce",
+    title: "Invoicing & commerce",
     description: "Proposals, GST-compliant invoices, recurring billing, payment links, and checkout.",
     type: "capability",
     sections: [
@@ -52,7 +52,7 @@ export const CRM_PAGES: SubPage[] = [
   },
   {
     slug: "crm-automation",
-    title: "CRM Automation Rules",
+    title: "CRM automation rules",
     description: "23+ triggers, gateways, and 17+ actions in a lightweight visual builder.",
     type: "capability",
     sections: [
@@ -74,7 +74,7 @@ export const CRM_PAGES: SubPage[] = [
 export const FLOW_PAGES: SubPage[] = [
   {
     slug: "node-types",
-    title: "Automation Node Types",
+    title: "Automation node types",
     description: "30+ internal nodes: source, enrich, validate, AI, CRM, channels, control flow.",
     type: "capability",
     sections: [
@@ -86,7 +86,7 @@ export const FLOW_PAGES: SubPage[] = [
   },
   {
     slug: "triggers",
-    title: "Flow Triggers",
+    title: "Flow triggers",
     description: "Channel messages, meetings, CRM events, forms, and webhooks.",
     type: "capability",
     sections: [
@@ -97,7 +97,7 @@ export const FLOW_PAGES: SubPage[] = [
   },
   {
     slug: "custom-nodes",
-    title: "Custom Node Marketplace",
+    title: "Custom node marketplace",
     description: "Build, publish, and install automation nodes shared across tenants.",
     type: "capability",
     sections: [
@@ -122,7 +122,7 @@ export const FLOW_PAGES: SubPage[] = [
 export const LAIE_PAGES: SubPage[] = [
   {
     slug: "discovery-sources",
-    title: "Lead Discovery Sources",
+    title: "Lead discovery sources",
     description: "Google Maps, IndiaMART, TradeIndia, JustDial, Instagram, LinkedIn — own methods only.",
     type: "capability",
     sections: [
@@ -132,7 +132,7 @@ export const LAIE_PAGES: SubPage[] = [
   },
   {
     slug: "ai-enrichment",
-    title: "AI Enrichment Pipeline",
+    title: "AI enrichment pipeline",
     description: "GBP audit, competitor gap, lifecycle, email finder, research agent, outreach kit.",
     type: "capability",
     sections: [
@@ -143,7 +143,7 @@ export const LAIE_PAGES: SubPage[] = [
   },
   {
     slug: "relay-fabric",
-    title: "Relay Fabric — Distributed Workers",
+    title: "Relay Fabric — distributed workers",
     description: "Auto-provisioning scraper fleet across Cloudflare, GCP, Lambda, and browser relays.",
     type: "capability",
     sections: [
@@ -154,7 +154,7 @@ export const LAIE_PAGES: SubPage[] = [
   },
   {
     slug: "outreach-kits",
-    title: "AI Outreach Kits",
+    title: "AI outreach kits",
     description: "Auto-generated pitch scripts, cold emails, and demo pages per lead.",
     type: "capability",
     sections: [
@@ -164,7 +164,7 @@ export const LAIE_PAGES: SubPage[] = [
   },
   {
     slug: "developer-sdk",
-    title: "Developer SDK & API Gateway",
+    title: "Developer SDK & API gateway",
     description: "Apify-style actor runtime — actors, runs, datasets, schedules, webhooks.",
     type: "capability",
     sections: [
@@ -178,7 +178,7 @@ export const LAIE_PAGES: SubPage[] = [
 export const CONNECT_PAGES: SubPage[] = [
   {
     slug: "channels",
-    title: "Supported Channels",
+    title: "Supported channels",
     description: "WhatsApp, Email (SES), Instagram, Facebook, Telegram, Google Meet, SMS.",
     type: "capability",
     sections: [
@@ -189,7 +189,7 @@ export const CONNECT_PAGES: SubPage[] = [
   },
   {
     slug: "unified-send-api",
-    title: "Unified Send API",
+    title: "Unified send API",
     description: "One endpoint, any channel, with fallback and delivery tracking.",
     type: "capability",
     sections: [
@@ -199,7 +199,7 @@ export const CONNECT_PAGES: SubPage[] = [
   },
   {
     slug: "whatsapp-api-guide",
-    title: "WhatsApp API Integration Guide",
+    title: "WhatsApp API integration guide",
     description: "Connect WhatsApp Business API via Meta embedded signup or manual token.",
     type: "guide",
     sections: [
@@ -209,7 +209,7 @@ export const CONNECT_PAGES: SubPage[] = [
   },
   {
     slug: "green-tick",
-    title: "WhatsApp Green Tick Verification",
+    title: "WhatsApp green tick verification",
     description: "Get the official verified business badge for WhatsApp.",
     type: "guide",
     sections: [
@@ -219,7 +219,7 @@ export const CONNECT_PAGES: SubPage[] = [
   },
   {
     slug: "whatsapp-broadcast-limits",
-    title: "WhatsApp Broadcast Limits",
+    title: "WhatsApp broadcast limits",
     description: "Meta's messaging tiers and how to scale your daily volume.",
     type: "guide",
     sections: [
@@ -233,7 +233,7 @@ export const CONNECT_PAGES: SubPage[] = [
 export const STORAGE_PAGES: SubPage[] = [
   {
     slug: "presigned-uploads",
-    title: "Presigned Upload URLs",
+    title: "Presigned upload URLs",
     description: "Direct-to-R2 uploads with strict per-tenant isolation.",
     type: "capability",
     sections: [
@@ -243,7 +243,7 @@ export const STORAGE_PAGES: SubPage[] = [
   },
   {
     slug: "ai-image-processing",
-    title: "AI Image Processing",
+    title: "AI image processing",
     description: "Auto-generated alt text, tags, and CDN transforms for every upload.",
     type: "capability",
     sections: [
@@ -253,7 +253,7 @@ export const STORAGE_PAGES: SubPage[] = [
   },
   {
     slug: "quota-metering",
-    title: "Quota & Usage Metering",
+    title: "Quota & usage metering",
     description: "Per-tenant storage quotas with R2→Postgres reconciliation.",
     type: "capability",
     sections: [
@@ -267,7 +267,7 @@ export const STORAGE_PAGES: SubPage[] = [
 export const STORE_PAGES: SubPage[] = [
   {
     slug: "queue-system",
-    title: "Distributed Job Queue",
+    title: "Distributed job queue",
     description: "Priority queues with delay, retry, and dead-letter support.",
     type: "capability",
     sections: [
@@ -287,7 +287,7 @@ export const STORE_PAGES: SubPage[] = [
   },
   {
     slug: "rate-limiting",
-    title: "Rate Limiting & Locks",
+    title: "Rate limiting & locks",
     description: "Token-bucket rate limiting and distributed locks with sub-ms latency.",
     type: "capability",
     sections: [

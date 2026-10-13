@@ -158,7 +158,7 @@ export async function fetchPublicPlans(): Promise<PublicPlansResponse | null> {
  * Whole numbers only — plans are billed in whole major units.
  */
 export function formatMoney(amount: number, currency = "USD"): string {
-  return new Intl.NumberFormat(undefined, {
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: currency || "USD",
     maximumFractionDigits: 0,
@@ -303,47 +303,20 @@ export interface PlanVisualStyle {
 }
 
 /**
- * Map plan slug to brand colours. Falls back to primary purple for unknown
- * slugs so the layout never breaks if a new tier is introduced.
+ * Plan accent colours. Brand rule: blue structures, purple is AI only, red
+ * is urgency — so plans step through the blue ramp instead of a rainbow.
  */
 export function planVisualStyle(slug: string): PlanVisualStyle {
+  // Literal class names: Tailwind only generates classes it can read.
   switch (slug) {
     case "free":
-      return {
-        color: "#64748B",
-        colorClass: "text-[#334155]",
-        bgClass: "bg-[#0F172A]/5",
-      };
-    case "starter":
-      return {
-        color: "#2b4dcb",
-        colorClass: "text-[#2b4dcb]",
-        bgClass: "bg-[#2b4dcb]/10",
-      };
+      return { color: "#555c6d", colorClass: "text-[#555c6d]", bgClass: "bg-[#555c6d]/10" };
     case "growth":
-      return {
-        color: "#8d1fae",
-        colorClass: "text-[#8d1fae]",
-        bgClass: "bg-[#8d1fae]/10",
-      };
     case "scale":
-      return {
-        color: "#4ADE80",
-        colorClass: "text-[#4ADE80]",
-        bgClass: "bg-[#4ADE80]/10",
-      };
     case "enterprise":
-      return {
-        color: "#b34fcf",
-        colorClass: "text-[#b34fcf]",
-        bgClass: "bg-[#b34fcf]/10",
-      };
+      return { color: "#162c8b", colorClass: "text-[#162c8b]", bgClass: "bg-[#162c8b]/10" };
     default:
-      return {
-        color: "#2b4dcb",
-        colorClass: "text-[#2b4dcb]",
-        bgClass: "bg-[#2b4dcb]/10",
-      };
+      return { color: "#2b4dcb", colorClass: "text-[#2b4dcb]", bgClass: "bg-[#2b4dcb]/10" };
   }
 }
 
@@ -351,7 +324,7 @@ export function planVisualStyle(slug: string): PlanVisualStyle {
 export function planDescription(slug: string): string {
   switch (slug) {
     case "free":
-      return "Try every product. No credit card. Forever free.";
+      return "Try every product, free.";
     case "starter":
       return "For small teams getting started with automation.";
     case "growth":
@@ -367,19 +340,17 @@ export function planDescription(slug: string): string {
 
 // ─── CTA helpers ───────────────────────────────────────────────────────────
 
-const APP_URL = "https://console.ecodrix.com";
-
+// Early access: every self-serve plan starts from the waitlist (the console
+// isn't open to sign-ups yet). Enterprise talks to us directly.
 export function planCtaLabel(slug: string): string {
-  if (slug === "free") return "Start Free";
-  if (slug === "enterprise") return "Contact Sales";
-  return "Start Free Trial";
+  return slug === "enterprise" ? "Talk to sales" : "Join the waitlist";
 }
 
 export function planCtaHref(slug: string): string {
   if (slug === "enterprise") {
-    return "mailto:contact@ecodrix.com?subject=Enterprise%20Plan%20Inquiry";
+    return "mailto:contact@ecodrix.com?subject=Enterprise%20plan%20enquiry";
   }
-  return `${APP_URL}/auth/signup?plan=${encodeURIComponent(slug)}`;
+  return `/?plan=${encodeURIComponent(slug)}#contact`;
 }
 
 // ─── Add-on grouping ───────────────────────────────────────────────────────

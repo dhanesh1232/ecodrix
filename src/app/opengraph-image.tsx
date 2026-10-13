@@ -1,10 +1,19 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "ECODrIx — Unified Business Infrastructure Platform";
+export const alt = "ECODrIx — every lead, every chat, one workspace";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Literal colours: CSS variables don't resolve inside ImageResponse.
+const BLUE = "#2b4dcb";
+const BLUE_DEEP = "#162c8b";
+const PURPLE = "#8d1fae";
+const RED = "#b03a3b";
+const INK = "#12151d";
+const MUTED = "#555c6d";
+
+/** Social share card — the homepage headline on the ERIX light surface. */
 export default async function Image() {
   return new ImageResponse(
     <div
@@ -13,154 +22,49 @@ export default async function Image() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "var(--color-background)",
-        position: "relative",
+        justifyContent: "space-between",
+        padding: "72px 80px",
+        background: "#f2f4fb",
+        fontFamily: "sans-serif",
       }}
     >
-      {/* Background gradient */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-100px",
-          left: "-100px",
-          width: "500px",
-          height: "500px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(43, 77, 203,0.3) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-50px",
-          right: "-50px",
-          width: "400px",
-          height: "400px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(34,211,238,0.25) 0%, transparent 70%)",
-          filter: "blur(50px)",
-        }}
-      />
-
-      {/* Content */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "60px",
-          position: "relative",
-        }}
-      >
-        {/* Logo text */}
-        <div
-          style={{
-            fontSize: "28px",
-            fontWeight: 800,
-            color: "var(--color-accent)",
-            letterSpacing: "-0.02em",
-            marginBottom: "24px",
-            fontFamily: "sans-serif",
-          }}
-        >
-          ECODrIx
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ width: "14px", height: "40px", background: BLUE, borderRadius: "3px" }} />
+          <div style={{ width: "14px", height: "40px", background: PURPLE, borderRadius: "3px" }} />
+          <div style={{ width: "14px", height: "40px", background: RED, borderRadius: "3px" }} />
         </div>
+        <div style={{ fontSize: "34px", fontWeight: 800, color: INK }}>ECODrIx</div>
+      </div>
 
-        {/* Headline */}
-        <div
-          style={{
-            fontSize: "56px",
-            fontWeight: 900,
-            color: "var(--color-accent-foreground)",
-            letterSpacing: "-0.04em",
-            lineHeight: 1.1,
-            marginBottom: "8px",
-            fontFamily: "sans-serif",
-          }}
-        >
-          Your Business.
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ fontSize: "68px", fontWeight: 800, color: INK, lineHeight: 1.08, letterSpacing: "-0.02em" }}>
+          Every lead, every chat,
         </div>
-        <div
-          style={{
-            fontSize: "56px",
-            fontWeight: 900,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.1,
-            marginBottom: "24px",
-            background: "linear-gradient(135deg, #b34fcf, #2b4dcb, #8d1fae)",
-            backgroundClip: "text",
-            color: "transparent",
-            fontFamily: "sans-serif",
-          }}
-        >
-          One Command.
+        <div style={{ fontSize: "68px", fontWeight: 800, color: BLUE, lineHeight: 1.08, letterSpacing: "-0.02em" }}>
+          one workspace.
         </div>
-
-        {/* Sub */}
-        <div
-          style={{
-            fontSize: "20px",
-            color: "var(--color-muted-foreground)",
-            maxWidth: "600px",
-            lineHeight: 1.5,
-            fontFamily: "sans-serif",
-          }}
-        >
-          CRM, WhatsApp, Email, AI Lead Gen, Booking & Storage — unified in one
-          platform.
-        </div>
-
-        {/* Feature pills */}
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            marginTop: "32px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {["CRM", "WhatsApp", "Email", "AI Engine", "Booking", "Storage"].map(
-            (f) => (
-              <div
-                key={f}
-                style={{
-                  padding: "6px 14px",
-                  fontSize: "13px",
-                  color: "var(--color-brand-purple)",
-                  background: "rgba(43, 77, 203,0.1)",
-                  border: "1px solid rgba(43, 77, 203,0.25)",
-                  fontFamily: "monospace",
-                }}
-              >
-                {f}
-              </div>
-            ),
-          )}
+        <div style={{ marginTop: "28px", fontSize: "28px", color: MUTED, maxWidth: "900px", lineHeight: 1.4 }}>
+          CRM, WhatsApp and email inbox, GST invoices and AI automation for
+          Indian businesses.
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "30px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          color: "var(--color-muted-foreground)",
-          fontSize: "14px",
-          fontFamily: "sans-serif",
-        }}
-      >
-        ecodrix.com · Join the Waitlist
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            padding: "14px 26px",
+            background: BLUE,
+            color: "#ffffff",
+            fontSize: "24px",
+            fontWeight: 700,
+            borderRadius: "6px",
+          }}
+        >
+          Join the waitlist
+        </div>
+        <div style={{ fontSize: "24px", color: BLUE_DEEP, fontWeight: 600 }}>ecodrix.com</div>
       </div>
     </div>,
     { ...size },

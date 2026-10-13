@@ -32,7 +32,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-crm",
     brand: "ERIX-CRM",
-    name: "Sales CRM & Lead Pipeline",
+    name: "Sales CRM & lead pipeline",
     tagline: "Every lead, every conversation, every deal — in one pipeline.",
     category: "product",
     description:
@@ -58,7 +58,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-flow",
     brand: "ERIX-FLOW",
-    name: "Visual Workflow Automation Engine",
+    name: "Visual workflow automation engine",
     tagline: "Drag-and-drop nodes. Custom marketplace. Real-time runs.",
     category: "product",
     description:
@@ -84,7 +84,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-laie",
     brand: "ERIX-LAIE",
-    name: "B2B Lead Intelligence & Enrichment",
+    name: "B2B lead intelligence & enrichment",
     tagline: "Discover. Enrich. Research. Outreach. On autopilot.",
     category: "product",
     description:
@@ -116,7 +116,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-connect",
     brand: "ERIX-Connect",
-    name: "Multi-Channel Messaging Gateway",
+    name: "Multi-channel messaging gateway",
     tagline: "One API. Every channel. WhatsApp, email, Instagram, Meet, SMS.",
     category: "infrastructure",
     description:
@@ -142,7 +142,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-storage",
     brand: "ERIX-Storage",
-    name: "Cloud Storage & CDN",
+    name: "Cloud storage & CDN",
     tagline: "Cloudflare R2. Presigned URLs. AI image descriptions.",
     category: "infrastructure",
     description:
@@ -167,7 +167,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
   {
     slug: "erix-store",
     brand: "ErixStore",
-    name: "In-Memory Database Server",
+    name: "In-memory database server",
     tagline: "Queue, cache, pub/sub, locks — sub-millisecond.",
     category: "infrastructure",
     description:

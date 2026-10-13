@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Category + Title */}
           <header className="mb-10">
             {post.category && (
-              <span className="inline-block mb-4 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-accent bg-accent/8 border border-accent/20">
+              <span className="inline-block mb-4 px-2.5 py-1 text-[10px] font-semibold text-accent bg-accent/8 border border-accent/20">
                 {post.category}
               </span>
             )}
@@ -178,7 +178,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <ArrowLeft size={14} />
                 Back to all posts
               </Link>
-              <div className="text-[11px] text-muted-foreground uppercase tracking-widest">
+              <div className="text-[11px] text-muted-foreground">
                 {post.publishDate && new Date(post.publishDate).getFullYear()}
               </div>
             </div>
@@ -197,7 +197,7 @@ export default async function BlogPostPage({ params }: Props) {
                 href="/#contact"
                 className="btn-primary shrink-0"
               >
-                Join Waitlist →
+                Join the waitlist →
               </Link>
             </div>
           </div>

@@ -26,19 +26,19 @@ export function ProductHero({ brand, name, tagline, description, features, apiBa
             {name}
           </h1>
           <p className="text-lg text-muted-foreground mb-4">{tagline}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-lg">{description}</p>
+          <p className="text-[15px] text-muted-foreground leading-relaxed mb-6 max-w-lg">{description}</p>
           {apiBase && (
-            <p className="text-[11px] text-muted-foreground mb-6">
+            <p className="text-[13px] text-muted-foreground mb-6">
               API: <code className="text-accent">{apiBase}</code>
             </p>
           )}
           <Link href="/#contact" className="btn-primary inline-flex items-center gap-2">
-            Join Waitlist <ArrowRight size={14} />
+            Join the waitlist <ArrowRight aria-hidden="true" size={16} />
           </Link>
         </div>
 
         {/* Right: SVG animation */}
-        <div className="hidden lg:flex items-center justify-center h-[360px] border border-border bg-surface overflow-hidden relative">
+        <div aria-hidden="true" className="card hidden lg:flex items-center justify-center h-[360px] overflow-hidden relative">
           {svg}
         </div>
       </div>
@@ -65,13 +65,13 @@ export function ProductHero({ brand, name, tagline, description, features, apiBa
       <div>
         <div className="section-tag mb-6">Capabilities</div>
         <h2 className="font-display text-xl font-bold text-foreground mb-8">
-          What ships in {brand}.
+          What’s in {brand}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border border border-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border">
           {features.map((f) => (
-            <div key={f} className="p-5 bg-background flex items-start gap-3">
-              <span className="text-accent mt-0.5 shrink-0">—</span>
-              <span className="text-sm text-muted-foreground">{f}</span>
+            <div key={f} className="p-5 bg-surface flex items-start gap-3">
+              <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+              <span className="text-[15px] text-foreground">{f}</span>
             </div>
           ))}
         </div>

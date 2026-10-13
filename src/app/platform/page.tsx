@@ -136,7 +136,7 @@ export default function PlatformIndexPage() {
                   {/* Left: title + desc */}
                   <div className="lg:w-1/2">
                     <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
-                      <span className="text-[10px] font-sans uppercase tracking-widest text-accent">{m.brand}</span>
+                      <span className="text-[10px] font-sans text-accent">{m.brand}</span>
                     </Link>
                     <h2 className="font-display text-2xl font-bold text-foreground mb-3 tracking-tight">
                       <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">
@@ -186,7 +186,7 @@ export default function PlatformIndexPage() {
                 <div className="flex flex-col lg:flex-row lg:items-start gap-8">
                   <div className="lg:w-1/2">
                     <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
-                      <span className="text-[10px] font-sans uppercase tracking-widest text-muted-foreground group-hover:text-accent transition-colors">{m.brand}</span>
+                      <span className="text-[10px] font-sans text-muted-foreground group-hover:text-accent transition-colors">{m.brand}</span>
                     </Link>
                     <h2 className="font-display text-xl font-bold text-foreground mb-3 tracking-tight">
                       <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">

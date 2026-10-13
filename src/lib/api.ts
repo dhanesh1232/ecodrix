@@ -26,12 +26,10 @@ export const blogs = {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 5000);
 
-        const res = await fetch(`${API_BASE}/v1/api/platform/admin/blogs`, {
+        // Public endpoint: published posts only, no credentials needed.
+        const res = await fetch(`${API_BASE}/v1/api/platform/public/blogs`, {
           next: { revalidate: 60 },
           signal: controller.signal,
-          headers: {
-            "x-core-api-key": process.env.ECODRIX_CORE_API_KEY || "",
-          },
         });
 
         clearTimeout(timeout);

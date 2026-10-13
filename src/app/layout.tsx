@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
@@ -16,23 +16,28 @@ import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
 import { CookieConsent } from "@/components/legal/CookieConsent";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { LenisProvider } from "@/components/layout/LenisProvider";
 
-// Display font — Syne for headings (matches portfolio.ecodrix.com)
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+// ERIX design system type, self-hosted (SIL OFL — licences in ./fonts):
+// Bricolage Grotesque for headings, Manrope for text, JetBrains Mono for code.
+const bricolage = localFont({
+  src: "./fonts/bricolage-grotesque.woff2",
+  weight: "200 800",
+  variable: "--font-bricolage",
   display: "swap",
-  preload: true,
 });
 
-// Body font — Inter for readability
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const manrope = localFont({
+  src: "./fonts/manrope.woff2",
+  weight: "200 800",
+  variable: "--font-manrope",
   display: "swap",
-  preload: true,
+});
+
+const jetbrains = localFont({
+  src: "./fonts/jetbrains-mono.woff2",
+  weight: "100 800",
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 const BASE_URL = "https://ecodrix.com";
@@ -47,7 +52,7 @@ export const metadata: Metadata = {
     template: "%s | ECODrIx",
   },
   description:
-    "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses. 99.9% uptime. SOC 2 compliant.",
+    "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses. 99.9% uptime.",
   keywords: [
     "CRM software",
     "business automation",
@@ -141,7 +146,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" data-scroll-behavior="smooth" className={cn("font-sans dark")}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={cn(
+        "font-sans",
+        bricolage.variable,
+        manrope.variable,
+        jetbrains.variable,
+      )}
+    >
       <head>
         {/* Google Consent Mode v2 — synchronous, must run before any GTM/GA */}
         <script
@@ -162,12 +176,6 @@ export default function RootLayout({
         </Script>
 
         {/* Resource hints for performance optimization */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
 
         {/* JSON-LD structured data — must be in <head> for crawler visibility */}
@@ -223,7 +231,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${syne.variable} ${inter.variable} antialiased`}
+        className="antialiased"
       >
         <noscript
           dangerouslySetInnerHTML={{
@@ -238,7 +246,6 @@ export default function RootLayout({
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
         <div className="bg-background text-foreground overflow-clip min-h-screen flex flex-col">
-          <LenisProvider />
           <Navbar />
           <main id="main-content" className="flex-1 flex flex-col">
             {children}

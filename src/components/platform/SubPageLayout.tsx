@@ -42,7 +42,7 @@ export function SubPageLayout({ page, parentBrand, parentHref }: SubPageLayoutPr
           <p className="mt-1 text-sm text-muted-foreground">14-day free trial. No credit card required.</p>
         </div>
         <Link href="/#contact" className="btn-primary shrink-0 inline-flex items-center gap-2">
-          Join Waitlist <ArrowRight size={13} />
+          Join the waitlist <ArrowRight aria-hidden="true" size={16} />
         </Link>
       </div>
     </div>

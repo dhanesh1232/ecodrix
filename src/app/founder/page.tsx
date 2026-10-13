@@ -94,7 +94,7 @@ const ROLES = [
     title: "Architect, ERIX-CRM & ERIX-FLOW",
     period: "November 2025 — Present",
     desc: "Designed the kanban pipeline, conversation inbox, and the visual automation engine with a custom-node marketplace.",
-    color: "var(--color-brand-purple)",
+    color: "var(--color-accent)",
   },
   {
     title: "Creator, ErixStore & Relay Fabric",
@@ -261,11 +261,11 @@ export default function FounderPage() {
             {ROLES.map((r) => (
               <div
                 key={r.title}
-                className="relative p-px rounded-none bg-foreground/6"
+                className="relative p-px rounded-md bg-foreground/6"
                 style={{ "--tile": r.color } as React.CSSProperties}
               >
-                <div className="relative h-full p-7 rounded-none bg-surface">
-                  <span className="font-sans text-[10px] font-bold block mb-3 uppercase tracking-widest text-[var(--tile)]">
+                <div className="relative h-full p-7 rounded-md bg-surface">
+                  <span className="font-sans text-[10px] font-bold block mb-3 text-[var(--tile)]">
                     {r.period}
                   </span>
                   <h3 className="text-foreground font-bold text-lg mb-3">
@@ -317,7 +317,7 @@ export default function FounderPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-none bg-foreground/3"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-md bg-foreground/3"
                 >
                   <Icon size={14} />
                   {label}
@@ -327,7 +327,7 @@ export default function FounderPage() {
                 href={PORTFOLIO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-none bg-foreground/3"
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground border border-foreground/8 hover:text-foreground hover:border-accent/30 transition-colors rounded-md bg-foreground/3"
               >
                 <ArrowRight size={14} />
                 portfolio.ecodrix.com
@@ -354,11 +354,6 @@ export default function FounderPage() {
             <div className="flex flex-col gap-3">
               {[
                 {
-                  href: "/brands",
-                  title: "ERIX brands",
-                  desc: "ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, Relay Fabric.",
-                },
-                {
                   href: "/platform",
                   title: "Platform modules",
                   desc: "Every product served by api.ecodrix.com.",
@@ -372,7 +367,7 @@ export default function FounderPage() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="group flex items-center justify-between p-5 border border-foreground/8 hover:border-accent/30 transition-colors rounded-none bg-foreground/[0.02]"
+                  className="group flex items-center justify-between p-5 border border-foreground/8 hover:border-accent/30 transition-colors rounded-md bg-foreground/[0.02]"
                 >
                   <div>
                     <div className="text-foreground font-bold text-sm mb-1">

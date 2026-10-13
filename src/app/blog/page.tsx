@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogListPage() {
-  // Fetch server-side where ECODRIX_CORE_API_KEY is available
   const posts = await blogs.fetchPublishedPosts();
 
   return <BlogPage posts={posts} />;

@@ -23,11 +23,11 @@ export default function LegalIndexPage() {
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
       <section className="pt-40 pb-16 px-6 relative overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,color-mix(in_srgb,var(--color-brand-purple)_20%,transparent)_85deg,color-mix(in_srgb,var(--color-accent)_7%,transparent)_115deg,transparent_155deg)]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,color-mix(in_srgb,var(--color-accent)_20%,transparent)_85deg,color-mix(in_srgb,var(--color-accent)_7%,transparent)_115deg,transparent_155deg)]"
           aria-hidden
         />
         <div className="wrapper relative z-10">
-          <div className="pill mb-6 bg-brand-purple/10 text-brand-purple border-brand-purple/20">
+          <div className="pill mb-6 bg-accent/10 text-accent border-accent/20">
             <Scale size={12} />
             Legal & Policies
           </div>
@@ -49,10 +49,10 @@ export default function LegalIndexPage() {
               <Link
                 key={doc.slug}
                 href={legalHref(doc.slug)}
-                className="group flex items-start justify-between gap-4 p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-none"
+                className="group flex items-start justify-between gap-4 p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-md"
               >
                 <div>
-                  <div className="text-[10px] font-sans uppercase tracking-widest mb-2 text-brand-purple">
+                  <div className="text-[10px] font-sans mb-2 text-accent">
                     {doc.pill}
                   </div>
                   <h2 className="text-foreground font-bold text-lg mb-1.5">

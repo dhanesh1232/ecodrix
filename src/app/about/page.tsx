@@ -25,7 +25,7 @@ const values = [
   },
   {
     num: "02",
-    color: "var(--color-brand-purple)",
+    color: "var(--color-accent)",
     title: "Simple over clever",
     desc: "Powerful features shouldn't require a manual. If it takes more than 5 minutes to set up, we redesign it.",
   },
@@ -59,7 +59,7 @@ const products = [
   {
     name: "Automation Engine",
     desc: "20+ triggers, multi-step sequences, conditional logic — no code required.",
-    color: "var(--color-brand-purple)",
+    color: "var(--color-accent)",
     icon: Zap,
   },
   {
@@ -86,11 +86,11 @@ const stack = [
   "Next.js",
   "Node.js",
   "TypeScript",
-  "MongoDB",
-  "AWS EC2",
+  "PostgreSQL",
+  "Google Cloud Run",
+  "Cloud SQL",
   "AWS SES",
-  "AWS S3",
-  "AWS CloudFront",
+  "Cloudflare R2",
   "Meta WhatsApp API",
   "Google OAuth",
 ];
@@ -115,7 +115,7 @@ export default function AboutPage() {
               ECODrIx started in 2025 when we were building digital systems for
               clients across India. Every client needed the same stack — a CRM,
               WhatsApp automation, email campaigns, and a place to store files.
-              They were paying for 5–10 separate tools that didn't talk to each
+              They were paying for 5–10 separate tools that didn’t talk to each
               other.
             </p>
             <p className="text-subtle leading-relaxed text-base">
@@ -150,8 +150,8 @@ export default function AboutPage() {
       <section className="py-18 px-6">
         <div className="wrapper">
           <div className="pill mb-6">Mission</div>
-          <div className="p-px rounded-none bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
-            <div className="px-10 py-10 rounded-none bg-surface">
+          <div className="p-px rounded-md bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
+            <div className="px-10 py-10 rounded-md bg-surface">
               <p className="text-foreground font-display font-bold leading-relaxed text-[clamp(1.2rem,2.5vw,1.6rem)] tracking-[-0.02em]">
                 Empower businesses to automate operations and scale growth —
                 without needing a technical team or expensive enterprise
@@ -193,7 +193,7 @@ export default function AboutPage() {
                 <h3 className="text-foreground font-bold text-base mb-3">
                   {name}
                 </h3>
-                <p className="text-foreground/40 text-sm leading-relaxed">{desc}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -212,10 +212,10 @@ export default function AboutPage() {
             {values.map(({ num, color, title, desc }) => (
               <div
                 key={num}
-                className="group relative p-px rounded-none transition-colors duration-300 bg-foreground/6"
+                className="group relative p-px rounded-md transition-colors duration-300 bg-foreground/6"
                 style={{ "--tile": color } as React.CSSProperties}
               >
-                <div className="relative h-full p-8 rounded-none bg-surface">
+                <div className="relative h-full p-8 rounded-md bg-surface">
                   <span className="font-sans text-[11px] font-bold block mb-5 text-(--tile)">
                     {num}
                   </span>
@@ -230,23 +230,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Built on AWS ── */}
+      {/* ── Infrastructure ── */}
       <section className="py-18 px-6 sep-top bg-background">
         <div className="wrapper">
           <div className="pill mb-6">Infrastructure</div>
           <h2 className="font-display font-black text-foreground mb-5 text-2xl md:text-3xl tracking-[-0.04em]">
-            Built on AWS.
+            Built on Google Cloud.
           </h2>
           <p className="text-subtle mb-12 max-w-2xl leading-relaxed">
-            ECODrIx runs on AWS infrastructure — EC2 for compute, SES for email
-            delivery, S3 for storage, and CloudFront for global content
-            delivery. Designed for reliability, security, and scale.
+            The API runs on Google Cloud Run with PostgreSQL on Cloud SQL,
+            background jobs on dedicated workers, email through AWS SES and
+            files on Cloudflare R2. Designed for reliability, security and scale.
           </p>
           <div className="flex flex-wrap gap-2">
             {stack.map((tech) => (
               <span
                 key={tech}
-                className="px-4 py-2 font-sans text-[12px] text-foreground/50 border border-foreground/8 transition-colors duration-200 hover:text-foreground hover:border-accent/30 rounded-none bg-foreground/3"
+                className="rounded-md border border-border bg-surface px-3 py-1.5 text-[13px] text-muted-foreground"
               >
                 {tech}
               </span>
@@ -258,21 +258,21 @@ export default function AboutPage() {
       {/* ── Contact CTA ── */}
       <section className="py-18 px-6">
         <div className="wrapper">
-          <div className="p-px rounded-none bg-foreground/6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-none bg-surface">
+          <div className="p-px rounded-md bg-foreground/6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-md bg-surface">
               <div>
                 <h2 className="font-display font-black text-foreground mb-3 text-xl md:text-2xl tracking-[-0.04em]">
                   Want to talk to the founder?
                 </h2>
                 <p className="text-subtle text-sm leading-relaxed max-w-md">
-                  We're an early-stage startup. Reach out directly — we respond
+                  We’re an early-stage startup. Reach out directly — we respond
                   to every message personally.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                 <a
                   href="mailto:contact@ecodrix.com"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground rounded-none transition-all duration-300 hover:shadow-[0_0_30px_rgba(43,77,203,0.3)] bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-brand-purple))]"
+                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground rounded-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(43,77,203,0.3)] bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-accent))]"
                 >
                   <Mail size={14} />
                   Email us
@@ -285,7 +285,7 @@ export default function AboutPage() {
                   href="https://wa.me/918143963821"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground border border-foreground/10 transition-all duration-300 hover:border-success/40 hover:text-success rounded-none bg-foreground/4"
+                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground border border-foreground/10 transition-all duration-300 hover:border-success/40 hover:text-success rounded-md bg-foreground/4"
                 >
                   <BsWhatsapp size={14} />
                   WhatsApp

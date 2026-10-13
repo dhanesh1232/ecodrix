@@ -117,7 +117,7 @@ export default function PricingPlansSection({
         <section className="px-6">
           <div className="wrapper">
             <div
-              className="mx-auto max-w-3xl mb-8 flex items-start gap-3 px-4 py-3 text-[13px] text-warning border border-warning/20 bg-warning/5 rounded-none"
+              className="mx-auto max-w-3xl mb-8 flex items-start gap-3 px-4 py-3 text-[13px] text-warning border border-warning/20 bg-warning/5 rounded-md"
               role="status"
             >
               <Sparkles size={14} className="mt-0.5 shrink-0" />
@@ -143,7 +143,7 @@ export default function PricingPlansSection({
               role="tab"
               aria-selected={billing === "monthly"}
               onClick={() => setBilling("monthly")}
-              className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors rounded-full ${billing === "monthly"
+              className={`px-5 py-2 text-[12px] font-bold transition-colors rounded-full ${billing === "monthly"
                 ? "bg-accent text-accent-foreground"
                 : "text-subtle hover:text-foreground"
                 }`}
@@ -155,7 +155,7 @@ export default function PricingPlansSection({
               role="tab"
               aria-selected={billing === "yearly"}
               onClick={() => setBilling("yearly")}
-              className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 rounded-full ${billing === "yearly"
+              className={`px-5 py-2 text-[12px] font-bold transition-colors flex items-center gap-2 rounded-full ${billing === "yearly"
                 ? "bg-accent text-accent-foreground"
                 : "text-subtle hover:text-foreground"
                 }`}
@@ -189,30 +189,30 @@ export default function PricingPlansSection({
               return (
                 <div
                   key={plan.slug}
-                  className={`group relative p-px transition-colors duration-500 no-collapse rounded-none ${popular
-                    ? "bg-linear-to-br from-brand-purple/50 to-accent/50"
+                  className={`group relative p-px transition-colors duration-500 no-collapse rounded-md ${popular
+                    ? "bg-linear-to-br from-accent/50 to-accent/50"
                     : "bg-foreground/10 hover:bg-foreground/20"
                     }`}
                 >
                   {popular && (
                     <div
-                      className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-accent-foreground z-20 rounded-full bg-[var(--tag-bg)]"
+                      className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-[10px] font-bold text-accent-foreground z-20 rounded-full bg-[var(--tag-bg)]"
                       style={{ "--tag-bg": style.color } as React.CSSProperties}
                     >
                       Most Popular
                     </div>
                   )}
-                  <div className="bg-surface h-full p-7 relative overflow-hidden flex flex-col no-collapse rounded-none">
+                  <div className="bg-surface h-full p-7 relative overflow-hidden flex flex-col no-collapse rounded-md">
                     {popular && (
                       <div
-                        className="absolute top-0 right-0 w-64 h-64 bg-brand-purple/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
+                        className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[60px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
                         aria-hidden="true"
                       />
                     )}
 
                     <div className="mb-6 relative z-10 no-collapse">
                       <h3
-                        className={`font-sans text-[11px] font-bold uppercase tracking-widest mb-4 ${style.colorClass}`}
+                        className={`font-sans text-[11px] font-bold mb-4 ${style.colorClass}`}
                       >
                         {plan.name}
                       </h3>
@@ -242,7 +242,7 @@ export default function PricingPlansSection({
                       {features.map((f, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <div
-                            className={`w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 rounded-none ${style.bgClass}`}
+                            className={`w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 rounded-md ${style.bgClass}`}
                           >
                             <Check size={12} className={style.colorClass} />
                           </div>
@@ -255,7 +255,7 @@ export default function PricingPlansSection({
 
                     <a
                       href={planCtaHref(plan.slug)}
-                      className={`w-full py-4 px-6 rounded-none font-bold uppercase tracking-widest text-[12px] transition-all duration-300 flex items-center justify-center gap-2 group/btn relative z-10 ${popular
+                      className={`w-full py-4 px-6 rounded-md font-bold text-[12px] transition-all duration-300 flex items-center justify-center gap-2 group/btn relative z-10 ${popular
                         ? "bg-accent text-accent-foreground hover:bg-accent-hover"
                         : "bg-surface text-foreground border border-border-strong hover:bg-accent hover:text-accent-foreground hover:border-accent"
                         }`}
@@ -274,10 +274,10 @@ export default function PricingPlansSection({
 
           {/* ── Enterprise row ── */}
           {enterprise && (
-            <div className="mt-8 p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-300 rounded-none">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 px-8 py-7 bg-surface rounded-none">
+            <div className="mt-8 p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-300 rounded-md">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 px-8 py-7 bg-surface rounded-md">
                 <div>
-                  <div className="font-sans text-[11px] font-bold uppercase tracking-widest text-accent mb-2">
+                  <div className="font-sans text-[11px] font-bold text-accent mb-2">
                     Enterprise / Custom
                   </div>
                   <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">
@@ -287,7 +287,7 @@ export default function PricingPlansSection({
                 </div>
                 <a
                   href={planCtaHref("enterprise")}
-                  className="group shrink-0 flex items-center gap-2 px-7 py-4 rounded-none font-bold uppercase tracking-widest text-[12px] text-foreground border border-border-strong transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                  className="group shrink-0 flex items-center gap-2 px-7 py-4 rounded-md font-bold text-[12px] text-foreground border border-border-strong transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
                 >
                   {planCtaLabel("enterprise")}
                   <ArrowRight
@@ -306,12 +306,12 @@ export default function PricingPlansSection({
         <section className="py-24 px-6 border-t border-foreground/5">
           <div className="wrapper">
             <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="pill mb-5 mx-auto bg-brand-purple/5 text-brand-purple border-brand-purple/20">
+              <div className="pill mb-5 mx-auto bg-accent/5 text-accent border-accent/20">
                 Add-Ons
               </div>
               <h2 className="text-3xl md:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-4">
                 Stack on top of any{" "}
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-brand-purple">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-accent">
                   plan.
                 </span>
               </h2>
@@ -327,10 +327,10 @@ export default function PricingPlansSection({
                 return (
                   <div key={group.service}>
                     <div className="flex items-center gap-3 mb-5">
-                      <div className="w-9 h-9 flex items-center justify-center bg-accent/10 rounded-none">
+                      <div className="w-9 h-9 flex items-center justify-center bg-accent/10 rounded-md">
                         <Icon size={16} className="text-accent" />
                       </div>
-                      <h3 className="font-sans text-[12px] font-bold uppercase tracking-widest text-foreground">
+                      <h3 className="font-sans text-[12px] font-bold text-foreground">
                         {group.label}
                       </h3>
                     </div>
@@ -339,7 +339,7 @@ export default function PricingPlansSection({
                       {group.items.map((addon) => (
                         <div
                           key={addon.slug}
-                          className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-none"
+                          className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-md"
                         >
                           <div className="bg-surface h-full p-6 flex flex-col gap-3 no-collapse rounded-">
                             <div className="flex items-start justify-between gap-4">
@@ -351,7 +351,7 @@ export default function PricingPlansSection({
                                   {addon.description ?? ""}
                                 </p>
                               </div>
-                              <span className="shrink-0 px-2 py-0.5 text-[9px] font-sans font-bold uppercase tracking-widest text-success bg-success/10 border border-success/20 rounded-none">
+                              <span className="shrink-0 px-2 py-0.5 text-[9px] font-sans font-bold text-success bg-success/10 border border-success/20 rounded-md">
                                 All plans
                               </span>
                             </div>
@@ -359,7 +359,7 @@ export default function PricingPlansSection({
                               <span className="text-foreground font-display font-bold text-lg">
                                 {formatAddonPrice(addon)}
                               </span>
-                              <span className="text-[10px] font-sans uppercase tracking-widest text-muted-foreground">
+                              <span className="text-[10px] font-sans text-muted-foreground">
                                 {addon.feature}
                               </span>
                             </div>
