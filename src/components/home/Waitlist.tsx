@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Copy, Loader2 } from "lucide-react";
+import { CheckCircle2, Copy, Loader2 } from "@/components/icons";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -37,10 +37,11 @@ const interests = [
 const fieldError = "mt-1.5 text-sm text-error";
 
 /**
- * Early-access waitlist (POST /v1/api/platform/public/waitlist). Errors show
- * under the form with their cause, never as a browser alert.
+ * Early-access waitlist form (POST /v1/api/platform/public/waitlist), shown
+ * on the closing navy band. Errors show under the form with their cause,
+ * never as a browser alert.
  */
-export function Waitlist() {
+export function WaitlistForm() {
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState<string | null>(null);
   const [position, setPosition] = useState<number | null>(null);
@@ -98,148 +99,116 @@ export function Waitlist() {
   };
 
   return (
-    <section
-      id="contact"
-      aria-labelledby="waitlist-title"
-      className="section-pad scroll-mt-20 border-t border-border bg-background"
-    >
-      <div className="wrapper grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-        <div>
-          <p className="eyebrow">Early access</p>
-          <h2 id="waitlist-title" className="mt-3 text-3xl md:text-4xl">
-            Be first in when ERIX opens
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            We’re letting businesses in a few at a time, so each one gets set up
-            properly. Join the list and we’ll reach out on WhatsApp or email when
-            your turn comes.
+    <div className="surface-light card p-6 text-foreground shadow-[var(--shadow-lg)] md:p-8">
+      {state === "sent" ? (
+        <div role="status" className="py-6 text-center">
+          <CheckCircle2 aria-hidden="true" className="mx-auto size-10 text-success" />
+          <h3 className="mt-4 text-2xl">You’re on the list</h3>
+          <p className="mt-2 text-muted-foreground">
+            {position
+              ? `You're number ${position.toLocaleString("en-IN")}. We'll be in touch soon.`
+              : "We'll be in touch soon."}
           </p>
-          <ul className="mt-8 space-y-3 text-foreground">
-            {[
-              "Access before the public launch",
-              "Help moving your contacts and chats in",
-              "Your feedback shapes what gets built next",
-            ].map((t) => (
-              <li key={t} className="flex gap-3">
-                <CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-success" />
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card p-6 md:p-8">
-          {state === "sent" ? (
-            <div role="status" className="py-6 text-center">
-              <CheckCircle2 aria-hidden="true" className="mx-auto size-10 text-success" />
-              <h3 className="mt-4 text-2xl">You’re on the list</h3>
-              <p className="mt-2 text-muted-foreground">
-                {position
-                  ? `You're number ${position.toLocaleString("en-IN")}. We'll be in touch soon.`
-                  : "We'll be in touch soon."}
+          {referralCode && (
+            <div className="mt-6">
+              <p className="text-sm text-muted-foreground">
+                Share your link: every business that joins through it moves you up the list.
               </p>
-              {referralCode && (
-                <div className="mt-6">
-                  <p className="text-sm text-muted-foreground">
-                    Share your link: every business that joins through it moves you up the list.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={copyReferralLink}
-                    className="btn-ghost mt-3"
-                  >
-                    <Copy aria-hidden="true" className="size-4" />
-                    {copied ? "Link copied" : "Copy your invite link"}
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
-                <Label htmlFor="wl-name">Your name</Label>
-                <Input
-                  id="wl-name"
-                  autoComplete="name"
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? "wl-name-err" : undefined}
-                  className="mt-1.5"
-                  {...register("name", { required: "Enter your name." })}
-                />
-                {errors.name && <p id="wl-name-err" className={fieldError}>{errors.name.message}</p>}
-              </div>
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <Label htmlFor="wl-email">Work email</Label>
-                  <Input
-                    id="wl-email"
-                    type="email"
-                    autoComplete="email"
-                    aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? "wl-email-err" : undefined}
-                    className="mt-1.5"
-                    {...register("email", {
-                      required: "Enter your email.",
-                      pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Check the email address." },
-                    })}
-                  />
-                  {errors.email && <p id="wl-email-err" className={fieldError}>{errors.email.message}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="wl-company">Business name</Label>
-                  <Input id="wl-company" autoComplete="organization" className="mt-1.5" {...register("company")} />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="wl-phone">WhatsApp number (optional)</Label>
-                <div className="mt-1.5">
-                  <Controller
-                    name="phone"
-                    control={control}
-                    render={({ field }) => (
-                      <StyledPhoneInput id="wl-phone" value={field.value} onChange={field.onChange} />
-                    )}
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="wl-interest">What do you want to use first?</Label>
-                <Controller
-                  name="interest"
-                  control={control}
-                  render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger id="wl-interest" className="mt-1.5 w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {interests.map((i) => (
-                          <SelectItem key={i.value} value={i.value}>
-                            {i.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              </div>
-              {error && (
-                <p role="alert" className="rounded-md bg-error-subtle px-3 py-2 text-sm text-error">
-                  {error}
-                </p>
-              )}
-              <button type="submit" disabled={state === "sending"} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60">
-                {state === "sending" && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
-                {state === "sending" ? "Joining…" : "Join the waitlist"}
+              <button
+                type="button"
+                onClick={copyReferralLink}
+                className="btn-ghost mt-3"
+              >
+                <Copy aria-hidden="true" className="size-4" />
+                {copied ? "Link copied" : "Copy your invite link"}
               </button>
-              <p className="text-center text-xs text-muted-foreground">
-                We only use your details to contact you about early access. See our{" "}
-                <a href="/legal/privacy" className="underline hover:text-accent">privacy policy</a>.
-              </p>
-            </form>
+            </div>
           )}
         </div>
-      </div>
-    </section>
+      ) : (
+        <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div>
+            <Label htmlFor="wl-name">Your name</Label>
+            <Input
+              id="wl-name"
+              autoComplete="name"
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? "wl-name-err" : undefined}
+              className="mt-1.5"
+              {...register("name", { required: "Enter your name." })}
+            />
+            {errors.name && <p id="wl-name-err" className={fieldError}>{errors.name.message}</p>}
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="wl-email">Work email</Label>
+              <Input
+                id="wl-email"
+                type="email"
+                autoComplete="email"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "wl-email-err" : undefined}
+                className="mt-1.5"
+                {...register("email", {
+                  required: "Enter your email.",
+                  pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Check the email address." },
+                })}
+              />
+              {errors.email && <p id="wl-email-err" className={fieldError}>{errors.email.message}</p>}
+            </div>
+            <div>
+              <Label htmlFor="wl-company">Business name</Label>
+              <Input id="wl-company" autoComplete="organization" className="mt-1.5" {...register("company")} />
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="wl-phone">WhatsApp number (optional)</Label>
+            <div className="mt-1.5">
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <StyledPhoneInput id="wl-phone" value={field.value} onChange={field.onChange} />
+                )}
+              />
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="wl-interest">What do you want to use first?</Label>
+            <Controller
+              name="interest"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="wl-interest" className="mt-1.5 w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {interests.map((i) => (
+                      <SelectItem key={i.value} value={i.value}>
+                        {i.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+          {error && (
+            <p role="alert" className="rounded-md bg-error-subtle px-3 py-2 text-sm text-error">
+              {error}
+            </p>
+          )}
+          <button type="submit" disabled={state === "sending"} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60">
+            {state === "sending" && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
+            {state === "sending" ? "Joining…" : "Join the waitlist"}
+          </button>
+          <p className="text-center text-xs text-muted-foreground">
+            We only use your details to contact you about early access. See our{" "}
+            <a href="/legal/privacy" className="underline hover:text-accent">privacy policy</a>.
+          </p>
+        </form>
+      )}
+    </div>
   );
 }

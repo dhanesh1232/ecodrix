@@ -1,14 +1,19 @@
-import type { Metadata } from "next";
-import { ArrowRight, Mail, BarChart3, Zap, Cloud, Calendar } from "lucide-react";
-import { BsWhatsapp } from "react-icons/bs";
+import Link from "next/link";
+import { Icon } from "@/components/icons";
+import { CtaBand, MkSection, WhatsAppCta } from "@/components/marketing/kit";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { pageMetadata } from "@/lib/seo";
+import { PLATFORM_NAV } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata = pageMetadata({
+  title: "About ECODrIx, the team behind ERIX",
   description:
-    "ECODrIx is a unified business infrastructure platform founded in August 2025 in India. We help businesses automate operations, manage customers, and scale growth.",
-  alternates: { canonical: "https://ecodrix.com/about" },
-};
+    "ECODrIx is an Indian software company founded in August 2025. It builds ERIX: one workspace for CRM, WhatsApp, email, GST invoices, AI agents and automation.",
+  path: "/about",
+});
 
+// Kept exactly as published; don't add numbers here.
 const stats = [
   { value: "2025", label: "Founded" },
   { value: "50+", label: "Businesses onboarded" },
@@ -18,67 +23,20 @@ const stats = [
 
 const values = [
   {
-    num: "01",
-    color: "var(--color-accent)",
     title: "Build for real businesses",
     desc: "We use our own platform daily. Every feature we ship solves a problem we've faced ourselves.",
   },
   {
-    num: "02",
-    color: "var(--color-accent)",
     title: "Simple over clever",
     desc: "Powerful features shouldn't require a manual. If it takes more than 5 minutes to set up, we redesign it.",
   },
   {
-    num: "03",
-    color: "var(--color-success)",
     title: "Honest about what we are",
     desc: "We're an early-stage startup, actively building and iterating. We don't pretend to be something we're not.",
   },
   {
-    num: "04",
-    color: "var(--color-cat-meeting)",
     title: "Customer success is our success",
     desc: "We respond to every support request personally. Your growth is the only metric that matters to us.",
-  },
-];
-
-const products = [
-  {
-    name: "CRM & Lead Pipeline",
-    desc: "Kanban pipeline with lead scoring, activity logs, and revenue forecasting.",
-    color: "var(--color-accent)",
-    icon: BarChart3,
-  },
-  {
-    name: "WhatsApp Business API",
-    desc: "Official Meta Cloud API for broadcasts, templates, and unified inbox.",
-    color: "var(--color-success)",
-    icon: BsWhatsapp,
-  },
-  {
-    name: "Automation Engine",
-    desc: "20+ triggers, multi-step sequences, conditional logic — no code required.",
-    color: "var(--color-accent)",
-    icon: Zap,
-  },
-  {
-    name: "Email Marketing",
-    desc: "Powered by AWS SES. Drag-and-drop builder, segmentation, and analytics.",
-    color: "var(--color-cat-meeting)",
-    icon: Mail,
-  },
-  {
-    name: "Cloud Storage",
-    desc: "Secure file management linked directly to contacts and deals.",
-    color: "var(--color-cat-email)",
-    icon: Cloud,
-  },
-  {
-    name: "Meeting Scheduler",
-    desc: "Google Calendar integration with automatic Meet link generation via WhatsApp.",
-    color: "var(--color-accent)",
-    icon: Calendar,
   },
 ];
 
@@ -97,204 +55,135 @@ const stack = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
-      {/* ── Hero ── */}
-      <section className="pt-14 pb-8 px-6 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
-          aria-hidden
-        />
-        <div className="wrapper relative z-10">
-          <div className="pill mb-8">About ECODrIx</div>
-          <h1 className="font-display font-black text-foreground mb-8 max-w-3xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
-            We got tired of paying for{" "}
-            <span className="grad-text">10 different tools.</span>
-          </h1>
-          <div className="max-w-2xl space-y-5">
-            <p className="text-subtle leading-relaxed text-base">
-              ECODrIx started in 2025 when we were building digital systems for
-              clients across India. Every client needed the same stack — a CRM,
-              WhatsApp automation, email campaigns, and a place to store files.
-              They were paying for 5–10 separate tools that didn’t talk to each
-              other.
-            </p>
-            <p className="text-subtle leading-relaxed text-base">
-              So we built it once, properly, and made it available as a
-              platform. ECODrIx is that platform — unified business
-              infrastructure for growing teams.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Stats ── */}
-      <section className="border-y border-foreground/5">
-        <div className="wrapper">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-foreground/5">
-            {stats.map(({ value, label }) => (
-              <div
-                key={label}
-                className="flex flex-col items-center justify-center py-10 px-4"
-              >
-                <span className="grad-text font-display font-black mb-2 text-2xl md:text-3xl tracking-[-0.04em]">
-                  {value}
-                </span>
-                <span className="text-subtle text-sm font-medium">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Mission ── */}
-      <section className="py-18 px-6">
-        <div className="wrapper">
-          <div className="pill mb-6">Mission</div>
-          <div className="p-px rounded-md bg-[linear-gradient(135deg,rgba(43,77,203,0.3),rgba(141,31,174,0.1))]">
-            <div className="px-10 py-10 rounded-md bg-surface">
-              <p className="text-foreground font-display font-bold leading-relaxed text-[clamp(1.2rem,2.5vw,1.6rem)] tracking-[-0.02em]">
-                Empower businesses to automate operations and scale growth —
-                without needing a technical team or expensive enterprise
-                software.
+    <div className="w-full">
+      {/* ── Story ── */}
+      <section className="erix-mk-section erix-mk-section--subtle pt-12! md:pt-16!">
+        <div className="wrapper grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div>
+            <h1 className="text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
+              We got tired of paying for 10 different tools.
+            </h1>
+            <div className="mt-6 max-w-[60ch] space-y-4 text-[clamp(16px,1.5vw,19px)] leading-relaxed">
+              <p>
+                ECODrIx started in 2025 when we were building digital systems for clients across India. Every client
+                needed the same stack: a CRM, WhatsApp automation, email campaigns and a place to store files. They were
+                paying for 5–10 separate tools that didn&apos;t talk to each other.
+              </p>
+              <p>
+                So we built it once, properly, and made it available as a platform. That platform is ERIX: one
+                workspace for growing Indian businesses.
               </p>
             </div>
           </div>
+          <figure className="self-end rounded-[16px] bg-surface p-7 shadow-[var(--shadow-card)] md:p-9">
+            <blockquote className="font-display text-[clamp(22px,2.4vw,30px)] leading-snug font-semibold tracking-[-0.015em] text-foreground">
+              “Empower businesses to automate operations and scale growth, without needing a technical team or expensive
+              enterprise software.”
+            </blockquote>
+            <figcaption className="mt-5 text-sm font-semibold text-accent">Our mission</figcaption>
+          </figure>
         </div>
+      </section>
+
+      {/* ── At a glance ── */}
+      <section aria-label="ECODrIx at a glance" className="bg-surface py-12 md:py-16">
+        <dl className="wrapper grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col">
+              <dt className="order-2 mt-1 text-[15px] text-muted-foreground">{s.label}</dt>
+              <dd className="order-1 text-[clamp(32px,3.6vw,44px)] leading-none font-bold tracking-[-0.03em] text-foreground">
+                {s.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       {/* ── What we build ── */}
-      <section className="py-18 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">Platform</div>
-          <h2 className="font-display font-black text-foreground mb-4 text-2xl md:text-3xl tracking-[-0.04em]">
-            What we build.
-          </h2>
-          <p className="text-subtle mb-14 max-w-xl leading-relaxed">
-            One platform that replaces the tools most growing businesses are
-            stitching together.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/5">
-            {products.map(({ name, desc, color, icon: Icon }) => (
-              <div
-                key={name}
-                className="group p-8 bg-background hover:bg-surface transition-colors duration-200"
-                style={{ "--bar": color } as React.CSSProperties}
-              >
-                {/* Pipe starts at left, sweeps to right edge on hover, stays there until unhover */}
-                <div className="relative w-8 h-8 mb-6">
-                  {/* Icon — fades in after pipe arrives */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Icon size={16} style={{ color: "var(--bar)" }} className="opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-150" />
-                  </div>
-                  {/* Pipe — sits at left (0), translates to right edge on hover */}
-                  <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-(--bar) translate-x-0 lg:group-hover:translate-x-7.5 transition-transform duration-400 ease-out" />
-                </div>
-                <h3 className="text-foreground font-bold text-base mb-3">
-                  {name}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MkSection
+        id="build"
+        tone="subtle"
+        title="One platform instead of a stack of tools"
+        lead="ERIX replaces the tools most growing businesses stitch together, and every part shares the same customer record."
+      >
+        <ul className="grid gap-x-10 md:grid-cols-2">
+          {PLATFORM_NAV.map((m) => (
+            <li key={m.key} className="border-t border-border">
+              <Link href={m.href} className="group -mx-3 flex items-start gap-4 rounded-[12px] px-3 py-5 hover:bg-hover">
+                <span
+                  className={cn(
+                    "grid size-10 shrink-0 place-items-center rounded-[11px]",
+                    "ai" in m ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                  )}
+                >
+                  <m.icon variant="duo" className="size-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2 text-[17px] font-semibold text-foreground">
+                    {m.name}
+                    {m.status !== "live" && <StatusBadge status={m.status} />}
+                  </span>
+                  <span className="mt-1 block text-[15px] text-muted-foreground">{m.summary}</span>
+                </span>
+                <Icon name="arrow-right" size={16} variant="line" className="mt-3 shrink-0 text-accent" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </MkSection>
 
       {/* ── How we work ── */}
-      <section className="py-18 px-6">
-        <div className="wrapper">
-          <div className="pill mb-6">Values</div>
-          <h2 className="font-display font-black text-foreground mb-14 text-2xl md:text-3xl tracking-[-0.04em]">
-            How we work.
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {values.map(({ num, color, title, desc }) => (
-              <div
-                key={num}
-                className="group relative p-px rounded-md transition-colors duration-300 bg-foreground/6"
-                style={{ "--tile": color } as React.CSSProperties}
-              >
-                <div className="relative h-full p-8 rounded-md bg-surface">
-                  <span className="font-sans text-[11px] font-bold block mb-5 text-(--tile)">
-                    {num}
-                  </span>
-                  <h3 className="text-foreground font-bold text-lg mb-3">
-                    {title}
-                  </h3>
-                  <p className="text-subtle text-sm leading-relaxed">{desc}</p>
-                </div>
+      <MkSection id="values" title="Four things we hold ourselves to">
+        <ol className="grid gap-x-16 gap-y-10 md:grid-cols-2">
+          {values.map((v, i) => (
+            <li key={v.title} className="grid grid-cols-[48px_1fr] gap-4">
+              <span className="text-[28px] leading-none font-bold tracking-[-0.03em] text-accent">0{i + 1}</span>
+              <div>
+                <h3 className="font-sans text-[19px] font-semibold tracking-normal">{v.title}</h3>
+                <p className="mt-2 text-[16px] text-muted-foreground">{v.desc}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </li>
+          ))}
+        </ol>
+      </MkSection>
 
       {/* ── Infrastructure ── */}
-      <section className="py-18 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">Infrastructure</div>
-          <h2 className="font-display font-black text-foreground mb-5 text-2xl md:text-3xl tracking-[-0.04em]">
-            Built on Google Cloud.
-          </h2>
-          <p className="text-subtle mb-12 max-w-2xl leading-relaxed">
-            The API runs on Google Cloud Run with PostgreSQL on Cloud SQL,
-            background jobs on dedicated workers, email through AWS SES and
-            files on Cloudflare R2. Designed for reliability, security and scale.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {stack.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-md border border-border bg-surface px-3 py-1.5 text-[13px] text-muted-foreground"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MkSection
+        id="infra"
+        tone="subtle"
+        title="Built on Google Cloud"
+        lead="The API runs on Google Cloud Run with PostgreSQL on Cloud SQL, background jobs on dedicated workers, email through AWS SES and files on Cloudflare R2. Designed for reliability, security and scale."
+      >
+        <ul className="flex flex-wrap gap-2">
+          {stack.map((t) => (
+            <li key={t} className="rounded-[8px] bg-surface px-3 py-1.5 text-sm text-muted-foreground shadow-[var(--shadow-card)]">
+              {t}
+            </li>
+          ))}
+        </ul>
+      </MkSection>
 
-      {/* ── Contact CTA ── */}
-      <section className="py-18 px-6">
-        <div className="wrapper">
-          <div className="p-px rounded-md bg-foreground/6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 py-12 rounded-md bg-surface">
-              <div>
-                <h2 className="font-display font-black text-foreground mb-3 text-xl md:text-2xl tracking-[-0.04em]">
-                  Want to talk to the founder?
-                </h2>
-                <p className="text-subtle text-sm leading-relaxed max-w-md">
-                  We’re an early-stage startup. Reach out directly — we respond
-                  to every message personally.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-                <a
-                  href="mailto:contact@ecodrix.com"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground rounded-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(43,77,203,0.3)] bg-[linear-gradient(135deg,var(--color-brand-blue),var(--color-accent))]"
-                >
-                  <Mail size={14} />
-                  Email us
-                  <ArrowRight
-                    size={14}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                </a>
-                <a
-                  href="https://wa.me/918143963821"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-7 py-3.5 font-semibold text-sm text-foreground border border-foreground/10 transition-all duration-300 hover:border-success/40 hover:text-success rounded-md bg-foreground/4"
-                >
-                  <BsWhatsapp size={14} />
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── Contact ── */}
+      <CtaBand
+        title="Want to talk to the founder?"
+        lead={
+          <p className="text-inherit">
+            We&apos;re an early-stage startup. Reach out directly; we respond to every message personally.{" "}
+            <Link href="/founder" className="link-on-dark underline underline-offset-4">
+              Meet Dhanesh
+            </Link>
+            .
+          </p>
+        }
+        actions={
+          <>
+            <a href="mailto:contact@ecodrix.com" className="btn-primary btn-lg">
+              <Icon name="mail" size={16} variant="line" /> Email us
+            </a>
+            <WhatsAppCta lg />
+          </>
+        }
+      />
     </div>
   );
 }

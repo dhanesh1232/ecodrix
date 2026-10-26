@@ -7,7 +7,7 @@ import {
   ArrowUpDown,
   Receipt,
   RefreshCw,
-} from "lucide-react";
+} from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const pricingPolicyDoc: LegalDoc = {

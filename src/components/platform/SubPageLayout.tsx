@@ -1,50 +1,193 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import type { SubPage } from "@/lib/product-pages";
+import { notFound } from "next/navigation";
+import { Icon } from "@/components/icons";
+import { BrowserFrame, Faq, PrimaryCta } from "@/components/marketing/kit";
+import { SCREENS } from "@/components/scenes/screens";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema, getFAQSchema } from "@/lib/jsonld";
+import { getModuleBySlug } from "@/lib/platform-modules";
+import { getProductPages } from "@/lib/product-pages";
+import { pageMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
+import { ClosingCta, Crumbs, GuideList, ModuleEyebrow, TYPE_LABEL } from "./ModulePage";
 
-interface SubPageLayoutProps {
-  page: SubPage;
-  parentBrand: string;
-  parentHref: string;
+const anchor = (heading: string) =>
+  heading
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+export function subPageParams(module: string) {
+  return getProductPages(module).map((p) => ({ slug: p.slug }));
 }
 
-export function SubPageLayout({ page, parentBrand, parentHref }: SubPageLayoutProps) {
+export function subPageMetadata(module: string, slug: string): Metadata {
+  const page = getProductPages(module).find((p) => p.slug === slug);
+  if (!page) return { title: "Not found" };
+  return pageMetadata({ title: page.title, description: page.description, path: `/platform/${module}/${page.slug}` });
+}
+
+/** /platform/{module}/{slug}: a guide, use case, feature or comparison. */
+export function SubPageLayout({ module, slug }: { module: string; slug: string }) {
+  const m = getModuleBySlug(module);
+  const pages = getProductPages(module);
+  const page = pages.find((p) => p.slug === slug);
+  if (!m || !page) notFound();
+  const Screen = page.screen ? SCREENS[page.screen] : null;
+  const related = pages.filter((p) => p.slug !== page.slug).slice(0, 4);
+  const path = `/platform/${m.slug}/${page.slug}`;
+  const toc = [
+    ...(page.steps ? [{ id: "how-it-works", label: "How it works" }] : []),
+    ...page.sections.map((s) => ({ id: anchor(s.heading), label: s.heading })),
+    ...(page.faqs ? [{ id: "questions", label: "Questions" }] : []),
+  ];
+
   return (
-    <div className="wrapper py-16">
-      {/* Back nav */}
-      <Link href={parentHref} className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-accent mb-8 transition-colors">
-        <ArrowLeft size={12} /> Back to {parentBrand}
-      </Link>
+    <div className="w-full">
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Platform", url: "/platform" },
+          { name: m.brand, url: `/platform/${m.slug}` },
+          { name: page.title, url: path },
+        ])}
+      />
+      {page.faqs && page.faqs.length > 0 && <JsonLd data={getFAQSchema(page.faqs)} />}
 
-      {/* Type badge */}
-      <div className="pill mb-4 capitalize">{page.type.replace("-", " ")}</div>
-
-      {/* Title */}
-      <h1 className="font-display text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-foreground tracking-tight leading-tight mb-3">
-        {page.title}
-      </h1>
-      <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mb-12">{page.description}</p>
-
-      {/* Sections */}
-      <div className="flex flex-col divide-y divide-border border-y border-border mb-14">
-        {page.sections.map((s) => (
-          <div key={s.heading} className="py-8">
-            <h2 className="font-display text-lg font-bold text-foreground mb-3">{s.heading}</h2>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">{s.body}</p>
+      {/* ── Header (light: only navy bands carry the brand flourish) ── */}
+      <section className="erix-mk-section erix-mk-section--subtle pt-10! md:pt-14!">
+        <div className={cn("wrapper grid items-center gap-10", Screen && "lg:grid-cols-[1fr_1.05fr] lg:gap-14")}>
+          <div className={Screen ? "" : "max-w-3xl"}>
+            <Crumbs
+              items={[
+                { name: "Platform", href: "/platform" },
+                { name: m.brand, href: `/platform/${m.slug}` },
+                { name: page.title },
+              ]}
+            />
+            <p className="mt-6 flex flex-wrap items-center gap-3">
+              <ModuleEyebrow m={m} />
+              <StatusBadge status={m.status} />
+              <span className="rounded-[6px] bg-sunken px-2 py-0.5 text-[12px] font-semibold text-muted-foreground">
+                {TYPE_LABEL[page.type]}
+              </span>
+            </p>
+            <h1 className="mt-4 text-[clamp(34px,4.6vw,52px)] leading-[1.06] tracking-[-0.035em]">{page.title}</h1>
+            <p className="mt-5 max-w-[60ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
+              {page.lead}
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <PrimaryCta />
+              <Link href={`/platform/${m.slug}`} className="btn-ghost">
+                About {m.brand}
+              </Link>
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <div className="border border-border p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-surface">
-        <div>
-          <p className="text-lg font-display font-bold text-foreground">Ready to get started?</p>
-          <p className="mt-1 text-sm text-muted-foreground">14-day free trial. No credit card required.</p>
+          {Screen && (
+            <BrowserFrame light>
+              <Screen />
+            </BrowserFrame>
+          )}
         </div>
-        <Link href="/#contact" className="btn-primary shrink-0 inline-flex items-center gap-2">
-          Join the waitlist <ArrowRight aria-hidden="true" size={16} />
-        </Link>
-      </div>
+      </section>
+
+      <section className="erix-mk-section">
+        <div className="wrapper grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
+          {/* On this page */}
+          <nav aria-label="On this page" className="hidden lg:block">
+            <div className="sticky top-24">
+              <p className="text-sm font-semibold text-foreground">On this page</p>
+              <ul className="mt-3 space-y-0.5">
+                {toc.map((t) => (
+                  <li key={t.id}>
+                    <a
+                      href={`#${t.id}`}
+                      className="block rounded-[8px] px-3 py-1.5 text-sm text-muted-foreground hover:bg-hover hover:text-foreground"
+                    >
+                      {t.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+
+          <div className="min-w-0 max-w-[68ch]">
+            {page.notice && (
+              <p className="mb-10 flex gap-3 rounded-[12px] bg-warning-subtle p-4 text-[15px] text-warning">
+                <Icon name="info" size={20} variant="solid" className="mt-0.5 shrink-0" />
+                <span>{page.notice}</span>
+              </p>
+            )}
+
+            {page.steps && (
+              <section id="how-it-works" aria-labelledby="how-it-works-title" className="mb-14 scroll-mt-24">
+                <h2 id="how-it-works-title" className="text-[clamp(24px,2.6vw,32px)] tracking-[-0.02em]">
+                  How it works
+                </h2>
+                <ol className="mt-6 space-y-5">
+                  {page.steps.map((s, i) => (
+                    <li key={s} className="flex gap-4">
+                      <span className="erix-mk-steps__n mb-0! size-8! shrink-0 text-[14px]!">{i + 1}</span>
+                      <p className="pt-1 text-[17px] text-foreground">{s}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
+
+            <div className="space-y-12">
+              {page.sections.map((s) => (
+                <section key={s.heading} id={anchor(s.heading)} className="scroll-mt-24">
+                  <h2 className="text-[clamp(22px,2.2vw,28px)] tracking-[-0.02em]">{s.heading}</h2>
+                  {s.body.map((b) => (
+                    <p key={b} className="mt-4 text-[17px] leading-[1.75] text-muted-foreground">
+                      {b}
+                    </p>
+                  ))}
+                  {s.points && (
+                    <ul className="erix-mk-ticks">
+                      {s.points.map((pt) => (
+                        <li key={pt}>
+                          <Icon name="check" size={16} strokeWidth={2.2} variant="line" className={m.ai ? "text-ai!" : undefined} />
+                          {pt}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              ))}
+            </div>
+
+            {page.faqs && page.faqs.length > 0 && (
+              <section id="questions" aria-labelledby="questions-title" className="mt-16 scroll-mt-24">
+                <h2 id="questions-title" className="mb-6 text-[clamp(24px,2.6vw,32px)] tracking-[-0.02em]">
+                  Questions
+                </h2>
+                <Faq items={page.faqs} />
+              </section>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section aria-labelledby="related-title" className="erix-mk-section erix-mk-section--subtle">
+          <div className="wrapper">
+            <h2 id="related-title" className="erix-mk-h2 mb-8!">
+              More on {m.brand}
+            </h2>
+            <GuideList module={m.slug} pages={related} />
+          </div>
+        </section>
+      )}
+
+      <ClosingCta
+        title="See it with your own business"
+        body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it."
+      />
     </div>
   );
 }

@@ -18,14 +18,6 @@ const nextConfig: NextConfig = {
   experimental: {
     // Enable CSS optimization and tree-shaking
     optimizeCss: true,
-    // Optimize package imports for heavy dependencies
-    optimizePackageImports: [
-      "framer-motion",
-      "gsap",
-      "lenis",
-      "lucide-react",
-      "react-icons",
-    ],
   },
 
   images: {

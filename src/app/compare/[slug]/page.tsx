@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Check, Minus } from "lucide-react";
-import {
-  COMPARISONS,
-  getComparisonBySlug,
-  getComparisonSlugs,
-} from "@/lib/comparisons";
-import { getFAQSchema, getBreadcrumbSchema, SEO_CONSTANTS } from "@/lib/jsonld";
-
-const { BASE_URL } = SEO_CONSTANTS;
+import { notFound } from "next/navigation";
+import { Icon } from "@/components/icons";
+import { Faq, MkSection, PrimaryCta } from "@/components/marketing/kit";
+import { ClosingCta, Crumbs } from "@/components/platform/ModulePage";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { COMPARISONS, getComparisonBySlug, getComparisonSlugs } from "@/lib/comparisons";
+import { getBreadcrumbSchema, getFAQSchema } from "@/lib/jsonld";
+import { pageMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────────────
    /compare/[slug] — "ECODrIx vs {Competitor}" comparison page.
@@ -25,231 +24,185 @@ export function generateStaticParams(): Params[] {
   return getComparisonSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<Params>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const c = getComparisonBySlug(slug);
   if (!c) return { title: "Comparison not found" };
-
-  const title = `ECODrIx vs ${c.competitor}: WhatsApp CRM Comparison (2026)`;
   return {
-    title,
-    description: c.description,
-    keywords: [
-      ...c.searchQueries,
-      "ECODrIx",
-      "ERIX",
-      c.competitor,
-      "WhatsApp CRM India",
-    ],
-    alternates: { canonical: `${BASE_URL}/compare/${c.slug}` },
-    openGraph: {
-      title: `${title} | ECODrIx`,
+    ...pageMetadata({
+      title: `ECODrIx vs ${c.competitor}: WhatsApp CRM compared`,
       description: c.description,
-      url: `${BASE_URL}/compare/${c.slug}`,
-      type: "website",
-    },
+      path: `/compare/${c.slug}`,
+    }),
+    keywords: [...c.searchQueries, "ECODrIx", "ERIX", c.competitor, "WhatsApp CRM India"],
   };
 }
 
-export default async function ComparePage({
-  params,
-}: {
-  params: Promise<Params>;
-}) {
+/** What ERIX adds around the messaging: live v1.0 facts (design system product page), the same on every comparison. */
+const AROUND = [
+  "One inbox for WhatsApp, Instagram DMs, email and your website chat",
+  "An AI agent that answers from your own price list and hours; refunds, complaints and medical questions go to a person",
+  "A pipeline with stages for your trade, and bookings in Indian time with no double bookings",
+  "GST invoices (CGST and SGST, or IGST) with your Razorpay payment link, marked Paid when the money lands",
+  "Your own WhatsApp account, so Meta bills you directly and ERIX adds no markup",
+  "Automations that wait for a reply, ask for approval before money or a customer message goes out, and keep a run history on each contact",
+];
+
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+
+export default async function ComparePage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const c = getComparisonBySlug(slug);
   if (!c) notFound();
-
   const others = COMPARISONS.filter((x) => x.slug !== slug);
 
   return (
-    <div
-      className="bg-background text-foreground min-h-screen overflow-x-hidden"
-      style={{ "--c": c.color } as React.CSSProperties}
-    >
+    <div className="w-full">
       {/* JSON-LD: Breadcrumb + FAQ (no fabricated ratings) */}
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getBreadcrumbSchema([
-              { name: "Home", url: "/" },
-              { name: "Compare", url: "/compare" },
-              { name: `ECODrIx vs ${c.competitor}`, url: `/compare/${c.slug}` },
-            ]),
-          ),
-        }}
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Compare", url: "/compare" },
+          { name: `ECODrIx vs ${c.competitor}`, url: `/compare/${c.slug}` },
+        ])}
       />
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema(c.faqs)),
-        }}
-      />
+      <JsonLd data={getFAQSchema(c.faqs)} />
 
-      {/* ── Hero ── */}
-      <section className="pt-8 pb-8 px-6 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px]"
-          aria-hidden
-          style={{
-            background: `conic-gradient(from 270deg at 50% 0%, transparent 55deg, ${c.color}33 85deg, ${c.color}11 115deg, transparent 155deg)`,
-          }}
-        />
-        <div className="wrapper relative z-10">
-          <div className="pill mb-6 text-(--c) border-(--c)/25 bg-(--c)/6">
-            Comparison
-          </div>
-          <h1 className="font-display font-black text-foreground mb-4 max-w-4xl text-[clamp(1.4rem,3.5vw,3.5rem)] tracking-[-0.04em] leading-[1.05]">
-            ECODrIx (ERIX) vs {c.competitor}.
+      <section className="erix-mk-section erix-mk-section--subtle pt-10! md:pt-14!">
+        <div className="wrapper max-w-[calc(var(--mk-wrap))]">
+          <Crumbs items={[{ name: "Compare", href: "/compare" }, { name: `ECODrIx vs ${c.competitor}` }]} />
+          <h1 className="mt-6 max-w-4xl text-[clamp(36px,5vw,56px)] leading-[1.05] tracking-[-0.035em]">
+            ECODrIx (ERIX) vs {c.competitor}
           </h1>
-          <p className="max-w-3xl leading-relaxed text-muted-foreground text-base">
-            {c.tldr}
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/#contact"
-              className="inline-flex group items-center gap-2 px-6 py-3 font-semibold text-foreground text-sm rounded-md bg-(--c)"
-            >
-              Learn more <ArrowRight size={16} className="translate-x-0 group-hover:translate-x-1 ease-in-out duration-300" />
-            </Link>
-            <Link
-              href="/platform/erix-crm"
-              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-foreground text-sm border border-foreground/15 hover:border-foreground/30 transition-colors"
-            >
-              Explore ERIX CRM
+          <p className="mt-5 max-w-[64ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">{c.tldr}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <PrimaryCta />
+            <Link href="/platform" className="btn-ghost">
+              See the whole platform
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Comparison table ── */}
-      <section className="py-14 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">Side by side</div>
-          <h2 className="font-display font-black text-foreground mb-10 text-2xl md:text-3xl tracking-[-0.04em]">
-            ERIX vs {c.competitor}, feature by feature.
-          </h2>
+      {/* ── Side by side ── */}
+      <MkSection id="table" title={`Side by side: ERIX and ${c.competitor}`}>
+        <div className="overflow-hidden rounded-[16px] shadow-[var(--shadow-card)]">
+          <table className="cmp-table w-full border-collapse bg-surface text-left text-[15px]">
+            <caption className="sr-only">
+              ECODrIx (ERIX) compared with {c.competitor}
+            </caption>
+            <thead>
+              <tr className="bg-sunken text-[13px] text-muted-foreground">
+                <th scope="col" className="w-1/4 px-5 py-3 font-semibold">
+                  What
+                </th>
+                <th scope="col" className="px-5 py-3 font-semibold text-foreground">
+                  ECODrIx (ERIX)
+                </th>
+                <th scope="col" className="px-5 py-3 font-semibold">
+                  {c.competitor}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {c.rows.map((row) => (
+                <tr key={row.dimension} className="border-t border-border-soft align-top">
+                  <th scope="row" className="px-5 py-4 font-semibold text-foreground">
+                    {row.dimension}
+                  </th>
+                  <td data-label="ECODrIx (ERIX)" className="px-5 py-4 text-foreground">
+                    <span className="flex gap-2">
+                      {row.ecodrixWins && (
+                        <Icon name="circle-check" size={16} variant="solid" label="ERIX has the edge" className="mt-0.5 shrink-0 text-success" />
+                      )}
+                      {row.ecodrix}
+                    </span>
+                  </td>
+                  <td data-label={c.competitor} className="px-5 py-4 text-muted-foreground">
+                    {row.competitor}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-4 text-[13.5px] text-subtle">
+          {c.competitor} details last checked on {fmtDate(c.lastVerified)}. Competitor plans change often, so check their
+          site for current features and prices.
+        </p>
+      </MkSection>
 
-          <div className="overflow-hidden border border-foreground/8 rounded-md">
-            {/* header row */}
-            <div className="grid grid-cols-3 text-xs font-sans bg-foreground/3">
-              <div className="p-4 text-subtle">Feature</div>
-              <div className="p-4 font-bold text-(--c)">
-                ECODrIx (ERIX)
-              </div>
-              <div className="p-4 text-muted-foreground">{c.competitor}</div>
-            </div>
-            {c.rows.map((row, i) => (
-              <div
-                key={row.dimension}
-                className={`grid grid-cols-3 text-sm border-t border-foreground/5 ${i % 2 ? "" : "bg-foreground/1"}`}
-              >
-                <div className="p-4 text-muted-foreground font-medium">
-                  {row.dimension}
-                </div>
-                <div className="p-4 text-muted-foreground flex gap-2">
-                  {row.ecodrixWins ? (
-                    <Check
-                      size={16}
-                      className="shrink-0 mt-0.5 text-(--c)"
-                    />
-                  ) : (
-                    <Minus size={16} className="shrink-0 mt-0.5 text-subtle" />
-                  )}
-                  <span>{row.ecodrix}</span>
-                </div>
-                <div className="p-4 text-subtle">{row.competitor}</div>
-              </div>
-            ))}
+      {/* ── Which to pick ── */}
+      <MkSection id="pick" tone="subtle" title="Which one fits you">
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-[16px] bg-surface p-6 shadow-[var(--shadow-card)] md:p-8">
+            <p className="text-[13px] font-semibold text-muted-foreground">Pick {c.competitor} if</p>
+            <p className="mt-2 text-[17px] text-foreground">{c.competitorBestFor}</p>
+          </div>
+          <div className="rounded-[16px] bg-surface p-6 shadow-[var(--shadow-card)] ring-2 ring-accent md:p-8">
+            <p className="text-[13px] font-semibold text-accent">Pick ERIX if</p>
+            <p className="mt-2 text-[17px] text-foreground">{c.ecodrixBestFor}</p>
           </div>
         </div>
-      </section>
+      </MkSection>
 
-      {/* ── When each wins (trust-building honesty) ── */}
-      <section className="py-14 px-6">
-        <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-8 rounded-md bg-(--c)/4 border border-(--c)/20">
-            <h3 className="text-foreground font-bold mb-3">
-              When ERIX is the better pick
-            </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {c.ecodrixBestFor}
-            </p>
+      {/* ── What ERIX adds ── */}
+      <MkSection
+        id="around"
+        title="What ERIX adds around the messaging"
+        lead="Every provider here uses Meta's official WhatsApp platform. These are the parts ERIX builds around it, all on one contact record."
+      >
+        <ul className="erix-mk-ticks grid gap-x-10 md:grid-cols-2">
+          {AROUND.map((a) => (
+            <li key={a}>
+              <Icon name="check" size={16} strokeWidth={2.2} variant="line" />
+              {a}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
+          <div>
+            <h3 className="font-sans text-[19px] font-semibold tracking-normal">Before you switch</h3>
+            <ul className="mt-3 space-y-2 text-[16px] text-muted-foreground">
+              <li>List the tools you pay for today next to WhatsApp, such as a CRM, invoicing and a booking app.</li>
+              <li>Note which WhatsApp templates you rely on; they need WhatsApp&apos;s approval on your number.</li>
+              <li>Plan the number move with your current provider, since a number works with one provider at a time.</li>
+            </ul>
           </div>
-          <div className="p-8 rounded-md bg-foreground/2 border border-foreground/8">
-            <h3 className="text-foreground font-bold mb-3">
-              When {c.competitor} is the better pick
-            </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {c.competitorBestFor}
+          <div>
+            <h3 className="font-sans text-[19px] font-semibold tracking-normal">What stays the same</h3>
+            <p className="mt-3 text-[16px] text-muted-foreground">
+              Your WhatsApp Business number, Meta&apos;s message charges and the 24-hour reply window work the same way on
+              every official provider. What changes is what you can do with each conversation after it arrives.
             </p>
           </div>
         </div>
-      </section>
+      </MkSection>
 
       {/* ── FAQ ── */}
-      <section className="py-14 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">Common questions</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
-            ECODrIx vs {c.competitor}, answered.
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
-            {c.faqs.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-surface">
-                <h3 className="text-foreground font-bold mb-3 text-base">
-                  {q}
-                </h3>
-                <p className="text-subtle text-sm leading-relaxed">{a}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-subtle text-xs mt-6">
-            {c.competitor} details last verified {c.lastVerified}. Competitor
-            pricing and features change frequently — verify current terms on
-            their site before deciding.
-          </p>
-        </div>
-      </section>
+      <MkSection id="faq" tone="subtle" title={`ERIX and ${c.competitor}: common questions`}>
+        <Faq items={c.faqs} />
+      </MkSection>
 
       {/* ── Other comparisons ── */}
-      <section className="py-14 px-6">
-        <div className="wrapper">
-          <div className="pill mb-6">More comparisons</div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {others.map((other) => (
-              <Link
-                key={other.slug}
-                href={`/compare/${other.slug}`}
-                className="group flex items-center justify-between p-6 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-md bg-foreground/2"
-              >
-                <div>
-                  <div className="text-foreground font-bold text-base mb-1">
-                    ECODrIx vs {other.competitor}
-                  </div>
-                  <div className="text-subtle text-xs">
-                    {other.searchQueries[0]}
-                  </div>
-                </div>
-                <ArrowRight
-                  size={18}
-                  className="text-subtle group-hover:text-foreground group-hover:translate-x-1 transition-all"
-                />
+      <MkSection id="others" title="Other comparisons">
+        <ul className="grid gap-x-10 md:grid-cols-2">
+          {others.map((o) => (
+            <li key={o.slug} className="border-t border-border-soft">
+              <Link href={`/compare/${o.slug}`} className="group -mx-3 flex items-start justify-between gap-4 rounded-[12px] px-3 py-5 hover:bg-hover">
+                <span>
+                  <span className="block text-[17px] font-semibold text-foreground">ECODrIx vs {o.competitor}</span>
+                  <span className="mt-1 block text-[15px] text-muted-foreground">{o.description}</span>
+                </span>
+                <Icon name="arrow-right" size={16} variant="line" className={cn("mt-1.5 shrink-0 text-accent")} />
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+            </li>
+          ))}
+        </ul>
+      </MkSection>
+
+      <ClosingCta title="See ERIX on your own business" body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it." />
     </div>
   );
 }

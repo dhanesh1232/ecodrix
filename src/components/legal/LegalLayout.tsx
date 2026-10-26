@@ -1,49 +1,32 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Scale } from "lucide-react";
-import type { LegalBlock, LegalDoc } from "@/lib/legal/config";
+import { Icon } from "@/components/icons";
+import { Crumbs } from "@/components/platform/ModulePage";
+import { LEGAL, type LegalBlock, type LegalDoc } from "@/lib/legal/config";
 
 /* ──────────────────────────────────────────────────────────────────────
-   LegalLayout — server component that renders any structured legal document
-   (privacy, terms, refund, DPA, etc.) with a sticky table of contents,
-   polygon-card sections, and consistent ECODrIx styling.
+   LegalLayout — renders any structured legal document (privacy, terms,
+   refund, DPA, etc.). A readability pass only: the wording comes from
+   lib/legal/docs and is never changed here. Lines stay near 68ch, the
+   contents list is sticky on desktop and a disclosure on phones.
 ─────────────────────────────────────────────────────────────────────── */
 
+const text = "text-[16.5px] leading-[1.75] text-muted-foreground";
+
 function Block({ block }: { block: LegalBlock }) {
-  if (typeof block === "string") {
-    return (
-      <p className="text-muted-foreground leading-relaxed text-base">{block}</p>
-    );
-  }
-  if ("p" in block) {
-    return (
-      <p className="text-muted-foreground leading-relaxed text-base">
-        {block.p}
-      </p>
-    );
-  }
+  if (typeof block === "string") return <p className={text}>{block}</p>;
+  if ("p" in block) return <p className={text}>{block.p}</p>;
   if ("subheading" in block) {
-    return (
-      <h3 className="text-foreground font-bold text-lg mt-2">
-        {block.subheading}
-      </h3>
-    );
+    return <h3 className="pt-2 font-sans text-[18px] font-semibold tracking-normal text-foreground">{block.subheading}</h3>;
   }
   if ("note" in block) {
-    return (
-      <div className="p-4 text-muted-foreground text-sm leading-relaxed bg-accent/6 border border-accent/25 rounded-md">
-        {block.note}
-      </div>
-    );
+    return <p className="rounded-[12px] bg-background px-4 py-3 text-[15px] leading-relaxed text-foreground">{block.note}</p>;
   }
   if ("list" in block) {
     return (
-      <ul className="space-y-3">
+      <ul className="space-y-2.5">
         {block.list.map((item, i) => (
-          <li
-            key={i}
-            className="flex items-start gap-3 text-muted-foreground text-base"
-          >
-            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+          <li key={i} className={`flex gap-3 ${text}`}>
+            <span aria-hidden="true" className="mt-[0.7em] size-1.5 shrink-0 rounded-full bg-accent" />
             <span>{item}</span>
           </li>
         ))}
@@ -52,12 +35,9 @@ function Block({ block }: { block: LegalBlock }) {
   }
   if ("ol" in block) {
     return (
-      <ol className="space-y-3 list-decimal pl-5">
+      <ol className={`list-decimal space-y-2.5 pl-5 marker:font-semibold marker:text-accent ${text}`}>
         {block.ol.map((item, i) => (
-          <li
-            key={i}
-            className="text-muted-foreground text-base leading-relaxed pl-1"
-          >
+          <li key={i} className="pl-1">
             {item}
           </li>
         ))}
@@ -66,15 +46,12 @@ function Block({ block }: { block: LegalBlock }) {
   }
   if ("table" in block) {
     return (
-      <div className="overflow-x-auto border border-foreground/8">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto rounded-[12px] shadow-[var(--shadow-card)]">
+        <table className="w-full min-w-[480px] border-collapse bg-surface text-left text-[15px]">
           <thead>
-            <tr className="bg-foreground/3">
+            <tr className="bg-sunken">
               {block.table.headers.map((h) => (
-                <th
-                  key={h}
-                  className="text-left p-3 text-foreground font-bold text-xs"
-                >
+                <th key={h} scope="col" className="px-4 py-3 text-[13px] font-semibold text-foreground">
                   {h}
                 </th>
               ))}
@@ -82,9 +59,9 @@ function Block({ block }: { block: LegalBlock }) {
           </thead>
           <tbody>
             {block.table.rows.map((row, ri) => (
-              <tr key={ri} className="border-t border-foreground/5">
+              <tr key={ri} className="border-t border-border-soft align-top">
                 {row.map((cell, ci) => (
-                  <td key={ci} className="p-3 text-muted-foreground align-top">
+                  <td key={ci} className="px-4 py-3 text-muted-foreground">
                     {cell}
                   </td>
                 ))}
@@ -98,135 +75,93 @@ function Block({ block }: { block: LegalBlock }) {
   return null;
 }
 
+function Contents({ doc }: { doc: LegalDoc }) {
+  return (
+    <ol className="space-y-0.5">
+      {doc.sections.map((s, i) => (
+        <li key={s.id}>
+          <a
+            href={`#${s.id}`}
+            className="flex gap-2 rounded-[8px] px-3 py-1.5 text-sm text-muted-foreground hover:bg-hover hover:text-foreground"
+          >
+            <span className="w-5 shrink-0 tabular-nums text-subtle">{i + 1}.</span>
+            {s.title}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function LegalLayout({ doc }: { doc: LegalDoc }) {
   const updated =
     doc.effectiveDate ??
-    new Date().toLocaleDateString("en-US", {
-      month: "long",
+    new Date().toLocaleDateString("en-IN", {
       day: "numeric",
+      month: "long",
       year: "numeric",
     });
 
   return (
-    <div className="w-full min-h-screen relative">
-      {/* Background atmosphere */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full opacity-20 blur-[80px] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_30%,transparent)_0%,transparent_70%)]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full opacity-15 blur-[70px] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-accent)_25%,transparent)_0%,transparent_70%)]" />
-      </div>
+    <div className="w-full">
+      <section className="erix-mk-section erix-mk-section--subtle pt-10! pb-12! md:pt-14!">
+        <div className="wrapper">
+          <Crumbs items={[{ name: "Legal", href: "/legal" }, { name: doc.title }]} />
+          <p className="mt-6 text-[14px] font-semibold text-accent">{doc.pill}</p>
+          <h1 className="mt-2 text-[clamp(34px,4.6vw,52px)] leading-[1.06] tracking-[-0.035em]">{doc.title}</h1>
+          <p className="mt-4 text-[15px] text-muted-foreground">
+            Last updated: <span className="font-semibold text-foreground">{updated}</span>
+          </p>
+          {doc.intro && <p className={`mt-6 max-w-[68ch] ${text}`}>{doc.intro}</p>}
+        </div>
+      </section>
 
-      <div className="relative wrapper">
-        <div className="py-14">
-          <Link
-            href="/legal"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 group"
-          >
-            <ArrowLeft
-              size={16}
-              className="group-hover:-translate-x-1 transition-transform"
-            />
-            All legal documents
-          </Link>
+      <div className="erix-mk-section pt-10! md:pt-14!">
+        <div className="wrapper grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-16">
+          <aside>
+            <details className="erix-mk-faq__item rounded-[12px] bg-background px-4 lg:hidden">
+              <summary>
+                <span>Contents</span>
+                <Icon name="plus" size={18} variant="line" />
+              </summary>
+              <div className="pb-4">
+                <Contents doc={doc} />
+              </div>
+            </details>
+            <nav aria-label="Contents" className="sticky top-24 hidden lg:block">
+              <p className="mb-3 px-3 text-sm font-semibold text-foreground">Contents</p>
+              <Contents doc={doc} />
+            </nav>
+          </aside>
 
-          <div className="grid lg:grid-cols-[280px_1fr] gap-3 lg:gap-6">
-            {/* Sticky ToC */}
-            <aside className="lg:sticky lg:top-32 lg:self-start">
-              <div className="polygon-card p-6">
-                <h2 className="font-sans text-[10px] font-bold text-foreground mb-4">
-                  Contents
+          <div className="min-w-0 max-w-[68ch] space-y-14">
+            {doc.sections.map((section, idx) => (
+              <section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`} className="scroll-mt-24">
+                <h2 id={`${section.id}-title`} className="flex gap-3 text-[clamp(22px,2.4vw,28px)] tracking-[-0.02em]">
+                  <span className="tabular-nums text-subtle">{idx + 1}.</span>
+                  {section.title}
                 </h2>
-                <nav className="space-y-2">
-                  {doc.sections.map((section) => {
-                    const Icon = section.icon;
-                    return (
-                      <a
-                        key={section.id}
-                        href={`#${section.id}`}
-                        className="flex items-center gap-3 text-[13px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded-md hover:bg-foreground/3 group"
-                      >
-                        <Icon
-                          size={14}
-                          className="text-accent/60 group-hover:text-accent transition-colors shrink-0"
-                        />
-                        <span>{section.title}</span>
-                      </a>
-                    );
-                  })}
-                </nav>
-              </div>
-            </aside>
-
-            {/* Main */}
-            <div>
-              <div className="mb-12">
-                <div className="pill bg-accent/10 text-accent border-accent/20">
-                  <Scale size={12} />
-                  {doc.pill}
+                <div className="mt-5 space-y-4">
+                  {section.body.map((block, i) => (
+                    <Block key={i} block={block} />
+                  ))}
                 </div>
-                <h1 className="text-4xl lg:text-6xl font-display font-black text-foreground tracking-tight mb-4">
-                  {doc.title}
-                </h1>
-                <p className="text-muted-foreground text-base">
-                  Last updated:{" "}
-                  <span className="text-foreground font-medium">{updated}</span>
-                </p>
-                {doc.intro && (
-                  <p className="text-muted-foreground leading-relaxed text-base mt-6 max-w-3xl">
-                    {doc.intro}
-                  </p>
-                )}
-              </div>
+              </section>
+            ))}
 
-              <div className="sep-top mb-12" />
-
-              <div className="space-y-8">
-                {doc.sections.map((section, idx) => {
-                  const Icon = section.icon;
-                  return (
-                    <section
-                      key={section.id}
-                      id={section.id}
-                      className="scroll-mt-32"
-                    >
-                      <div className="polygon-card noise p-8 lg:p-10 hover:border-accent/30 transition-all duration-300">
-                        <div className="flex items-start gap-4 mb-6">
-                          <div className="polygon-icon w-12 h-12 flex items-center justify-center bg-accent/10 shrink-0">
-                            <Icon size={20} className="text-accent" />
-                          </div>
-                          <div className="flex-1">
-                            <h2 className="text-2xl lg:text-3xl font-display font-black text-foreground mb-2 tracking-tight">
-                              {idx + 1}. {section.title}
-                            </h2>
-                            <div className="h-0.5 w-12 rounded-full mt-3 bg-[linear-gradient(135deg,var(--color-accent)_0%,var(--color-accent)_50%,var(--color-accent)_100%)]" />
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          {section.body.map((block, i) => (
-                            <Block key={i} block={block} />
-                          ))}
-                        </div>
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
-
-              {/* Footer CTA */}
-              <div className="mt-16 polygon-card noise p-8 bg-linear-to-br from-accent/5 to-accent/5">
-                <h3 className="text-xl font-display font-black text-foreground mb-2">
-                  Questions about this document?
-                </h3>
-                <p className="text-muted-foreground mb-6 text-sm">
-                  Reach our team and we'll help clarify anything you need.
-                </p>
-                <Link
-                  href="/#contact"
-                  className="btn-primary inline-flex items-center gap-2 bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent))]"
-                >
-                  Contact Us
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
+            <div className="rounded-[16px] bg-background p-6 md:p-8">
+              <h2 className="font-sans text-[19px] font-semibold tracking-normal">Questions about this document?</h2>
+              <p className="mt-2 text-[15px] text-muted-foreground">
+                Write to{" "}
+                <a href={`mailto:${LEGAL.emails.legal}`} className="text-accent underline underline-offset-4">
+                  {LEGAL.emails.legal}
+                </a>{" "}
+                and we&apos;ll help clarify anything you need.
+              </p>
+              <Link href="/legal" className="erix-mk-link group mt-4">
+                <Icon name="arrow-left" size={14} variant="line" />
+                All legal documents
+              </Link>
             </div>
           </div>
         </div>

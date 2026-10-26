@@ -163,16 +163,6 @@ export function getSoftwareApplicationSchema() {
     softwareVersion: "1.0",
     description:
       "Unified business infrastructure platform combining CRM, AI automation, WhatsApp Business API, email marketing, and cloud storage. Helps businesses automate operations and scale growth — without enterprise-software complexity.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-      priceValidUntil: "2027-12-31",
-      description:
-        "Free plan available — every product included with starter quotas. Paid tiers from ₹2,999/month.",
-      availability: "https://schema.org/InStock",
-      url: `${BASE_URL}/pricing`,
-    },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -358,12 +348,6 @@ export function getModuleSchema(m: ModuleSchemaInput) {
     publisher: { "@id": ORG_ID },
     creator: { "@id": PERSON_ID },
     isPartOf: { "@id": SOFTWARE_ID },
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-      url: `${BASE_URL}/pricing`,
-    },
   };
 }
 

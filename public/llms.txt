@@ -2,7 +2,7 @@
 
 > ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp Business API, email marketing, B2B lead intelligence, and cloud storage. Founded August 2025 in Tirupati, India by Dhanesh Mekalthuru. Currently in early access beta (August 2026).
 
-ECODrIx replaces 5–10 separate SaaS subscriptions with one platform for Indian SMBs. WhatsApp-first. No per-seat pricing. 180+ API endpoints.
+ECODrIx replaces 5–10 separate SaaS subscriptions with one platform for Indian SMBs. WhatsApp-first. 180+ API endpoints.
 
 ## URLs
 
@@ -44,7 +44,6 @@ ECODrIx replaces 5–10 separate SaaS subscriptions with one platform for Indian
 
 - [About](https://ecodrix.com/about): Founded August 2025, Tirupati, Andhra Pradesh. Solo-founder, bootstrapped.
 - [Founder](https://ecodrix.com/founder): Dhanesh Mekalthuru — full-stack engineer, SaaS builder.
-- [Pricing](https://ecodrix.com/pricing): Free tier available. Paid from ₹2,999/month. No per-seat pricing.
 - [Blog](https://ecodrix.com/blog): Automation insights, CRM strategies, product updates.
 - [Compare](https://ecodrix.com/compare): ECODrIx vs competitors.
 

@@ -16,6 +16,7 @@ import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
 import { CookieConsent } from "@/components/legal/CookieConsent";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { MotionRoot } from "@/components/motion/motion";
 
 // ERIX design system type, self-hosted (SIL OFL — licences in ./fonts):
 // Bricolage Grotesque for headings, Manrope for text, JetBrains Mono for code.
@@ -81,10 +82,9 @@ export const metadata: Metadata = {
   publisher: "ECODrIx",
   category: "technology",
 
-  // Canonical URL — prevents duplicate content penalties
-  alternates: {
-    canonical: BASE_URL,
-  },
+  // No canonical here: a layout's `alternates` is inherited by every page,
+  // which told Google all pages were copies of the home page (Search Console
+  // "Crawled - currently not indexed", Oct 2026). Each page sets its own.
 
   // Explicit crawler directives
   robots: {
@@ -104,7 +104,6 @@ export const metadata: Metadata = {
     title: "ECODrIx | Unified Business Infrastructure Platform",
     description:
       "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
-    url: BASE_URL,
     siteName: "ECODrIx",
     type: "website",
     locale: "en_IN",
@@ -245,7 +244,8 @@ export default function RootLayout({
         <AutoEventTracker />
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
-        <div className="bg-background text-foreground overflow-clip min-h-screen flex flex-col">
+        <MotionRoot />
+        <div className="bg-surface text-foreground overflow-clip min-h-screen flex flex-col">
           <Navbar />
           <main id="main-content" className="flex-1 flex flex-col">
             {children}

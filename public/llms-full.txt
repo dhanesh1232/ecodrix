@@ -123,7 +123,6 @@ Base URL: `https://api.ecodrix.com`
 | Client portal | `/api/portal/v1` | portal JWT | https://ecodrix.com/platform/client-portal |
 | Channel connections | `/api/connect/v1/connections` | tenant resolver | https://ecodrix.com/platform |
 | Auth | `/api/auth/login`, `/api/auth/refresh` | public + cookie | https://console.ecodrix.com |
-| Billing | `/api/platform/subscriptions` | session | https://ecodrix.com/pricing |
 | Relay admin | `/api/laie/v1/relays` | x-core-api-key | https://ecodrix.com/platform/relay-fabric |
 
 WebSocket endpoint: `wss://api.ecodrix.com` (Socket.IO). Emits
@@ -151,19 +150,9 @@ WebSocket endpoint: `wss://api.ecodrix.com` (Socket.IO). Emits
 
 ---
 
-## 5. Pricing (canonical)
+## 5. Pricing
 
-- **Free** — every product included with starter quotas, forever free
-- **Starter** — ₹2,999/month, up to 1,000 contacts, 5K WhatsApp messages,
-  basic automation, email support
-- **Growth** — ₹7,999/month, up to 10,000 contacts, 25K WhatsApp,
-  advanced automation, priority support, custom fields and reports
-- **Business** — ₹19,999/month, unlimited contacts, 100K WhatsApp,
-  full automation suite, dedicated support, white-label option, API access
-- **Enterprise** — custom pricing, dedicated servers, SLA guarantees,
-  custom integrations, on-prem option, 24/7 phone support
-
-Live pricing details: https://ecodrix.com/pricing
+During the pilot, ECODrIx sets up each workspace and agrees pricing with each client. WhatsApp messages go out on the business's own WhatsApp account, so Meta bills the business directly, with no ECODrIx markup.
 
 ---
 
@@ -195,6 +184,5 @@ Key pages:
 - https://ecodrix.com/platform/client-portal
 - https://ecodrix.com/platform/erixstore
 - https://ecodrix.com/platform/relay-fabric
-- https://ecodrix.com/pricing
 - https://ecodrix.com/privacy
 - https://ecodrix.com/terms

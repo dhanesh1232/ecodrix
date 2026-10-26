@@ -1,78 +1,51 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Scale } from "lucide-react";
+import { Icon } from "@/components/icons";
 import { LEGAL } from "@/lib/legal/config";
 import { LEGAL_DOCS, legalHref } from "@/lib/legal/documents";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Legal & Policies",
+export const metadata = pageMetadata({
+  title: "Legal and policies",
   description:
-    "All ECODrIx legal documents in one place — Terms of Service, Privacy Policy, Cookie Policy, Acceptable Use, WhatsApp Messaging Policy, Refund, Pricing, SLA, DPA, Sub-processors, and Security.",
-  alternates: { canonical: `${LEGAL.domain}/legal` },
-  openGraph: {
-    title: "Legal & Policies | ECODrIx",
-    description:
-      "Terms, Privacy, Cookies, Acceptable Use, WhatsApp Policy, Refund, Pricing, SLA, DPA, Sub-processors, and Security.",
-    url: `${LEGAL.domain}/legal`,
-    type: "website",
-  },
-};
+    "Every ECODrIx legal document in one place: terms, privacy, cookies, acceptable use, WhatsApp messaging, refunds, pricing, SLA, DPA, sub-processors and security.",
+  path: "/legal",
+});
 
 export default function LegalIndexPage() {
   return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
-      <section className="pt-40 pb-16 px-6 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,color-mix(in_srgb,var(--color-accent)_20%,transparent)_85deg,color-mix(in_srgb,var(--color-accent)_7%,transparent)_115deg,transparent_155deg)]"
-          aria-hidden
-        />
-        <div className="wrapper relative z-10">
-          <div className="pill mb-6 bg-accent/10 text-accent border-accent/20">
-            <Scale size={12} />
-            Legal & Policies
-          </div>
-          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
-            Legal & compliance.
-          </h1>
-          <p className="max-w-3xl leading-relaxed text-base text-muted-foreground">
-            Everything governing your use of {LEGAL.brand} — the terms you agree
-            to, how we handle data, and the policies that keep the platform safe
-            and compliant. Operated by {LEGAL.entity}.
+    <div className="w-full">
+      <section className="erix-mk-section erix-mk-section--subtle pt-12! pb-12! md:pt-16!">
+        <div className="wrapper">
+          <h1 className="text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">Legal and compliance</h1>
+          <p className="mt-5 max-w-[62ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
+            Everything governing your use of {LEGAL.brand}: the terms you agree to, how we handle data, and the policies
+            that keep the platform safe and compliant. Operated by {LEGAL.entity}.
           </p>
         </div>
       </section>
 
-      <section className="py-16 px-6 sep-top bg-background">
+      <section className="erix-mk-section pt-10! md:pt-14!">
         <div className="wrapper">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ul className="grid gap-x-10 md:grid-cols-2">
             {LEGAL_DOCS.map((doc) => (
-              <Link
-                key={doc.slug}
-                href={legalHref(doc.slug)}
-                className="group flex items-start justify-between gap-4 p-6 border border-foreground/8 hover:border-foreground/20 transition-colors bg-foreground/2 rounded-md"
-              >
-                <div>
-                  <div className="text-[10px] font-sans mb-2 text-accent">
-                    {doc.pill}
-                  </div>
-                  <h2 className="text-foreground font-bold text-lg mb-1.5">
-                    {doc.title}
-                  </h2>
-                  <p className="text-subtle text-sm leading-relaxed">
-                    {doc.description}
-                  </p>
-                </div>
-                <ArrowRight
-                  size={18}
-                  className="shrink-0 mt-1 text-subtle group-hover:text-foreground group-hover:translate-x-1 transition-all"
-                />
-              </Link>
+              <li key={doc.slug} className="border-t border-border-soft">
+                <Link
+                  href={legalHref(doc.slug)}
+                  className="group -mx-3 flex items-start justify-between gap-4 rounded-[12px] px-3 py-5 hover:bg-hover"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[13px] font-semibold text-accent">{doc.pill}</span>
+                    <span className="mt-1 block text-[18px] font-semibold text-foreground">{doc.title}</span>
+                    <span className="mt-1 block text-[15px] text-muted-foreground">{doc.description}</span>
+                  </span>
+                  <Icon name="arrow-right" size={16} variant="line" className="mt-7 shrink-0 text-accent" />
+                </Link>
+              </li>
             ))}
-          </div>
-
-          <p className="text-subtle text-xs mt-10 max-w-3xl">
-            For legal notices, contact {LEGAL.emails.legal}. Grievances may be
-            addressed to our Grievance Officer at {LEGAL.emails.grievance}.
+          </ul>
+          <p className="mt-10 max-w-[68ch] text-sm text-muted-foreground">
+            For legal notices, contact {LEGAL.emails.legal}. Grievances may be addressed to our Grievance Officer at{" "}
+            {LEGAL.emails.grievance}.
           </p>
         </div>
       </section>

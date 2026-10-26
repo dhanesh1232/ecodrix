@@ -1,15 +1,19 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { PLATFORM_MODULES, getProductModules, getInfraModules } from "@/lib/platform-modules";
-import {
-  getBreadcrumbSchema,
-  getItemListSchema,
-  getFAQSchema,
-  SEO_CONSTANTS,
-} from "@/lib/jsonld";
+import type { ReactNode } from "react";
+import { Icon } from "@/components/icons";
+import { BrowserFrame, Faq, FeatureSplit, MkHero, MkSection, PrimaryCta, WhatsAppCta } from "@/components/marketing/kit";
+import { ClosingCta } from "@/components/platform/ModulePage";
+import { AiScreen, FlowScreen, InboxScreen, PipelineScreen } from "@/components/scenes/screens";
+import { TimelineScene } from "@/components/scenes/timeline-scene";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { getBreadcrumbSchema, getFAQSchema, getItemListSchema, SEO_CONSTANTS } from "@/lib/jsonld";
+import { PLATFORM_MODULES } from "@/lib/platform-modules";
+import { pageMetadata } from "@/lib/seo";
+import { PLATFORM_NAV } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-const { BASE_URL, API_URL } = SEO_CONSTANTS;
+const { API_URL } = SEO_CONSTANTS;
 
 /* ──────────────────────────────────────────────────────────────────────
    /platform — index page covering every module served by api.ecodrix.com.
@@ -17,10 +21,13 @@ const { BASE_URL, API_URL } = SEO_CONSTANTS;
    (and the per-module landing page beneath it).
 ─────────────────────────────────────────────────────────────────────── */
 
-export const metadata: Metadata = {
-  title: "Platform Modules | ECODrIx",
-  description:
-    "Every product inside ECODrIx — CRM, WhatsApp, automation, lead intelligence, email marketing, cloud storage, client portal, ErixStore, and Relay Fabric. One platform, one login, one API.",
+export const metadata = {
+  ...pageMetadata({
+    title: "ERIX platform: CRM, inbox, AI and automation",
+    description:
+      "Every module in ERIX by ECODrIx: CRM, the WhatsApp and Instagram inbox, AI agents, automation and storage on one customer record, plus what's coming next.",
+    path: "/platform",
+  }),
   keywords: [
     "ECODrIx platform",
     "ECODrIx products",
@@ -30,14 +37,6 @@ export const metadata: Metadata = {
     "unified business platform",
     "CRM WhatsApp automation",
   ],
-  alternates: { canonical: `${BASE_URL}/platform` },
-  openGraph: {
-    title: "Platform Modules | ECODrIx",
-    description:
-      "Every product inside ECODrIx — CRM, WhatsApp, automation, lead intelligence, email, storage, and more.",
-    url: `${BASE_URL}/platform`,
-    type: "website",
-  },
 };
 
 const PLATFORM_FAQS = [
@@ -51,7 +50,7 @@ const PLATFORM_FAQS = [
   },
   {
     q: "Can I use just one module of ECODrIx?",
-    a: "Yes. While the modules are tightly integrated (a lead in ERIX-CRM can trigger an ERIX-FLOW workflow that sends a WhatsApp template), you can adopt them one at a time. The Free plan includes every module at starter quotas, so you can start with just the CRM or just WhatsApp and expand as you grow.",
+    a: "Yes. While the modules are tightly integrated (a lead in ERIX-CRM can trigger an ERIX-FLOW workflow that sends a WhatsApp template), you can adopt them one at a time: start with just the CRM or just WhatsApp and expand as you grow.",
   },
   {
     q: "Does ECODrIx offer real-time updates?",
@@ -59,190 +58,242 @@ const PLATFORM_FAQS = [
   },
 ];
 
+/** The live v1.0 modules, each with a coded mock of its real screen. Every
+ *  line is a shipped behaviour (ECOD/docs/modules/*.md, VERSION_PLAN v1.0). */
+const deepDives: {
+  id: string;
+  name: string;
+  href: string;
+  linkLabel: string;
+  ai?: boolean;
+  title: string;
+  lead: string;
+  points: string[];
+  icon: "layout-dashboard" | "inbox" | "sparkles" | "workflow";
+  screen: ReactNode;
+}[] = [
+  {
+    id: "erix-crm",
+    icon: "layout-dashboard",
+    name: "ERIX CRM",
+    href: "/platform/erix-crm",
+    linkLabel: "Explore ERIX CRM",
+    title: "Every enquiry becomes a contact with its whole story",
+    lead: "Chats, bookings, proposals and invoices sit on one record, so anyone on the team can pick up where the last person stopped.",
+    points: [
+      "Pipeline board with stages made for your industry, totals in rupees",
+      "Forms and booking pages that add contacts by themselves",
+      "Appointments in IST, with no double bookings",
+      "Proposals accepted on a phone turn into advance invoices",
+      "Projects with tasks, documents, e-sign and a client portal",
+      "GST invoices (CGST + SGST or IGST) with Razorpay payment links",
+    ],
+    screen: <PipelineScreen />,
+  },
+  {
+    id: "erix-connect",
+    icon: "inbox",
+    name: "ERIX Connect",
+    href: "/platform/erix-connect",
+    linkLabel: "Explore ERIX Connect",
+    title: "One inbox for every channel your customers use",
+    lead: "WhatsApp, Instagram, email and your website chat arrive in one list, live, each on the right contact.",
+    points: [
+      "Official WhatsApp Business API on your own account: Meta bills you, no ERIX markup",
+      "Templates, broadcasts and the 24-hour window handled; Instagram DMs and email next to WhatsApp",
+      "A chat widget for your website, with WhatsApp-style ticks",
+      "Google Calendar and Meet, and Razorpay for payments",
+      "Threads matched to contacts by phone, then email",
+    ],
+    screen: <InboxScreen />,
+  },
+  {
+    id: "agents",
+    icon: "sparkles",
+    name: "AI agents",
+    href: "/#agents",
+    linkLabel: "See the agent at work",
+    ai: true,
+    title: "Agents that answer from your knowledge and ask before they act",
+    lead: "Give the agent your price list, hours, FAQs and listings. It answers what it knows, drafts the rest, and hands sensitive chats to your team.",
+    points: [
+      "Knowledge base for price lists, hours, FAQs and listings",
+      "A persona that sounds like your business, replying in the customer's language",
+      "Starts in Suggest: it drafts and a person sends, until you raise its autonomy",
+      "Money, refunds, complaints and medical questions go to a person",
+      "Monthly limits, a pause button and usage you can see",
+    ],
+    screen: <AiScreen />,
+  },
+  {
+    id: "erix-flow",
+    icon: "workflow",
+    name: "ERIX Flow",
+    href: "/platform/erix-flow",
+    linkLabel: "Explore ERIX Flow",
+    ai: true,
+    title: "Automations that follow up for you, with you in control",
+    lead: "Start from a template and switch it on. Confirmations, reminders and nudges go out on time, and anything risky waits for approval.",
+    points: [
+      "Templates for welcome messages, appointment reminders and follow-ups",
+      "Starts on a new lead, a stage change, a form, a message, a payment or a booking",
+      "Send on WhatsApp or email, wait, or wait for a reply (Replied or No reply)",
+      "Approval steps for anything risky",
+      "Every run visible step by step, live",
+    ],
+    screen: <FlowScreen />,
+  },
+];
+
+const more = PLATFORM_NAV.filter((m) => m.key === "storage" || m.key === "laie" || m.key === "store");
+const moreCopy: Record<string, string> = {
+  storage: "Files kept with the client and project they belong to: documents, secure share links and proposals signed online.",
+  laie: "Finds businesses that match your ideal customer, checks their contact details and drafts outreach for you to review.",
+  store: "The data engine that runs ERIX's queues and live updates, opening to developers later.",
+};
+
 export default function PlatformIndexPage() {
+  const agents = deepDives.find((d) => d.id === "agents")!;
+  const rest = deepDives.filter((d) => d.id !== "agents");
+  const split = (d: (typeof deepDives)[number], flip?: boolean) => (
+    <FeatureSplit
+      key={d.id}
+      module={d.name}
+      icon={d.icon}
+      ai={d.ai}
+      title={d.title}
+      points={d.points}
+      link={{ href: d.href, label: d.linkLabel }}
+      visual={d.screen}
+      flip={flip}
+    >
+      {d.lead}
+    </FeatureSplit>
+  );
+
   return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
+    <div className="w-full">
       {/* JSON-LD: ItemList + FAQ + Breadcrumb */}
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getItemListSchema(
-              PLATFORM_MODULES.map((m) => ({
-                name: m.name,
-                url: `/platform/${m.slug}`,
-                description: m.description,
-              })),
-            ),
-          ),
-        }}
+      <JsonLd
+        data={getItemListSchema(
+          PLATFORM_MODULES.map((m) => ({ name: m.name, url: `/platform/${m.slug}`, description: m.description })),
+        )}
       />
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema(PLATFORM_FAQS)),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getBreadcrumbSchema([
-              { name: "Home", url: "/" },
-              { name: "Platform", url: "/platform" },
-            ]),
-          ),
-        }}
+      <JsonLd data={getFAQSchema(PLATFORM_FAQS)} />
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Platform", url: "/platform" },
+        ])}
       />
 
-      {/* ── Hero ── */}
-      <section className="py-8 px-6 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
-          aria-hidden
-        />
-        <div className="wrapper relative z-10">
-          <div className="pill mb-8">Platform</div>
-          <h1 className="font-display font-black text-foreground mb-8 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
-            Every module in <span className="grad-text">ECODrIx.</span>
-          </h1>
-          <p className="text-subtle max-w-2xl leading-relaxed mb-6 text-base">
-            ECODrIx is one platform with many surfaces. Each module is a
-            self-contained product, exposed through a clean public API at{" "}
-            <a
-              href={API_URL}
-              className="text-accent underline underline-offset-4"
-            >
+      <MkHero
+        title="One customer record. Every tool around it."
+        lead="ERIX CRM, Connect, Flow and the AI agents share one contact, so a chat, a booking, an invoice and a follow-up all land on the same record. Start with what you need today; the rest is already connected."
+        actions={
+          <>
+            <PrimaryCta lg />
+            <WhatsAppCta lg />
+          </>
+        }
+        visual={
+          <BrowserFrame>
+            <TimelineScene />
+          </BrowserFrame>
+        }
+      />
+
+      {/* ── Module map ── */}
+      <MkSection
+        id="modules"
+        title="Pick one. They all share the same contact."
+        lead="Live means you can use it in ERIX today. Coming soon and invite-only are marked."
+      >
+        <ul className="grid gap-x-10 md:grid-cols-2">
+          {PLATFORM_NAV.map((m) => (
+            <li key={m.key} className="border-t border-border-soft">
+              <Link href={m.href} className="group -mx-3 flex items-start gap-4 rounded-[12px] px-3 py-5 hover:bg-hover">
+                <span
+                  className={cn(
+                    "grid size-10 shrink-0 place-items-center rounded-[11px]",
+                    "ai" in m ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                  )}
+                >
+                  <m.icon variant="duo" className="size-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2 text-[17px] font-semibold text-foreground">
+                    {m.name}
+                    <StatusBadge status={m.status} />
+                  </span>
+                  <span className="mt-1 block text-[15px] text-muted-foreground">{m.summary}</span>
+                </span>
+                <Icon name="arrow-right" size={16} variant="line" className="mt-3 shrink-0 text-accent" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </MkSection>
+
+      {/* ── Live modules, each with its screen ── */}
+      <MkSection id="live" tone="subtle" title="The live modules, screen by screen">
+        {rest.slice(0, 2).map((d, i) => split(d, i % 2 === 1))}
+      </MkSection>
+
+      <MkSection id="agents" tone="navy">
+        {split(agents)}
+      </MkSection>
+
+      <MkSection id="automation" tone="subtle">
+        {split(rest[2], true)}
+      </MkSection>
+
+      {/* ── Also in ERIX ── */}
+      <MkSection id="more" title="Storage, lead research and the engine underneath">
+        <ul className="grid gap-x-10 md:grid-cols-3">
+          {more.map((m) => (
+            <li key={m.key} className="border-t border-border-soft pt-6 pb-2">
+              <span className="flex items-center gap-2">
+                <span
+                  className={cn(
+                    "grid size-10 place-items-center rounded-[11px]",
+                    "ai" in m ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                  )}
+                >
+                  <m.icon variant="duo" className="size-5" />
+                </span>
+                <StatusBadge status={m.status} />
+              </span>
+              <h3 className="mt-4 font-sans text-[18px] font-semibold tracking-normal">{m.name}</h3>
+              <p className="mt-1.5 text-[15px] text-muted-foreground">{moreCopy[m.key]}</p>
+              <Link href={m.href} className="erix-mk-link group mt-4">
+                About {m.name}
+                <Icon name="arrow-right" size={14} variant="line" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-12 flex items-start gap-3 rounded-[16px] bg-background p-6 text-foreground">
+          <Icon name="plug" size={20} variant="duo" className="mt-0.5 shrink-0 text-accent" />
+          <span>
+            <span className="font-semibold">For developers:</span> the same modules through one public API at{" "}
+            <a href={API_URL} className="text-accent underline underline-offset-4">
               api.ecodrix.com
             </a>
-            . Pick the ones you need today, scale into the rest tomorrow.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Products ── */}
-      <section className="py-16 px-6">
-        <div className="wrapper">
-          <div className="mb-8">
-            <span className="section-tag">Products</span>
-          </div>
-          <div className="flex flex-col divide-y divide-border border-y border-border">
-            {getProductModules().map((m) => (
-              <div key={m.slug} className="py-10 group" id={m.slug}>
-                <div className="flex flex-col lg:flex-row lg:items-start gap-8">
-                  {/* Left: title + desc */}
-                  <div className="lg:w-1/2">
-                    <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
-                      <span className="text-[10px] font-sans text-accent">{m.brand}</span>
-                    </Link>
-                    <h2 className="font-display text-2xl font-bold text-foreground mb-3 tracking-tight">
-                      <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">
-                        {m.name}
-                      </Link>
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">{m.description}</p>
-                    <Link
-                      href={`/platform/${m.slug}`}
-                      className="inline-flex items-center group gap-2 btn-primary text-sm text-foreground font-medium transition-all"
-                    >
-                      Learn more <ArrowRight size={13} className="group-hover:translate-x-1 duration-300 ease-in-out" />
-                    </Link>
-                  </div>
-                  {/* Right: features */}
-                  <div className="lg:w-1/2">
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                      {m.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="text-accent mt-1 shrink-0">—</span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {m.apiBase && (
-                      <p className="mt-4 text-[11px] text-muted-foreground">
-                        API: <code className="text-accent">{m.apiBase}</code>
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Infrastructure ── */}
-      <section className="py-16 px-6">
-        <div className="wrapper">
-          <div className="mb-8">
-            <span className="section-tag">Infrastructure</span>
-          </div>
-          <div className="flex flex-col divide-y divide-border border-y border-border">
-            {getInfraModules().map((m) => (
-              <div key={m.slug} className="py-10 group" id={m.slug}>
-                <div className="flex flex-col lg:flex-row lg:items-start gap-8">
-                  <div className="lg:w-1/2">
-                    <Link href={`/platform/${m.slug}`} className="inline-block mb-2">
-                      <span className="text-[10px] font-sans text-muted-foreground group-hover:text-accent transition-colors">{m.brand}</span>
-                    </Link>
-                    <h2 className="font-display text-xl font-bold text-foreground mb-3 tracking-tight">
-                      <Link href={`/platform/${m.slug}`} className="hover:text-accent transition-colors">
-                        {m.name}
-                      </Link>
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">{m.description}</p>
-                    <Link
-                      href={`/platform/${m.slug}`}
-                      className="inline-flex btn-primary items-center gap-2 text-sm text-foreground font-medium group transition-all"
-                    >
-                      Learn more <ArrowRight size={13} className="group-hover:translate-x-1 ease-in-out duration-300" />
-                    </Link>
-                  </div>
-                  <div className="lg:w-1/2">
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                      {m.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="text-accent mt-1 shrink-0">—</span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {m.apiBase && (
-                      <p className="mt-4 text-[11px] text-muted-foreground">
-                        API: <code className="text-accent">{m.apiBase}</code>
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            , with keys per workspace.
+          </span>
+        </p>
+      </MkSection>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">Platform questions</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
-            How the platform works.
-          </h2>
+      <MkSection id="faq" tone="subtle" title="How the platform works">
+        <Faq items={PLATFORM_FAQS} />
+      </MkSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
-            {PLATFORM_FAQS.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-surface">
-                <h3 className="text-foreground font-bold mb-3 text-base">
-                  {q}
-                </h3>
-                <p className="text-subtle text-sm leading-relaxed">{a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ClosingCta
+        title="Not sure where to start?"
+        body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it."
+      />
     </div>
   );
 }

@@ -12,7 +12,6 @@ Allow: /blog/
 Allow: /platform/
 Allow: /about
 Allow: /founder
-Allow: /pricing
 Allow: /compare/
 
 # Attribution

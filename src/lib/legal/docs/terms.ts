@@ -11,7 +11,7 @@ import {
   XCircle,
   Gavel,
   RefreshCw,
-} from "lucide-react";
+} from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const termsDoc: LegalDoc = {

@@ -11,10 +11,11 @@
  * "wati alternative", "best whatsapp crm india") and are prime AI-citation
  * surfaces (ChatGPT / Perplexity / Gemini "alternatives to X" prompts).
  *
- * ⚠️ Accuracy guardrail: competitor pricing/features change often. Claims here
- * are qualitative and dated (see `lastVerified`). ECODrIx keeps its own known
- * INR pricing; competitor pricing is described by model, not fixed rupee figures.
- * Re-verify with `remote_web_search` before major edits. Never fabricate ratings.
+ * ⚠️ Accuracy guardrail: ERIX claims follow the design system's product page
+ * (live v1.0 only). Competitor rows cover features and approach, never their
+ * prices: prices in the design system's market notes come from third-party
+ * pages and stay off public pages until checked on the vendor's own site.
+ * Claims are qualitative and dated (see `lastVerified`). Never fabricate ratings.
  */
 
 export interface ComparisonRow {
@@ -51,23 +52,31 @@ export interface Comparison {
 }
 
 /* Shared truths about ECODrIx / ERIX reused across comparisons. */
-const ERIX_API = "Official Meta WhatsApp Cloud API (verified Tech Provider).";
+const ERIX_API = "Official Meta WhatsApp Business Platform (Cloud API).";
+// Pilot (founder decision): no public plans or prices; terms are agreed per client.
 const ERIX_PRICING =
-  "Flat INR plans from ₹2,999/month (Starter), ₹7,999 (Growth), ₹19,999 (Business), plus Meta's per-message charges. 14-day free trial, no credit card.";
+  "During the pilot, our team sets up each workspace and agrees pricing with you. Meta bills WhatsApp messages to you directly, with no ERIX markup.";
 const META_NOTE =
-  "Since 2025 Meta bills per message by category — in India roughly ₹1.09 for marketing and ₹0.145 for utility/authentication, with service replies free. Every provider passes these Meta charges through; the difference is the platform fee and what you get on top of it.";
+  "Meta charges for WhatsApp template messages by category (marketing, utility and authentication), and its rates for India change, so check Meta's current rate card. With ERIX you connect your own WhatsApp Business account, so Meta bills you directly and ERIX adds no markup. With any provider, ask how Meta's charges reach your bill.";
+const META_ROW = (competitor: string): ComparisonRow => ({
+  dimension: "Meta's WhatsApp charges",
+  ecodrix: "Your own WhatsApp account: Meta bills you directly, and ERIX adds no markup.",
+  competitor: `Check how ${competitor} passes Meta's charges on before you compare totals.`,
+  ecodrixWins: false,
+});
+const FLOW_ROW = "ERIX Flow: starts on leads, stages, forms, messages, payments and bookings, with Wait for a reply, approvals and AI replies.";
 
 export const COMPARISONS: Comparison[] = [
   {
     slug: "ecodrix-vs-wati",
     competitor: "Wati",
     description:
-      "ECODrIx (ERIX) vs Wati: a WhatsApp CRM comparison for Indian SMBs. Same official Meta API, but ERIX adds a full CRM, automation, and lead-gen on flat INR pricing.",
-    tldr: "Wati is a well-established WhatsApp Business API tool with strong template and broadcast management, popular with support and marketing teams. ERIX matches Wati's official-API messaging but bundles a full CRM (pipelines, deals, invoices, projects), no-code automation (FLOW), and lead generation (LAIE) into one INR-priced platform — so you don't bolt a separate CRM onto your WhatsApp tool.",
+      "ECODrIx (ERIX) vs Wati for Indian SMBs: the same official WhatsApp API, but ERIX adds a CRM, GST invoices, automation and an AI agent, priced in rupees.",
+    tldr: "Wati is a well-established WhatsApp Business API tool with strong template and broadcast management, popular with support and marketing teams. ERIX matches Wati's official-API messaging and adds the system around it: a pipeline, GST invoices with payment links, projects, automations and an AI agent that answers from your own information, in one platform priced in rupees. You don't bolt a separate CRM onto your WhatsApp tool.",
     competitorBestFor:
       "Teams that only need WhatsApp messaging, shared inbox, and broadcasts, and already run a separate CRM they're happy with.",
     ecodrixBestFor:
-      "Indian SMBs and agencies that want WhatsApp AND the system of record — pipeline, deals, invoices, automation, and lead-gen — in one login, priced in INR.",
+      "Indian SMBs that want WhatsApp and the system of record (pipeline, invoices, bookings and automation) in one login, priced in rupees.",
     rows: [
       {
         dimension: "WhatsApp API",
@@ -78,36 +87,24 @@ export const COMPARISONS: Comparison[] = [
       {
         dimension: "Full CRM (pipeline, deals, invoices, projects)",
         ecodrix:
-          "Built in — kanban pipeline, lead scoring, invoices, project workspaces.",
+          "Built in: pipeline board, GST invoices with payment links, projects with e-sign and a client portal.",
         competitor:
           "Primarily a messaging/support tool; CRM features are lighter.",
         ecodrixWins: true,
       },
       {
         dimension: "No-code automation",
-        ecodrix: "ERIX-FLOW visual builder included.",
+        ecodrix: FLOW_ROW,
         competitor: "Rule-based automations and chatbot flows.",
         ecodrixWins: true,
       },
       {
-        dimension: "Lead generation / enrichment",
-        ecodrix: "ERIX-LAIE discovery, enrichment, and outreach kits included.",
-        competitor: "Not offered.",
-        ecodrixWins: true,
+        dimension: "AI agent on your chats",
+        ecodrix: "Answers from your own price list and hours, drafts what it isn't sure of, and hands refunds and complaints to a person.",
+        competitor: "Offers AI features; compare their current plans.",
+        ecodrixWins: false,
       },
-      {
-        dimension: "Pricing model",
-        ecodrix: ERIX_PRICING,
-        competitor:
-          "Monthly platform fee with per-agent charges and add-ons, plus Meta message charges.",
-        ecodrixWins: true,
-      },
-      {
-        dimension: "White-label for agencies",
-        ecodrix: "Supported.",
-        competitor: "Limited.",
-        ecodrixWins: true,
-      },
+      META_ROW("Wati"),
       {
         dimension: "Best-fit user",
         ecodrix: "Pan-India SMBs and agencies wanting one platform.",
@@ -118,16 +115,16 @@ export const COMPARISONS: Comparison[] = [
     faqs: [
       {
         q: "Is ECODrIx a good Wati alternative in India?",
-        a: `Yes. ERIX uses the same official Meta WhatsApp Cloud API as Wati, and adds a full CRM, no-code automation, and lead generation in one INR-priced platform. ${ERIX_PRICING}`,
+        a: `ERIX uses the same official Meta WhatsApp platform as Wati, and adds a pipeline, GST invoices with payment links, automations and an AI agent that answers from your own information. ${ERIX_PRICING}`,
       },
       {
         q: "Do ECODrIx and Wati use the same WhatsApp API?",
-        a: "Both use the official Meta WhatsApp Cloud API, so messaging capabilities and Meta's charges are equivalent. The difference is the platform built around it — ERIX includes a full CRM and automation.",
+        a: "Both use Meta's official WhatsApp platform, so the messaging itself and Meta's charges are comparable. The difference is what's built around it: ERIX includes the CRM, invoices and automation.",
       },
       { q: "How does WhatsApp pricing work with either tool?", a: META_NOTE },
       {
         q: "Can I move from Wati to ECODrIx?",
-        a: "Yes. You can import contacts and reconnect your WhatsApp Business number through ECODrIx Connect. The 14-day free trial lets you evaluate ERIX before switching.",
+        a: "Yes. Import your contacts into ERIX CRM, and connect your own WhatsApp Business account in ERIX Connect through Meta's signup. A number works with one provider at a time, so plan the move with your current provider. ERIX is letting businesses in from its waitlist.",
       },
     ],
     searchQueries: [
@@ -143,12 +140,12 @@ export const COMPARISONS: Comparison[] = [
     slug: "ecodrix-vs-aisensy",
     competitor: "AiSensy",
     description:
-      "ECODrIx (ERIX) vs AiSensy: WhatsApp CRM comparison for Indian SMBs. AiSensy leads on broadcast marketing; ERIX adds full CRM, automation, and lead-gen in one platform.",
-    tldr: "AiSensy is a popular, affordable WhatsApp marketing platform in India, strong on broadcast campaigns and chatbot flows. ERIX is for teams that outgrow 'broadcast + basic inbox' and need real pipeline, deal, invoice, and project tracking with built-in automation — without moving to a separate CRM.",
+      "ECODrIx (ERIX) vs AiSensy for Indian SMBs: AiSensy leads on broadcast marketing; ERIX adds a CRM, GST invoices, automation and an AI agent in one platform.",
+    tldr: "AiSensy is a popular WhatsApp marketing platform in India, strong on broadcast campaigns and chatbot flows. ERIX is for teams that outgrow 'broadcast + basic inbox' and need real pipeline, deal, invoice, and project tracking with built-in automation — without moving to a separate CRM.",
     competitorBestFor:
-      "Businesses focused on high-volume WhatsApp broadcast marketing and simple chatbot flows at a low platform fee.",
+      "Businesses focused on high-volume WhatsApp broadcast marketing and simple chatbot flows.",
     ecodrixBestFor:
-      "SMBs whose WhatsApp marketing has turned into a real sales pipeline that needs CRM, automation, and lead-gen alongside messaging.",
+      "SMBs whose WhatsApp marketing has turned into a real sales pipeline that needs a CRM, invoices and automation alongside messaging.",
     rows: [
       {
         dimension: "WhatsApp API",
@@ -158,7 +155,7 @@ export const COMPARISONS: Comparison[] = [
       },
       {
         dimension: "Broadcast marketing",
-        ecodrix: "Segmented broadcasts included.",
+        ecodrix: "Broadcasts with templates WhatsApp has approved, to the contacts you pick, such as a tag.",
         competitor: "Core strength — broadcast campaigns and templates.",
         ecodrixWins: false,
       },
@@ -170,38 +167,32 @@ export const COMPARISONS: Comparison[] = [
       },
       {
         dimension: "No-code automation",
-        ecodrix: "ERIX-FLOW visual builder across WhatsApp, email, CRM.",
+        ecodrix: FLOW_ROW,
         competitor: "Chatbot flows and campaign automations.",
         ecodrixWins: true,
       },
       {
-        dimension: "Lead generation / enrichment",
-        ecodrix: "ERIX-LAIE included.",
-        competitor: "Not offered.",
-        ecodrixWins: true,
-      },
-      {
-        dimension: "Pricing model",
-        ecodrix: ERIX_PRICING,
-        competitor:
-          "Low monthly platform fee tiers plus Meta message charges; higher tiers for more features.",
+        dimension: "AI agent on your chats",
+        ecodrix: "Answers from your own price list and hours, drafts what it isn't sure of, and hands refunds and complaints to a person.",
+        competitor: "Offers AI features; compare their current plans.",
         ecodrixWins: false,
       },
+      META_ROW("AiSensy"),
       {
         dimension: "Best-fit user",
         ecodrix: "Sales-led SMBs wanting one platform.",
-        competitor: "Marketing-led teams doing broadcast at low cost.",
+        competitor: "Marketing-led teams focused on broadcasts.",
         ecodrixWins: false,
       },
     ],
     faqs: [
       {
         q: "Is ECODrIx an AiSensy alternative?",
-        a: `Yes. Both run on the official Meta WhatsApp Cloud API. AiSensy is marketing/broadcast-led, while ERIX adds a full CRM, automation (FLOW), and lead generation (LAIE). ${ERIX_PRICING}`,
+        a: `Both run on Meta's official WhatsApp platform. AiSensy is marketing and broadcast-led, while ERIX adds a pipeline, GST invoices, automations and an AI agent on your chats. ${ERIX_PRICING}`,
       },
       {
-        q: "Is AiSensy cheaper than ECODrIx?",
-        a: "AiSensy's entry platform fee can be lower if you only need broadcasts. ERIX's plans cost more because they include a full CRM, automation, and lead-gen — so the right comparison is total tooling cost, not messaging fee alone.",
+        q: "What does ERIX cost?",
+        a: `${ERIX_PRICING} For AiSensy, check its own pricing page, since plans change often.`,
       },
       { q: "How does WhatsApp message pricing work?", a: META_NOTE },
       {
@@ -222,12 +213,12 @@ export const COMPARISONS: Comparison[] = [
     slug: "ecodrix-vs-interakt",
     competitor: "Interakt",
     description:
-      "ECODrIx (ERIX) vs Interakt: WhatsApp CRM comparison for Indian SMBs. Interakt leans commerce/Shopify; ERIX is a broader CRM + automation + lead-gen platform.",
-    tldr: "Interakt (from Jio Haptik) is a WhatsApp engagement tool that leans toward commerce and Shopify/catalog selling. ERIX is broader: a full CRM plus automation and lead generation for service SMBs, agencies, real estate, and clinics — not just product catalogs.",
+      "ECODrIx (ERIX) vs Interakt for Indian SMBs: Interakt leans towards commerce and catalogues; ERIX is a CRM, inbox and automation platform for service businesses.",
+    tldr: "Interakt is a WhatsApp engagement tool that leans toward commerce and catalogue selling. ERIX is broader for service businesses: a CRM, bookings, GST invoices and automation for real estate, clinics, coaching institutes and agencies, not just product catalogues.",
     competitorBestFor:
-      "Online sellers and D2C brands centered on WhatsApp catalog selling and Shopify/commerce integrations.",
+      "Online sellers and D2C brands centred on selling from a WhatsApp catalogue.",
     ecodrixBestFor:
-      "Service businesses and agencies (real estate, clinics, consultants) that need CRM depth, automation, and lead-gen beyond catalog commerce.",
+      "Service businesses (real estate, clinics, consultants) that need CRM depth, bookings, invoices and automation beyond catalogue commerce.",
     rows: [
       {
         dimension: "WhatsApp API",
@@ -237,27 +228,27 @@ export const COMPARISONS: Comparison[] = [
       },
       {
         dimension: "Commerce / catalog selling",
-        ecodrix: "Supported via CRM + invoices; not catalog-first.",
-        competitor: "Strength — WhatsApp catalog and Shopify integration.",
+        ecodrix: "Orders come in as chats and are invoiced with payment links. No catalogue or Shopify sync; storefront checkout is planned for later.",
+        competitor: "Strength: WhatsApp catalogue and commerce features.",
         ecodrixWins: false,
       },
       {
         dimension: "Full CRM (pipeline, deals, invoices, projects)",
-        ecodrix: "Built in — service-business ready.",
+        ecodrix: "Built in: pipeline, bookings, GST invoices and projects for service businesses.",
         competitor: "Commerce-skewed; lighter sales pipeline.",
         ecodrixWins: true,
       },
       {
         dimension: "No-code automation",
-        ecodrix: "ERIX-FLOW visual builder included.",
+        ecodrix: FLOW_ROW,
         competitor: "Notifications and campaign automations.",
         ecodrixWins: true,
       },
       {
-        dimension: "Lead generation / enrichment",
-        ecodrix: "ERIX-LAIE included.",
-        competitor: "Not offered.",
-        ecodrixWins: true,
+        dimension: "AI agent on your chats",
+        ecodrix: "Answers from your own price list and hours, drafts what it isn't sure of, and hands refunds and complaints to a person.",
+        competitor: "Offers AI features; compare their current plans.",
+        ecodrixWins: false,
       },
       {
         dimension: "Use-case breadth",
@@ -265,26 +256,21 @@ export const COMPARISONS: Comparison[] = [
         competitor: "Strongest for online/D2C commerce.",
         ecodrixWins: true,
       },
-      {
-        dimension: "Pricing model",
-        ecodrix: ERIX_PRICING,
-        competitor: "Monthly platform tiers plus Meta message charges.",
-        ecodrixWins: false,
-      },
+      META_ROW("Interakt"),
     ],
     faqs: [
       {
         q: "Is ECODrIx an Interakt alternative?",
-        a: `Yes. Both use the official Meta WhatsApp Cloud API. Interakt leans toward commerce/catalog selling, while ERIX is a broader CRM + automation + lead-gen platform for service SMBs and agencies. ${ERIX_PRICING}`,
+        a: `Both use Meta's official WhatsApp platform. Interakt leans toward commerce and catalogue selling, while ERIX is a CRM, inbox and automation platform for service businesses. ${ERIX_PRICING}`,
       },
       {
         q: "Which is better for real estate or clinics?",
-        a: "ERIX. It's built for service businesses — lead pipelines, appointment follow-ups, invoices, and projects — whereas Interakt is strongest for online catalog commerce.",
+        a: "ERIX is built for service businesses: pipelines with stages for your trade, bookings in IST, appointment reminders, invoices and projects. Interakt is strongest for online catalogue commerce.",
       },
       { q: "How does WhatsApp pricing compare?", a: META_NOTE },
       {
         q: "Does ERIX support online selling too?",
-        a: "Yes, through CRM deals and invoices, but it isn't catalog-first. If your business is purely WhatsApp catalog commerce, evaluate both against your workflow during the free trial.",
+        a: "Partly: orders arrive as chats, and you invoice them with a payment link. ERIX has no catalogue or Shopify sync today, and storefront checkout is planned for later, so if you sell mainly from a WhatsApp catalogue, compare both against your workflow.",
       },
     ],
     searchQueries: [

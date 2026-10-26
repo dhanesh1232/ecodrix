@@ -1,4 +1,4 @@
-import { Server, Bell, Info } from "lucide-react";
+import { Server, Bell, Info } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const subprocessorsDoc: LegalDoc = {

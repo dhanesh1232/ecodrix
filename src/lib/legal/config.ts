@@ -8,7 +8,7 @@
  * (registered address, CIN, GST, jurisdiction, grievance officer name, etc.).
  */
 
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons";
 
 export const LEGAL = {
   brand: "ECODrIx",
@@ -49,7 +49,7 @@ export type LegalBlock =
 export interface LegalSection {
   id: string;
   title: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   body: LegalBlock[];
 }
 

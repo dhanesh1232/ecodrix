@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Clock, Eye, Calendar } from "lucide-react";
+import { Icon } from "@/components/icons";
+import { ClosingCta, Crumbs } from "@/components/platform/ModulePage";
 import { blogs } from "@/lib/api";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
 import { BlogContent } from "@/components/blog/BlogContent";
@@ -23,11 +24,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: "Post Not Found" };
 
   const url = `${SEO_CONSTANTS.BASE_URL}/blog/${post.slug}`;
+  // Posts live only on ecodrix.com now (services.ecodrix.com was shut down), so a
+  // CMS canonical is honoured only when it points back to this site.
+  const sameSite = (u: string) => {
+    try {
+      return new URL(u, url).host === new URL(url).host;
+    } catch {
+      return false; // a malformed CMS value falls back to this page's URL
+    }
+  };
+  const canonical =
+    post.canonicalUrl && sameSite(post.canonicalUrl) ? post.canonicalUrl : url;
   return {
-    title: post.metaTitle || `${post.title} — ECODrIx`,
+    // The root template adds " | ECODrIx".
+    title: post.metaTitle || post.title,
     description: post.metaDescription || undefined,
     keywords: post.metaKeywords?.length ? post.metaKeywords : undefined,
-    alternates: { canonical: post.canonicalUrl || url },
+    alternates: { canonical },
     openGraph: {
       title: post.metaTitle || post.title || undefined,
       description: post.metaDescription || undefined,
@@ -37,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: post.author?.name ? [post.author.name] : undefined,
       images: post.featuredImage?.url
         ? [{ url: post.featuredImage.url, alt: post.featuredImage.altText || post.title || "" }]
-        : undefined,
+        : ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
@@ -68,141 +81,92 @@ export default async function BlogPostPage({ params }: Props) {
     keywords: post.metaKeywords?.join(", "),
   };
 
+  const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
-      <article className="min-h-screen">
-        {/* ── Hero band with featured image ── */}
-        {post.featuredImage?.url && (
-          <div className="relative w-full h-[40vh] min-h-[320px] max-h-[480px] overflow-hidden">
-            <Image
-              src={post.featuredImage.url}
-              alt={post.featuredImage.altText || post.title || ""}
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-linear-to-t from-[var(--canvas)] via-[var(--canvas)]/60 to-transparent" />
-          </div>
-        )}
-
-        {/* ── Content container ── */}
-        <div className="relative max-w-6xl mx-auto px-5 -mt-24 z-10">
-          {/* Back link */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-accent transition-colors mb-8"
-          >
-            <ArrowLeft size={12} />
-            All posts
-          </Link>
-
-          {/* Category + Title */}
-          <header className="mb-10">
-            {post.category && (
-              <span className="inline-block mb-4 px-2.5 py-1 text-[10px] font-semibold text-accent bg-accent/8 border border-accent/20">
-                {post.category}
-              </span>
-            )}
-
-            <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-bold leading-[1.15] tracking-tight text-foreground">
-              {post.title}
-            </h1>
-
-            {/* Meta row */}
-            <div className="mt-6 flex flex-wrap items-center gap-5 text-[13px] text-muted-foreground border-b border-border pb-6">
+      <article className="w-full">
+        <header className="erix-mk-section erix-mk-section--subtle pt-10! pb-12! md:pt-14!">
+          <div className="wrapper max-w-[880px]">
+            <Crumbs items={[{ name: "Blog", href: "/blog" }, { name: post.title ?? "Post" }]} />
+            {post.category && <p className="mt-6 text-[14px] font-semibold text-accent">{post.category}</p>}
+            <h1 className="mt-3 text-[clamp(32px,4.4vw,50px)] leading-[1.08] tracking-[-0.03em]">{post.title}</h1>
+            <p className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px] text-muted-foreground">
               {post.author?.name && (
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-accent/10 flex items-center justify-center text-accent text-[10px] font-bold">
+                <span className="flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="grid size-7 place-items-center rounded-full bg-accent-muted text-[12px] font-bold text-accent"
+                  >
                     {post.author.name.charAt(0)}
-                  </div>
-                  <span className="font-medium text-foreground">{post.author.name}</span>
-                </div>
+                  </span>
+                  <span className="font-semibold text-foreground">{post.author.name}</span>
+                </span>
               )}
               {post.publishDate && (
                 <span className="flex items-center gap-1.5">
-                  <Calendar size={12} className="text-muted-foreground" />
-                  {new Date(post.publishDate).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  <Icon name="calendar" size={14} variant="line" />
+                  <time dateTime={post.publishDate}>{fmt(post.publishDate)}</time>
                 </span>
               )}
               {post.readTime && (
                 <span className="flex items-center gap-1.5">
-                  <Clock size={12} className="text-muted-foreground" />
+                  <Icon name="clock" size={14} variant="line" />
                   {post.readTime} min read
                 </span>
               )}
               {post.views > 0 && (
                 <span className="flex items-center gap-1.5">
-                  <Eye size={12} className="text-muted-foreground" />
-                  {post.views.toLocaleString()} views
+                  <Icon name="eye" size={14} variant="line" />
+                  {post.views.toLocaleString("en-IN")} views
                 </span>
               )}
-            </div>
-
-            {/* Tags */}
+            </p>
             {post.tags?.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-0.5 text-[11px] text-muted-foreground border border-border hover:border-accent/40 hover:text-accent transition-colors"
-                  >
+                  <li key={tag} className="rounded-[6px] bg-surface px-2 py-0.5 text-[12px] text-muted-foreground shadow-[var(--shadow-card)]">
                     {tag}
-                  </span>
+                  </li>
                 ))}
+              </ul>
+            )}
+          </div>
+        </header>
+
+        <div className="erix-mk-section pt-10! md:pt-14!">
+          <div className="wrapper max-w-[880px]">
+            {post.featuredImage?.url && (
+              <div className="relative mb-12 aspect-[16/8] overflow-hidden rounded-[16px] shadow-[var(--shadow-card)]">
+                <Image
+                  src={post.featuredImage.url}
+                  alt={post.featuredImage.altText || post.title || ""}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(max-width: 900px) 100vw, 880px"
+                />
               </div>
             )}
-          </header>
-
-          {/* ── Article body ── */}
-          <BlogContent html={post.body || ""} />
-
-          {/* ── Footer ── */}
-          <div className="mt-20 mb-4 pt-10 border-t border-border">
-            {/* Share / Back */}
-            <div className="flex items-center justify-between mb-12">
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
-              >
-                <ArrowLeft size={14} />
-                Back to all posts
-              </Link>
-              <div className="text-[11px] text-muted-foreground">
-                {post.publishDate && new Date(post.publishDate).getFullYear()}
-              </div>
-            </div>
-
-            {/* CTA band */}
-            <div className="border border-border p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-surface">
-              <div>
-                <p className="text-lg font-display font-bold text-foreground">
-                  Automate what you just read about.
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  ECODrIx does CRM, WhatsApp, email, and AI — one platform.
-                </p>
-              </div>
-              <Link
-                href="/#contact"
-                className="btn-primary shrink-0"
-              >
-                Join the waitlist →
-              </Link>
+            <div className="mx-auto max-w-[68ch]">
+              <BlogContent html={post.body || ""} />
+              <p className="mt-16">
+                <Link href="/blog" className="erix-mk-link group">
+                  <Icon name="arrow-left" size={14} variant="line" />
+                  All posts
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </article>
+
+      <ClosingCta
+        title="Put what you just read to work"
+        body="ERIX brings WhatsApp, your pipeline, GST invoices and automation into one workspace. Join the waitlist."
+      />
     </>
   );
 }

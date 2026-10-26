@@ -1,69 +1,73 @@
-import { BadgeIndianRupee, Languages, MessageCircle, Receipt } from "lucide-react";
-import { SectionHeading } from "./SectionHeading";
-
-const steps = [
-  {
-    title: "Connect your channels",
-    body: "Link your WhatsApp Business number, Instagram and email domain. Every new enquiry lands as a lead, with the chat attached.",
-  },
-  {
-    title: "Set up your pipeline and follow-ups",
-    body: "Start from a template for your industry. Flow sends the confirmations, reminders and nudges you send by hand today.",
-  },
-  {
-    title: "Reply, follow up and get paid",
-    body: "Your team works from one inbox. Send a GST invoice with a payment link, and see every rupee against the lead.",
-  },
-];
-
-const india = [
-  { icon: MessageCircle, title: "WhatsApp first", body: "Templates, broadcasts and the 24-hour reply window handled for you." },
-  { icon: Receipt, title: "GST-ready invoices", body: "CGST and SGST in the same state, IGST across states, with your GSTIN." },
-  { icon: BadgeIndianRupee, title: "Rupees, not dollars", body: "Indian number grouping, Razorpay payment links and pricing in INR." },
-  { icon: Languages, title: "India's working day", body: "Reminders, reports and quiet hours run on Indian time." },
-];
+import { FeatureSplit, MkSection, Steps } from "@/components/marketing/kit";
+import { CountUp } from "@/components/motion/motion";
 
 export function HowItWorks() {
   return (
-    <section aria-labelledby="how-title" className="section-pad border-y border-border bg-surface">
-      <div className="wrapper grid gap-14 lg:grid-cols-2 lg:gap-20">
-        <div>
-          <SectionHeading
-            id="how-title"
-            eyebrow="How it works"
-            title="Live in an afternoon, not a quarter"
-          />
-          <ol className="mt-10 space-y-8">
-            {steps.map((s, i) => (
-              <li key={s.title} className="flex gap-4">
-                <span
-                  aria-hidden="true"
-                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent font-display text-sm font-bold text-white"
-                >
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="text-lg">{s.title}</h3>
-                  <p className="mt-1.5 text-muted-foreground">{s.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+    <MkSection id="how" title="Live in an afternoon, not a quarter">
+      <Steps
+        items={[
+          {
+            title: "Connect your channels",
+            text: "Link your WhatsApp Business number, Instagram, email and website chat. Every new enquiry lands as a lead, with the chat attached.",
+          },
+          {
+            title: "Teach the agent, pick your follow-ups",
+            text: "Add your price list, hours and FAQs. Start from a pipeline and automations made for your industry: the confirmations, reminders and nudges you send by hand today.",
+          },
+          {
+            title: "Reply, follow up and get paid",
+            text: "Your team works from one inbox. Send a GST invoice with a payment link, and see every rupee against the lead.",
+          },
+        ]}
+      />
+    </MkSection>
+  );
+}
 
-        <div className="rounded-[8px] bg-background p-6 md:p-8">
-          <h3 className="text-2xl">Built for how India sells</h3>
-          <ul className="mt-6 grid gap-5 sm:grid-cols-2">
-            {india.map((f) => (
-              <li key={f.title}>
-                <f.icon aria-hidden="true" className="size-5 text-accent" />
-                <p className="mt-3 font-semibold text-foreground">{f.title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
+/** The GST maths the invoices do, both ways. Same facts as before, on a subtle band. */
+export function BuiltForIndia() {
+  return (
+    <MkSection id="india" tone="subtle">
+      <FeatureSplit
+        module="Built for India"
+        icon="indian-rupee"
+        title="Made for how India sells"
+        headingLevel="h2"
+        points={[
+          "WhatsApp first: templates, broadcasts and the 24-hour reply window handled for you",
+          "GST-ready invoices: CGST and SGST in the same state, IGST across states, with your GSTIN",
+          "Rupees, not dollars: Indian number grouping, Razorpay payment links and pricing in INR",
+          "India's working day: reminders, reports and quiet hours run on Indian time",
+        ]}
+        visual={
+          <div className="rounded-[16px] bg-surface p-5 shadow-[var(--shadow-card)] md:p-6">
+            <p className="text-[15px] font-semibold text-foreground">One booking advance, two places of supply</p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {[
+                { title: "Same state", rows: [["Amount", "₹25,000"], ["CGST 9%", "₹2,250"], ["SGST 9%", "₹2,250"]] },
+                { title: "Another state", rows: [["Amount", "₹25,000"], ["IGST 18%", "₹4,500"]] },
+              ].map((c) => (
+                <div key={c.title} className="flex flex-col rounded-[12px] bg-background p-4">
+                  <p className="text-[13px] font-semibold text-accent">{c.title}</p>
+                  <dl className="mt-3 mb-3 space-y-1.5 text-sm text-muted-foreground">
+                    {c.rows.map(([k, v]) => (
+                      <div key={k} className="flex justify-between">
+                        <dt>{k}</dt>
+                        <dd className="tabular-nums">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-auto flex justify-between border-t border-border pt-3 text-xl font-bold text-foreground">
+                    <span>Total</span>
+                    <CountUp value="₹29,500" />
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 font-mono text-xs text-muted-foreground">INV/26-27/0042 · numbered per financial year</p>
+          </div>
+        }
+      />
+    </MkSection>
   );
 }

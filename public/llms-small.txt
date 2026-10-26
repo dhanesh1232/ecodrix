@@ -1,4 +1,4 @@
-ECODrIx: Unified business platform. CRM + WhatsApp + automation + AI lead gen + email + storage. Founded Aug 2025, Tirupati India. Beta Aug 2026. 180+ API endpoints. WhatsApp-first. No per-seat pricing. Founder: Dhanesh Mekalthuru.
+ECODrIx: Unified business platform. CRM + WhatsApp + automation + AI lead gen + email + storage. Founded Aug 2025, Tirupati India. Beta Aug 2026. 180+ API endpoints. WhatsApp-first. Founder: Dhanesh Mekalthuru.
 
 Products: ERIX-CRM (pipeline, scoring, invoicing, client portal), ERIX-FLOW (visual automation, 20+ triggers), ERIX-LAIE (B2B lead intelligence, AI enrichment, Relay Fabric workers).
 

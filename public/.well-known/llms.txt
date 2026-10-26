@@ -25,7 +25,7 @@ ECODrIx replaces 5–10 separate SaaS subscriptions with one platform. The marke
 
 ## Pricing
 
-- [Pricing page](https://ecodrix.com/pricing): Free plan available with every product included; paid tiers from ₹2,999/month.
+During the pilot, ECODrIx sets up each workspace and agrees pricing with each client. Meta bills WhatsApp messages to the business directly, with no ECODrIx markup.
 
 ## API & developers
 

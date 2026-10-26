@@ -1,6 +1,8 @@
+import { CountUp } from "@/components/motion/motion";
+
 /**
- * Plain numbers, server-rendered: no count-up from 0 (crawlers and anyone who
- * doesn't scroll used to see "0+ API endpoints").
+ * The published numbers, unchanged. Server-rendered as their final values;
+ * CountUp only animates an aria-hidden overlay when the strip comes into view.
  */
 const stats = [
   { value: "180+", label: "API endpoints" },
@@ -11,20 +13,13 @@ const stats = [
 
 export function Stats() {
   return (
-    <section aria-label="ERIX in numbers" className="border-b border-border bg-surface">
-      <dl className="wrapper grid grid-cols-2 lg:grid-cols-4">
-        {stats.map((s, i) => (
-          <div
-            key={s.label}
-            className={`flex flex-col items-center px-4 py-8 text-center ${
-              i % 2 ? "border-l border-border" : ""
-            } ${i > 1 ? "border-t border-border lg:border-t-0" : ""} ${
-              i === 2 ? "lg:border-l" : ""
-            }`}
-          >
-            <dt className="order-2 mt-1 text-sm text-muted-foreground">{s.label}</dt>
-            <dd className="order-1 font-display text-3xl font-bold tabular-nums text-foreground md:text-4xl">
-              {s.value}
+    <section aria-label="ERIX in numbers" className="bg-surface py-12 md:py-16">
+      <dl className="wrapper grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+        {stats.map((s) => (
+          <div key={s.label} className="flex flex-col">
+            <dt className="order-2 mt-1 text-[15px] text-muted-foreground">{s.label}</dt>
+            <dd className="order-1 text-[clamp(32px,3.6vw,44px)] leading-none font-bold tracking-[-0.03em] text-foreground">
+              <CountUp value={s.value} />
             </dd>
           </div>
         ))}

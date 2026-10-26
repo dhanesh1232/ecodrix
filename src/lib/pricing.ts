@@ -10,6 +10,8 @@
  *   ECOD/server/src/routes/platform/plans.routes.ts
  */
 
+import { PRIMARY_CTA } from "@/lib/site";
+
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 /** A `Quota` value as stored in the unified features object. */
@@ -177,16 +179,6 @@ function fmtQuota(q: Quota | undefined): string {
   return String(q);
 }
 
-/** Humanise storage GB: 2000 → "2 TB", 1 → "1 GB". */
-function fmtStorage(gb: Quota | undefined): string {
-  if (gb === "unlimited") return "Unlimited storage";
-  if (typeof gb === "number") {
-    if (gb >= 1000) return `${(gb / 1000).toLocaleString()} TB storage`;
-    return `${gb} GB storage`;
-  }
-  return "—";
-}
-
 /**
  * Yearly discount % vs paying monthly for 12 months.
  * Returns 0 for free plans or when there's no discount.
@@ -200,139 +192,50 @@ export function yearlyDiscountPct(
 }
 
 /**
- * Pick 8–10 marketing-grade bullet points per plan slug from the unified
- * features object. Per-tier bespoke selection makes copy land cleanly.
+ * Plan bullets, built from the plan's own features so the cards follow the
+ * live catalogue. Founder pricing (26 Oct 2026): the AI agent is on every
+ * plan, and AI requests and team members drive the upgrade. Labels match
+ * saas (components/platform/PlanCard.tsx). Never shown here: uptime SLA
+ * figures (none are offered) and `erix.whatsappMessages`, which is only an
+ * abuse cap because Meta bills the business directly.
  */
 export function humaniseFeatures(plan: PublicPlan): string[] {
   const f = plan.features ?? {};
   const erix = f.erix ?? {};
-  const laie = f.laie ?? {};
-  const storage = f.cloud_storage ?? {};
-  const workflows = f.workflows ?? {};
-  const ai = f.ai ?? {};
-
-  switch (plan.slug) {
-    case "free":
-      return [
-        `Up to ${fmtQuota(erix.contacts)} contacts`,
-        `${fmtQuota(erix.agents)} agent`,
-        `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
-        fmtStorage(storage.storageGB),
-        `${fmtQuota(erix.pdfExport)} invoice PDF exports/month`,
-        `${fmtQuota(workflows.activeWorkflows)} active workflow`,
-        `${fmtQuota(erix.whatsappMessages)} WhatsApp messages/month`,
-        "Accessibility & SEO checks",
-        "Community support",
-      ];
-
-    case "starter":
-      return [
-        `Up to ${fmtQuota(erix.contacts)} contacts`,
-        `${fmtQuota(erix.agents)} agents`,
-        `${fmtQuota(erix.whatsappMessages)} WhatsApp messages/month`,
-        `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        `${fmtQuota(erix.aiAssists)} AI assists/month`,
-        fmtStorage(storage.storageGB),
-        `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
-        `${fmtQuota(workflows.activeWorkflows)} active workflows`,
-        "Webhooks & broadcasts",
-        "Email support",
-      ];
-
-    case "growth":
-      return [
-        `Up to ${fmtQuota(erix.contacts)} contacts`,
-        `${fmtQuota(erix.agents)} agents`,
-        `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        `${fmtQuota(erix.aiAssists)} AI assists/month`,
-        fmtStorage(storage.storageGB),
-        "AI agent auto-reply across channels",
-        "Custom branding & domain",
-        `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
-        `${fmtQuota(workflows.activeWorkflows)} active workflows`,
-        "99% uptime SLA",
-      ];
-
-    case "scale":
-      return [
-        `Up to ${fmtQuota(erix.contacts)} contacts`,
-        `${fmtQuota(erix.agents)} agents`,
-        `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        `${fmtQuota(erix.aiAssists)} AI assists/month`,
-        fmtStorage(storage.storageGB),
-        "Priority support & white-label",
-        `${fmtQuota(laie.auditsPerMonth)} LAIE audits/month`,
-        `${fmtQuota(workflows.activeWorkflows)} active workflows`,
-        "Custom branding & domain",
-        "99.9% uptime SLA",
-      ];
-
-    case "enterprise":
-      return [
-        "Unlimited contacts & agents",
-        "Unlimited AI calls",
-        "Unlimited collaborators",
-        "Unlimited storage & bandwidth",
-        "White-label deployment",
-        "Custom domain & branding",
-        "Dedicated account manager",
-        "On-premise / private cloud",
-        "99.99% uptime SLA",
-        "Custom contracts & invoicing",
-      ];
-
-    default:
-      // Generic best-effort humaniser for any unknown slug.
-      return [
-        `Up to ${fmtQuota(erix.contacts)} contacts`,
-        `${fmtQuota(erix.agents)} agents`,
-        `${fmtQuota(ai.callsPerMonth)} AI calls/month`,
-        fmtStorage(storage.storageGB),
-        `${fmtQuota(workflows.activeWorkflows)} active workflows`,
-        f.prioritySupport ? "Priority support" : "Email support",
-      ];
-  }
+  const connect = f.connect ?? {};
+  const n = (q: Quota | undefined, one: string, many = `${one}s`) => `${fmtQuota(q)} ${q === 1 ? one : many}`;
+  const bullets = [
+    erix.aiAgent ? "AI agent" : null,
+    `${fmtQuota(f.ai?.callsPerMonth)} AI requests / month`,
+    n(erix.agents, "team member"),
+    `Up to ${fmtQuota(erix.contacts)} contacts`,
+    n(f.workflows?.activeWorkflows, "active automation"),
+    connect.instagram ? "All channels, Instagram included" : connect.whatsapp ? "WhatsApp inbox" : null,
+    erix.broadcasts ? "WhatsApp broadcasts" : null,
+  ];
+  // Tier extras, as in saas: Scale and up show white-label and priority
+  // support; Growth shows the branding removal.
+  if (f.whiteLabel) bullets.push("White-label branding");
+  else if (f.customBranding) bullets.push("No ERIX branding");
+  if (f.prioritySupport) bullets.push("Priority support");
+  return bullets.filter((b): b is string => b !== null);
 }
 
 // ─── Visual style per plan ─────────────────────────────────────────────────
-
-export interface PlanVisualStyle {
-  color: string;
-  colorClass: string;
-  bgClass: string;
-}
-
-/**
- * Plan accent colours. Brand rule: blue structures, purple is AI only, red
- * is urgency — so plans step through the blue ramp instead of a rainbow.
- */
-export function planVisualStyle(slug: string): PlanVisualStyle {
-  // Literal class names: Tailwind only generates classes it can read.
-  switch (slug) {
-    case "free":
-      return { color: "#555c6d", colorClass: "text-[#555c6d]", bgClass: "bg-[#555c6d]/10" };
-    case "growth":
-    case "scale":
-    case "enterprise":
-      return { color: "#162c8b", colorClass: "text-[#162c8b]", bgClass: "bg-[#162c8b]/10" };
-    default:
-      return { color: "#2b4dcb", colorClass: "text-[#2b4dcb]", bgClass: "bg-[#2b4dcb]/10" };
-  }
-}
 
 /** Per-plan tagline — short, marketing-friendly. */
 export function planDescription(slug: string): string {
   switch (slug) {
     case "free":
-      return "Try every product, free.";
+      return "The AI agent, inbox and CRM, free for one person.";
     case "starter":
-      return "For small teams getting started with automation.";
+      return "For small teams on every channel.";
     case "growth":
       return "For growing businesses that need more power.";
     case "scale":
       return "For established teams with serious volume.";
     case "enterprise":
-      return "Custom infrastructure, contracts, and SLAs.";
+      return "Unlimited use, with contracts and invoicing made for you.";
     default:
       return "";
   }
@@ -340,17 +243,17 @@ export function planDescription(slug: string): string {
 
 // ─── CTA helpers ───────────────────────────────────────────────────────────
 
-// Early access: every self-serve plan starts from the waitlist (the console
-// isn't open to sign-ups yet). Enterprise talks to us directly.
+// Self-serve plans use the site's one main call to action (the waitlist
+// until signups open; see PRIMARY_CTA). Enterprise talks to us directly.
 export function planCtaLabel(slug: string): string {
-  return slug === "enterprise" ? "Talk to sales" : "Join the waitlist";
+  return slug === "enterprise" ? "Talk to sales" : PRIMARY_CTA.label;
 }
 
 export function planCtaHref(slug: string): string {
   if (slug === "enterprise") {
     return "mailto:contact@ecodrix.com?subject=Enterprise%20plan%20enquiry";
   }
-  return `/?plan=${encodeURIComponent(slug)}#contact`;
+  return PRIMARY_CTA.href;
 }
 
 // ─── Add-on grouping ───────────────────────────────────────────────────────
@@ -404,8 +307,11 @@ export function groupAddonsByService(
 // ─── Fallback snapshot ─────────────────────────────────────────────────────
 
 /**
- * Static snapshot used when the API is unreachable. Mirrors the seed data so
- * the page still renders meaningfully without a live backend.
+ * Static snapshot used when the API is unreachable. Mirrors the plan seed
+ * (ECOD/server/scripts/seed-plans.ts, founder pricing of 26 Oct 2026) for
+ * every value the cards show: prices (yearly = 10× monthly, before 18% GST),
+ * the AI agent on every plan, AI requests, team members, contacts, active
+ * automations, channels and the branding/support extras. No SLA figures.
  */
 export const FALLBACK_PLANS: PublicPlan[] = [
   {
@@ -418,16 +324,20 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     isDefault: true,
     features: {
       erix: {
+        aiAgent: true,
         contacts: 100,
         agents: 1,
-        whatsappMessages: 200,
-        pdfExport: 5,
-        aiAssists: 0,
+        pipelines: 1,
+        esignsPerMonth: 3,
+        broadcasts: false,
       },
-      laie: { auditsPerMonth: 5 },
-      cloud_storage: { storageGB: 1, bandwidthGB: 5 },
-      workflows: { activeWorkflows: 1 },
       ai: { callsPerMonth: 50 },
+      workflows: { activeWorkflows: 1 },
+      connect: { channels: 1, whatsapp: true, email: false, instagram: false },
+      cloud_storage: { storageGB: 1 },
+      customBranding: false,
+      whiteLabel: false,
+      prioritySupport: false,
       sla: "none",
     },
   },
@@ -441,17 +351,20 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     isDefault: false,
     features: {
       erix: {
-        contacts: 1000,
+        aiAgent: true,
+        contacts: 2000,
         agents: 3,
-        whatsappMessages: 2000,
-        pdfExport: 50,
-        aiAssists: 50,
+        pipelines: 5,
+        esignsPerMonth: 25,
         broadcasts: true,
       },
-      laie: { auditsPerMonth: 50 },
-      cloud_storage: { storageGB: 10, bandwidthGB: 50 },
-      workflows: { activeWorkflows: 5 },
       ai: { callsPerMonth: 500 },
+      workflows: { activeWorkflows: 5 },
+      connect: { channels: 4, whatsapp: true, email: true, instagram: true },
+      cloud_storage: { storageGB: 10 },
+      customBranding: false,
+      whiteLabel: false,
+      prioritySupport: false,
       sla: "none",
     },
   },
@@ -459,26 +372,27 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "growth",
     name: "Growth",
     tier: 20,
-    priceMonthlyUsd: 8999,
-    priceYearlyUsd: 89990,
+    priceMonthlyUsd: 6999,
+    priceYearlyUsd: 69990,
     currency: "INR",
     isDefault: false,
     features: {
       erix: {
-        contacts: 5000,
-        agents: 10,
-        whatsappMessages: 10000,
-        pdfExport: 200,
-        aiAssists: 300,
         aiAgent: true,
+        contacts: 10000,
+        agents: 10,
+        pipelines: "unlimited",
+        esignsPerMonth: 200,
+        broadcasts: true,
       },
-      laie: { auditsPerMonth: 200 },
-      cloud_storage: { storageGB: 50, bandwidthGB: 200, customDomain: true },
-      workflows: { activeWorkflows: 20 },
       ai: { callsPerMonth: 2500 },
+      workflows: { activeWorkflows: 20 },
+      connect: { channels: 4, whatsapp: true, email: true, instagram: true },
+      cloud_storage: { storageGB: 50 },
       customBranding: true,
-      customDomain: true,
-      sla: "99",
+      whiteLabel: false,
+      prioritySupport: false,
+      sla: "none",
     },
   },
   {
@@ -491,22 +405,21 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     isDefault: false,
     features: {
       erix: {
+        aiAgent: true,
         contacts: 25000,
         agents: 25,
-        whatsappMessages: 50000,
-        pdfExport: 1000,
-        aiAssists: 1500,
-        aiAgent: true,
+        pipelines: "unlimited",
+        esignsPerMonth: "unlimited",
+        broadcasts: true,
       },
-      laie: { auditsPerMonth: 1000 },
-      cloud_storage: { storageGB: 200, bandwidthGB: 1000, customDomain: true },
-      workflows: { activeWorkflows: 100 },
       ai: { callsPerMonth: 10000 },
+      workflows: { activeWorkflows: 100 },
+      connect: { channels: 8, whatsapp: true, email: true, instagram: true },
+      cloud_storage: { storageGB: 200 },
       customBranding: true,
-      customDomain: true,
       whiteLabel: true,
       prioritySupport: true,
-      sla: "99.9",
+      sla: "none",
     },
   },
   {
@@ -519,26 +432,21 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     isDefault: false,
     features: {
       erix: {
+        aiAgent: true,
         contacts: "unlimited",
         agents: "unlimited",
-        whatsappMessages: "unlimited",
-        pdfExport: "unlimited",
-        aiAssists: "unlimited",
-        aiAgent: true,
+        pipelines: "unlimited",
+        esignsPerMonth: "unlimited",
+        broadcasts: true,
       },
-      laie: { auditsPerMonth: "unlimited" },
-      cloud_storage: {
-        storageGB: "unlimited",
-        bandwidthGB: "unlimited",
-        customDomain: true,
-      },
-      workflows: { activeWorkflows: "unlimited" },
       ai: { callsPerMonth: "unlimited" },
+      workflows: { activeWorkflows: "unlimited" },
+      connect: { channels: "unlimited", whatsapp: true, email: true, instagram: true },
+      cloud_storage: { storageGB: "unlimited" },
       customBranding: true,
-      customDomain: true,
       whiteLabel: true,
       prioritySupport: true,
-      sla: "99.99",
+      sla: "none",
     },
   },
 ];

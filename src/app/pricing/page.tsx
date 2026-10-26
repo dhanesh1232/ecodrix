@@ -1,259 +1,127 @@
-import type { Metadata } from "next";
-import {
-  ArrowRight,
-  Zap,
-  Shield,
-  Users,
-  Star,
-  Clock,
-  Headphones,
-} from "lucide-react";
-import { getFAQSchema } from "@/lib/jsonld";
-import {
-  fetchPublicPlans,
-  FALLBACK_PLANS,
-  FALLBACK_ADDONS,
-} from "@/lib/pricing";
+import type { GlyphName } from "@/components/icons";
+import { Icon } from "@/components/icons";
+import Link from "next/link";
+import { Faq, MkSection } from "@/components/marketing/kit";
+import { ClosingCta } from "@/components/platform/ModulePage";
 import PricingPlansSection from "@/components/pricing/PriceToggle";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getFAQSchema } from "@/lib/jsonld";
+import { FALLBACK_PLANS, fetchPublicPlans, yearlyDiscountPct } from "@/lib/pricing";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Simple, transparent pricing for ECODrIx. Start free, scale as you grow. CRM, WhatsApp automation, AI, editor, cloud storage, workflows — all in one platform.",
-  alternates: { canonical: "https://ecodrix.com/pricing" },
+// Private during the pilot (founder decision): ECODrIx agrees terms with each
+// pilot client, so this page is shared by link only. It stays out of search,
+// the sitemap and every link on the site.
+export const metadata = {
+  ...pageMetadata({
+    title: "Pricing in rupees, plus 18% GST",
+    description:
+      "ERIX plans in Indian rupees: start on the free plan, then pay monthly or yearly as you grow. Prices are shown before GST, which is added at 18% on your invoice.",
+    path: "/pricing",
+  }),
+  robots: { index: false, follow: false },
 };
 
-// ISR: regenerate the page every 5 minutes. Matches the server-side cache TTL
-// for `/v1/api/platform/billing/plans/public`, so users always see fresh
-// pricing without hammering the backend.
+// ISR: matches the server-side cache TTL for the public plans endpoint.
 export const revalidate = 300;
 
-const benefits = [
-  {
-    icon: Star,
-    title: "Start for Free",
-    description:
-      "Every product is included in the Free plan — CRM, AI, editor, workflows, cloud storage, and LAIE. Build your stack before you pay anything.",
-    planName: "Free",
-  },
-  {
-    icon: Zap,
-    title: "Scale Your Growth",
-    description:
-      "Lead scoring, larger AI quotas, custom branding, custom domains, collaborator seats, and 99% SLA. Built for teams pushing real volume.",
-    planName: "Growth",
-  },
-  {
-    icon: Shield,
-    title: "Enterprise Ready",
-    description:
-      "White-label deployment, dedicated infrastructure, on-prem options, custom contracts, and 99.99% uptime SLA with a dedicated account manager.",
-    planName: "Enterprise",
-  },
-  {
-    icon: Clock,
-    title: "Save Time Daily",
-    description:
-      "Automate repetitive tasks, streamline customer communication, and focus on what matters most — growing your business and serving customers better.",
-  },
-  {
-    icon: Headphones,
-    title: "Expert Support",
-    description:
-      "From community support on Free to a dedicated account manager on Enterprise, our team is here to help you ship and scale with confidence.",
-  },
-  {
-    icon: Users,
-    title: "Team Collaboration",
-    description:
-      "Built for teams of every size. Share contacts, collaborate on docs, and ensure everyone stays aligned with shared pipelines and real-time updates.",
-  },
-];
-
-const trust = [
-  { icon: Shield, label: "Data hosted on Google Cloud, encrypted at rest" },
-  { icon: Zap, label: "99.9% uptime SLA" },
-  { icon: Users, label: "50+ businesses onboarded" },
-];
-
-const faqs = [
-  {
-    q: "Is there a free trial?",
-    a: "Yes. Every paid plan includes a 14-day free trial — no credit card required. The Free plan is forever free.",
-  },
-  {
-    q: "Can I change plans later?",
-    a: "Yes. Upgrade or downgrade at any time. Upgrades take effect immediately; downgrades apply at the end of your billing period.",
-  },
-  {
-    q: "What happens to my data if I cancel?",
-    a: "You can export all your data at any time. After cancellation, data is retained for 30 days before being permanently deleted.",
-  },
-  {
-    q: "Do you offer annual billing?",
-    a: "Yes. Annual billing saves you roughly 17% — about 2 months free per year. Toggle the switch above to see yearly pricing.",
-  },
-  {
-    q: "What is included on the Free plan?",
-    a: "Up to 100 contacts, 1 agent, 1,000 WhatsApp messages, 5 LAIE audits, 1 GB storage, and 1 active workflow — every product is available, just at smaller quotas.",
-  },
-  {
-    q: "Can I buy add-ons without upgrading?",
-    a: "Yes. Add-ons stack on top of any plan, including Free. Buy exactly the capacity or feature you need without changing tiers.",
-  },
-  {
-    q: "Do you support white-labeling?",
-    a: "White-label is included on the Enterprise plan and is available as a stand-alone add-on for $99/month on any other plan.",
-  },
+const facts: { icon: GlyphName; title: string; body: string }[] = [
+  { icon: "indian-rupee", title: "Priced in rupees", body: "Every plan is in INR, with Indian number grouping." },
+  { icon: "receipt", title: "GST invoice every time", body: "GST at 18% is added on top, and each payment gets a GST invoice." },
+  { icon: "shield-check", title: "Change plans any time", body: "Upgrades take effect straight away. See the pricing policy for the rest." },
 ];
 
 export default async function PricingPage() {
   const data = await fetchPublicPlans();
-  const usedFallback = data === null;
   const plans = data?.plans ?? FALLBACK_PLANS;
-  const addons = data?.addons ?? FALLBACK_ADDONS;
+  // ponytail: add-ons are hidden because the API prices them in USD; show them once the catalog is in INR (founder sets the rupee prices).
+  const ref = plans.find((p) => (p.priceMonthlyUsd ?? 0) > 0);
+  const pct = ref ? yearlyDiscountPct(ref.priceMonthlyUsd, ref.priceYearlyUsd) : 0;
+
+  const faqs = [
+    {
+      q: "Are prices shown with GST?",
+      a: "No. Prices are shown before GST. GST at 18% is added on your invoice, and you get a GST invoice for each payment.",
+    },
+    {
+      q: "Is there a free plan?",
+      a: "Yes. The Free plan costs ₹0 and includes the AI agent, the inbox and the CRM for one person. Paid plans add AI requests, team members, contacts, automations and channels.",
+    },
+    {
+      q: "Do you offer yearly billing?",
+      a: pct > 0
+        ? `Yes. Paying yearly costs about ${pct}% less than paying monthly for 12 months. Switch to Yearly above to see each plan's price.`
+        : "Yes. Switch to Yearly above to see each plan's yearly price.",
+    },
+    {
+      q: "Can I change plans later?",
+      a: "Yes. Upgrades take effect straight away, and the difference may be prorated for the rest of your billing cycle. The pricing policy covers downgrades.",
+    },
+    {
+      q: "Which plans include the AI agent?",
+      a: "Every plan, Free included. Plans differ in how many AI requests a month they include, shown on each plan above.",
+    },
+    {
+      q: "What is the 7-day Growth trial?",
+      a: "Every new workspace starts with 7 days of Growth. After that it moves to Free, unless you pick a plan.",
+    },
+    {
+      q: "Who pays for WhatsApp messages?",
+      a: "Your business pays Meta directly, because ERIX sends on your own WhatsApp account. ERIX adds no markup to Meta's charges.",
+    },
+    {
+      q: "Where are refunds and cancellations explained?",
+      a: "In the refunds and cancellation policy, linked below and in the footer of every page.",
+    },
+  ];
 
   return (
     <div className="w-full">
-      {/* FAQ Schema JSON-LD */}
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema(faqs)),
-        }}
-      />
+      <JsonLd data={getFAQSchema(faqs)} />
 
-      {/* ── Hero ── */}
-      <section className="pt-40 pb-16 px-6 relative overflow-hidden">
-        {/* ambient glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-[700px] h-[400px] blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.18)_85deg,rgba(141,31,174,0.07)_115deg,transparent_155deg)]"
-          aria-hidden="true"
-        />
-        <div className="wrapper relative z-10 text-center">
-          <div className="pill mb-6 mx-auto">Pricing</div>
-          <h1 className="font-display font-black text-foreground mb-6 text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
-            Simple, transparent <span className="grad-text">pricing.</span>
+      <section className="erix-mk-section erix-mk-section--subtle pt-12! pb-10! md:pt-16!">
+        <div className="wrapper text-center">
+          <h1 className="mx-auto max-w-3xl text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
+            Plans in rupees. GST added at 18%.
           </h1>
-          <p className="text-subtle max-w-xl mx-auto leading-relaxed text-base">
-            Start free. Upgrade when you outgrow it. Cancel anytime, no
-            questions asked.
+          <p className="mx-auto mt-5 max-w-[56ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
+            Start on the free plan and move up when you grow. Every price below is before GST, monthly or yearly.
           </p>
-
-          {/* trust row */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-10">
-            {trust.map(({ icon: Icon, label }, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 text-subtle text-label"
-              >
-                <Icon size={14} className="text-accent" />
-                <span>{label}</span>
-              </div>
+          <ul className="mx-auto mt-10 grid max-w-4xl gap-6 text-left sm:grid-cols-3">
+            {facts.map((f) => (
+              <li key={f.title} className="flex gap-3">
+                <Icon name={f.icon} size={20} variant="duo" className="mt-0.5 shrink-0 text-accent" />
+                <span>
+                  <span className="block font-semibold text-foreground">{f.title}</span>
+                  <span className="block text-sm text-muted-foreground">{f.body}</span>
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ── Plans + Add-ons (client-rendered for toggle interactivity) ── */}
-      <PricingPlansSection
-        plans={plans}
-        addons={addons}
-        usedFallback={usedFallback}
+      <PricingPlansSection plans={plans} usedFallback={data === null} />
+
+      <MkSection id="faq" tone="subtle" title="Pricing questions">
+        <Faq items={faqs} />
+        <p className="mt-8 text-sm text-muted-foreground">
+          The details are in the{" "}
+          <Link href="/legal/pricing-policy" className="text-accent underline underline-offset-4">
+            pricing policy
+          </Link>{" "}
+          and the{" "}
+          <Link href="/legal/refund-policy" className="text-accent underline underline-offset-4">
+            refunds and cancellation policy
+          </Link>
+          .
+        </p>
+      </MkSection>
+
+      <ClosingCta
+        title="Not sure which plan fits?"
+        body="Join the waitlist and tell us how you sell today. We'll suggest a plan when your turn comes."
       />
-
-      {/* ── Benefits ── */}
-      <section className="py-24 px-6 border-t border-foreground/5">
-        <div className="wrapper">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="pill mb-5 mx-auto bg-accent/5 text-accent border-accent/20">
-              Why Choose ECODrIx
-            </div>
-            <h2 className="text-3xl sm:text-4xl text-foreground font-display font-black tracking-tight leading-[1.05] mb-5">
-              Built for{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-accent to-accent">
-                your success.
-              </span>
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              Every plan is designed to help you grow, with features that scale
-              with your business needs.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {benefits.map((benefit, i) => (
-              <div
-                key={i}
-                className="group relative p-px bg-foreground/10 hover:bg-foreground/20 transition-colors duration-500 no-collapse rounded-md"
-              >
-                <div className="bg-surface h-full p-6 relative overflow-hidden flex flex-col no-collapse rounded-md">
-                  <div className="mb-4">
-                    <div className="w-12 h-12 flex items-center justify-center mb-4 bg-accent/10 polygon-icon rounded-md">
-                      <benefit.icon size={20} className="text-accent" />
-                    </div>
-                    <h3 className="text-foreground font-bold text-lg mb-2 leading-tight">
-                      {benefit.title}
-                    </h3>
-                    {benefit.planName && (
-                      <div className="text-[10px] font-sans font-bold text-accent mb-3">
-                        {benefit.planName} Plan
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">
-                    {benefit.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="sep-top py-24 px-6 bg-background">
-        <div className="wrapper">
-          <div className="pill mb-6">FAQ</div>
-          <h2 className="font-display font-black text-foreground mb-16 text-2xl md:text-3xl tracking-[-0.04em]">
-            Common questions.
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
-            {faqs.map(({ q, a }, i) => (
-              <div key={i} className="p-8 bg-surface">
-                <h4 className="text-foreground font-bold mb-3 text-base">
-                  {q}
-                </h4>
-                <p className="text-subtle text-sm leading-relaxed">{a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Bottom CTA ── */}
-      <section className="py-24 px-6 text-center">
-        <div className="wrapper max-w-2xl mx-auto">
-          <h2 className="font-display font-black text-foreground mb-5 text-2xl md:text-3xl tracking-[-0.04em]">
-            Ready to get started?
-          </h2>
-          <p className="text-subtle mb-10 leading-relaxed">
-            Free forever plan. No credit card. Setup in under 15 minutes.
-          </p>
-          <a
-            href="https://console.ecodrix.com/auth/signup"
-            className="group inline-flex items-center justify-center gap-2 px-10 py-4 font-bold text-label text-accent-foreground transition-all duration-300 hover:shadow-[0_0_40px_rgba(43,77,203,0.35)] bg-linear-to-r from-accent to-accent polygon-button rounded-md"
-          >
-            Start for Free
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </a>
-        </div>
-      </section>
     </div>
   );
 }

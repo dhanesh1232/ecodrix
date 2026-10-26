@@ -2,34 +2,42 @@
 @import "tw-animate-css";
 
 /* ══════════════════════════════════════════════════════════════════════════
- * ECODrIx marketing — ERIX design system, light theme
- * Source of truth: the ERIX Design System (tokens.json / README brand book);
- * the same tokens drive the SaaS app, so site and product look like one thing.
+ * ECODrIx marketing — ERIX design system, marketing kit (erix-mk-*).
+ * Source of truth: the ERIX Design System artifact (README "Marketing",
+ * tokens.json, components/bundle.css v11). Same tokens as the SaaS.
  *
- * - Blue = structure and action, purple = AI / automation only, red = urgency.
- *   Gradients stay within one hue; the three colours sit side by side.
- * - Pages on blue-tinted `surface-subtle`, cards white with a hairline border.
+ * - Blue = structure and action, purple = AI / automation only, red = the
+ *   logo's dot and urgency. Gradients stay within one hue.
+ * - Sections sit on surface (white) or surface-subtle; navy bands
+ *   (`--mk-navy`) carry the one brand flourish: the logo swoosh + red dot.
  * - Bricolage Grotesque headings, Manrope text, sentence case.
- * - Crisp corners: 4px controls, 8px cards. Borders before shadows.
+ * - Radii: badges 6, buttons/inputs 8, cards 12, dialogs/banner 16.
+ *   Cards have no border: shadow-card, a navy-tinted ring.
  *
  * Naming: on this site `--accent` is the PRIMARY blue (legacy name kept so
- * every page re-themes at once). ERIX purple is `--ai`.
+ * every page re-themes at once). ERIX purple is `--ai`. The DS names
+ * (`--primary`, `--ink`, `--surface-raised`…) are aliases for the ported kit.
  * ══════════════════════════════════════════════════════════════════════════ */
 
 @custom-variant dark (&:is(.dark *));
 
 /* ── Design tokens (ERIX light) ────────────────────────────────────────── */
-:root {
-  /* Brand ramps — decoration and illustration only */
+/* `.surface-light` re-declares the light set, so a product mock placed inside
+   a navy band gets its real light-theme colours back. */
+:root,
+.surface-light {
+  /* Brand ramps — decoration, illustration and charts only */
   --blue-50: #f3f7ff;
   --blue-100: #e5edfe;
   --blue-200: #cbdbff;
+  --blue-300: #a6c0fd;
   --blue-500: #4f79f3;
   --blue-600: #2b4dcb;
   --blue-700: #2441b0;
   --blue-800: #162c8b;
   --blue-900: #0b1b64;
   --purple-50: #fcf3ff;
+  --purple-300: #e2a6f8;
   --purple-500: #b251d3;
   --purple-600: #8d1fae;
   --purple-700: #771594;
@@ -37,10 +45,11 @@
   --red-600: #b03a3b;
 
   /* Surfaces */
-  --canvas: #f2f4fb; /* surface-subtle: the page */
-  --surface: #ffffff; /* surface-raised: cards */
+  --canvas: #f2f4fb; /* surface-subtle */
+  --surface: #ffffff; /* surface / surface-raised */
   --elevated: #ffffff;
-  --hover: #eaeefb; /* primary-subtle */
+  --sunken: #eaeef7; /* wells: segmented track, search field */
+  --hover: #eaeefb;
   --surface-white: #ffffff;
   --surface-inverse: #12151d;
   --ink-inverse: #eef0f5;
@@ -55,27 +64,30 @@
   --ai: #8d1fae;
   --ai-subtle: #f6e9fa;
 
-  /* Hero band — tonal blue, logo swoosh + dot as decoration */
+  /* Navy band + logo motif */
+  --mk-navy: #0b1b64; /* nav = blue-900 */
   --hero: #2441b0;
   --hero-2: #2b4dcb;
   --hero-swoosh: #b251d3;
   --hero-dot: #cc5a57;
   --on-hero: #ffffff;
   --on-hero-muted: #dbe3ff;
+  --on-navy-link: #9db2ff;
 
   /* Brand marks */
   --brand-blue: #2b4dcb;
   --brand-purple: #8d1fae;
   --brand-crimson: #b03a3b;
 
-  /* Text */
+  /* Text: three levels only */
   --text: #12151d; /* ink */
-  --text-muted: #555c6d; /* ink-muted, ≥6.1:1 */
-  --text-faint: #6b7283; /* still ≥4.5:1 on white — never decorative-only grey for text */
+  --text-muted: #555c6d; /* ink-muted */
+  --text-faint: #656c7d; /* ink-subtle */
 
   /* Borders */
-  --border: #dde2f0; /* hairline, decorative */
-  --border-mid: #878e9d; /* border-strong: inputs, 3.3:1 */
+  --border: #dde2f0;
+  --border-soft: #eef0f6;
+  --border-mid: #878e9d; /* border-strong: inputs */
 
   /* Status (text on -subtle fills) */
   --success: #1c7445;
@@ -85,17 +97,31 @@
   --error: #b03a3b;
   --error-subtle: #fbecec;
 
-  /* Category tints (icon chips) — brand-safe, no WhatsApp green */
-  --cat-whatsapp: #2b4dcb;
-  --cat-email: #b04f00;
-  --cat-automation: #8d1fae;
-  --cat-storage: #0b6e6d;
-  --cat-meeting: #b03a3b;
-  --cat-ai: #8d1fae;
+  /* Depth: rings and soft shadows tinted navy (11, 27, 100), never black */
+  --shadow-xs: 0 1px 2px rgba(11, 27, 100, 0.05);
+  --shadow-card: 0 0 0 1px rgba(11, 27, 100, 0.07), 0 1px 2px rgba(11, 27, 100, 0.05),
+    0 2px 6px -2px rgba(11, 27, 100, 0.06);
+  --shadow-sm: 0 0 0 1px rgba(11, 27, 100, 0.07), 0 2px 4px -1px rgba(11, 27, 100, 0.08);
+  --shadow-md: 0 0 0 1px rgba(11, 27, 100, 0.06), 0 4px 8px -2px rgba(11, 27, 100, 0.08),
+    0 12px 24px -8px rgba(11, 27, 100, 0.14);
+  --shadow-lg: 0 0 0 1px rgba(11, 27, 100, 0.06), 0 8px 16px -6px rgba(11, 27, 100, 0.12),
+    0 32px 64px -16px rgba(11, 27, 100, 0.28);
+  --shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(11, 27, 100, 0.24);
+  --shadow-focus: 0 0 0 3px rgba(43, 77, 203, 0.22);
 
-  --shadow-sm: 0 1px 2px rgba(18, 21, 29, 0.08);
-  --shadow-md: 0 4px 12px rgba(18, 21, 29, 0.12);
-  --shadow-lg: 0 12px 32px rgba(18, 21, 29, 0.18);
+  /* DS aliases used by the ported marketing kit */
+  --primary: var(--accent);
+  --primary-subtle: var(--accent-dim);
+  --on-primary: #ffffff;
+  --ink: var(--text);
+  --ink-muted: var(--text-muted);
+  --ink-subtle: var(--text-faint);
+  --surface-raised: var(--surface);
+  --surface-subtle: var(--canvas);
+  --surface-sunken: var(--sunken);
+  --border-strong: var(--border-mid);
+  --danger: var(--error);
+  --danger-subtle: var(--error-subtle);
 
   /* Legacy compat aliases */
   --background: var(--canvas);
@@ -110,6 +136,62 @@
   color-scheme: light;
 }
 
+/* Motion and layout tokens — the SaaS curves and durations (DS v10/v11). */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-enter: 520ms;
+  --dur-draw: 900ms;
+  --mk-wrap: 1180px;
+  --mk-gutter: clamp(16px, 4vw, 32px);
+  --mk-section: clamp(64px, 8vw, 112px);
+  interpolate-size: allow-keywords;
+}
+
+/* Navy band (`--mk-navy` with the blue radial bloom). Remaps the semantic
+   tokens so utilities and base h1–h5 / p colours read correctly inside it. */
+.band-navy {
+  --canvas: var(--mk-navy);
+  --surface: color-mix(in srgb, #ffffff 7%, var(--mk-navy));
+  --hover: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.78);
+  --text-faint: rgba(255, 255, 255, 0.66);
+  --border: rgba(255, 255, 255, 0.14);
+  --border-soft: rgba(255, 255, 255, 0.1);
+  --border-mid: rgba(255, 255, 255, 0.4);
+  --accent-dim: rgba(255, 255, 255, 0.08);
+  --ai: #e7b6f7; /* nav-ai */
+  --ai-subtle: rgba(231, 182, 247, 0.14);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--mk-navy);
+  background-image: radial-gradient(70% 90% at 85% 10%, rgba(43, 77, 203, 0.55), transparent 70%);
+  color: #ffffff;
+  color-scheme: dark;
+}
+/* Aliases resolve where they're declared, so re-point them in every scope
+   that remaps the base tokens (navy bands, the featured plan tile). */
+.band-navy,
+.erix-mk-plan--featured {
+  --ink: var(--text);
+  --ink-muted: var(--text-muted);
+  --ink-subtle: var(--text-faint);
+  --foreground: var(--text);
+  --muted-foreground: var(--text-muted);
+  --subtle: var(--text-faint);
+}
+.band-navy .eyebrow,
+.band-navy .link-on-dark {
+  color: var(--on-navy-link);
+}
+.band-navy *:focus-visible {
+  outline-color: #ffffff;
+}
+
 /* ── Tailwind @theme ───────────────────────────────────────────────────── */
 @theme inline {
   --font-display: var(--font-bricolage), var(--font-manrope), system-ui,
@@ -121,12 +203,20 @@
   /* Legacy alias — components still say font-syne */
   --font-syne: var(--font-display);
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
-  --radius-xl: 8px;
-  --radius-2xl: 8px;
-  --radius-3xl: 8px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-card: var(--shadow-card);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-btn: var(--shadow-btn);
 
   --color-brand-blue: var(--brand-blue);
   --color-brand-purple: var(--brand-purple);
@@ -134,10 +224,14 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-dim);
+  --color-accent-border: var(--accent-border);
+  --color-hover: var(--hover);
+  --color-sunken: var(--sunken);
   --color-accent-foreground: var(--accent-foreground);
   --color-ai: var(--ai);
   --color-ai-subtle: var(--ai-subtle);
   --color-hero: var(--hero);
+  --color-navy: var(--mk-navy);
   --color-on-hero: var(--on-hero);
   --color-on-hero-muted: var(--on-hero-muted);
 
@@ -148,6 +242,7 @@
   --color-muted-foreground: var(--text-muted);
   --color-subtle: var(--text-faint);
   --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
   --color-border-strong: var(--border-mid);
   --color-ring: var(--accent);
   --color-muted: var(--canvas);
@@ -160,14 +255,7 @@
   --color-error: var(--error);
   --color-error-subtle: var(--error-subtle);
 
-  --color-cat-whatsapp: var(--cat-whatsapp);
-  --color-cat-email: var(--cat-email);
-  --color-cat-automation: var(--cat-automation);
-  --color-cat-storage: var(--cat-storage);
-  --color-cat-meeting: var(--cat-meeting);
-  --color-cat-ai: var(--cat-ai);
-
-  /* shadcn/ui slots used by the form + card primitives */
+  /* shadcn/ui slots used by the form primitives */
   --color-card: var(--surface);
   --color-card-foreground: var(--text);
   --color-popover: var(--surface);
@@ -190,13 +278,13 @@
 
   html {
     scroll-behavior: smooth;
-    background: var(--canvas);
+    background: var(--surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background: var(--canvas);
+    background: var(--surface);
     color: var(--text);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -209,7 +297,7 @@
   h4,
   h5 {
     font-family: var(--font-display);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     line-height: 1.15;
     font-weight: 700;
     color: var(--text);
@@ -219,6 +307,7 @@
   p {
     color: var(--text-muted);
     line-height: 1.65;
+    text-wrap: pretty;
   }
 
   ::selection {
@@ -230,9 +319,9 @@
   button,
   [role="button"] {
     transition:
-      color 0.14s ease-out,
-      background-color 0.14s ease-out,
-      border-color 0.14s ease-out;
+      color var(--dur-fast) ease-out,
+      background-color var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out;
   }
 
   *:focus-visible {
@@ -256,33 +345,22 @@
 
 /* ── Brand utilities ───────────────────────────────────────────────────── */
 
-/* Brand rule: gradients stay within one hue. A deep-to-core blue for
-   emphasised words; never blue → purple → red. */
-.grad-text {
-  background: linear-gradient(120deg, var(--blue-800) 0%, var(--blue-600) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.brand-gradient {
-  background: linear-gradient(135deg, var(--hero) 0%, var(--hero-2) 100%);
-}
-
-/* Small label above a heading — sentence case, not shouty caps */
+/* Optional small label above a heading (the kit's `kicker`). Use sparingly:
+   no eyebrow above every heading. */
 .eyebrow {
-  font-size: 0.8125rem;
+  font-size: 14px;
   font-weight: 600;
+  line-height: 20px;
   color: var(--accent);
 }
 
-/* AI / automation marker (Flow, LAIE, voice agent) */
+/* AI / automation marker: a 6px-cornered chip, purple = AI only */
 .ai-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 6px;
   background: var(--ai-subtle);
   color: var(--ai);
   font-size: 12px;
@@ -291,49 +369,27 @@
 
 /* ── Components ────────────────────────────────────────────────────────── */
 @layer components {
-  /* Wrapper — generous max-width */
   .wrapper {
     width: 100%;
-    max-width: 76rem;
+    max-width: var(--mk-wrap);
     margin: 0 auto;
-    padding: 0 1rem;
-  }
-  @media (min-width: 768px) {
-    .wrapper {
-      padding: 0 1.5rem;
-    }
-  }
-  @media (min-width: 1280px) {
-    .wrapper {
-      padding: 0 2rem;
-    }
+    padding: 0 var(--mk-gutter);
   }
 
-  /* Section padding — portfolio-style generous vertical space */
   .section-pad {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-  @media (min-width: 768px) {
-    .section-pad {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
-    }
+    padding-top: var(--mk-section);
+    padding-bottom: var(--mk-section);
   }
 
-  /* Card — white on the blue-tinted page, hairline border, 8px corners */
+  /* Card: no border — a navy-tinted ring, 12px corners */
   .card {
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
-    transition: border-color 0.14s ease-out;
-  }
-  .card:hover {
-    border-color: var(--accent-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
   }
 
-  /* Buttons — 4px corners, 44px touch height, verb labels */
+  /* Buttons — 8px corners, 44px touch height, verb labels. Solid buttons
+     carry the 1px top highlight (shadow-btn). */
   .btn-primary,
   .btn-ghost {
     display: inline-flex;
@@ -342,84 +398,1058 @@
     gap: 8px;
     min-height: 44px;
     padding: 0 20px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 650;
     cursor: pointer;
+    transition:
+      color var(--dur-fast) ease-out,
+      background-color var(--dur-fast) ease-out,
+      box-shadow var(--dur-fast) ease-out,
+      scale 360ms var(--ease-soft-spring);
+  }
+  /* Press: a 2% squeeze in 90ms, then a soft spring back */
+  .btn-primary:active,
+  .btn-ghost:active {
+    scale: 0.98;
+    transition-duration: var(--dur-fast), var(--dur-fast), var(--dur-fast), 90ms;
   }
   .btn-primary {
     background: var(--accent);
     color: #ffffff;
-    border: 1px solid var(--accent);
+    box-shadow: var(--shadow-btn);
   }
   .btn-primary:hover {
     background: var(--accent-hover);
-    border-color: var(--accent-hover);
   }
   .btn-ghost {
     background: var(--surface-white);
     color: var(--text);
-    border: 1px solid var(--border-mid);
+    box-shadow: 0 0 0 1px var(--border), var(--shadow-xs);
   }
   .btn-ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--canvas);
+    box-shadow: 0 0 0 1px var(--border-mid), var(--shadow-xs);
+  }
+  .btn-lg {
+    min-height: 48px;
+    padding: 0 22px;
+    font-size: 15.5px;
+    border-radius: 12px;
+  }
+  /* On navy: the main action is white, the second is glass */
+  .band-navy .btn-primary {
+    background: #ffffff;
+    color: var(--blue-800);
+    box-shadow: inset 0 -1px 0 rgba(11, 27, 100, 0.08), 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .band-navy .btn-primary:hover {
+    background: var(--blue-50);
+  }
+  .band-navy .btn-ghost {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  }
+  .band-navy .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+  /* A light card inside a navy band (the waitlist form) keeps light buttons. */
+  .band-navy .surface-light .btn-primary {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: var(--shadow-btn);
+  }
+  .band-navy .surface-light .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+  .band-navy .surface-light .btn-ghost {
+    background: var(--surface-white);
+    color: var(--text);
+    box-shadow: 0 0 0 1px var(--border), var(--shadow-xs);
   }
 
-  /* Pill — small rounded tag */
+  /* Pill — small 6px-cornered tag */
   .pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
-    border-radius: 9999px;
+    padding: 3px 10px;
+    border-radius: 6px;
     background: var(--accent-dim);
-    border: 1px solid var(--accent-border);
     font-size: 13px;
     font-weight: 600;
     color: var(--accent);
   }
+}
 
-  /* Section tag */
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .section-tag::before {
-    content: "";
-    width: 16px;
-    height: 2px;
-    background: var(--accent);
-  }
+/* ══════════════════════════════════════════════════════════════════════════
+ * Marketing kit (ported from the DS bundle.css v11, `erix-mk-*`), mapped to
+ * the site tokens. Only the parts the site uses.
+ * ══════════════════════════════════════════════════════════════════════════ */
 
-  /* Section separator */
-  .sep-top {
+/* type scale */
+.erix-mk-h2 {
+  margin: 0;
+  font: 700 clamp(28px, 3.4vw, 44px) / 1.12 var(--font-display);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.erix-mk-h3 {
+  margin: 0;
+  font: 700 clamp(22px, 2.2vw, 28px) / 1.2 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.erix-mk-lead {
+  margin: 16px 0 0;
+  max-width: 60ch;
+  font: 400 clamp(16px, 1.4vw, 18px) / 1.6 var(--font-sans);
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+.erix-mk-body {
+  margin: 12px 0 0;
+  max-width: 56ch;
+  font: 400 16px / 1.65 var(--font-sans);
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+.erix-mk-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 650 15px / 20px var(--font-sans);
+  color: var(--primary);
+}
+.erix-mk-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.erix-mk-ticks {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.erix-mk-ticks li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font: 500 15px / 22px var(--font-sans);
+  color: var(--ink);
+}
+.erix-mk-ticks .erix-icon {
+  color: var(--primary);
+  margin-top: 3px;
+  flex: none;
+}
+.erix-mk-section__head {
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+
+/* hero: navy band, swoosh + red dot (the one brand flourish) */
+.erix-mk-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(48px, 7vw, 96px) 0 0;
+}
+.erix-mk-hero__motif,
+.erix-mk-cta__motif {
+  position: absolute;
+  pointer-events: none;
+}
+.erix-mk-hero__motif {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.erix-mk-hero__swoosh {
+  fill: none;
+  stroke: var(--hero-swoosh);
+  stroke-width: 56;
+  stroke-linecap: round;
+  opacity: 0.28;
+}
+.erix-mk-hero__dot {
+  fill: var(--hero-dot);
+}
+.erix-mk-hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: end;
+}
+.erix-mk-hero__copy {
+  padding-bottom: clamp(48px, 7vw, 96px);
+}
+.erix-mk-hero__title {
+  margin: 0;
+  font: 700 clamp(38px, 5.4vw, 64px) / 1.04 var(--font-display);
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+.erix-mk-hero__lead {
+  margin: 22px 0 0;
+  max-width: 34em;
+  font: 400 clamp(16px, 1.5vw, 19px) / 1.6 var(--font-sans);
+  color: rgba(255, 255, 255, 0.78);
+  text-wrap: pretty;
+}
+.erix-mk-hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+.erix-mk-hero__facts {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+.erix-mk-hero__facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 500 14px / 20px var(--font-sans);
+  color: rgba(255, 255, 255, 0.78);
+}
+.erix-mk-hero__facts .erix-icon {
+  color: var(--on-navy-link);
+}
+.erix-mk-hero__visual {
+  position: relative;
+  align-self: end;
+}
+
+/* frames: real product UI, never a screenshot */
+.erix-mk-browser {
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  background: var(--surface-subtle);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 40px 80px -24px rgba(4, 13, 66, 0.55);
+}
+.erix-mk-browser--light {
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+}
+.erix-mk-browser__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--border-soft);
+}
+.erix-mk-browser__bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  opacity: 0.6;
+}
+.erix-mk-browser__url {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 auto;
+  padding: 3px 12px;
+  border-radius: 6px;
+  background: var(--surface-sunken);
+  font: 500 11.5px / 16px var(--font-sans);
+  color: var(--ink-subtle);
+}
+.erix-mk-browser__body {
+  padding: 14px;
+}
+/* An app screen inside a browser window drops its own frame. */
+.erix-mk-browser__body:has(> .scene .app-frame) {
+  padding: 0;
+}
+.erix-mk-browser .app-frame {
+  border-radius: 0;
+  box-shadow: none;
+}
+.erix-mk-browser .scene-toggle {
+  margin: 6px 8px 6px auto;
+}
+.erix-mk-phone {
+  position: relative;
+  width: 268px;
+  border-radius: 34px;
+  padding: 10px;
+  background: #0d1020;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 60px -20px rgba(4, 13, 66, 0.6);
+}
+.erix-mk-phone__notch {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 76px;
+  height: 20px;
+  margin-left: -38px;
+  border-radius: 12px;
+  background: #0d1020;
+  z-index: 2;
+}
+.erix-mk-phone__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 34px 14px 10px;
+  background: var(--surface-raised);
+  border-radius: 26px 26px 0 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.erix-mk-phone__body {
+  background: var(--surface-subtle);
+  border-radius: 0 0 26px 26px;
+  overflow: hidden;
+  padding: 12px 10px 16px;
+}
+/* hero composite: window + phone overlapping its lower corner */
+.erix-mk-herovis {
+  position: relative;
+  padding: 0 120px 0 0;
+}
+.erix-mk-herovis__phone {
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  z-index: 2;
+}
+.erix-mk-herovis__phone .erix-mk-phone {
+  width: 250px;
+}
+
+/* sections */
+.erix-mk-section {
+  padding: var(--mk-section) 0;
+}
+.erix-mk-section--subtle {
+  background: var(--surface-subtle);
+}
+
+/* pain */
+.erix-mk-pain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.erix-mk-pain li {
+  padding: 26px 24px;
+  border-radius: 16px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-card);
+}
+.erix-mk-pain__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--danger-subtle);
+  color: var(--danger);
+  margin-bottom: 18px;
+}
+.erix-mk-pain h3 {
+  margin: 0;
+  font: 650 18px / 24px var(--font-sans);
+  letter-spacing: -0.01em;
+}
+.erix-mk-pain p {
+  margin: 8px 0 0;
+  font: 400 15px / 1.6 var(--font-sans);
+  color: var(--ink-muted);
+}
+
+/* feature split */
+.erix-mk-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: center;
+}
+.erix-mk-split + .erix-mk-split {
+  margin-top: clamp(64px, 9vw, 120px);
+}
+.erix-mk-split--flip .erix-mk-split__copy {
+  order: 2;
+}
+.erix-mk-split__module {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 14px;
+  font: 650 13.5px / 18px var(--font-sans);
+  color: var(--primary);
+}
+.erix-mk-split__module--ai {
+  color: var(--ai);
+}
+.erix-mk-split__visual {
+  position: relative;
+  padding: clamp(14px, 3vw, 32px);
+  border-radius: 24px;
+  background: var(--surface-subtle);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+}
+.erix-mk-section--subtle .erix-mk-split__visual {
+  background: var(--surface);
+}
+
+/* steps */
+.erix-mk-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.erix-mk-steps li {
+  position: relative;
+  padding: 0 28px 0 0;
+}
+.erix-mk-steps li + li {
+  padding-left: 28px;
+  border-left: 1px solid var(--border-soft);
+}
+.erix-mk-steps__n {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font: 700 15px / 1 var(--font-sans);
+  margin-bottom: 18px;
+  box-shadow: 0 0 0 6px var(--primary-subtle);
+}
+.erix-mk-steps h3 {
+  margin: 0;
+  font: 650 18px / 24px var(--font-sans);
+}
+.erix-mk-steps p {
+  margin: 8px 0 0;
+  font: 400 15px / 1.6 var(--font-sans);
+  color: var(--ink-muted);
+}
+.erix-mk-steps__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font: 600 13px / 18px var(--font-sans);
+  color: var(--ink-subtle);
+}
+
+/* segmented control with a sliding indicator (VerticalTabs, pricing switch) */
+.erix-seg {
+  position: relative;
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface-sunken);
+  max-width: 100%;
+  overflow-x: auto;
+}
+.erix-seg__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 7px;
+  font: 600 14.5px / 20px var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.erix-seg__item:hover {
+  color: var(--ink);
+}
+.erix-seg__item[aria-selected="true"],
+.erix-seg__item[aria-checked="true"],
+.erix-seg__item:has(input:checked) {
+  color: var(--ink);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+}
+.erix-seg__item:focus-visible,
+.erix-seg__item:has(:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.erix-seg__ind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 7px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  pointer-events: none;
+}
+.erix-seg[data-ind] .erix-seg__ind {
+  opacity: 1;
+  transition:
+    translate 420ms var(--ease-soft-spring),
+    width 420ms var(--ease-soft-spring),
+    height 420ms var(--ease-soft-spring);
+}
+.erix-seg[data-ind] .erix-seg__item {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* verticals */
+.erix-mk-vert__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+.erix-mk-vert__panel:not([hidden]) {
+  animation: erix-rise var(--dur-enter) var(--ease-out) both;
+}
+.erix-mk-vert__jobs {
+  list-style: none;
+  margin: 24px 0 28px;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+.erix-mk-vert__jobs li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+}
+.erix-mk-vert__jobs li > span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--primary-subtle);
+  color: var(--primary);
+}
+.erix-mk-vert__jobs b {
+  font: 650 15.5px / 22px var(--font-sans);
+  color: var(--ink);
+}
+.erix-mk-vert__jobs p {
+  margin: 2px 0 0;
+  font: 400 14.5px / 1.55 var(--font-sans);
+  color: var(--ink-muted);
+}
+
+/* testimonial */
+.erix-mk-quote {
+  margin: 0;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 24px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.erix-mk-quote blockquote {
+  margin: 0;
+  font: 500 clamp(17px, 1.6vw, 20px) / 1.55 var(--font-sans);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.erix-mk-quote--lead blockquote {
+  font: 600 clamp(20px, 2.2vw, 28px) / 1.4 var(--font-display);
+  letter-spacing: -0.015em;
+}
+.erix-mk-quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+.erix-mk-quotes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* pricing */
+.erix-mk-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 26px;
+  border-radius: 20px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-card);
+}
+/* Featured plan: a solid-blue tile with a soft white bloom (same hue) */
+.erix-mk-plan--featured {
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.8);
+  --text-faint: rgba(255, 255, 255, 0.72);
+  --border-soft: rgba(255, 255, 255, 0.18);
+  background-color: var(--brand-blue);
+  background-image: radial-gradient(80% 70% at 85% 0%, rgba(255, 255, 255, 0.22), transparent 70%);
+  box-shadow: var(--shadow-btn), var(--shadow-lg);
+  color: #ffffff;
+}
+.erix-mk-plan--featured .btn-primary {
+  background: #ffffff;
+  color: var(--blue-800);
+}
+.erix-mk-plan--featured .btn-primary:hover {
+  background: var(--blue-50);
+}
+.erix-mk-plan__flag {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--mk-navy);
+  color: #ffffff;
+  font: 650 12px / 16px var(--font-sans);
+  box-shadow: var(--shadow-btn);
+}
+
+/* FAQ on native <details> */
+.erix-mk-faq {
+  max-width: 100%;
+  border-top: 1px solid var(--border);
+}
+.erix-mk-faq__item {
+  border-bottom: 1px solid var(--border);
+}
+.erix-mk-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  font: 650 17px / 24px var(--font-sans);
+  color: var(--ink);
+}
+.erix-mk-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.erix-mk-faq__item summary .erix-icon {
+  flex: none;
+  color: var(--ink-subtle);
+  transition: rotate var(--dur-base) var(--ease-out);
+}
+.erix-mk-faq__item[open] summary .erix-icon {
+  rotate: 45deg;
+  color: var(--ink);
+}
+.erix-mk-faq__item summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+.erix-mk-faq__a {
+  padding: 0 48px 22px 0;
+  font: 400 15.5px / 1.65 var(--font-sans);
+  color: var(--ink-muted);
+  max-width: 68ch;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .erix-mk-faq__item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--dur-base) var(--ease-out),
+      content-visibility var(--dur-base) allow-discrete;
+  }
+  .erix-mk-faq__item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* CTA band */
+.erix-mk-cta {
+  padding: clamp(56px, 7vw, 96px) 0;
+}
+.erix-mk-cta__motif {
+  right: 0;
+  bottom: 0;
+  width: 56%;
+  height: 100%;
+}
+.erix-mk-cta__motif path {
+  fill: none;
+  stroke: var(--hero-swoosh);
+  stroke-width: 34;
+  stroke-linecap: round;
+  opacity: 0.28;
+}
+.erix-mk-cta__motif circle {
+  fill: var(--hero-dot);
+}
+.erix-mk-cta__title {
+  margin: 0;
+  font: 700 clamp(30px, 3.6vw, 46px) / 1.1 var(--font-display);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: #ffffff;
+}
+.erix-mk-cta__lead {
+  margin: 16px 0 0;
+  max-width: 46ch;
+  font: 400 17px / 1.6 var(--font-sans);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* phones first-class (360–420px) */
+@media (max-width: 900px) {
+  .erix-mk-hero__grid,
+  .erix-mk-split,
+  .erix-mk-vert__panel {
+    grid-template-columns: 1fr;
+  }
+  .erix-mk-split--flip .erix-mk-split__copy {
+    order: 0;
+  }
+  .erix-mk-hero__copy {
+    padding-bottom: 0;
+  }
+  .erix-mk-pain,
+  .erix-mk-steps,
+  .erix-mk-quotes {
+    grid-template-columns: 1fr;
+  }
+  .erix-mk-steps li,
+  .erix-mk-steps li + li {
+    padding: 22px 0;
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+  }
+  .erix-mk-steps li:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .erix-mk-hero__ctas > * {
+    flex: 1 1 100%;
+  }
+  .erix-mk-hero__dot {
+    display: none;
+  }
+  .erix-mk-herovis {
+    padding: 0;
+  }
+  .erix-mk-herovis .erix-mk-browser {
+    margin-right: calc(-1 * var(--mk-gutter));
+    border-radius: 12px 0 0 0;
+  }
+  .erix-mk-herovis__phone {
     position: relative;
+    right: auto;
+    bottom: auto;
+    margin: -140px 0 0 auto;
+    width: max-content;
   }
-  .sep-top::before {
-    content: "";
+  .erix-mk-herovis__phone .erix-mk-phone {
+    width: 230px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * Motion — explains, never decorates. No library; transforms and opacity.
+ * Helpers: src/components/motion (MotionRoot, Scene, CountUp, BlurText) and
+ * src/components/scenes/parts.tsx (`at()`, scene parts).
+ *
+ *   .erix-blurtext   hero headline sharpens in word by word (55ms apart)
+ *   .fade-in         lead and CTAs fade in after it (--d sets the delay)
+ *   .hero-in         the hero visual rises in once
+ *   .scene/.scene-in the looping product scene (see "Product scenes")
+ *
+ * Design system v13 "Motion 2" (see "Motion 2" below): icon micro-animations
+ * on hover/focus of their control, Spotlight cards, Marquee, IntegrationBeam,
+ * LiveDot, a lift-and-press for clickable cards, and Reveal: marketing
+ * sections rise in once as they scroll into view. Reveal only ever hides
+ * content after JS has checked it is below the fold, so the HTML, no-JS,
+ * crawlers and reduced motion always see everything.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes erix-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+@keyframes erix-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes erix-blur-word {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    translate: 0 4px;
+  }
+}
+@keyframes erix-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    translate: 0 0;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 -3px;
+  }
+}
+@keyframes erix-ping {
+  from {
+    scale: 1;
+    opacity: 0.55;
+  }
+  to {
+    scale: 2.6;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hard (cross-document) navigations crossfade natively. */
+  @view-transition {
+    navigation: auto;
+  }
+  .erix-blurtext > span {
+    display: inline-block;
+    animation: erix-blur-word 700ms var(--ease-out) both;
+    animation-delay: calc(var(--w, 0) * 55ms);
+  }
+  .fade-in {
+    animation: erix-fade 500ms var(--ease-out) both;
+    animation-delay: var(--d, 420ms);
+  }
+  .hero-in {
+    animation: erix-rise var(--dur-enter) var(--ease-out) both;
+    animation-delay: var(--d, 200ms);
+  }
+}
+
+/* ── Product scenes ────────────────────────────────────────────────────────
+ * A scene is a coded mock whose parts appear in steps, then loop. The whole
+ * scene is always in the DOM in its final layout (no layout shift): each
+ * part only changes opacity and translate.
+ *
+ *   <Scene steps={6} timing={[…]}>         client driver: sets --step 0…6
+ *     <div className="scene-in" style={at(2)}>      visible from step 2
+ *     <div className="scene-in" style={at(2, 4)}>   visible for steps 2–3
+ *
+ * --step defaults to 99, so the server HTML, no-JS and reduced motion all
+ * show the finished scene. Variants: .scene-x (slides in from the left),
+ * .scene-pop (scales in). Override --from-x / --from-y per element.
+ * ──────────────────────────────────────────────────────────────────────── */
+.scene {
+  --step: 99;
+}
+.scene-in {
+  --on: clamp(0, calc(var(--step) - var(--at, 0) + 1), 1);
+  --vis: calc(var(--on) * clamp(0, calc(var(--until, 999) - var(--step)), 1));
+  opacity: var(--vis);
+  translate: calc((1 - var(--vis)) * var(--from-x, 0px))
+    calc((1 - var(--vis)) * var(--from-y, 10px));
+}
+.scene-x {
+  --from-x: -28px;
+  --from-y: 0px;
+}
+.scene-pop {
+  --from-y: 0px;
+  scale: calc(0.9 + var(--vis) * 0.1);
+}
+.scene[data-playing] .scene-in {
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    translate var(--dur-enter) var(--ease-out),
+    scale var(--dur-enter) var(--ease-spring);
+}
+.scene[data-paused] *,
+.scene[data-paused] *::after {
+  animation-play-state: paused !important;
+}
+/* Overlaid states (✓ → ✓✓ → read) share one grid cell. */
+.stack {
+  display: inline-grid;
+}
+.stack > * {
+  grid-area: 1 / 1;
+}
+.typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.typing-dots > i {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: erix-dot 1.1s var(--ease-in-out) infinite;
+}
+.typing-dots > i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dots > i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ── Overlays: native popover + <dialog>, entry/exit via @starting-style ── */
+/* Menus open from their button with a soft spring and leave in half the time. */
+.menu-pop {
+  transform-origin: top center;
+  transition:
+    opacity 140ms ease-in,
+    translate 140ms ease-in,
+    scale 140ms ease-in,
+    display 140ms allow-discrete,
+    overlay 140ms allow-discrete;
+}
+.menu-pop:popover-open {
+  transition:
+    opacity 200ms var(--ease-out),
+    translate 320ms var(--ease-soft-spring),
+    scale 320ms var(--ease-soft-spring),
+    display 320ms allow-discrete,
+    overlay 320ms allow-discrete;
+}
+.menu-pop:not(:popover-open) {
+  opacity: 0;
+  translate: 0 -6px;
+  scale: 0.97;
+}
+@starting-style {
+  .menu-pop:popover-open {
+    opacity: 0;
+    translate: 0 -6px;
+    scale: 0.97;
+  }
+}
+/* Menu rows follow the panel in, 30ms apart. */
+@media (prefers-reduced-motion: no-preference) {
+  .menu-pop:popover-open li,
+  .sheet[open] li {
+    animation: erix-rise 360ms var(--ease-out) both;
+    animation-delay: calc(60ms + var(--i, 0) * 30ms);
+  }
+}
+.sheet {
+  transition:
+    translate 180ms ease-in,
+    display 180ms allow-discrete,
+    overlay 180ms allow-discrete;
+}
+.sheet[open] {
+  transition:
+    translate 420ms var(--ease-soft-spring),
+    display 420ms allow-discrete,
+    overlay 420ms allow-discrete;
+}
+.sheet:not([open]) {
+  translate: 100% 0;
+}
+.sheet::backdrop {
+  background: rgb(18 21 29 / 0.48);
+  transition:
+    opacity 0.25s ease-out,
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+}
+.sheet:not([open])::backdrop {
+  opacity: 0;
+}
+@starting-style {
+  .sheet[open] {
+    translate: 100% 0;
+  }
+  .sheet[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Tab panels fade up when shown (`hidden` → visible): a state change. */
+.tab-panel:not([hidden]) {
+  transition:
+    opacity var(--dur-base) ease-out,
+    translate var(--dur-enter) var(--ease-out);
+}
+@starting-style {
+  .tab-panel:not([hidden]) {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+/* Comparison table: rows become stacked blocks on phones, each cell
+   labelled with its column, so nothing scrolls sideways. */
+@media (max-width: 767px) {
+  .cmp-table,
+  .cmp-table tbody,
+  .cmp-table tr,
+  .cmp-table th,
+  .cmp-table td {
+    display: block;
+  }
+  .cmp-table thead {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    width: 1px;
     height: 1px;
-    background: linear-gradient(to right, var(--accent), transparent 60%);
+    overflow: hidden;
+    clip-path: inset(50%);
   }
-
-  /* Dot-grid background */
-  .dot-grid {
-    background-image: radial-gradient(
-      circle,
-      rgba(43, 77, 203, 0.08) 1px,
-      transparent 1px
-    );
-    background-size: 32px 32px;
+  .cmp-table tbody tr {
+    padding: 8px 0;
   }
+  .cmp-table th,
+  .cmp-table td {
+    padding: 6px 20px;
+  }
+  .cmp-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-faint);
+  }
+}
 
+/* ── ERIX Glyphs (components/icons): stroke as a variable; duo tint 16% ── */
+.erix-icon {
+  flex: none;
+  display: inline-block;
+  vertical-align: middle;
+  stroke-width: var(--icon-sw, 1.75);
+}
+.erix-icon__duo {
+  fill-opacity: 0.16;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */
@@ -470,6 +1500,450 @@
   z-index: 1;
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * Motion 2 (design system v13, components/bundle.css). Transform and opacity
+ * only. Hover motion ≤ 600ms, entry ≤ 700ms. Springs only on things the
+ * visitor touched (press, open, toggle); content uses ease-out.
+ * ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --ease-soft-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+  --icon-dur: 1500ms;
+}
+
+/* ── Icon micro-animations ──────────────────────────────────────────────
+ * <Icon> sets data-anim (picked by meaning) and data-anim-on (hover | loop
+ * | once). Keyframes move in 0–40% and hold, so one set serves a single
+ * hover play and a loop with a rest. */
+@keyframes ei-ring { 0%, 40%, 100% { transform: rotate(0); } 6% { transform: rotate(16deg); } 13% { transform: rotate(-14deg); } 20% { transform: rotate(9deg); } 27% { transform: rotate(-5deg); } 34% { transform: rotate(2deg); } }
+@keyframes ei-spin { 0% { transform: rotate(0); } 40%, 100% { transform: rotate(180deg); } }
+@keyframes ei-nudge-r { 0%, 40%, 100% { transform: none; } 15% { transform: translateX(3px); } 28% { transform: translateX(-1px); } }
+@keyframes ei-nudge-l { 0%, 40%, 100% { transform: none; } 15% { transform: translateX(-3px); } 28% { transform: translateX(1px); } }
+@keyframes ei-nudge-u { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(-3px); } 28% { transform: translateY(1px); } }
+@keyframes ei-nudge-d { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(3px); } 28% { transform: translateY(-1px); } }
+@keyframes ei-wiggle { 0%, 40%, 100% { transform: rotate(0); } 8% { transform: rotate(-12deg); } 16% { transform: rotate(10deg); } 24% { transform: rotate(-6deg); } 32% { transform: rotate(3deg); } }
+@keyframes ei-beat { 0%, 40%, 100% { transform: scale(1); } 10% { transform: scale(1.22); } 20% { transform: scale(0.94); } 30% { transform: scale(1.06); } }
+@keyframes ei-twinkle { 0%, 40%, 100% { transform: scale(1) rotate(0); } 12% { transform: scale(0.78) rotate(-8deg); } 26% { transform: scale(1.14) rotate(10deg); } }
+@keyframes ei-tilt { 0%, 40%, 100% { transform: none; } 14% { transform: rotate(-14deg) translate(-1px, -1px); } 28% { transform: rotate(6deg); } }
+@keyframes ei-shake { 0%, 40%, 100% { transform: none; } 6% { transform: translateX(-2px); } 14% { transform: translateX(2px); } 22% { transform: translateX(-1.5px); } 30% { transform: translateX(1px); } }
+@keyframes ei-blink { 0%, 30%, 100% { transform: scaleY(1); } 15% { transform: scaleY(0.12); } }
+@keyframes ei-rise { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(-2.5px) scale(1.06); } 28% { transform: translateY(0.5px); } }
+@keyframes ei-pop { 0%, 40%, 100% { transform: scale(1); } 12% { transform: scale(0.8); } 26% { transform: scale(1.1); } }
+@keyframes ei-draw { 0% { stroke-dashoffset: 1; } 40%, 100% { stroke-dashoffset: 0; } }
+@keyframes ei-spin-loop { to { transform: rotate(360deg); } }
+.erix-icon[data-anim="ring"] { transform-origin: 50% 12%; }
+.erix-icon[data-anim="tilt"] { transform-origin: 60% 60%; }
+.erix-icon[data-anim="draw"] > :not(.erix-icon__duo) { stroke-dasharray: 1 1; }
+@media (prefers-reduced-motion: no-preference) {
+  :is(a, button, summary, label, [role="menuitem"], [role="tab"], [role="option"], [role="radio"], [role="switch"], .erix-anim-host):is(:hover, :focus-visible) .erix-icon[data-anim-on="hover"],
+  .erix-icon[data-anim-on="loop"],
+  .erix-icon[data-anim-on="once"] {
+    animation: var(--ei, ei-pop) var(--icon-dur) var(--ease-out) both;
+  }
+  .erix-icon[data-anim-on="loop"] { animation-iteration-count: infinite; animation-duration: 2.4s; }
+  .erix-icon[data-anim="ring"] { --ei: ei-ring; }
+  .erix-icon[data-anim="spin"] { --ei: ei-spin; }
+  .erix-icon[data-anim="nudge-r"] { --ei: ei-nudge-r; }
+  .erix-icon[data-anim="nudge-l"] { --ei: ei-nudge-l; }
+  .erix-icon[data-anim="nudge-u"] { --ei: ei-nudge-u; }
+  .erix-icon[data-anim="nudge-d"] { --ei: ei-nudge-d; }
+  .erix-icon[data-anim="wiggle"] { --ei: ei-wiggle; }
+  .erix-icon[data-anim="beat"] { --ei: ei-beat; }
+  .erix-icon[data-anim="twinkle"] { --ei: ei-twinkle; }
+  .erix-icon[data-anim="tilt"] { --ei: ei-tilt; }
+  .erix-icon[data-anim="shake"] { --ei: ei-shake; }
+  .erix-icon[data-anim="blink"] { --ei: ei-blink; }
+  .erix-icon[data-anim="rise"] { --ei: ei-rise; }
+  /* draw: the strokes redraw, the svg itself stays put */
+  .erix-icon[data-anim="draw"] { --ei: none; }
+  :is(a, button, summary, label, [role="menuitem"], [role="tab"], [role="option"], [role="radio"], [role="switch"], .erix-anim-host):is(:hover, :focus-visible) .erix-icon[data-anim-on="hover"][data-anim="draw"] > :not(.erix-icon__duo),
+  .erix-icon[data-anim-on="loop"][data-anim="draw"] > :not(.erix-icon__duo),
+  .erix-icon[data-anim-on="once"][data-anim="draw"] > :not(.erix-icon__duo) {
+    animation: ei-draw var(--icon-dur) var(--ease-in-out) both;
+  }
+  .erix-icon[data-anim-on="loop"][data-anim="draw"] > :not(.erix-icon__duo) { animation-iteration-count: infinite; animation-duration: 2.4s; }
+  .erix-icon[data-anim-on="loop"][data-anim="spin"] { animation: ei-spin-loop 1.4s linear infinite; }
+}
+
+/* ── Clickable cards: lift 2px with a soft spring, press back down ─────── */
+.erix-card-link {
+  transition:
+    box-shadow 260ms var(--ease-out),
+    translate 360ms var(--ease-soft-spring),
+    scale 360ms var(--ease-soft-spring),
+    background-color var(--dur-fast) ease-out;
+}
+@media (hover: hover) {
+  .erix-card-link:hover {
+    translate: 0 -2px;
+    box-shadow: var(--shadow-md);
+  }
+}
+.erix-card-link:active {
+  translate: 0 0;
+  scale: 0.995;
+  transition-duration: 90ms;
+}
+
+/* ── Focus ring settles in (keyboard only) ─────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  :is(.btn-primary, .btn-ghost, .erix-card-link, .erix-seg__item, .erix-mk-link):focus-visible {
+    animation: erix-focus 360ms var(--ease-soft-spring);
+  }
+}
+@keyframes erix-focus {
+  from {
+    outline-offset: 6px;
+    outline-color: transparent;
+  }
+}
+
+/* ── Spotlight: a soft glow and a lit edge follow the mouse over a card ── */
+.erix-spot {
+  position: relative;
+  isolation: isolate;
+  --spot: var(--accent);
+}
+.erix-spot--ai {
+  --spot: var(--ai);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .erix-spot::before,
+  .erix-spot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
+  }
+  .erix-spot::before {
+    z-index: -1;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0), color-mix(in srgb, var(--spot) 9%, transparent), transparent 60%);
+  }
+  .erix-spot::after {
+    z-index: 2;
+    padding: 1px;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0), color-mix(in srgb, var(--spot) 70%, transparent), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  .erix-spot:hover::before,
+  .erix-spot:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ── Marquee: an endless, edge-faded row. Pauses on hover. Under reduced
+ *    motion it is one static, wrapping row. ─────────────────────────────── */
+.erix-marquee {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.erix-marquee__track {
+  display: flex;
+  width: max-content;
+  gap: var(--mq-gap);
+}
+.erix-marquee__set {
+  display: flex;
+  flex: none;
+  gap: var(--mq-gap);
+}
+.erix-marquee__set > ul {
+  flex-wrap: nowrap !important;
+  gap: var(--mq-gap) !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .erix-marquee__track {
+    animation: erix-marquee var(--mq-dur) linear infinite;
+  }
+  .erix-marquee:hover .erix-marquee__track,
+  .erix-marquee:focus-within .erix-marquee__track {
+    animation-play-state: paused;
+  }
+}
+@keyframes erix-marquee {
+  to {
+    transform: translateX(calc(-50% - var(--mq-gap) / 2));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .erix-marquee__set[aria-hidden],
+  .erix-marquee__dup {
+    display: none !important;
+  }
+  .erix-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .erix-marquee__set > ul {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* "Works with" row */
+.erix-mk-trust {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 0;
+}
+.erix-mk-trust__label {
+  flex: none;
+  font: 600 13px / 18px var(--font-sans);
+  color: var(--ink-subtle);
+}
+.erix-mk-trust ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+}
+.erix-mk-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 15px / 20px var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .erix-mk-trust {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+}
+
+/* ── Reveal (marketing only): rises in once when scrolled into view.
+ *    MotionRoot adds .is-wait only to sections below the fold. ──────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .erix-reveal.is-wait {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  .erix-reveal.is-in {
+    animation: erix-rise 700ms var(--ease-out) both;
+  }
+}
+
+@media print {
+  .erix-reveal.is-wait {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+/* ── LiveDot: a status dot with a soft pulse for live states ───────────── */
+.erix-livedot {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--ld);
+  --ld: var(--success);
+}
+.erix-livedot--accent {
+  --ld: var(--accent);
+}
+.erix-livedot--ai {
+  --ld: var(--ai);
+}
+.erix-livedot--warning {
+  --ld: var(--warning);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .erix-livedot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--ld);
+    animation: erix-livedot 2s var(--ease-out) infinite;
+  }
+}
+@keyframes erix-livedot {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* ── IntegrationBeam: channels flow into ERIX and out to outcomes ──────── */
+.erix-beam {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(48px, 9vw, 140px);
+  padding: 12px 0;
+}
+.erix-beam__wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.erix-beam__wire {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+.erix-beam__pulse {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.12 0.88;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .erix-beam__pulse {
+    animation: erix-beam 2.8s var(--ease-in-out) infinite;
+    animation-delay: calc(var(--i, 0) * 420ms);
+  }
+  .erix-beam__center::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 34px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    animation: erix-halo 2.8s var(--ease-out) infinite;
+  }
+}
+@keyframes erix-beam {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  10% { opacity: 1; }
+  55% { stroke-dashoffset: -0.1; opacity: 1; }
+  60%, 100% { stroke-dashoffset: -0.1; opacity: 0; }
+}
+@keyframes erix-halo {
+  0% { transform: scale(0.92); opacity: 0.9; }
+  80%, 100% { transform: scale(1.22); opacity: 0; }
+}
+.erix-beam__col {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.erix-beam__col li {
+  align-self: flex-end;
+}
+.erix-beam__col--out li {
+  align-self: flex-start;
+}
+.erix-beam__node {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 9999px;
+  background: var(--surface-raised);
+  box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm);
+  font: 600 14px / 20px var(--font-sans);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.erix-beam__icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+.erix-beam__icon--brand {
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(11, 27, 100, 0.08);
+}
+.erix-beam__center {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 28px;
+  background: var(--mk-navy);
+  box-shadow:
+    0 0 0 8px color-mix(in srgb, var(--accent) 10%, transparent),
+    0 18px 40px -12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+@media (max-width: 760px) {
+  /* Phones: channels on top, ERIX in the middle, outcomes below, labels kept. */
+  .erix-beam {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 44px;
+  }
+  .erix-beam__col,
+  .erix-beam__col--out {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .erix-beam__col li,
+  .erix-beam__col--out li {
+    align-self: auto;
+  }
+  .erix-beam__node {
+    gap: 8px;
+    padding: 5px 12px 5px 5px;
+    font-size: 13px;
+  }
+  .erix-beam__icon {
+    width: 28px;
+    height: 28px;
+  }
+  .erix-beam__center {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+  }
+}
+
+/* ── Off switch for everything in Motion 2 ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .erix-icon[data-anim],
+  .erix-icon[data-anim] > *,
+  .erix-reveal,
+  .erix-marquee__track,
+  .erix-beam__pulse,
+  .erix-beam__center::after,
+  .erix-livedot::after {
+    animation: none !important;
+  }
+  .erix-reveal.is-wait {
+    opacity: 1;
+    translate: none;
+  }
+}
+
 /* ── Reduced motion ────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -479,6 +1953,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .erix-mk-vert__panel:not([hidden]) {
+    animation: none;
+  }
+  /* Scenes stay on their finished frame, so there is nothing to pause. */
+  .scene-toggle {
+    display: none !important;
   }
 }
 

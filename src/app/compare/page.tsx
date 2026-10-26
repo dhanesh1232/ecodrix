@@ -1,25 +1,24 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { Icon } from "@/components/icons";
+import { Faq, MkSection, PrimaryCta } from "@/components/marketing/kit";
+import { ClosingCta } from "@/components/platform/ModulePage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { COMPARISONS } from "@/lib/comparisons";
-import {
-  getBreadcrumbSchema,
-  getItemListSchema,
-  getFAQSchema,
-  SEO_CONSTANTS,
-} from "@/lib/jsonld";
-
-const { BASE_URL } = SEO_CONSTANTS;
+import { getBreadcrumbSchema, getFAQSchema, getItemListSchema } from "@/lib/jsonld";
+import { pageMetadata } from "@/lib/seo";
 
 /* ──────────────────────────────────────────────────────────────────────
    /compare — comparison hub, targets "best WhatsApp CRM in India" and
    funnels into each "ECODrIx vs X" decision page.
 ─────────────────────────────────────────────────────────────────────── */
 
-export const metadata: Metadata = {
-  title: "Best WhatsApp CRM in India: ECODrIx vs Wati, AiSensy & Interakt",
-  description:
-    "Compare ECODrIx (ERIX) with Wati, AiSensy, and Interakt. Same official Meta WhatsApp API — but ERIX adds a full CRM, automation, and lead-gen on flat INR pricing.",
+export const metadata = {
+  ...pageMetadata({
+    title: "WhatsApp CRM comparison: ECODrIx vs Wati and more",
+    description:
+      "Compare ECODrIx (ERIX) with Wati, AiSensy and Interakt. All use Meta's official WhatsApp platform; ERIX adds a CRM, GST invoices, automation and an AI agent.",
+    path: "/compare",
+  }),
   keywords: [
     "best whatsapp crm india",
     "whatsapp crm comparison",
@@ -29,161 +28,88 @@ export const metadata: Metadata = {
     "ECODrIx",
     "ERIX",
   ],
-  alternates: { canonical: `${BASE_URL}/compare` },
-  openGraph: {
-    title: "Best WhatsApp CRM in India: ECODrIx vs Wati, AiSensy & Interakt",
-    description:
-      "Compare ECODrIx (ERIX) with Wati, AiSensy, and Interakt on features, WhatsApp API, and INR pricing.",
-    url: `${BASE_URL}/compare`,
-    type: "website",
-  },
 };
 
 const HUB_FAQS = [
   {
-    q: "What is the best WhatsApp CRM for small business in India?",
-    a: "ECODrIx ERIX is a WhatsApp-native CRM built for Indian SMBs. It runs on the official Meta WhatsApp Cloud API and adds a full CRM (pipelines, deals, invoices, projects), no-code automation, and lead generation — priced in INR from ₹2,999/month with a 14-day free trial. Wati, AiSensy, and Interakt are strong messaging-first alternatives.",
+    q: "What should a small business in India look for in a WhatsApp CRM?",
+    a: "Official WhatsApp API access, a shared inbox, broadcasts with approved templates, and a way to track each enquiry to a sale and an invoice. ERIX by ECODrIx covers these with a pipeline, GST invoices with payment links, automations and an AI agent, priced in rupees. Wati, AiSensy and Interakt are strong messaging-first alternatives.",
   },
   {
-    q: "How is ERIX different from Wati, AiSensy, and Interakt?",
-    a: "All four use the official Meta WhatsApp Cloud API, so messaging is comparable. The difference is scope: Wati is messaging/support-led, AiSensy is broadcast-marketing-led, and Interakt leans toward commerce. ERIX bundles a full CRM, automation (FLOW), and lead generation (LAIE) into one INR-priced platform.",
+    q: "How is ERIX different from Wati, AiSensy and Interakt?",
+    a: "All four use Meta's official WhatsApp platform, so the messaging itself is comparable. The difference is scope: Wati is messaging and support-led, AiSensy is broadcast-marketing-led, and Interakt leans toward commerce. ERIX adds a CRM, GST invoices, automation and an AI agent around the messaging.",
   },
   {
-    q: "Which WhatsApp CRM is cheapest in India?",
-    a: "Messaging-only tools can have a lower platform fee, but once you add CRM, automation, and lead-gen separately, costs stack up. ERIX includes all of these from ₹2,999/month, so compare total tooling cost rather than the WhatsApp fee alone. All providers pass through Meta's per-message charges.",
+    q: "How should I compare WhatsApp CRM prices in India?",
+    a: "Compare what each plan includes, not only the platform fee: a messaging-only tool plus a separate CRM, invoicing and automation adds up. Check each vendor's own pricing page, since plans change often. Also ask how Meta's message charges reach your bill: with ERIX you connect your own WhatsApp account, so Meta bills you directly and ERIX adds no markup. During the pilot, ERIX pricing is agreed with each business.",
   },
 ];
 
 export default function CompareHubPage() {
   return (
-    <div className="bg-background text-foreground min-h-full! overflow-x-hidden">
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getBreadcrumbSchema([
-              { name: "Home", url: "/" },
-              { name: "Compare", url: "/compare" },
-            ]),
-          ),
-        }}
+    <div className="w-full">
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Compare", url: "/compare" },
+        ])}
       />
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getItemListSchema(
-              COMPARISONS.map((c) => ({
-                name: `ECODrIx vs ${c.competitor}`,
-                url: `/compare/${c.slug}`,
-                description: c.description,
-              })),
-            ),
-          ),
-        }}
+      <JsonLd
+        data={getItemListSchema(
+          COMPARISONS.map((c) => ({ name: `ECODrIx vs ${c.competitor}`, url: `/compare/${c.slug}`, description: c.description })),
+        )}
       />
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled JSON-LD data
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema(HUB_FAQS)),
-        }}
-      />
+      <JsonLd data={getFAQSchema(HUB_FAQS)} />
 
-      {/* ── Hero ── */}
-      <section className="pt-14 pb-8 px-6 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none w-175 h-100 blur-[14px] bg-[conic-gradient(from_270deg_at_50%_0%,transparent_55deg,rgba(43,77,203,0.2)_85deg,rgba(43,77,203,0.067)_115deg,transparent_155deg)]"
-          aria-hidden
-        />
-        <div className="wrapper relative z-10">
-          <div className="pill mb-6">Compare</div>
-          <h1 className="font-display font-black text-foreground mb-6 max-w-4xl text-4xl sm:text-5xl tracking-[-0.04em] leading-[1.05]">
-            The best WhatsApp CRM in India.
+      <section className="erix-mk-section erix-mk-section--subtle pt-12! md:pt-16!">
+        <div className="wrapper">
+          <h1 className="max-w-4xl text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
+            Choosing a WhatsApp CRM in India
           </h1>
-          <p className="max-w-3xl leading-relaxed text-muted-foreground text-base">
-            Wati, AiSensy, and Interakt all run on the official Meta WhatsApp
-            Cloud API — and so does ECODrIx. The difference is what you get
-            around the messaging: ERIX bundles a full CRM, no-code automation,
-            and lead generation into one platform priced in INR from
-            ₹2,999/month.
+          <p className="mt-5 max-w-[62ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
+            Wati, AiSensy and Interakt all run on Meta&apos;s official WhatsApp platform, and so does ECODrIx. The
+            difference is what you get around the messaging: ERIX adds a CRM, GST invoices with payment links, automation
+            and an AI agent, in one platform priced in rupees.
           </p>
+          <div className="mt-8">
+            <PrimaryCta />
+          </div>
         </div>
       </section>
 
-      {/* ── Comparison cards ── */}
-      <section className="py-16 px-6 sep-top bg-background">
-        <div className="wrapper">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {COMPARISONS.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/compare/${c.slug}`}
-                className="group flex flex-col justify-between p-7 border border-foreground/8 hover:border-foreground/20 transition-colors rounded-md bg-foreground/[0.02]"
-                style={{ "--c": c.color } as React.CSSProperties}
-              >
-                <div>
-                  <div className="pill mb-4 text-(--c) border-(--c)/25 bg-(--c)/6">
-                    vs {c.competitor}
-                  </div>
-                  <h2 className="text-foreground font-bold text-lg mb-2">
-                    ECODrIx vs {c.competitor}
-                  </h2>
-                  <p className="text-subtle text-sm leading-relaxed mb-6">
-                    {c.description}
-                  </p>
-                  <ul className="space-y-2 mb-6">
-                    {c.rows
-                      .filter((r) => r.ecodrixWins)
-                      .slice(0, 3)
-                      .map((r) => (
-                        <li
-                          key={r.dimension}
-                          className="flex items-start gap-2 text-muted-foreground text-xs"
-                        >
-                          <Check
-                            size={13}
-                            className="shrink-0 mt-0.5 text-(--c)"
-                          />
-                          {r.dimension}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                <span className="inline-flex items-center gap-2 text-sm text-subtle group-hover:text-foreground transition-colors">
-                  Read comparison
-                  <ArrowRight
-                    size={14}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
+      <MkSection id="comparisons" title="Pick a comparison">
+        <ul className="grid gap-x-10 md:grid-cols-3">
+          {COMPARISONS.map((c) => (
+            <li key={c.slug} className="border-t border-border-soft">
+              <Link href={`/compare/${c.slug}`} className="group -mx-3 flex h-full flex-col rounded-[12px] px-3 py-6 hover:bg-hover">
+                <span className="text-[19px] font-semibold text-foreground">ECODrIx vs {c.competitor}</span>
+                <span className="mt-2 text-[15px] text-muted-foreground">{c.description}</span>
+                <ul className="mt-4 space-y-1.5">
+                  {c.rows
+                    .filter((r) => r.ecodrixWins)
+                    .slice(0, 3)
+                    .map((r) => (
+                      <li key={r.dimension} className="flex gap-2 text-[14px] text-foreground">
+                        <Icon name="check" size={15} strokeWidth={2.2} variant="line" className="mt-0.5 shrink-0 text-accent" />
+                        {r.dimension}
+                      </li>
+                    ))}
+                </ul>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-semibold text-accent">
+                  Read the comparison
+                  <Icon name="arrow-right" size={14} variant="line" />
                 </span>
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+            </li>
+          ))}
+        </ul>
+      </MkSection>
 
-      {/* ── FAQ ── */}
-      <section className="py-20 px-6">
-        <div className="wrapper">
-          <div className="pill mb-6">Common questions</div>
-          <h2 className="font-display font-black text-foreground mb-12 text-2xl md:text-3xl tracking-[-0.04em]">
-            Choosing a WhatsApp CRM in India.
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5">
-            {HUB_FAQS.map(({ q, a }) => (
-              <div key={q} className="p-8 bg-surface">
-                <h3 className="text-foreground font-bold mb-3 text-base">
-                  {q}
-                </h3>
-                <p className="text-subtle text-sm leading-relaxed">{a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MkSection id="faq" tone="subtle" title="Choosing a WhatsApp CRM: common questions">
+        <Faq items={HUB_FAQS} />
+      </MkSection>
+
+      <ClosingCta title="See ERIX on your own business" body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it." />
     </div>
   );
 }

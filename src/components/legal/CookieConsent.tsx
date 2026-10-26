@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { Cookie, X, Check, ShieldCheck } from "lucide-react";
+import { Cookie, X, Check, ShieldCheck } from "@/components/icons";
 
 /* ──────────────────────────────────────────────────────────────────────
    CookieConsent — GDPR/DPDP-friendly consent banner wired to Google

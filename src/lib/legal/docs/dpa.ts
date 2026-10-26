@@ -8,7 +8,7 @@ import {
   Bell,
   Trash2,
   ClipboardCheck,
-} from "lucide-react";
+} from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const dpaDoc: LegalDoc = {

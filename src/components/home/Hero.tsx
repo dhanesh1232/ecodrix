@@ -1,59 +1,34 @@
-import { ArrowRight, BadgeIndianRupee, MessageCircle, Receipt } from "lucide-react";
-import Link from "next/link";
-import { ProductPreview } from "./ProductPreview";
+import { MkHero, PrimaryCta, WhatsAppCta } from "@/components/marketing/kit";
+import { HeroScene } from "@/components/scenes/hero-scene";
 
 /**
- * Homepage hero — server-rendered, no animation gate: the headline, the
- * waitlist action and the product preview are in the first HTML byte.
+ * Homepage hero (DS marketing `Hero`): navy band with the logo flourish, the
+ * headline sharpening in, then the lead and actions. Server-rendered: the
+ * text and the scene's finished frame are in the first HTML byte.
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-surface">
-      <div
-        aria-hidden="true"
-        className="dot-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_75%)]"
-      />
-      <div className="wrapper relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
-        <div>
-          <p className="pill">
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-[var(--hero-dot)]" />
-            Early access is opening soon
-          </p>
-          <h1 className="mt-5 text-[2.5rem] leading-[1.08] sm:text-5xl lg:text-[3.5rem]">
-            Every lead, every chat,{" "}
-            <span className="grad-text">one workspace.</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            ERIX brings your CRM, WhatsApp and email inbox, GST invoices and AI
-            automation together. Built for Indian businesses that sell on
-            WhatsApp.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/#contact" className="btn-primary">
-              Join the waitlist
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </Link>
-            <Link href="/platform" className="btn-ghost">
-              See the platform
-            </Link>
-          </div>
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2">
-              <MessageCircle aria-hidden="true" className="size-4 text-accent" />
-              Official WhatsApp Business API
-            </li>
-            <li className="flex items-center gap-2">
-              <Receipt aria-hidden="true" className="size-4 text-accent" />
-              GST-ready invoices
-            </li>
-            <li className="flex items-center gap-2">
-              <BadgeIndianRupee aria-hidden="true" className="size-4 text-accent" />
-              Priced in rupees
-            </li>
-          </ul>
-        </div>
-        <ProductPreview />
-      </div>
-    </section>
+    <MkHero
+      top={
+        <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/8 py-1 pr-3 pl-2 text-[13px] font-semibold text-white/85 ring-1 ring-white/15">
+          <span aria-hidden="true" className="size-2 rounded-full bg-[var(--hero-dot)]" />
+          Early access is opening soon
+        </p>
+      }
+      title="From first message to paid invoice."
+      lead="One inbox for WhatsApp, Instagram, email and website chat. An AI agent that answers from your own price list and hands the rest to your team. A pipeline, GST invoices and payment links behind it."
+      actions={
+        <>
+          <PrimaryCta lg />
+          <WhatsAppCta lg />
+        </>
+      }
+      facts={[
+        { icon: "message-circle", label: "Official WhatsApp Business API" },
+        { icon: "receipt", label: "GST-ready invoices" },
+        { icon: "indian-rupee", label: "Priced in rupees" },
+      ]}
+      visual={<HeroScene />}
+    />
   );
 }
