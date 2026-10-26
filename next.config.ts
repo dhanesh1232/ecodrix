@@ -76,6 +76,33 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // Old root-level policy URLs (and the sitemap's old /laie/audit) live under
+  // /legal and /platform now. Permanent redirects keep links in app stores,
+  // Meta / Google OAuth consent screens and old search results working.
+  async redirects() {
+    const legal = [
+      "privacy",
+      "terms",
+      "cookie-policy",
+      "acceptable-use",
+      "dpa",
+      "pricing-policy",
+      "refund-policy",
+      "security",
+      "sla",
+      "subprocessors",
+      "whatsapp-policy",
+    ];
+    return [
+      ...legal.map((slug) => ({
+        source: `/${slug}`,
+        destination: `/legal/${slug}`,
+        permanent: true,
+      })),
+      { source: "/laie/:path*", destination: "/platform/erix-laie", permanent: true },
+    ];
+  },
+
   // Turbopack configuration (Next.js 16+ default)
   // Empty config to acknowledge Turbopack usage and silence webpack warning
   turbopack: {},

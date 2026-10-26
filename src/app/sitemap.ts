@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
 import { getProductPages } from "@/lib/product-pages";
 import { COMPARISONS } from "@/lib/comparisons";
-import { LEGAL_DOCS } from "@/lib/legal/documents";
+import { LEGAL_DOCS, legalHref } from "@/lib/legal/documents";
 import { SEO_CONSTANTS } from "@/lib/jsonld";
 import { blogs } from "@/lib/api";
 
@@ -37,12 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/platform`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
       url: `${BASE_URL}/about`,
       lastModified: now,
       changeFrequency: "monthly",
@@ -61,36 +55,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/platform/erix-connect/whatsapp-api-guide`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/laie/audit`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/platform/erix-connect/green-tick`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/platform/erix-connect/whatsapp-broadcast-limits`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/platform/erix-flow/zapier-alternative`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
       url: `${BASE_URL}/legal`,
       lastModified: now,
       changeFrequency: "monthly",
@@ -100,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // All legal/policy documents (terms, privacy, cookie, AUP, DPA, etc.)
   const legalRoutes: MetadataRoute.Sitemap = LEGAL_DOCS.map((d) => ({
-    url: `${BASE_URL}/${d.slug}`,
+    url: `${BASE_URL}${legalHref(d.slug)}`,
     lastModified: now,
     changeFrequency: "yearly",
     priority: 0.4,
@@ -130,27 +94,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const anchorRoutes: MetadataRoute.Sitemap = [
-    {
-      url: `${BASE_URL}/#services`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${BASE_URL}/#work`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${BASE_URL}/#contact`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.4,
-    },
-  ];
-
   // Blog posts — fetched dynamically from the server's public API.
   const posts = await blogs.fetchPublishedPosts();
   const blogRoutes: MetadataRoute.Sitemap = [
@@ -175,6 +118,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...compareRoutes,
     ...blogRoutes,
     ...legalRoutes,
-    ...anchorRoutes,
   ];
 }
