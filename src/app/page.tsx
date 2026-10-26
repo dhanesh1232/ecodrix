@@ -15,7 +15,7 @@ import { ProductTour } from "@/components/home/ProductTour";
 import { Stats } from "@/components/home/Stats";
 import { Testimonials } from "@/components/home/Testimonials";
 import { UseCases } from "@/components/home/UseCases";
-import { WaitlistForm } from "@/components/home/Waitlist";
+import { WaitlistLazy } from "@/components/home/WaitlistLazy";
 import { CtaBand, Faq, MkSection } from "@/components/marketing/kit";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getFAQSchema } from "@/lib/jsonld";
@@ -103,7 +103,7 @@ export default function Home() {
             </ul>
           </>
         }
-        aside={<WaitlistForm />}
+        aside={<WaitlistLazy />}
       />
     </div>
   );

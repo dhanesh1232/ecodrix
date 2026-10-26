@@ -48,7 +48,6 @@ export interface Comparison {
   searchQueries: string[];
   /** ISO date this competitor info was last checked. */
   lastVerified: string;
-  color: string;
 }
 
 /* Shared truths about ECODrIx / ERIX reused across comparisons. */
@@ -134,7 +133,6 @@ export const COMPARISONS: Comparison[] = [
       "best wati alternative whatsapp crm",
     ],
     lastVerified: "2026-07-07",
-    color: "#25D366",
   },
   {
     slug: "ecodrix-vs-aisensy",
@@ -207,7 +205,6 @@ export const COMPARISONS: Comparison[] = [
       "whatsapp crm better than aisensy",
     ],
     lastVerified: "2026-07-07",
-    color: "#2b4dcb",
   },
   {
     slug: "ecodrix-vs-interakt",
@@ -280,7 +277,6 @@ export const COMPARISONS: Comparison[] = [
       "whatsapp crm for real estate vs interakt",
     ],
     lastVerified: "2026-07-07",
-    color: "#F59E0B",
   },
 ];
 

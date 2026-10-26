@@ -42,7 +42,8 @@ export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: strin
       rel="noopener noreferrer"
       className={cn("btn-ghost", lg && "btn-lg", className)}
     >
-      <BrandIcon name="whatsapp" size={16} label={null} />
+      {/* Mono mark: the palette is brand-only, so no green on a button. */}
+      <BrandIcon name="whatsapp" size={16} variant="mono" label={null} />
       {WHATSAPP_CTA.label}
     </a>
   );

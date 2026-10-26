@@ -337,6 +337,7 @@ export type IconChipTone =
   | "red"
   | "indigo"
   | "magenta"
+  | "rose"
   | "green"
   | "orange"
   | "teal";
@@ -348,9 +349,12 @@ const CHIP_TONE: Record<IconChipTone, string> = {
   red: "bg-danger-subtle text-danger",
   indigo: "bg-indigo-subtle text-indigo",
   magenta: "bg-magenta-subtle text-magenta",
-  green: "bg-success-subtle text-success",
-  orange: "bg-orange-subtle text-orange",
-  teal: "bg-teal-subtle text-teal",
+  // Brand-only palette (design system, 26 Oct 2026): rose is red-500 on red-50; the old green,
+  // orange and teal names render deep blue, rose and deep blue. Green stays a status signal only.
+  rose: "bg-error-subtle text-[var(--red-500)]",
+  green: "bg-accent-muted text-[var(--blue-700)]",
+  orange: "bg-error-subtle text-[var(--red-500)]",
+  teal: "bg-accent-muted text-[var(--blue-700)]",
 };
 const CHIP_SIZE = {
   sm: ["size-6 rounded-sm", 13],

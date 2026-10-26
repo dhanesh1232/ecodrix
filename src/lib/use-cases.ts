@@ -331,7 +331,7 @@ export const USE_CASES: UseCase[] = [
       },
       {
         q: "Is this cheaper than other WhatsApp tools for D2C?",
-        a: "ERIX includes a full CRM, automation, and multi-channel inbox from ₹2,999/month — most D2C WhatsApp tools charge similar amounts for just messaging. WhatsApp message charges are passed through at Meta's rates with no markup.",
+        a: "ERIX includes a full CRM, automation, and a multi-channel inbox in one plan, where most D2C WhatsApp tools charge for messaging alone. WhatsApp message charges are passed through at Meta's rates with no markup. We're onboarding businesses one by one right now, and we share pricing when we set your workspace up.",
       },
       {
         q: "Can I send personalized product recommendations?",

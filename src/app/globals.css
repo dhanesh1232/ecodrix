@@ -734,6 +734,9 @@
 /* sections */
 .erix-mk-section {
   padding: var(--mk-section) 0;
+  /* No content-visibility here: with smooth scrolling, sections growing from
+     their placeholder height mid-scroll made "Join the waitlist" (/#contact)
+     stop ~2,000 px short on phones. */
 }
 .erix-mk-section--subtle {
   background: var(--surface-subtle);
@@ -1788,6 +1791,9 @@
 
 /* ── IntegrationBeam: channels flow into ERIX and out to outcomes ──────── */
 .erix-beam {
+  /* One clock for the whole beam: wave out of the channels, onto ERIX, out to the outcomes. */
+  --beam-dur: 3.6s;
+  --beam-ease: cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -1805,39 +1811,92 @@
   fill: none;
   stroke: var(--border);
   stroke-width: 1.5;
+  stroke-linecap: round;
 }
 .erix-beam__pulse {
   fill: none;
   stroke: var(--accent);
-  stroke-width: 2;
+  stroke-width: 2.25;
   stroke-linecap: round;
-  stroke-dasharray: 0.12 0.88;
-  stroke-dashoffset: 1;
+  /* One dash, 22% of the wire, parked before the start. */
+  stroke-dasharray: 0.22 1;
+  stroke-dashoffset: 0.22;
   opacity: 0;
 }
+.erix-beam__pulse--glow {
+  stroke-width: 9;
+  stroke-opacity: 0.16;
+}
 @media (prefers-reduced-motion: no-preference) {
-  .erix-beam__pulse {
-    animation: erix-beam 2.8s var(--ease-in-out) infinite;
-    animation-delay: calc(var(--i, 0) * 420ms);
+  /* The wires flow slowly all the time, in the direction of the wave. */
+  .erix-beam.is-live .erix-beam__wire {
+    stroke-dasharray: 3 6;
+    animation: erix-beam-flow 1.4s linear infinite;
   }
-  .erix-beam__center::after {
+  .erix-beam.is-live .erix-beam__pulse {
+    animation: erix-beam-in var(--beam-dur) var(--beam-ease) infinite;
+    animation-delay: calc(var(--r, 0) * 70ms);
+  }
+  .erix-beam.is-live .erix-beam__pulse.is-out {
+    animation-name: erix-beam-out;
+  }
+  /* Channels give off the wave, outcomes light up when it lands. */
+  .erix-beam.is-live .erix-beam__col .erix-beam__node {
+    animation: erix-beam-emit var(--beam-dur) var(--ease-out) infinite;
+    animation-delay: calc(var(--r, 0) * 70ms);
+  }
+  .erix-beam.is-live .erix-beam__col--out .erix-beam__node {
+    animation-name: erix-beam-land;
+  }
+  /* ERIX takes the hit: the tile nudges and a halo rings out. */
+  .erix-beam.is-live .erix-beam__center > * {
+    animation: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
+  }
+  .erix-beam.is-live .erix-beam__center::after {
     content: "";
     position: absolute;
     inset: -8px;
     border-radius: 34px;
-    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-    animation: erix-halo 2.8s var(--ease-out) infinite;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    opacity: 0;
+    animation: erix-beam-halo var(--beam-dur) var(--ease-out) infinite;
   }
 }
-@keyframes erix-beam {
-  0% { stroke-dashoffset: 1; opacity: 0; }
-  10% { opacity: 1; }
-  55% { stroke-dashoffset: -0.1; opacity: 1; }
-  60%, 100% { stroke-dashoffset: -0.1; opacity: 0; }
+@keyframes erix-beam-flow {
+  to { stroke-dashoffset: -9; }
 }
-@keyframes erix-halo {
-  0% { transform: scale(0.92); opacity: 0.9; }
-  80%, 100% { transform: scale(1.22); opacity: 0; }
+@keyframes erix-beam-in {
+  0% { stroke-dashoffset: 0.22; opacity: 0; }
+  4% { opacity: 1; }
+  40% { opacity: 1; }
+  44% { stroke-dashoffset: -1; opacity: 0; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes erix-beam-out {
+  0%, 46% { stroke-dashoffset: 0.22; opacity: 0; }
+  50% { opacity: 1; }
+  86% { opacity: 1; }
+  90% { stroke-dashoffset: -1; opacity: 0; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes erix-beam-emit {
+  0% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
+  18%, 100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+}
+@keyframes erix-beam-land {
+  0%, 82% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+  88% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
+  100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+}
+@keyframes erix-beam-thump {
+  0%, 38% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  60%, 100% { transform: scale(1); }
+}
+@keyframes erix-beam-halo {
+  0%, 40% { transform: scale(0.94); opacity: 0; }
+  45% { transform: scale(0.98); opacity: 1; }
+  80%, 100% { transform: scale(1.24); opacity: 0; }
 }
 .erix-beam__col {
   position: relative;
@@ -1971,3 +2030,12 @@
 }
 .blog-content > *:first-child { margin-top: 0; }
 .blog-content > *:last-child { margin-bottom: 0; }
+
+/* Cookie banner: server-rendered; before hydration it shows only when the
+   consent boot script marked <html data-consent="ask">. */
+[data-cookie-banner]:not([data-open]) {
+  display: none;
+}
+html[data-consent="ask"] [data-cookie-banner] {
+  display: block;
+}

@@ -54,8 +54,8 @@ export default function PricingPlansSection({
     <section aria-label="Plans" className="erix-mk-section pt-10! md:pt-12!">
       <div className="wrapper">
         {usedFallback && (
-          <p role="status" className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-warning-subtle px-4 py-3 text-sm text-warning">
-            <Icon name="info" size={16} variant="solid" className="mt-0.5 shrink-0" />
+          <p role="status" className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-sunken px-4 py-3 text-sm text-foreground">
+            <Icon name="info" size={16} variant="solid" className="mt-0.5 shrink-0 text-warning" />
             Live prices couldn&apos;t load, so these are from a recent snapshot. Refresh in a moment for the latest.
           </p>
         )}
@@ -79,7 +79,7 @@ export default function PricingPlansSection({
             ))}
           </fieldset>
           {yearlyPct > 0 && (
-            <span className="rounded-[6px] bg-success-subtle px-2.5 py-0.5 text-[12.5px] font-semibold text-success">
+            <span className="rounded-[6px] bg-ai-subtle px-2.5 py-0.5 text-[12.5px] font-semibold text-ai">
               Save {yearlyPct}% yearly
             </span>
           )}
@@ -127,7 +127,7 @@ export default function PricingPlansSection({
                         size={15}
                         strokeWidth={2.2}
                         variant="line"
-                        className={cn("mt-0.5 shrink-0", featured ? "text-white" : "text-success")}
+                        className={cn("mt-0.5 shrink-0", featured ? "text-white" : "text-accent")}
                       />
                       {f}
                     </li>

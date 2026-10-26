@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { CONSENT_BOOT_SCRIPT } from "@/lib/legal/consent";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
@@ -20,6 +21,9 @@ import { MotionRoot } from "@/components/motion/motion";
 
 // ERIX design system type, self-hosted (SIL OFL — licences in ./fonts):
 // Bricolage Grotesque for headings, Manrope for text, JetBrains Mono for code.
+// The files are Latin + ₹ subsets of the design system's fonts (pyftsubset,
+// Google Fonts "latin" range plus U+20B9, all axes and layout features kept),
+// ~45 KB lighter. Re-subset if a font file is replaced.
 const bricolage = localFont({
   src: "./fonts/bricolage-grotesque.woff2",
   weight: "200 800",
@@ -39,6 +43,8 @@ const jetbrains = localFont({
   weight: "100 800",
   variable: "--font-jetbrains",
   display: "swap",
+  // Only a few invoice numbers use it: don't spend first-load bandwidth on it.
+  preload: false,
 });
 
 const BASE_URL = "https://ecodrix.com";
@@ -147,6 +153,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // The consent boot script sets data-consent before hydration.
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={cn(
         "font-sans",
@@ -156,26 +164,39 @@ export default function RootLayout({
       )}
     >
       <head>
-        {/* Google Consent Mode v2 — synchronous, must run before any GTM/GA */}
-        <script
+        {/* Google Consent Mode v2 defaults + the stored choice, whether to
+            show the cookie banner, and the GA4 config (queued, so it always
+            precedes the page_view events GoogleAnalytics pushes). Synchronous,
+            before any Google tag. */}
+        {/* next/script, not a raw <script>: React never renders it on the
+            client, so a client re-render can't warn about it. */}
+        <Script
+          id="consent-boot"
+          strategy="beforeInteractive"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static boot script
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
+            __html: `${CONSENT_BOOT_SCRIPT}gtag('js',new Date());gtag('config','G-DK8Q4TLZPM',{send_page_view:false,anonymize_ip:true});`,
           }}
         />
 
-        {/* Google Tag Manager — loaded with beforeInteractive so the
-            container is available before page-view events fire, but Next's
-            Script primitive still keeps it off the critical render path. */}
-        <Script id="gtm-script" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MN6R938B');`}
+        {/* Google Tag Manager and GA4 load on the visitor's first scroll,
+            tap or key press, or 5 s after the page has loaded, whichever is
+            first. Together they are ~300 KB and blocked a phone's main
+            thread for ~0.6 s while the page was still becoming usable.
+            Page views and events pushed before then wait in dataLayer and
+            are sent when the tags arrive. GA4 is also loaded directly as a
+            safety net for Search Console verification. */}
+        <Script id="google-tags" strategy="afterInteractive">
+          {`(function(w,d){var ev=['scroll','pointerdown','keydown','touchstart'],done=0;
+    function go(){if(done)return;done=1;ev.forEach(function(e){w.removeEventListener(e,go);});
+    w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    ['https://www.googletagmanager.com/gtm.js?id=GTM-MN6R938B','https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM'].forEach(function(s){var j=d.createElement('script');j.async=true;j.src=s;d.head.appendChild(j);});}
+    ev.forEach(function(e){w.addEventListener(e,go,{passive:true});});
+    if(d.readyState==='complete')setTimeout(go,5000);else w.addEventListener('load',function(){setTimeout(go,5000);});
+    })(window,document);`}
         </Script>
 
-        {/* Resource hints for performance optimization */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
         {/* JSON-LD structured data — must be in <head> for crawler visibility */}
         <script
@@ -209,25 +230,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* GA4 — loaded after interactive so it never blocks first paint.
-            GTM (above) typically routes its own GA4 tag, but we ship the
-            direct snippet too as a safety net for Google Search Console
-            verification. Both stay non-blocking. */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-DK8Q4TLZPM', {
-              send_page_view: false,
-              anonymize_ip: true
-            });
-          `}
-        </Script>
       </head>
       <body
         className="antialiased"
@@ -245,6 +247,9 @@ export default function RootLayout({
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
         <MotionRoot />
+        {/* First in the body (it's fixed, so order doesn't move it): its HTML
+            then paints with the first frame instead of after the whole page. */}
+        <CookieConsent />
         <div className="bg-surface text-foreground overflow-clip min-h-screen flex flex-col">
           <Navbar />
           <main id="main-content" className="flex-1 flex flex-col">
@@ -252,7 +257,6 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
-        <CookieConsent />
       </body>
     </html>
   );

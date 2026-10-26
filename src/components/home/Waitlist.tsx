@@ -132,6 +132,8 @@ export function WaitlistForm() {
             <Input
               id="wl-name"
               autoComplete="name"
+              placeholder="First and last name"
+              type="text"
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "wl-name-err" : undefined}
               className="mt-1.5"
@@ -145,6 +147,7 @@ export function WaitlistForm() {
               <Input
                 id="wl-email"
                 type="email"
+                placeholder="Work email"
                 autoComplete="email"
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "wl-email-err" : undefined}

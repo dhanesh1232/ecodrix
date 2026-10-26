@@ -1,6 +1,6 @@
 import type { GlyphName } from "@/components/icons";
 import { FeatureSplit, MkSection } from "@/components/marketing/kit";
-import { SegTabs } from "@/components/marketing/seg-tabs";
+import { OnceVisible, SegTabs } from "@/components/marketing/seg-tabs";
 import {
   AiScreen,
   BookingScreen,
@@ -128,7 +128,7 @@ export function ProductTour() {
               title={s.title}
               points={s.points}
               link={{ href: s.href, label: s.link }}
-              visual={s.screen}
+              visual={<OnceVisible>{s.screen}</OnceVisible>}
             >
               {s.body}
             </FeatureSplit>

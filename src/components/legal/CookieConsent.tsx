@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Cookie, X, Check, ShieldCheck } from "@/components/icons";
+import { CONSENT_STORAGE_KEY as STORAGE_KEY, CONSENT_VERSION } from "@/lib/legal/consent";
 
 /* ──────────────────────────────────────────────────────────────────────
    CookieConsent — GDPR/DPDP-friendly consent banner wired to Google
@@ -10,12 +11,14 @@ import { Cookie, X, Check, ShieldCheck } from "@/components/icons";
    layout head); this component updates consent based on the user's choice
    and remembers it. Essential cookies are always on.
 
+   The banner is in the server HTML. Until hydration, CSS shows it only
+   when the head boot script found no stored choice (<html
+   data-consent="ask">), so it paints with the page rather than seconds
+   later; after hydration React owns visibility.
+
    Reopen from anywhere with:
      window.dispatchEvent(new Event("ecodrix:open-cookie-preferences"))
 ─────────────────────────────────────────────────────────────────────── */
-
-const STORAGE_KEY = "ecodrix_cookie_consent";
-const CONSENT_VERSION = 1;
 
 interface ConsentState {
   analytics: boolean;
@@ -61,7 +64,8 @@ function persist(c: { analytics: boolean; marketing: boolean }) {
 }
 
 export function CookieConsent() {
-  const [visible, setVisible] = useState(false);
+  // null until hydrated: the boot script and CSS decide; then React does.
+  const [visible, setVisible] = useState<boolean | null>(null);
   const [showPrefs, setShowPrefs] = useState(false);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
@@ -73,6 +77,7 @@ export function CookieConsent() {
       setAnalytics(existing.analytics);
       setMarketing(existing.marketing);
       applyConsent(existing);
+      setVisible(false);
     } else {
       setVisible(true);
     }
@@ -91,28 +96,33 @@ export function CookieConsent() {
       window.removeEventListener("ecodrix:open-cookie-preferences", open);
   }, []);
 
-  const acceptAll = useCallback(() => {
-    persist({ analytics: true, marketing: true });
+  const close = useCallback(() => {
+    delete document.documentElement.dataset.consent;
     setVisible(false);
     setShowPrefs(false);
   }, []);
+
+  const acceptAll = useCallback(() => {
+    persist({ analytics: true, marketing: true });
+    close();
+  }, [close]);
 
   const rejectNonEssential = useCallback(() => {
     persist({ analytics: false, marketing: false });
-    setVisible(false);
-    setShowPrefs(false);
-  }, []);
+    close();
+  }, [close]);
 
   const savePreferences = useCallback(() => {
     persist({ analytics, marketing });
-    setVisible(false);
-    setShowPrefs(false);
-  }, [analytics, marketing]);
+    close();
+  }, [analytics, marketing, close]);
 
-  if (!visible) return null;
+  if (visible === false) return null;
 
   return (
     <div
+      data-cookie-banner=""
+      data-open={visible ? "" : undefined}
       className="fixed inset-x-0 bottom-0 z-300 p-3 sm:p-6"
       role="dialog"
       aria-modal="false"

@@ -29,8 +29,9 @@ export function ChannelBeam() {
   return (
     <MkSection
       id="channels"
-      title="Every channel in. Finished work out."
-      lead="WhatsApp, your website chat, Instagram DMs and email all land in ERIX. What comes out is the work itself: a lead in your pipeline, a booked visit, an invoice with a payment link, and the follow-up."
+      kicker="One place for every enquiry"
+      title="Every channel in. Every outcome out."
+      lead="WhatsApp, your website chat, Instagram DMs and email all land in ERIX, and the next step happens on its own: the lead is in your pipeline, the visit is booked, the payment link is sent and the follow-up is set."
     >
       <IntegrationBeam
         label="ERIX"
@@ -41,10 +42,10 @@ export function ChannelBeam() {
           { label: "Email", icon: "mail" },
         ]}
         outputs={[
-          { label: "Lead in your CRM", icon: "square-kanban" },
+          { label: "Lead in your CRM", icon: "user-check" },
           { label: "Visit booked", icon: "calendar-check" },
-          { label: "Invoice and payment link", icon: "receipt" },
-          { label: "Follow-up sent", icon: "send" },
+          { label: "Payment link sent", icon: "indian-rupee" },
+          { label: "Follow-up scheduled", icon: "calendar-clock" },
         ]}
       />
     </MkSection>

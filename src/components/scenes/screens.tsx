@@ -59,7 +59,7 @@ export function InboxScreen() {
         nav={0}
         className="h-[25rem]"
         action={
-          <span className="flex items-center gap-1.5 text-[11px] font-semibold text-success">
+          <span className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground">
             <LiveDot /> Live
           </span>
         }
@@ -235,7 +235,7 @@ export function AiScreen() {
                     <Press show={at(4, 5)} />
                   </span>
                 </span>
-                <p style={at(5)} className="scene-in text-right text-[11px] text-success">
+                <p style={at(5)} className="scene-in text-right text-[11px] text-accent">
                   Proposal drafted. Nothing was sent to the customer.
                 </p>
               </div>
@@ -418,8 +418,8 @@ export function InvoiceScreen() {
               <p style={at(1, 4)} className="scene-in flex items-center gap-1 text-accent">
                 <Link2 aria-hidden="true" className="size-3" /> Razorpay payment link ready
               </p>
-              <p style={at(4)} className="scene-in flex items-center gap-1 font-semibold text-success">
-                <CheckCircle2 aria-hidden="true" className="size-3" /> Paid ₹29,500, marked the moment it landed
+              <p style={at(4)} className="scene-in flex items-center gap-1 font-semibold text-foreground">
+                <CheckCircle2 aria-hidden="true" className="size-3 text-success" /> Paid ₹29,500, marked the moment it landed
               </p>
             </div>
           </div>
@@ -594,9 +594,9 @@ export function BookingScreen() {
             </p>
             <p
               style={at(3)}
-              className="scene-in flex items-start gap-1.5 rounded-[10px] bg-success-subtle p-2 text-[11px] text-success"
+              className="scene-in flex items-start gap-1.5 rounded-[10px] bg-accent-muted p-2 text-[11px] text-foreground"
             >
-              <CheckCircle2 aria-hidden="true" className="mt-px size-3.5 shrink-0" />
+              <CheckCircle2 aria-hidden="true" className="mt-px size-3.5 shrink-0 text-success" />
               <span>
                 <span className="font-semibold">Booked: Sat 31 Oct, 11:30 am IST.</span> We&apos;ll send a WhatsApp
                 reminder before your visit.
@@ -691,7 +691,7 @@ export function DocumentsScreen() {
               <li style={at(2)} className="scene-in rounded-[10px] bg-background p-2 text-foreground">
                 Ananya signed the quotation on her phone
               </li>
-              <li style={at(4)} className="scene-in rounded-[10px] bg-success-subtle p-2 text-success">
+              <li style={at(4)} className="scene-in rounded-[10px] bg-accent-muted p-2 text-foreground">
                 You signed. Audit seal added to the PDF.
               </li>
             </ul>
@@ -834,7 +834,7 @@ export function BroadcastScreen() {
               <span className="stack block h-full">
                 <span style={at(2, 3)} className="scene-in block h-full w-1/3 rounded-full bg-accent" />
                 <span style={at(3, 4)} className="scene-in block h-full w-2/3 rounded-full bg-accent" />
-                <span style={at(4)} className="scene-in block h-full w-full rounded-full bg-success" />
+                <span style={at(4)} className="scene-in block h-full w-full rounded-full bg-accent" />
               </span>
             </span>
             <p className="mt-2 text-[11px] text-subtle">Your own WhatsApp account: Meta bills you directly, no ERIX markup.</p>

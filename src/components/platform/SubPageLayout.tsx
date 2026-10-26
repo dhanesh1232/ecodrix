@@ -116,8 +116,8 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
 
           <div className="min-w-0 max-w-[68ch]">
             {page.notice && (
-              <p className="mb-10 flex gap-3 rounded-[12px] bg-warning-subtle p-4 text-[15px] text-warning">
-                <Icon name="info" size={20} variant="solid" className="mt-0.5 shrink-0" />
+              <p className="mb-10 flex gap-3 rounded-[12px] bg-sunken p-4 text-[15px] text-foreground">
+                <Icon name="info" size={20} variant="solid" className="mt-0.5 shrink-0 text-warning" />
                 <span>{page.notice}</span>
               </p>
             )}

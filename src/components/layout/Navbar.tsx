@@ -70,7 +70,6 @@ export function Navbar() {
     <>
       <div ref={sentinel} aria-hidden="true" className="h-16" />
       <header
-        role="header"
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
           scrolled
@@ -86,7 +85,7 @@ export function Navbar() {
             scrolled ? "h-14" : "h-16",
           )}
         >
-          <Link href="/" className="flex items-center gap-2" aria-label="ECODrIx home">
+          <Link href="/" className="flex items-center gap-2" aria-label="ERIX home">
             <Image
               src="/logo.svg"
               alt=""

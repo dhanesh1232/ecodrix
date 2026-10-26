@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Icon, type GlyphName } from "@/components/icons";
 import { MkSection } from "@/components/marketing/kit";
-import { SegTabs } from "@/components/marketing/seg-tabs";
+import { OnceVisible, SegTabs } from "@/components/marketing/seg-tabs";
 import { BookingScreen, BroadcastScreen, PipelineScreen } from "@/components/scenes/screens";
 
 /** Verticals (DS `VerticalTabs`): the jobs ERIX does in each trade. */
@@ -91,7 +91,7 @@ export function UseCases() {
                   <Icon name="arrow-right" size={14} variant="line" />
                 </Link>
               </div>
-              {v.screen}
+              <OnceVisible>{v.screen}</OnceVisible>
             </div>
           ),
         }))}

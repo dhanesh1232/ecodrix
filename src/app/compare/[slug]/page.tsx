@@ -114,7 +114,7 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
                   <td data-label="ECODrIx (ERIX)" className="px-5 py-4 text-foreground">
                     <span className="flex gap-2">
                       {row.ecodrixWins && (
-                        <Icon name="circle-check" size={16} variant="solid" label="ERIX has the edge" className="mt-0.5 shrink-0 text-success" />
+                        <Icon name="circle-check" size={16} variant="solid" label="ERIX has the edge" className="mt-0.5 shrink-0 text-accent" />
                       )}
                       {row.ecodrix}
                     </span>
