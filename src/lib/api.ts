@@ -36,16 +36,24 @@ export const blogs = {
 
         if (!res.ok) return [];
         const json: BlogListResponse = await res.json();
-        return (json.data || []).filter(
-          (post) => post.isPublished && post.status === "published",
-        );
+        // The server sends live posts only (published and past their date), without bodies.
+        return json.data || [];
       } catch {
         return [];
       }
   }, 
 
+  /** One live post with its body; null when it's not live or doesn't exist. */
   async fetchPostBySlug(slug: string): Promise<BlogPost | null> {
-    const posts = await this.fetchPublishedPosts();
-    return posts.find((p) => p.slug === slug) || null;
+    try {
+      const res = await fetch(
+        `${API_BASE}/v1/api/platform/public/blogs/${encodeURIComponent(slug)}`,
+        { next: { revalidate: 60 }, signal: AbortSignal.timeout(5000) },
+      );
+      if (!res.ok) return null;
+      return ((await res.json()) as { data?: BlogPost }).data ?? null;
+    } catch {
+      return null;
+    }
   }
 }
