@@ -3,20 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { type IconName, Icon } from "@/components/icons";
+import { Icon, type IconName } from "@/components/icons";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { StatusBadge } from "@/components/ui/status-badge";
-import {
-  COMPANY_NAV,
-  COMPARE_NAV,
-  CONTACT_CTA,
-  GUIDE_NAV,
-  INDUSTRY_NAV,
-  PLATFORM_NAV,
-  RESOURCE_NAV,
-} from "@/lib/site";
+import { COMPANY_NAV, COMPARE_NAV, CONTACT_CTA, GUIDE_NAV, INDUSTRY_NAV, PLATFORM_NAV, RESOURCE_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { isCurrent, NAV_SECTIONS, type NavSection } from "./nav-data";
 
@@ -35,13 +27,33 @@ const rows: Record<NavSection, Row[]> = {
   industries: INDUSTRY_NAV.map((i) => ({ href: i.href, label: i.name, text: i.summary, icon: i.icon })),
   resources: RESOURCE_NAV.map((r) => ({ href: r.href, label: r.name, text: r.summary, icon: r.icon })),
   company: [
-    ...COMPANY_NAV.map((c, n) => ({ href: c.href, label: c.name, text: c.summary, icon: (n === 0 ? "building-2" : "user-round") as IconName })),
-    { href: CONTACT_CTA.href, label: "Contact us", text: "Join the list or ask a question; a person replies.", icon: "message-circle" },
+    ...COMPANY_NAV.map((c, n) => ({
+      href: c.href,
+      label: c.name,
+      text: c.summary,
+      icon: (n === 0 ? "building-2" : "user-round") as IconName,
+    })),
+    {
+      href: CONTACT_CTA.href,
+      label: "Contact us",
+      text: "Join the list or ask a question; a person replies.",
+      icon: "message-circle",
+    },
   ],
 };
 
 /** A compact single-line link list under a small heading (guides, comparisons). */
-function SubList({ title, items, path, onNavigate }: { title: string; items: { href: string; label: string; icon?: IconName }[]; path: string | null; onNavigate: () => void }) {
+function SubList({
+  title,
+  items,
+  path,
+  onNavigate,
+}: {
+  title: string;
+  items: { href: string; label: string; icon?: IconName }[];
+  path: string | null;
+  onNavigate: () => void;
+}) {
   return (
     <div className="mt-3 border-t border-border-soft pt-3">
       <p className="px-2 text-[13px] font-semibold text-muted-foreground">{title}</p>
@@ -136,7 +148,11 @@ export default function MobileNav({
                               {r.label}
                               {r.badge}
                             </span>
-                            {r.text && <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{r.text}</span>}
+                            {r.text && (
+                              <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">
+                                {r.text}
+                              </span>
+                            )}
                           </span>
                         </Link>
                       </li>
@@ -148,18 +164,37 @@ export default function MobileNav({
                       <Link
                         href="/platform"
                         onClick={close}
-                        className="mt-2 inline-flex min-h-11 items-center gap-1.5 px-2 text-[15px] font-[650] text-accent hover:underline hover:underline-offset-3"
+                        className="mt-2 inline-flex min-h-11 items-center gap-1.5 px-2 text-[15px] font-[650] group text-accent hover:underline hover:underline-offset-3"
                       >
                         See how it all fits together
-                        <Icon name="arrow-right" size={14} variant="line" />
+                        <Icon
+                          name="arrow-right"
+                          size={14}
+                          variant="line"
+                          className="group-hover:translate-x-1 transition-transform transform ease-in-out duration-150"
+                        />
                       </Link>
                       {/* The navy story card, small: the band's swoosh and red dot. */}
                       <Link href="/#story" onClick={close} className="band-navy mt-2 block rounded-[12px] p-4">
-                        <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 260 140" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
-                          <path d="M-30 170 C 70 110 160 96 290 100" fill="none" stroke="var(--hero-swoosh)" strokeWidth="22" strokeLinecap="round" opacity="0.3" />
+                        <svg
+                          className="pointer-events-none absolute inset-0 size-full"
+                          viewBox="0 0 260 140"
+                          preserveAspectRatio="xMaxYMax slice"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M-30 170 C 70 110 160 96 290 100"
+                            fill="none"
+                            stroke="var(--hero-swoosh)"
+                            strokeWidth="22"
+                            strokeLinecap="round"
+                            opacity="0.3"
+                          />
                           <circle cx="238" cy="118" r="7" fill="var(--hero-dot)" />
                         </svg>
-                        <span className="relative block text-[13px] font-semibold text-[var(--on-navy-link)]">The ERIX story</span>
+                        <span className="relative block text-[13px] font-semibold text-[var(--on-navy-link)]">
+                          The ERIX story
+                        </span>
                         <span className="relative mt-1 block max-w-[24ch] font-display text-[17px] leading-snug font-bold text-white">
                           One enquiry, from a 9:42 pm message to a paid invoice.
                         </span>

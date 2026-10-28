@@ -1,32 +1,21 @@
 /**
- * Coded mocks of the real ERIX screens (redrawn from the SaaS: inbox with an
- * AI draft, Approvals, the pipeline board, an invoice, an automation, the
- * public booking page). Shared by the home product tour and /platform.
- * Each loops only while on screen (Scene); data is example data.
+ * Coded mocks of the real ERIX screens (redrawn from the SaaS: the AI's
+ * knowledge and approvals, an invoice, the public booking page, documents,
+ * lead research, a broadcast). Shared by the home product tour and /platform.
+ * Each loops only while on screen (Scene); data is example data. The inbox,
+ * pipeline and Flow editor are live demos people can use (components/demos).
  */
 
-import {
-  BookOpen,
-  CheckCheck,
-  CheckCircle2,
-  Clock,
-  Icon,
-  Link2,
-  MessageCircle,
-  Send,
-  Sparkles,
-  UserRound,
-  Workflow,
-  Zap,
-  type IconComponent,
-} from "@/components/icons";
+import { CheckCircle2, Clock, Icon, Link2, MessageCircle, Send, Sparkles } from "@/components/icons";
 import type { CSSProperties, ReactNode } from "react";
 import { Scene } from "@/components/motion/scene";
-import { LiveDot } from "@/components/motion/surface";
 import { cn } from "@/lib/utils";
 import type { ScreenKey } from "@/lib/product-pages";
-import { AppFrame, Avatar, Bubble, Channel, Pill, at } from "./parts";
-import { CrmScreen, FlowCanvasScreen } from "./showcase-scenes";
+import { AppFrame, Pill, at } from "./parts";
+import { FlowEditorDemo } from "@/components/demos/flow-editor-demo";
+import { InboxDemo } from "@/components/demos/inbox-demo";
+import { PipelineDemo } from "@/components/demos/pipeline-demo";
+import { CrmScreen } from "./showcase-scenes";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
 
@@ -38,115 +27,6 @@ function Press({ show }: { show: CSSProperties }) {
       style={show}
       className="scene-in scene-pop pointer-events-none absolute -inset-1 rounded-[6px] ring-2 ring-accent"
     />
-  );
-}
-
-/* ── Inbox ─────────────────────────────────────────────────────────────── */
-
-const threads = [
-  { name: "Rohan Mehta", ch: "whatsapp", text: "Is a site visit free? And what…", time: "12:03 pm", active: true },
-  { name: "Ananya Rao", ch: "instagram", text: "Do you have 2BHKs near Wakad?", time: "11:40 am", unread: 2 },
-  { name: "Anita Desai", ch: "email", text: "Re: Payment for INV/26-27/0039", time: "10:12 am" },
-  { name: "Website visitor", ch: "web", text: "I want to cancel my visit", time: "9:55 am", needsYou: true },
-] as const;
-
-export function InboxScreen() {
-  return (
-    <Scene
-      steps={6}
-      timing={[0, 1400, 2200, 700, 900, 900]}
-      label="The ERIX inbox: WhatsApp, Instagram, email and website chat threads in one list. A customer asks about a site visit and a price; the AI drafts an answer from the business's knowledge, a person sends it, and the ticks turn from sent to delivered to read."
-    >
-      <AppFrame
-        title="Inbox"
-        nav={1}
-        className="h-[25rem]"
-        action={
-          <span className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground">
-            <LiveDot /> Live
-          </span>
-        }
-      >
-        <div className="flex h-full">
-          <ul className="hidden w-[38%] shrink-0 border-r border-border bg-surface md:block">
-            {threads.map((t) => (
-              <li
-                key={t.name}
-                className={cn(
-                  "border-b border-border px-3 py-2.5",
-                  "active" in t && "bg-accent-muted shadow-[inset_2px_0_0_var(--accent)]",
-                )}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-[12px] font-semibold text-foreground">{t.name}</span>
-                  <span className="shrink-0 text-[10px] text-subtle">{t.time}</span>
-                </div>
-                <div className="mt-0.5 flex items-center justify-between gap-2">
-                  <span className="truncate text-[11px] text-muted-foreground">{t.text}</span>
-                  {"unread" in t && (
-                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-error text-[9px] font-bold text-white">
-                      {t.unread}
-                    </span>
-                  )}
-                  {"needsYou" in t && <Pill tone="error">Needs you</Pill>}
-                </div>
-                <Channel name={t.ch} className="mt-1" />
-              </li>
-            ))}
-          </ul>
-          <div className="flex min-w-0 flex-1 flex-col">
-            <div className="flex items-center gap-2 border-b border-border bg-surface px-3 py-2">
-              <Avatar name="Rohan Mehta" className="size-7" />
-              <span className="text-[12px] font-semibold text-foreground">Rohan Mehta</span>
-              <Channel name="whatsapp" />
-            </div>
-            <div className="flex min-h-0 flex-1 flex-col justify-end gap-2.5 overflow-hidden bg-background p-3">
-              <p className="mx-auto rounded-[6px] bg-surface px-2.5 py-0.5 text-[10px] text-subtle">Today</p>
-              <Bubble show={at(1)} time="12:03 pm">
-                Is a site visit free? And what does a 2BHK in Vijay Nagar cost?
-              </Bubble>
-              <div className="inline-grid *:[grid-area:1/1] w-full">
-                <div
-                  style={at(2, 4)}
-                  className="scene-in ml-auto w-[88%] rounded-[10px] bg-ai-subtle px-3 py-2"
-                >
-                  <span className="flex items-center gap-1 text-[11px] font-semibold text-ai">
-                    <Sparkles aria-hidden="true" className="size-3" /> AI draft
-                    <span className="font-medium text-muted-foreground">· 94% confident</span>
-                  </span>
-                  <p className="mt-1 text-[12px] text-foreground">
-                    Site visits are free. A 2BHK in Vijay Nagar starts from ₹48,00,000.
-                  </p>
-                  <p className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
-                    <BookOpen aria-hidden="true" className="size-3" /> Based on: Office hours and prices
-                  </p>
-                  <span className="mt-2 flex gap-2">
-                    <span className="relative inline-flex items-center gap-1 rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold text-white">
-                      <Send aria-hidden="true" className="size-3" /> Send
-                      <Press show={at(3, 4)} />
-                    </span>
-                    <span className="rounded-[6px] border border-border-strong bg-surface px-2.5 py-1 text-[11px] font-semibold text-foreground">
-                      Edit
-                    </span>
-                  </span>
-                </div>
-                <Bubble side="out" show={at(4)} time="12:04 pm" ticks={4} className="self-start">
-                  Site visits are free. A 2BHK in Vijay Nagar starts from ₹48,00,000.
-                </Bubble>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 border-t border-border bg-surface p-2.5">
-              <span className="flex-1 truncate rounded-[6px] border border-border-strong px-2.5 py-1.5 text-[11px] text-subtle">
-                Message via WhatsApp…
-              </span>
-              <span className="flex size-7 items-center justify-center rounded-[6px] bg-accent text-white">
-                <Send aria-hidden="true" className="size-3.5" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </AppFrame>
-    </Scene>
   );
 }
 
@@ -201,8 +81,12 @@ export function AiScreen() {
               <div className="rounded-[10px] bg-[var(--brand-blue)] p-2.5 text-white">
                 <p className="text-[10px] text-white/85">Automations on hold</p>
                 <p className="inline-grid *:[grid-area:1/1] mt-1 font-display text-xl font-bold text-white">
-                  <span className="scene-in" style={at(0, 5)}>1</span>
-                  <span className="scene-in" style={at(5)}>0</span>
+                  <span className="scene-in" style={at(0, 5)}>
+                    1
+                  </span>
+                  <span className="scene-in" style={at(5)}>
+                    0
+                  </span>
                 </p>
               </div>
             </div>
@@ -253,109 +137,6 @@ export function AiScreen() {
   );
 }
 
-/* ── Pipeline ──────────────────────────────────────────────────────────── */
-
-function Column({
-  name,
-  dot,
-  count,
-  total,
-  className,
-  children,
-}: {
-  name: string;
-  dot: string;
-  count: ReactNode;
-  total: ReactNode;
-  className?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className={cn("flex min-w-0 flex-col rounded-[12px] bg-sunken p-1.5", className)}>
-      <div className="flex items-center justify-between gap-1 px-1 pb-2 text-[11px] font-semibold text-foreground">
-        <span className="flex min-w-0 items-center gap-1.5">
-          <span aria-hidden="true" className={cn("size-1.5 shrink-0 rounded-full", dot)} />
-          <span className="truncate">{name}</span>
-          <span className="text-subtle">{count}</span>
-        </span>
-        <span className="shrink-0 tabular-nums text-muted-foreground">{total}</span>
-      </div>
-      <div className="space-y-2">{children}</div>
-    </div>
-  );
-}
-
-function Deal({ name, detail, value, className, style, children }: {
-  name: string;
-  detail: string;
-  value: string;
-  className?: string;
-  style?: CSSProperties;
-  children?: ReactNode;
-}) {
-  return (
-    <div style={style} className={cn(box, "relative p-2.5", className)}>
-      <p className="truncate text-[12px] font-semibold text-foreground">{name}</p>
-      <p className="truncate text-[11px] text-muted-foreground">{detail}</p>
-      <p className="mt-1 text-[11px] font-semibold tabular-nums text-foreground">{value}</p>
-      {children}
-    </div>
-  );
-}
-
-const swap = (a: string, b: string, step: number) => (
-  <span className="inline-grid *:[grid-area:1/1]">
-    <span className="scene-in" style={at(0, step)}>{a}</span>
-    <span className="scene-in" style={at(step)}>{b}</span>
-  </span>
-);
-
-export function PipelineScreen() {
-  return (
-    <Scene
-      steps={3}
-      timing={[0, 1300, 1300, 1500]}
-      label="The ERIX pipeline board for a real estate business: Rohan Mehta's ₹1,85,000 deal is dragged from Enquiry to Site visit booked, the stage totals update, and a reminder automation is scheduled."
-    >
-      <AppFrame
-        title="Pipeline · Real estate"
-        nav={3}
-        className="h-[25rem]"
-        action={
-          <span className="flex gap-1 text-[11px]">
-            <span className="rounded-[6px] px-2 py-1 text-muted-foreground">List</span>
-            <span className="rounded-[6px] bg-accent px-2 py-1 font-semibold text-white">Board</span>
-          </span>
-        }
-      >
-        <div className="grid h-full grid-cols-2 items-start gap-2.5 overflow-hidden p-3 sm:p-4 lg:grid-cols-3">
-          <Column name="Enquiry" dot="bg-[var(--blue-500)]" count={swap("2", "1", 2)} total={swap("₹3,05,000", "₹1,20,000", 2)}>
-            <Deal name="Meera Iyer" detail="2BHK, Wakad" value="₹1,20,000" />
-            <Deal name="Rohan Mehta" detail="3BHK, Baner" value="₹1,85,000" style={at(0, 2)} className="scene-in">
-              <span
-                aria-hidden="true"
-                style={at(1, 2)}
-                className="scene-in pointer-events-none absolute inset-0 rounded-[10px] shadow-[var(--shadow-md)] ring-2 ring-accent"
-              />
-            </Deal>
-          </Column>
-          <Column name="Site visit booked" dot="bg-accent" count={swap("1", "2", 2)} total={swap("₹1,25,000", "₹3,10,000", 2)}>
-            <Deal name="Ravi Kumar" detail="Plot, Hinjewadi" value="₹1,25,000" />
-            <Deal name="Rohan Mehta" detail="3BHK, Baner" value="₹1,85,000" style={at(2)} className="scene-in scene-x border-accent-border">
-              <Pill tone="ai" icon={Workflow} className="scene-in mt-1.5" style={at(3)}>
-                Reminder set
-              </Pill>
-            </Deal>
-          </Column>
-          <Column name="Shortlisted" dot="bg-[var(--purple-500)]" count="1" total="₹2,40,000" className="hidden lg:flex">
-            <Deal name="Isha Shah" detail="Villa, Baner" value="₹2,40,000" />
-          </Column>
-        </div>
-      </AppFrame>
-    </Scene>
-  );
-}
-
 /* ── Invoice ───────────────────────────────────────────────────────────── */
 
 export function InvoiceScreen() {
@@ -371,9 +152,15 @@ export function InvoiceScreen() {
         className="h-[25rem]"
         action={
           <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-            <Pill className="scene-in" style={at(0, 2)}>Draft</Pill>
-            <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>Sent</Pill>
-            <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>Paid</Pill>
+            <Pill className="scene-in" style={at(0, 2)}>
+              Draft
+            </Pill>
+            <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>
+              Sent
+            </Pill>
+            <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>
+              Paid
+            </Pill>
           </span>
         }
       >
@@ -384,11 +171,15 @@ export function InvoiceScreen() {
             </p>
             <div>
               <p className="text-muted-foreground">Bill to</p>
-              <p className="mt-1 rounded-[6px] border border-border-strong bg-surface px-2 py-1.5 text-foreground">Rohan Mehta</p>
+              <p className="mt-1 rounded-[6px] border border-border-strong bg-surface px-2 py-1.5 text-foreground">
+                Rohan Mehta
+              </p>
             </div>
             <div>
               <p className="text-muted-foreground">Place of supply</p>
-              <p className="mt-1 rounded-[6px] border border-border-strong bg-surface px-2 py-1.5 text-foreground">27 · Maharashtra</p>
+              <p className="mt-1 rounded-[6px] border border-border-strong bg-surface px-2 py-1.5 text-foreground">
+                27 · Maharashtra
+              </p>
               <p className="mt-1 text-subtle">Same state as yours: CGST + SGST. Another state: IGST.</p>
             </div>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -428,113 +219,10 @@ export function InvoiceScreen() {
                 <Link2 aria-hidden="true" className="size-3" /> Razorpay payment link ready
               </p>
               <p style={at(4)} className="scene-in flex items-center gap-1 font-semibold text-foreground">
-                <CheckCircle2 aria-hidden="true" className="size-3 text-success" /> Paid ₹29,500, marked the moment it landed
+                <CheckCircle2 aria-hidden="true" className="size-3 text-success" /> Paid ₹29,500, marked the moment it
+                landed
               </p>
             </div>
-          </div>
-        </div>
-      </AppFrame>
-    </Scene>
-  );
-}
-
-/* ── Automation (Flow) ─────────────────────────────────────────────────── */
-
-function Node({
-  icon: Icon,
-  kicker,
-  title,
-  ai,
-  status,
-  className,
-}: {
-  icon: IconComponent;
-  kicker: string;
-  title: string;
-  ai?: boolean;
-  status?: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={cn(box, "flex min-w-0 items-center gap-2 p-2", className)}>
-      <span
-        className={cn(
-          "flex size-7 shrink-0 items-center justify-center rounded-[6px]",
-          ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
-        )}
-      >
-        <Icon aria-hidden="true" className="size-3.5" />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[10px] text-subtle">{kicker}</span>
-        <span className="block truncate text-[11px] font-semibold text-foreground">{title}</span>
-      </span>
-      {status}
-    </div>
-  );
-}
-
-const done = (step: number) => (
-  <CheckCircle2 aria-hidden="true" style={at(step)} className="scene-in scene-pop size-3.5 shrink-0 text-success" />
-);
-const line = "mx-auto h-3 w-px bg-border-strong @min-[36rem]:mx-0 @min-[36rem]:h-px @min-[36rem]:w-4 @min-[36rem]:shrink-0";
-
-export function FlowScreen() {
-  return (
-    <Scene
-      steps={5}
-      timing={[0, 1000, 1100, 1600, 1100, 1400]}
-      label="An ERIX automation: when a new contact is added, a WhatsApp welcome message is sent, then it waits up to a day for a reply. Nobody replied, so a follow-up goes out. Each step shows as done, live."
-    >
-      <AppFrame
-        title="New enquiry follow-up"
-        nav={4}
-        className="h-[25rem]"
-        action={
-          <Pill tone="success">
-            <LiveDot className="mr-0.5" /> On
-          </Pill>
-        }
-      >
-        <div className="@container flex h-full flex-col justify-center gap-4 p-3 sm:p-5">
-          <div className="flex flex-col @min-[36rem]:flex-row @min-[36rem]:items-center">
-            <Node icon={Zap} kicker="When" title="New contact added" status={done(1)} className="@min-[36rem]:w-[24%]" />
-            <span aria-hidden="true" className={line} />
-            <Node icon={MessageCircle} kicker="Send WhatsApp" title="Welcome message" status={done(2)} className="@min-[36rem]:w-[24%]" />
-            <span aria-hidden="true" className={line} />
-            <Node
-              icon={Clock}
-              kicker="Wait for a reply"
-              title="Up to 1 day"
-              className="@min-[36rem]:w-[24%]"
-              status={
-                <span className="inline-grid *:[grid-area:1/1]">
-                  <Pill tone="warning" className="scene-in" style={at(3, 4)}>Waiting</Pill>
-                  {done(4)}
-                </span>
-              }
-            />
-            <span aria-hidden="true" className={line} />
-            <div className="flex min-w-0 flex-col gap-2 @min-[36rem]:flex-1">
-              {/* The branch not taken: dashed, at full contrast (no opacity). */}
-              <Node
-                icon={UserRound}
-                kicker="Replied"
-                title="Update contact: Interested"
-                className="border border-dashed border-border-strong bg-transparent shadow-none"
-              />
-              <Node icon={MessageCircle} kicker="No reply" title="Send a follow-up" status={done(5)} className="border-accent-border" />
-            </div>
-          </div>
-          <div className={cn(box, "flex flex-wrap items-center justify-between gap-2 p-2.5 text-[11px]")}>
-            <span className="text-foreground">
-              Run · <span className="font-semibold">Rohan Mehta</span>
-              <span className="text-subtle"> · started 9:42 pm</span>
-            </span>
-            <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-              <Pill tone="primary" className="scene-in" style={at(0, 5)}>Running</Pill>
-              <Pill tone="success" icon={CheckCheck} className="scene-in scene-pop" style={at(5)}>Done</Pill>
-            </span>
           </div>
         </div>
       </AppFrame>
@@ -567,7 +255,10 @@ export function BookingScreen() {
           <p className="text-[11px] text-muted-foreground">30 minutes · at the project site</p>
           <div className="mt-3 grid grid-cols-5 gap-1.5">
             {days.map(([d, n]) => (
-              <span key={n} className="relative rounded-[6px] border border-border py-1.5 text-center text-[10px] text-muted-foreground">
+              <span
+                key={n}
+                className="relative rounded-[6px] border border-border py-1.5 text-center text-[10px] text-muted-foreground"
+              >
                 {d}
                 <span className="block text-[13px] font-semibold text-foreground">{n}</span>
                 {n === "31" && (
@@ -664,7 +355,12 @@ export function DocumentsScreen() {
       timing={[0, 1300, 1400, 1100, 1600]}
       label="A project in ERIX with its documents. The client signs the quotation in her portal, then the business signs; the file turns Signed with an audit seal. Other files are shared with the client."
     >
-      <AppFrame title="2BHK interiors, Vijay Nagar" nav={3} className="h-[25rem]" action={<Pill tone="success">Active</Pill>}>
+      <AppFrame
+        title="2BHK interiors, Vijay Nagar"
+        nav={3}
+        className="h-[25rem]"
+        action={<Pill tone="success">Active</Pill>}
+      >
         <div className="grid h-full gap-3 overflow-hidden p-3 sm:p-4 md:grid-cols-[1.4fr_1fr]">
           <div className="min-w-0 space-y-2.5">
             <div className={cn(box, "p-3")}>
@@ -684,7 +380,10 @@ export function DocumentsScreen() {
               </div>
               <p className="mt-1 text-[11px] text-muted-foreground">Client signs first, then you</p>
               <span className="relative mt-2 inline-flex">
-                <span style={at(2, 4)} className="scene-in rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold text-white">
+                <span
+                  style={at(2, 4)}
+                  className="scene-in rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold text-white"
+                >
                   Sign
                 </span>
                 <Press show={at(3, 4)} />
@@ -696,7 +395,9 @@ export function DocumentsScreen() {
             </div>
             <div className={cn(box, "flex items-center justify-between gap-2 p-3")}>
               <span className="truncate text-[12px] text-foreground">Work order.pdf</span>
-              <Pill tone="success" icon={CheckCircle2}>Signed</Pill>
+              <Pill tone="success" icon={CheckCircle2}>
+                Signed
+              </Pill>
             </div>
           </div>
           <div className={cn(box, "hidden min-w-0 flex-col p-3 md:flex")}>
@@ -741,7 +442,9 @@ export function LeadsScreen() {
               <li key={p} className={cn(box, "flex items-center justify-between gap-2 p-2.5")}>
                 <span className="truncate text-[12px] font-semibold text-foreground">{p}</span>
                 <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-                  <Pill tone="primary" className="scene-in" style={at(0, i + 1)}>Checking</Pill>
+                  <Pill tone="primary" className="scene-in" style={at(0, i + 1)}>
+                    Checking
+                  </Pill>
                   <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(i + 1)}>
                     Details checked
                   </Pill>
@@ -790,7 +493,8 @@ export function BroadcastScreen() {
           <div className={cn(box, "p-3")}>
             <p className="text-[11px] text-subtle">Audience</p>
             <p className="mt-1 text-[12px] text-foreground">
-              Deal status <span className="font-semibold">All contacts</span> · Tag <span className="font-semibold">diwali</span>
+              Deal status <span className="font-semibold">All contacts</span> · Tag{" "}
+              <span className="font-semibold">diwali</span>
             </p>
             <p style={at(1)} className="scene-in mt-2 flex flex-wrap items-center gap-2 text-[12px] text-foreground">
               <Pill tone="primary">1,186 will get this</Pill>
@@ -800,9 +504,15 @@ export function BroadcastScreen() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-[12px] font-semibold text-foreground">Diwali festive offer</span>
               <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-                <Pill className="scene-in" style={at(0, 2)}>Ready</Pill>
-                <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>Sending</Pill>
-                <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>Sent</Pill>
+                <Pill className="scene-in" style={at(0, 2)}>
+                  Ready
+                </Pill>
+                <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>
+                  Sending
+                </Pill>
+                <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>
+                  Sent
+                </Pill>
               </span>
             </div>
             <span className="mt-2.5 block h-1.5 overflow-hidden rounded-full bg-background">
@@ -812,7 +522,9 @@ export function BroadcastScreen() {
                 <span style={at(4)} className="scene-in block h-full w-full rounded-full bg-accent" />
               </span>
             </span>
-            <p className="mt-2 text-[11px] text-subtle">Your own WhatsApp account: Meta bills you directly, no ERIX markup.</p>
+            <p className="mt-2 text-[11px] text-subtle">
+              Your own WhatsApp account: Meta bills you directly, no ERIX markup.
+            </p>
           </div>
         </div>
       </AppFrame>
@@ -822,14 +534,14 @@ export function BroadcastScreen() {
 
 /** Screen by key, for data-driven pages (module pages, sub-pages). */
 export const SCREENS: Record<ScreenKey, () => ReactNode> = {
-  pipeline: PipelineScreen,
-  inbox: InboxScreen,
+  pipeline: PipelineDemo,
+  inbox: InboxDemo,
   invoice: InvoiceScreen,
-  flow: FlowScreen,
+  flow: FlowEditorDemo,
   booking: BookingScreen,
   ai: AiScreen,
   documents: DocumentsScreen,
   leads: LeadsScreen,
   crm: CrmScreen,
-  flowCanvas: FlowCanvasScreen,
+  flowCanvas: FlowEditorDemo,
 };

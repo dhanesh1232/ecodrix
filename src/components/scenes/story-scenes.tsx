@@ -18,7 +18,13 @@ const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
 
 const arrivals = [
   { name: "Website visitor", ch: "web", text: "Do you have 2BHKs near Wakad?", time: "9:47 pm", step: 2 },
-  { name: "Rohan Mehta", ch: "whatsapp", text: "Is the 3BHK at Baner still available? Can I visit Saturday?", time: "9:42 pm", step: 1 },
+  {
+    name: "Rohan Mehta",
+    ch: "whatsapp",
+    text: "Is the 3BHK at Baner still available? Can I visit Saturday?",
+    time: "9:42 pm",
+    step: 1,
+  },
   { name: "Anita Desai", ch: "email", text: "Re: Payment for INV/26-27/0039", time: "6:10 pm" },
   { name: "Ananya Rao", ch: "instagram", text: "Thanks! See you on Saturday", time: "5:32 pm" },
 ] as const;
@@ -54,12 +60,22 @@ export function ArrivalScene() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate text-[12px] font-semibold text-foreground">{t.name}</span>
-                  <span className={cn("shrink-0 text-[10px]", "step" in t ? "font-semibold text-accent" : "text-subtle")}>{t.time}</span>
+                  <span
+                    className={cn("shrink-0 text-[10px]", "step" in t ? "font-semibold text-accent" : "text-subtle")}
+                  >
+                    {t.time}
+                  </span>
                 </div>
                 <div className="mt-0.5 flex items-center justify-between gap-2">
-                  <span className={cn("truncate text-[11px]", "step" in t ? "text-foreground" : "text-muted-foreground")}>{t.text}</span>
+                  <span
+                    className={cn("truncate text-[11px]", "step" in t ? "text-foreground" : "text-muted-foreground")}
+                  >
+                    {t.text}
+                  </span>
                   {"step" in t && (
-                    <span className="grid size-4 shrink-0 place-items-center rounded-full bg-error text-[9px] font-bold text-white">1</span>
+                    <span className="grid size-4 shrink-0 place-items-center rounded-full bg-error text-[9px] font-bold text-white">
+                      1
+                    </span>
                   )}
                 </div>
                 <Channel name={t.ch} className="mt-0.5" />
@@ -103,11 +119,21 @@ function Kpi({
         !solid && box,
       )}
     >
-      <p className={cn("flex items-center justify-between gap-1 text-[10px]", solid ? "text-white/85" : "text-muted-foreground")}>
+      <p
+        className={cn(
+          "flex items-center justify-between gap-1 text-[10px]",
+          solid ? "text-white/85" : "text-muted-foreground",
+        )}
+      >
         {label}
         {Icon && <Icon aria-hidden="true" className={cn("size-3", solid ? "text-white/85" : "text-accent")} />}
       </p>
-      <p className={cn("mt-1 font-display text-[18px] leading-none font-bold tabular-nums", solid ? "text-white" : "text-foreground")}>
+      <p
+        className={cn(
+          "mt-1 font-display text-[18px] leading-none font-bold tabular-nums",
+          solid ? "text-white" : "text-foreground",
+        )}
+      >
         {value}
         {unit && <span className="ml-0.5 text-[12px]">{unit}</span>}
       </p>
@@ -142,8 +168,22 @@ export function OverviewScreen() {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <Kpi style={at(1)} tone="blue" label="Pipeline value" value="₹18.4" unit="L" hint="Open deals across your pipeline" />
-            <Kpi style={at(1)} tone="red" icon={ClipboardCheck} label="Waiting for approval" value="2" hint="1 AI draft · 1 held automation" />
+            <Kpi
+              style={at(1)}
+              tone="blue"
+              label="Pipeline value"
+              value="₹18.4"
+              unit="L"
+              hint="Open deals across your pipeline"
+            />
+            <Kpi
+              style={at(1)}
+              tone="red"
+              icon={ClipboardCheck}
+              label="Waiting for approval"
+              value="2"
+              hint="1 AI draft · 1 held automation"
+            />
             <Kpi style={at(2)} icon={MessageCircle} label="Unread conversations" value="3" hint="5 new messages" />
             <Kpi style={at(2)} icon={UserPlus} label="New contacts" value="26" hint="Last 30 days" />
           </div>

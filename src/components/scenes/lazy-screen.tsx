@@ -5,20 +5,23 @@ import { useEffect, useRef, useState } from "react";
 
 // The redrawn app screens the stories show further down a page. Each loads
 // (code and DOM) only when it gets near the screen, so a long story costs a
-// phone nothing on first load. They're decorative: the chapter copy beside
-// them carries the meaning, in the server HTML.
+// phone nothing on first load. Most are looping scenes (decorative: the
+// chapter copy beside them carries the meaning); inbox, pipeline and flow are
+// live demos people can use (components/demos), the same height with a hint row.
 const screens = {
-  inbox: dynamic(() => import("./screens").then((m) => m.InboxScreen), { ssr: false }),
+  inbox: dynamic(() => import("@/components/demos/inbox-demo").then((m) => m.InboxDemo), { ssr: false }),
   ai: dynamic(() => import("./screens").then((m) => m.AiScreen), { ssr: false }),
-  pipeline: dynamic(() => import("./screens").then((m) => m.PipelineScreen), { ssr: false }),
+  pipeline: dynamic(() => import("@/components/demos/pipeline-demo").then((m) => m.PipelineDemo), { ssr: false }),
   booking: dynamic(() => import("./screens").then((m) => m.BookingScreen), { ssr: false }),
   invoice: dynamic(() => import("./screens").then((m) => m.InvoiceScreen), { ssr: false }),
-  flow: dynamic(() => import("./screens").then((m) => m.FlowScreen), { ssr: false }),
+  flow: dynamic(() => import("@/components/demos/flow-editor-demo").then((m) => m.FlowEditorDemo), { ssr: false }),
   documents: dynamic(() => import("./screens").then((m) => m.DocumentsScreen), { ssr: false }),
   overview: dynamic(() => import("./story-scenes").then((m) => m.OverviewScreen), { ssr: false }),
   broadcast: dynamic(() => import("./screens").then((m) => m.BroadcastScreen), { ssr: false }),
   crm: dynamic(() => import("./showcase-scenes").then((m) => m.CrmScreen), { ssr: false }),
-  flowCanvas: dynamic(() => import("./showcase-scenes").then((m) => m.FlowCanvasScreen), { ssr: false }),
+  flowCanvas: dynamic(() => import("@/components/demos/flow-editor-demo").then((m) => m.FlowEditorDemo), {
+    ssr: false,
+  }),
   analytics: dynamic(() => import("./showcase-scenes").then((m) => m.AnalyticsScreen), { ssr: false }),
   form: dynamic(() => import("./showcase-scenes").then((m) => m.FormScreen), { ssr: false }),
   templates: dynamic(() => import("./showcase-scenes").then((m) => m.TemplatesScreen), { ssr: false }),

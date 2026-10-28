@@ -8,13 +8,11 @@ import { LazyScreen } from "@/components/scenes/lazy-screen";
 import { TimelineScene } from "@/components/scenes/timeline-scene";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { getBreadcrumbSchema, getFAQSchema, getItemListSchema, SEO_CONSTANTS } from "@/lib/jsonld";
+import { getBreadcrumbSchema, getFAQSchema, getItemListSchema } from "@/lib/jsonld";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
 import { pageMetadata } from "@/lib/seo";
 import { PLATFORM_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-const { API_URL } = SEO_CONSTANTS;
 
 /* ──────────────────────────────────────────────────────────────────────
    /platform — index page covering every module served by api.ecodrix.com.
@@ -47,7 +45,7 @@ const PLATFORM_FAQS = [
   },
   {
     q: "Is there a public ERIX API?",
-    a: "Yes. The same modules are available through the REST API at https://api.ecodrix.com, with keys per workspace, webhooks and the public SDK @ecodrix/erix-api.",
+    a: "Yes. The same modules are available through the REST API at https://api.ecodrix.com, with keys per workspace, webhooks and the public SDK @ecodrix/erix-api. The docs are at ecodrix.com/docs.",
   },
   {
     q: "Can I use just one part of ERIX?",
@@ -239,7 +237,8 @@ const LATER = [
 
 const more = PLATFORM_NAV.filter((m) => m.key === "storage" || m.key === "laie");
 const moreCopy: Record<string, string> = {
-  storage: "Files kept with the client and project they belong to: documents, secure share links and proposals signed online.",
+  storage:
+    "Files kept with the client and project they belong to: documents, secure share links and proposals signed online.",
   laie: "Finds businesses that match your ideal customer, checks their contact details and drafts outreach for you to review.",
 };
 
@@ -313,7 +312,9 @@ export default function PlatformIndexPage() {
       {/* ── How one customer moves through the live modules ── */}
       <Story
         id="journey"
-        kicker={<p className="text-sm/5 font-semibold text-accent on-dark:text-on-navy-link">One customer, six hand-offs</p>}
+        kicker={
+          <p className="text-sm/5 font-semibold text-accent on-dark:text-on-navy-link">One customer, six hand-offs</p>
+        }
         title="How an enquiry moves through ERIX"
         lead="Each part hands the customer to the next on the same record. The screens are redrawn from the real app."
         chapters={chapters}
@@ -387,7 +388,10 @@ export default function PlatformIndexPage() {
               </span>
               <h3 className="mt-4 font-sans text-[18px] font-semibold tracking-normal">{m.name}</h3>
               <p className="mt-1.5 text-[15px] text-muted-foreground">{moreCopy[m.key]}</p>
-              <Link href={m.href} className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus group mt-4">
+              <Link
+                href={m.href}
+                className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus group mt-4"
+              >
                 About {m.name}
                 <Icon name="arrow-right" size={14} variant="line" />
               </Link>
@@ -397,11 +401,11 @@ export default function PlatformIndexPage() {
         <p className="mt-12 flex items-start gap-3 rounded-[16px] bg-surface p-6 text-foreground shadow-[var(--shadow-xs)]">
           <Icon name="plug" size={20} variant="duo" className="mt-0.5 shrink-0 text-accent" />
           <span>
-            <span className="font-semibold">For developers:</span> the same modules through one public API at{" "}
-            <a href={API_URL} className="text-accent underline underline-offset-4">
-              api.ecodrix.com
-            </a>
-            , with keys per workspace.
+            <span className="font-semibold">For developers:</span> the same modules through one public API, with keys
+            per workspace and the TypeScript SDK.{" "}
+            <Link href="/docs" className="text-accent underline underline-offset-4">
+              Read the API docs
+            </Link>
           </span>
         </p>
       </MkSection>

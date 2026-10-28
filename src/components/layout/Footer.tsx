@@ -42,11 +42,11 @@ const facts: { icon: GlyphName; text: string }[] = [
   { icon: "message-circle", text: "Your own WhatsApp, no markup" },
 ];
 
-/** Pages the API server publishes (ECOD/server/src/views, health.routes.ts). */
+/** Developer pages, on this site (the API serves JSON only). */
 const developer = [
-  { label: "API docs", href: "https://api.ecodrix.com/docs" },
-  { label: "System status", href: "https://api.ecodrix.com/health" },
-  { label: "Changelog", href: "https://api.ecodrix.com/changelog" },
+  { label: "API docs", href: "/docs" },
+  { label: "System status", href: "/status" },
+  { label: "Changelog", href: "/changelog" },
 ];
 
 const legal = [
@@ -178,9 +178,9 @@ export function Footer() {
               ))}
               {developer.map((d) => (
                 <li key={d.href}>
-                  <a href={d.href} className={linkCls}>
+                  <Link href={d.href} className={linkCls}>
                     {d.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </Column>
@@ -233,7 +233,10 @@ export function Footer() {
               </li>
             ))}
             <li className="flex items-center gap-2.5 rounded-[12px] px-3 py-2.5">
-              <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-[var(--error-subtle)]">
+              <span
+                aria-hidden="true"
+                className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-[var(--error-subtle)]"
+              >
                 <span className="size-2.5 rounded-full bg-[var(--hero-dot)]" />
               </span>
               <span>
@@ -256,11 +259,16 @@ export function Footer() {
 
         {/* ── Legal bar ── */}
         <div className="mt-10 flex flex-col gap-4 border-t border-border py-6 text-[13px] text-subtle lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-[13px] text-subtle">© {new Date().getFullYear()} ECODrIx. An Indian company, made in India.</p>
+          <p className="text-[13px] text-subtle">
+            © {new Date().getFullYear()} ECODrIx. An Indian company, made in India.
+          </p>
           <ul aria-label="Legal" className="flex flex-wrap gap-x-4 gap-y-2">
             {legal.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="inline-flex min-h-6 items-center transition-colors hover:text-foreground">
+                <Link
+                  href={l.href}
+                  className="inline-flex min-h-6 items-center transition-colors hover:text-foreground"
+                >
                   {l.label}
                 </Link>
               </li>
@@ -286,7 +294,6 @@ export function Footer() {
             ))}
           </ul>
         </div>
-
       </nav>
 
       {/* ── The wordmark closes the page, edge to edge across the screen ── */}

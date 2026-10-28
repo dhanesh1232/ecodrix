@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
+import { blogs } from "@/lib/api";
+import { COMPARISONS } from "@/lib/comparisons";
+import { SEO_CONSTANTS } from "@/lib/jsonld";
+import { LEGAL_DOCS, legalHref } from "@/lib/legal/documents";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
 import { getProductPages } from "@/lib/product-pages";
-import { COMPARISONS } from "@/lib/comparisons";
-import { LEGAL_DOCS, legalHref } from "@/lib/legal/documents";
-import { SEO_CONSTANTS } from "@/lib/jsonld";
-import { blogs } from "@/lib/api";
 
 /**
  * Generates /sitemap.xml via Next.js App Router convention.
@@ -60,6 +60,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    { url: `${BASE_URL}/docs`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE_URL}/changelog`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE_URL}/status`, lastModified: now, changeFrequency: "daily", priority: 0.4 },
   ];
 
   // All legal/policy documents (terms, privacy, cookie, AUP, DPA, etc.)
@@ -111,12 +114,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 
-  return [
-    ...staticRoutes,
-    ...moduleRoutes,
-    ...subPageRoutes,
-    ...compareRoutes,
-    ...blogRoutes,
-    ...legalRoutes,
-  ];
+  return [...staticRoutes, ...moduleRoutes, ...subPageRoutes, ...compareRoutes, ...blogRoutes, ...legalRoutes];
 }

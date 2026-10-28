@@ -7,9 +7,7 @@ import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { VisitorTracker } from "@/components/analytics/VisitorTracker";
 import { WebVitals } from "@/components/analytics/WebVitals";
-import { ArrowRight, Check, ChevronDown, Cookie, Menu, ShieldCheck, X } from "@/components/icons";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
+import { Check, Cookie, ShieldCheck, X } from "@/components/icons";
 import { CookieConsent } from "@/components/legal/CookieConsent";
 import { MotionRoot } from "@/components/motion/motion";
 import { MotionProvider } from "@/components/motion/motion-provider";
@@ -217,17 +215,8 @@ export default function RootLayout({
         />
         <MotionProvider>
           <div className="bg-surface text-foreground overflow-clip min-h-screen flex flex-col">
-            <Navbar
-              icons={{
-                chevron: <ChevronDown aria-hidden="true" className="size-3.5" />,
-                arrow: <ArrowRight aria-hidden="true" className="hidden size-4 sm:block" />,
-                menu: <Menu aria-hidden="true" className="size-5" />,
-              }}
-            />
-            <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
-              {children}
-            </main>
-            <Footer />
+            {/* Each area brings its own header and footer: (brand) and (docs) route groups. */}
+            {children}
           </div>
         </MotionProvider>
       </body>

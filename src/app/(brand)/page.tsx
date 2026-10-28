@@ -13,9 +13,9 @@ import { Agents } from "@/components/home/Agents";
 import { Capabilities } from "@/components/home/Capabilities";
 import { Hero } from "@/components/home/Hero";
 import { BuiltForIndia, Heart } from "@/components/home/HowItWorks";
+import { InsideErix } from "@/components/home/InsideErix";
 import { ChannelBeam, WorksWith } from "@/components/home/Integrations";
 import { Pain } from "@/components/home/Pain";
-import { InsideErix } from "@/components/home/InsideErix";
 import { HomeStory } from "@/components/home/Story";
 import { Testimonials } from "@/components/home/Testimonials";
 import { UseCases } from "@/components/home/UseCases";
@@ -38,7 +38,6 @@ export const metadata = {
   title: { absolute: "ECODrIx | Unified Business Infrastructure Platform" },
   openGraph: { ...home.openGraph, title: "ECODrIx | Unified Business Infrastructure Platform" },
 };
-
 
 const faqs = [
   {
@@ -96,16 +95,20 @@ export default function Home() {
               We&apos;re letting businesses in a few at a time, so each one gets set up properly. Join the list and
               we&apos;ll reach out on WhatsApp or email when your turn comes.
             </p>
-            <p className="mt-3 text-inherit">Pilot workspaces are set up by our team, and pricing is agreed with you.</p>
+            <p className="mt-3 text-inherit">
+              Pilot workspaces are set up by our team, and pricing is agreed with you.
+            </p>
             <ul className="mt-6 space-y-2.5 text-[16px] text-white/90">
-              {["Access before the public launch", "Help moving your contacts and chats in", "Your feedback shapes what gets built next"].map(
-                (t) => (
-                  <li key={t} className="flex gap-2.5">
-                    <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--on-navy-link)]" />
-                    {t}
-                  </li>
-                ),
-              )}
+              {[
+                "Access before the public launch",
+                "Help moving your contacts and chats in",
+                "Your feedback shapes what gets built next",
+              ].map((t) => (
+                <li key={t} className="flex gap-2.5">
+                  <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--on-navy-link)]" />
+                  {t}
+                </li>
+              ))}
             </ul>
           </>
         }

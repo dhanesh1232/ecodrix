@@ -9,19 +9,7 @@
  * templates and the website chat widget. Example data only.
  */
 
-import {
-  CheckCircle2,
-  Clock,
-  createIcon,
-  Link2,
-  MessageCircle,
-  ShieldCheck,
-  Sparkles,
-  UserRound,
-  Workflow,
-  Zap,
-  type IconComponent,
-} from "@/components/icons";
+import { CheckCircle2, Clock, Link2, MessageCircle, Sparkles, Workflow, type IconComponent } from "@/components/icons";
 import type { ReactNode } from "react";
 import { Scene } from "@/components/motion/scene";
 import { LiveDot } from "@/components/motion/surface";
@@ -29,7 +17,6 @@ import { cn } from "@/lib/utils";
 import { AppFrame, Avatar, Bubble, Channel, Pill, Ticks, Typing, at } from "./parts";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
-const CircleDashed = createIcon("circle-dashed");
 
 /** Shows `a` until `step`, then `b` (the swap shares one grid cell). */
 const swap = (a: ReactNode, b: ReactNode, step: number, end?: number) => (
@@ -67,7 +54,10 @@ export function CrmScreen() {
               <div key={stage} className="rounded-[10px] bg-sunken p-1.5">
                 <p className="flex items-center justify-between px-1 pb-1.5 text-[11px] font-semibold text-foreground">
                   <span className="flex items-center gap-1.5">
-                    <span aria-hidden="true" className={cn("size-1.5 rounded-full", i ? "bg-accent" : "bg-[var(--blue-500)]")} />
+                    <span
+                      aria-hidden="true"
+                      className={cn("size-1.5 rounded-full", i ? "bg-accent" : "bg-[var(--blue-500)]")}
+                    />
                     {stage}
                   </span>
                   <span className="tabular-nums text-muted-foreground">
@@ -77,7 +67,9 @@ export function CrmScreen() {
                 <div className="space-y-1.5">
                   <div className={cn(box, "p-2")}>
                     <p className="text-[11.5px] font-semibold text-foreground">{i ? "Ravi Kumar" : "Meera Iyer"}</p>
-                    <p className="text-[10.5px] text-muted-foreground">{i ? "Plot, Hinjewadi · ₹1,25,000" : "2BHK, Wakad · ₹1,20,000"}</p>
+                    <p className="text-[10.5px] text-muted-foreground">
+                      {i ? "Plot, Hinjewadi · ₹1,25,000" : "2BHK, Wakad · ₹1,20,000"}
+                    </p>
                   </div>
                   {/* Rohan's card sits in both columns; only one shows at a time, so nothing reflows. */}
                   <div
@@ -87,7 +79,11 @@ export function CrmScreen() {
                     <p className="text-[11.5px] font-semibold text-foreground">Rohan Mehta</p>
                     <p className="text-[10.5px] text-muted-foreground">3BHK, Baner · ₹1,85,000</p>
                     {!i && (
-                      <span aria-hidden="true" style={at(1, 2)} className="scene-in pointer-events-none absolute inset-0 rounded-[10px] ring-2 ring-accent" />
+                      <span
+                        aria-hidden="true"
+                        style={at(1, 2)}
+                        className="scene-in pointer-events-none absolute inset-0 rounded-[10px] ring-2 ring-accent"
+                      />
                     )}
                   </div>
                 </div>
@@ -102,7 +98,12 @@ export function CrmScreen() {
               <ol className="mt-2 space-y-1.5">
                 {crmEvents.map((e) => (
                   <li key={e.text} style={at(e.step)} className="scene-in flex gap-2">
-                    <span className={cn("mt-px grid size-5 shrink-0 place-items-center rounded-[6px]", e.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent")}>
+                    <span
+                      className={cn(
+                        "mt-px grid size-5 shrink-0 place-items-center rounded-[6px]",
+                        e.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                      )}
+                    >
                       <e.icon aria-hidden="true" className="size-3" />
                     </span>
                     <span className="min-w-0">
@@ -117,14 +118,24 @@ export function CrmScreen() {
               <div className="flex items-center justify-between gap-2">
                 <p className="font-mono text-[10px] text-muted-foreground">INV/26-27/0042</p>
                 <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-                  <Pill className="scene-in" style={at(0, 7)}>Draft</Pill>
-                  <Pill tone="primary" icon={Link2} className="scene-in" style={at(7, 8)}>Link sent</Pill>
-                  <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(8)}>Paid</Pill>
+                  <Pill className="scene-in" style={at(0, 7)}>
+                    Draft
+                  </Pill>
+                  <Pill tone="primary" icon={Link2} className="scene-in" style={at(7, 8)}>
+                    Link sent
+                  </Pill>
+                  <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(8)}>
+                    Paid
+                  </Pill>
                 </span>
               </div>
               <p className="mt-1 text-[11px] font-semibold text-foreground">Booking advance · from PRO-0018</p>
               <dl className="mt-1.5 space-y-0.5 text-muted-foreground">
-                {[["Subtotal", "₹25,000"], ["CGST 9%", "₹2,250"], ["SGST 9%", "₹2,250"]].map(([k, v]) => (
+                {[
+                  ["Subtotal", "₹25,000"],
+                  ["CGST 9%", "₹2,250"],
+                  ["SGST 9%", "₹2,250"],
+                ].map(([k, v]) => (
                   <div key={k} className="flex justify-between">
                     <dt>{k}</dt>
                     <dd className="tabular-nums">{v}</dd>
@@ -147,153 +158,6 @@ export function CrmScreen() {
 }
 
 /* ── Flow: the canvas, a run lighting the steps in turn ─────────────── */
-
-type RunState = "done" | "running" | "approval" | "skipped";
-
-function StepState({ states }: { states: [RunState, number, number?][] }) {
-  const glyph: Record<RunState, ReactNode> = {
-    done: <CheckCircle2 aria-hidden="true" className="size-3.5 text-success" />,
-    running: <Workflow aria-hidden="true" className="size-3.5 text-accent" />,
-    approval: <ShieldCheck aria-hidden="true" className="size-3.5 text-error" />,
-    skipped: <CircleDashed aria-hidden="true" className="size-3.5 text-warning" />,
-  };
-  return (
-    <span className="inline-grid *:[grid-area:1/1] ml-auto shrink-0">
-      {states.map(([s, from, until]) => (
-        <span key={s + from} className="scene-in scene-pop" style={at(from, until)}>
-          {glyph[s]}
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function CanvasNode({
-  icon: Icon,
-  kicker,
-  title,
-  ai,
-  ring,
-  states,
-  className,
-}: {
-  icon: IconComponent;
-  kicker: string;
-  title: string;
-  ai?: boolean;
-  /** Steps during which the node shows its "running" / "needs approval" ring. */
-  ring?: { from: number; until: number; tone: "accent" | "ai" | "error" };
-  states: [RunState, number, number?][];
-  className?: string;
-}) {
-  return (
-    <div className={cn(box, "relative flex min-w-0 items-center gap-2 px-2 py-1.5", className)}>
-      <span className={cn("grid size-6 shrink-0 place-items-center rounded-[6px]", ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent")}>
-        <Icon aria-hidden="true" className="size-3.5" />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-[9.5px] text-subtle">{kicker}</span>
-        <span className="block truncate text-[11px] font-semibold text-foreground">{title}</span>
-      </span>
-      <StepState states={states} />
-      {ring && (
-        <span
-          aria-hidden="true"
-          style={at(ring.from, ring.until)}
-          className={cn(
-            "scene-in pointer-events-none absolute -inset-px rounded-[10px] ring-2",
-            ring.tone === "ai" ? "ring-ai" : ring.tone === "error" ? "ring-error" : "ring-accent",
-          )}
-        />
-      )}
-    </div>
-  );
-}
-
-const wire = "mx-auto h-2.5 w-px bg-border-strong";
-
-export function FlowCanvasScreen() {
-  return (
-    <Scene
-      steps={9}
-      timing={[0, 800, 800, 900, 1200, 1100, 1500, 1000, 1300, 1200]}
-      hold={3600}
-      label="An ERIX Flow automation on the canvas: when a new enquiry comes in, it waits 5 minutes, sends a WhatsApp welcome, then waits up to a day for a reply. Nobody replied, so the No reply path asks for approval; once approved, the AI reply step drafts a follow-up and the run finishes. The Replied path is skipped."
-    >
-      <AppFrame
-        title="New enquiry follow-up"
-        nav={4}
-        className="h-[25rem]"
-        action={
-          <Pill tone="success">
-            <LiveDot className="mr-0.5" /> On
-          </Pill>
-        }
-      >
-        <div className="flex h-full flex-col overflow-hidden bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:14px_14px] p-3">
-          <div className="mx-auto flex w-full max-w-[19rem] flex-col">
-            <CanvasNode icon={Zap} kicker="When something happens" title="New enquiry" states={[["done", 1]]} />
-            <span aria-hidden="true" className={wire} />
-            <CanvasNode icon={Clock} kicker="Wait" title="Wait 5 minutes" states={[["done", 2]]} />
-            <span aria-hidden="true" className={wire} />
-            <CanvasNode icon={MessageCircle} kicker="Send WhatsApp" title="Welcome message" states={[["done", 3]]} />
-            <span aria-hidden="true" className={wire} />
-            <CanvasNode
-              icon={Clock}
-              kicker="Wait for a reply"
-              title="Up to 1 day"
-              ring={{ from: 4, until: 5, tone: "accent" }}
-              states={[["running", 4, 5], ["done", 5]]}
-            />
-          </div>
-          <div className="mx-auto mt-1 grid w-full max-w-[24rem] grid-cols-2 gap-2">
-            <div className="flex min-w-0 flex-col">
-              <p className="pb-1 text-center text-[9.5px] font-semibold text-subtle">Replied</p>
-              <CanvasNode
-                icon={UserRound}
-                kicker="Update contact"
-                title="Status: Interested"
-                states={[["skipped", 5]]}
-                className="border border-dashed border-border-strong bg-transparent shadow-none"
-              />
-            </div>
-            <div className="flex min-w-0 flex-col">
-              <p className="pb-1 text-center text-[9.5px] font-semibold text-subtle">No reply</p>
-              <CanvasNode
-                icon={ShieldCheck}
-                kicker="Ask for approval"
-                title="Before the follow-up"
-                ring={{ from: 6, until: 7, tone: "error" }}
-                states={[["approval", 6, 7], ["done", 7]]}
-              />
-              <span aria-hidden="true" className={wire} />
-              <CanvasNode
-                icon={Sparkles}
-                ai
-                kicker="AI reply"
-                title="Draft a friendly follow-up"
-                ring={{ from: 8, until: 9, tone: "ai" }}
-                states={[["running", 8, 9], ["done", 9]]}
-              />
-            </div>
-          </div>
-          <div className={cn(box, "mt-auto flex flex-wrap items-center justify-between gap-2 px-2.5 py-2 text-[10.5px]")}>
-            <span className="text-foreground">
-              Run · <span className="font-semibold">Rohan Mehta</span>
-              <span className="text-subtle"> · started 9:42 pm</span>
-            </span>
-            <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-              <Pill tone="primary" className="scene-in" style={at(0, 6)}>Running</Pill>
-              <Pill tone="error" icon={ShieldCheck} className="scene-in" style={at(6, 7)}>Needs approval</Pill>
-              <Pill tone="primary" className="scene-in" style={at(7, 9)}>Running</Pill>
-              <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(9)}>Done</Pill>
-            </span>
-          </div>
-        </div>
-      </AppFrame>
-    </Scene>
-  );
-}
 
 /* ── Analytics: the two live charts ─────────────────────────────────── */
 
@@ -322,14 +186,22 @@ export function AnalyticsScreen() {
         title="Analytics"
         nav={3}
         className="h-[25rem]"
-        action={<span className="rounded-[6px] bg-sunken px-2 py-1 text-[10.5px] font-semibold text-foreground">30D</span>}
+        action={
+          <span className="rounded-[6px] bg-sunken px-2 py-1 text-[10.5px] font-semibold text-foreground">30D</span>
+        }
       >
         <div className="grid h-full content-start gap-2.5 overflow-hidden p-3 md:grid-cols-[1.25fr_1fr]">
           <div className={cn(box, "p-3")}>
             <p className="text-[11px] text-muted-foreground">New contacts by day</p>
             <p className="font-display text-[22px] leading-tight font-bold tabular-nums text-foreground">142</p>
             <p className="text-[10px] text-subtle">Last 30 days</p>
-            <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="scene-in scene-wipe mt-2 h-28 w-full" style={at(1)} aria-hidden="true">
+            <svg
+              viewBox="0 0 100 40"
+              preserveAspectRatio="none"
+              className="scene-in scene-wipe mt-2 h-28 w-full"
+              style={at(1)}
+              aria-hidden="true"
+            >
               <path d={`M0,40 L${pts.join(" L")} L100,40 Z`} fill="var(--blue-100)" />
               <path
                 d={`M${pts.join(" L")}`}
@@ -400,13 +272,19 @@ export function FormScreen() {
             {fields.map(([label, value]) => (
               <div key={label}>
                 <p className="text-[10.5px] text-muted-foreground">{label}</p>
-                <p className="mt-0.5 rounded-[6px] border border-border-strong px-2.5 py-1.5 text-[11.5px] text-foreground">{value}</p>
+                <p className="mt-0.5 rounded-[6px] border border-border-strong px-2.5 py-1.5 text-[11.5px] text-foreground">
+                  {value}
+                </p>
               </div>
             ))}
           </div>
           <span className="relative mt-auto inline-flex w-full justify-center rounded-[8px] bg-accent py-2 text-[12px] font-semibold text-white">
             Send
-            <span aria-hidden="true" style={at(1, 2)} className="scene-in scene-pop pointer-events-none absolute -inset-1 rounded-[10px] ring-2 ring-accent" />
+            <span
+              aria-hidden="true"
+              style={at(1, 2)}
+              className="scene-in scene-pop pointer-events-none absolute -inset-1 rounded-[10px] ring-2 ring-accent"
+            />
           </span>
         </div>
         <div className="hidden min-w-0 flex-col border-l border-border p-4 md:flex">
@@ -442,7 +320,12 @@ const templates = [
   { name: "Welcome new enquiries", how: "New contact → WhatsApp welcome", icon: MessageCircle },
   { name: "Appointment reminders", how: "Before each booking → reminder", icon: Clock },
   { name: "Nudge when nobody replies", how: "Wait for a reply → follow-up", icon: Workflow },
-  { name: "Sales agent: qualify a new enquiry", how: "New contact → AI agent, with approval", icon: Sparkles, ai: true },
+  {
+    name: "Sales agent: qualify a new enquiry",
+    how: "New contact → AI agent, with approval",
+    icon: Sparkles,
+    ai: true,
+  },
 ];
 
 export function TemplatesScreen() {
@@ -457,7 +340,12 @@ export function TemplatesScreen() {
         <div className="grid h-full content-start gap-2.5 overflow-hidden p-3 sm:grid-cols-2">
           {templates.map((t, i) => (
             <div key={t.name} className={cn(box, "relative flex flex-col p-3")}>
-              <span className={cn("grid size-7 place-items-center rounded-[8px]", t.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent")}>
+              <span
+                className={cn(
+                  "grid size-7 place-items-center rounded-[8px]",
+                  t.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                )}
+              >
                 <t.icon aria-hidden="true" className="size-3.5" />
               </span>
               <p className="mt-2 text-[12px] font-semibold text-foreground">{t.name}</p>
@@ -467,7 +355,11 @@ export function TemplatesScreen() {
                   swap(
                     <span className="relative inline-flex rounded-[6px] border border-border-strong px-2 py-1 text-[10.5px] font-semibold text-foreground">
                       Use template
-                      <span aria-hidden="true" style={at(1, 2)} className="scene-in scene-pop pointer-events-none absolute -inset-1 rounded-[8px] ring-2 ring-accent" />
+                      <span
+                        aria-hidden="true"
+                        style={at(1, 2)}
+                        className="scene-in scene-pop pointer-events-none absolute -inset-1 rounded-[8px] ring-2 ring-accent"
+                      />
                     </span>,
                     <Pill tone="success">
                       <LiveDot className="mr-0.5" /> On
@@ -500,7 +392,9 @@ export function WidgetScreen() {
     >
       <div className="surface-light relative h-[25rem] overflow-hidden rounded-[12px] bg-background shadow-[var(--shadow-lg)]">
         <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-2.5">
-          <span className="grid size-6 place-items-center rounded-[6px] bg-accent text-[10px] font-bold text-white">SR</span>
+          <span className="grid size-6 place-items-center rounded-[6px] bg-accent text-[10px] font-bold text-white">
+            SR
+          </span>
           <span className="text-[12px] font-semibold text-foreground">Sharma Realty</span>
           <span className="ml-auto hidden gap-3 text-[11px] text-muted-foreground sm:flex">
             <span>Projects</span>
@@ -530,7 +424,10 @@ export function WidgetScreen() {
                 <CheckCircle2 aria-hidden="true" className="size-3 text-accent" /> OK to contact me about my enquiry
               </p>
             </div>
-            <div style={at(3)} className="scene-in ml-auto w-fit max-w-[88%] rounded-[10px] border border-accent-border bg-accent-muted px-2.5 py-1.5 text-[11.5px] text-foreground">
+            <div
+              style={at(3)}
+              className="scene-in ml-auto w-fit max-w-[88%] rounded-[10px] border border-accent-border bg-accent-muted px-2.5 py-1.5 text-[11.5px] text-foreground"
+            >
               Any 2BHK near Wakad under ₹70 lakh?
               <span className="mt-0.5 flex items-center justify-end gap-1 text-[9.5px] text-subtle">
                 9:47 pm <Ticks from={3} />

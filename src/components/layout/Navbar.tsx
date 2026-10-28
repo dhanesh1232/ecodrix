@@ -5,7 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import { ArrowRight, ChevronDown, Menu } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { CONTACT_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { NAV_SECTIONS, type NavSection, sectionOf } from "./nav-data";
@@ -27,12 +29,7 @@ const DesktopNav = dynamic(() => import("./DesktopNav"), { ssr: false });
  * Accordion. Without JavaScript the menus become plain links and the menu
  * button jumps to the footer's site map (globals.css, `scripting`).
  */
-export function Navbar({
-  icons,
-}: {
-  /** Drawn by the server (layout.tsx), so the header ships no icon data. */
-  icons: { chevron: ReactNode; arrow: ReactNode; menu: ReactNode };
-}) {
+export function Navbar() {
   const path = usePathname();
   // false until the desktop menu is wanted; a section key when a placeholder
   // had keyboard focus (focus moves to the real trigger).
@@ -43,6 +40,8 @@ export function Navbar({
   const sentinel = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const closedByNav = useRef(false);
+  // The phone menu (sheet) only exists below 1024px. Hooks run on every render, never inside JSX.
+  const isMobile = useIsMobile(1024);
   const current = sectionOf(path);
 
   // Scrolled = the spacer under the header is no longer fully on screen.
@@ -144,7 +143,7 @@ export function Navbar({
                       )}
                     >
                       {s.label}
-                      {icons.chevron}
+                      <ChevronDown aria-hidden="true" className="size-3.5" />
                       {current === s.key && (
                         <span
                           aria-hidden="true"
@@ -179,7 +178,10 @@ export function Navbar({
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
             <Link href={CONTACT_CTA.href} className={cn(buttonVariants({ size: "sm" }), "group px-3.5 sm:px-4")}>
               {CONTACT_CTA.label}
-              {icons.arrow}
+              <ArrowRight
+                aria-hidden="true"
+                className="hidden size-4 sm:block group-hover:translate-x-1 transition-transform transform ease-in-out duration-150"
+              />
             </Link>
             <button
               ref={menuButton}
@@ -196,19 +198,19 @@ export function Navbar({
               }}
               className="js-only flex size-11 items-center justify-center rounded-[8px] text-foreground hover:bg-hover lg:hidden"
             >
-              {icons.menu}
+              <Menu aria-hidden="true" className="size-5" />
             </button>
             <Link
               href="#site-map"
               className="nojs-sm hidden size-11 items-center justify-center rounded-[8px] text-foreground"
             >
-              {icons.menu}
+              <Menu aria-hidden="true" className="size-5" />
               <span className="sr-only">Site map</span>
             </Link>
           </div>
         </div>
       </header>
-      {menuWanted && (
+      {menuWanted && isMobile && (
         <MobileNav
           open={menuOpen}
           onOpenChange={setMenuOpen}

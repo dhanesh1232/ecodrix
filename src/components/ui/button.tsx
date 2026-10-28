@@ -22,6 +22,10 @@ const variants = cva("[&_svg]:pointer-events-none [&_svg]:shrink-0", {
         solid,
         "bg-accent text-white shadow-btn hover:bg-accent-hover",
         "on-dark:bg-white on-dark:text-blue-800 on-dark:hover:bg-blue-50",
+        // Shine: a soft band of light sweeps across once per hover or keyboard focus (off with reduced motion).
+        "relative isolate overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-1/3 before:opacity-0 before:content-['']",
+        "before:bg-[linear-gradient(100deg,transparent,rgba(255,255,255,0.5),transparent)] on-dark:before:bg-[linear-gradient(100deg,transparent,rgba(43,77,203,0.28),transparent)]",
+        "motion-safe:hover:before:animate-sheen motion-safe:focus-visible:before:animate-sheen",
         // The featured tile keeps the top highlight; only navy bands swap the shadow.
         "[&:where(.band-navy_*):not(.surface-light_*)]:shadow-[inset_0_-1px_0_rgba(11,27,100,0.08),0_1px_2px_rgba(0,0,0,0.2)]",
       ),

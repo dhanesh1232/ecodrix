@@ -337,8 +337,20 @@
   --animate-beam-land: erix-beam-land var(--beam-dur) var(--ease-out) infinite;
   --animate-beam-thump: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
   --animate-beam-halo: erix-beam-halo var(--beam-dur) var(--ease-out) infinite;
+  /* Primary buttons: one light sweep on hover/focus (ui/button.tsx). */
+  --animate-sheen: erix-sheen 900ms var(--ease-in-out);
 
   /* Keyframes for the animate-* utilities above */
+  @keyframes erix-sheen {
+    from {
+      opacity: 1;
+      transform: translateX(-100%) skewX(-18deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(420%) skewX(-18deg);
+    }
+  }
   @keyframes erix-rise {
     from {
       opacity: 0;
@@ -680,4 +692,12 @@ html.lenis body {
 }
 html[data-consent="ask"] [data-cookie-banner] {
   display: block;
+}
+
+
+*::-webkit-scrollbar-button, *::-webkit-scrollbar-button:end:increment, *::-webkit-scrollbar-button:start:decrement, *::-webkit-scrollbar-button:vertical:start, *::-webkit-scrollbar-button:vertical:end, *::-webkit-scrollbar-button:horizontal:start, *::-webkit-scrollbar-button:horizontal:end {
+  display: none !important;
+  background: transparent !important;
+  height: 0 !important;
+  width: 0 !important;
 }

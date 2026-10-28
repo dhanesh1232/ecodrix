@@ -3,7 +3,13 @@ import { Scene } from "@/components/motion/scene";
 import { Avatar, Pill, at } from "./parts";
 
 const events: { tool: string; icon: IconComponent; tone: "primary" | "ai"; text: string; time: string }[] = [
-  { tool: "Connect", icon: Inbox, tone: "primary", text: "WhatsApp: “Is the 3BHK at Baner still available?”", time: "9:42 pm" },
+  {
+    tool: "Connect",
+    icon: Inbox,
+    tone: "primary",
+    text: "WhatsApp: “Is the 3BHK at Baner still available?”",
+    time: "9:42 pm",
+  },
   { tool: "AI agent", icon: Sparkles, tone: "ai", text: "Answered from the Baner listing", time: "9:42 pm" },
   { tool: "CRM", icon: KanbanSquare, tone: "primary", text: "Site visit booked for Saturday, 4 pm", time: "9:44 pm" },
   { tool: "Flow", icon: Workflow, tone: "ai", text: "Reminder sent on WhatsApp", time: "Fri, 10:00 am" },

@@ -17,7 +17,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Icon, type IconName, isBrandName, type GlyphName } from "@/components/icons";
+import { type GlyphName, Icon, type IconName, isBrandName } from "@/components/icons";
 import { BlurText } from "@/components/motion/blur-text";
 import { Reveal } from "@/components/motion/motion";
 import { Spotlight } from "@/components/motion/spotlight";
@@ -33,14 +33,21 @@ export function PrimaryCta({ lg, className }: { lg?: boolean; className?: string
   return (
     <Link href={PRIMARY_CTA.href} className={cn(buttonVariants({ size: lg ? "lg" : "default" }), "group", className)}>
       {PRIMARY_CTA.label}
-      <Icon name="arrow-right" variant="line" size={16} />
+      <Icon
+        name="arrow-right"
+        role="presentation"
+        variant="line"
+        size={16}
+        className="group-hover:translate-x-1 ease-in-out duration-150 transition-transform transform"
+      />
     </Link>
   );
 }
 
 export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: string }) {
   return (
-    <a
+    <Link
+      role="button"
       href={WHATSAPP_CTA.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -49,7 +56,7 @@ export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: strin
       <Icon name="whatsapp" size={16} />
       {WHATSAPP_CTA.label}
       <span className="sr-only"> (opens in a new tab)</span>
-    </a>
+    </Link>
   );
 }
 
@@ -58,8 +65,16 @@ export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: strin
 /** The navy band's one brand flourish: the logo's swoosh and red dot. */
 function HeroMotif() {
   return (
-    <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 1200 520" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
-      <path className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:56]" d="M180 760 C 520 300 900 220 1320 250" />
+    <svg
+      className="pointer-events-none absolute inset-0 size-full"
+      viewBox="0 0 1200 520"
+      preserveAspectRatio="xMaxYMax slice"
+      aria-hidden="true"
+    >
+      <path
+        className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:56]"
+        d="M180 760 C 520 300 900 220 1320 250"
+      />
       <circle className="fill-hero-dot max-[900px]:hidden" cx="1010" cy="438" r="26" />
     </svg>
   );
@@ -98,7 +113,11 @@ export function MkHero({
         <div className="pb-[clamp(48px,7vw,45px)] max-[900px]:pb-0">
           {top}
           <BlurText as="h1" text={title} className="font-display text-mk-hero text-balance text-white" />
-          <p className={`mt-[22px] max-w-[34em] font-sans text-mk-hero-lead text-pretty text-[rgba(255,255,255,0.78)] ${fadeIn}`}>{lead}</p>
+          <p
+            className={`mt-[22px] max-w-[34em] font-sans text-mk-hero-lead text-pretty text-[rgba(255,255,255,0.78)] ${fadeIn}`}
+          >
+            {lead}
+          </p>
           {actions && (
             <div
               className={`mt-[30px] flex flex-wrap gap-2.5 max-[900px]:*:flex-[1_1_100%] ${fadeIn}`}
@@ -113,7 +132,10 @@ export function MkHero({
               style={{ "--d": "620ms" } as React.CSSProperties}
             >
               {facts.map((f) => (
-                <li key={f.label} className="inline-flex items-center gap-[7px] font-sans text-sm/5 font-medium text-[rgba(255,255,255,0.78)]">
+                <li
+                  key={f.label}
+                  className="inline-flex items-center gap-[7px] font-sans text-sm/5 font-medium text-[rgba(255,255,255,0.78)]"
+                >
                   <Icon name={f.icon} variant="line" size={16} className="text-on-navy-link" />
                   {f.label}
                 </li>
@@ -122,7 +144,9 @@ export function MkHero({
           )}
         </div>
         {visual && (
-          <div className="relative self-end motion-safe:animate-rise motion-safe:[animation-delay:var(--d,200ms)]">{visual}</div>
+          <div className="relative self-end motion-safe:animate-rise motion-safe:[animation-delay:var(--d,200ms)]">
+            {visual}
+          </div>
         )}
       </div>
     </section>
@@ -169,7 +193,15 @@ export function BrowserFrame({
   );
 }
 
-export function PhoneFrame({ head, className, children }: { head?: ReactNode; className?: string; children: ReactNode }) {
+export function PhoneFrame({
+  head,
+  className,
+  children,
+}: {
+  head?: ReactNode;
+  className?: string;
+  children: ReactNode;
+}) {
   return (
     <div
       className={cn(
@@ -177,9 +209,14 @@ export function PhoneFrame({ head, className, children }: { head?: ReactNode; cl
         className,
       )}
     >
-      <div className="absolute top-3.5 left-1/2 z-2 -ml-[38px] h-5 w-[76px] rounded-[12px] bg-[#0d1020]" aria-hidden="true" />
+      <div
+        className="absolute top-3.5 left-1/2 z-2 -ml-[38px] h-5 w-[76px] rounded-[12px] bg-[#0d1020]"
+        aria-hidden="true"
+      />
       {head && (
-        <div className="flex items-center gap-2 rounded-[26px_26px_0_0] border-b border-b-border-soft bg-surface px-3.5 pt-[34px] pb-2.5">{head}</div>
+        <div className="flex items-center gap-2 rounded-[26px_26px_0_0] border-b border-b-border-soft bg-surface px-3.5 pt-[34px] pb-2.5">
+          {head}
+        </div>
       )}
       <div className="overflow-hidden rounded-[0_0_26px_26px] bg-background px-2.5 pt-3 pb-4">{children}</div>
     </div>
@@ -213,7 +250,12 @@ export function MkSection({
       id={id}
       aria-labelledby={title ? headingId : undefined}
       data-tone={tone === "subtle" ? "subtle" : undefined}
-      className={cn("py-section scroll-mt-20", tone === "subtle" && "bg-background", tone === "navy" && "band-navy", className)}
+      className={cn(
+        "py-section scroll-mt-20",
+        tone === "subtle" && "bg-background",
+        tone === "navy" && "band-navy",
+        className,
+      )}
     >
       <div className="mx-auto w-full max-w-wrap px-gutter">
         {(title || lead) && (
@@ -224,7 +266,9 @@ export function MkSection({
                 {title}
               </h2>
             )}
-            {lead && <p className="mt-4 max-w-[60ch] font-sans text-mk-lead text-muted-foreground text-pretty">{lead}</p>}
+            {lead && (
+              <p className="mt-4 max-w-[60ch] font-sans text-mk-lead text-muted-foreground text-pretty">{lead}</p>
+            )}
           </div>
         )}
         {children}
@@ -282,13 +326,20 @@ export function FeatureSplit({
     >
       <div className={cn(flip && "order-2 max-[900px]:order-0")}>
         {module && (
-          <span className={cn("mb-3.5 inline-flex items-center gap-[7px] font-sans text-[13.5px]/[18px] font-[650]", ai ? "text-ai" : "text-accent")}>
+          <span
+            className={cn(
+              "mb-3.5 inline-flex items-center gap-[7px] font-sans text-[13.5px]/[18px] font-[650]",
+              ai ? "text-ai" : "text-accent",
+            )}
+          >
             <Icon name={icon} size={14} variant="solid" />
             {module}
           </span>
         )}
         <H className="font-display text-mk-h3 text-foreground text-balance">{title}</H>
-        {children && <p className="mt-3 max-w-[56ch] font-sans text-mk-body text-muted-foreground text-pretty">{children}</p>}
+        {children && (
+          <p className="mt-3 max-w-[56ch] font-sans text-mk-body text-muted-foreground text-pretty">{children}</p>
+        )}
         {points.length > 0 && (
           <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent">
             {points.map((p) => (
@@ -351,7 +402,9 @@ export function Faq({ items, className }: { items: { q: string; a: string }[]; c
       {items.map((q) => (
         <AccordionItem key={q.q} value={q.q}>
           <AccordionTrigger icon={<Icon name="plus" size={18} variant="line" />}>{q.q}</AccordionTrigger>
-          <AccordionContent className="max-w-[68ch] pr-12 font-sans text-[15.5px]/[1.65] text-muted-foreground">{q.a}</AccordionContent>
+          <AccordionContent className="max-w-[68ch] pr-12 font-sans text-[15.5px]/[1.65] text-muted-foreground">
+            {q.a}
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
@@ -378,16 +431,30 @@ export function CtaBand({
       aria-labelledby={id ? `${id}-title` : undefined}
       className="band-navy scroll-mt-20 py-[clamp(56px,7vw,96px)]"
     >
-      <svg className="pointer-events-none absolute right-0 bottom-0 h-full w-[56%]" viewBox="0 0 600 300" aria-hidden="true">
-        <path className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:34]" d="M-40 360 C 160 120 380 70 640 90" />
+      <svg
+        className="pointer-events-none absolute right-0 bottom-0 h-full w-[56%]"
+        viewBox="0 0 600 300"
+        aria-hidden="true"
+      >
+        <path
+          className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:34]"
+          d="M-40 360 C 160 120 380 70 640 90"
+        />
         <circle className="fill-hero-dot" cx="566" cy="94" r="12" />
       </svg>
-      <div className={cn("relative mx-auto grid w-full max-w-wrap items-center gap-10 px-gutter", aside && "lg:grid-cols-[1fr_1.05fr] lg:gap-16")}>
+      <div
+        className={cn(
+          "relative mx-auto grid w-full max-w-wrap items-center gap-10 px-gutter",
+          aside && "lg:grid-cols-[1fr_1.05fr] lg:gap-16",
+        )}
+      >
         <div>
           <h2 id={id ? `${id}-title` : undefined} className="font-display text-mk-cta text-balance text-white">
             {title}
           </h2>
-          {lead && <div className="mt-4 max-w-[46ch] font-sans text-[17px]/[1.6] text-[rgba(255,255,255,0.78)]">{lead}</div>}
+          {lead && (
+            <div className="mt-4 max-w-[46ch] font-sans text-[17px]/[1.6] text-[rgba(255,255,255,0.78)]">{lead}</div>
+          )}
           {actions && <div className="mt-[30px] flex flex-wrap gap-2.5 max-[900px]:*:flex-[1_1_100%]">{actions}</div>}
         </div>
         {aside}
