@@ -149,8 +149,7 @@ export const privacyDoc: LegalDoc = {
       body: [
         {
           list: [
-            "Database and background jobs: Google Cloud in Mumbai, India.",
-            "API servers: Google Cloud in the United States (Iowa) today. We are moving them to Mumbai.",
+            "Database, API servers and background jobs: Google Cloud in Mumbai, India.",
             "ecodrix.com and the ERIX console: Vercel, in the United States.",
             "Files: Cloudflare R2.",
             "Email sending: Amazon SES in Mumbai, India.",

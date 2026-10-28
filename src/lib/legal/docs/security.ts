@@ -18,7 +18,7 @@ export const securityDoc: LegalDoc = {
   description:
     "How ECODrIx protects your data: hosting, encryption, sign-in, workspace isolation, staff access, backups, monitoring, breach handling and how to report a flaw.",
   intro: `This page describes how ${LEGAL.brand} protects ERIX and the data in it, as things stand today. It supports our Privacy Policy and Data Processing Agreement.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "infrastructure",
@@ -27,7 +27,7 @@ export const securityDoc: LegalDoc = {
       body: [
         {
           list: [
-            "Google Cloud: our database and background jobs in Mumbai, India; our API servers in the United States (Iowa), moving to Mumbai.",
+            "Google Cloud: our database, API servers and background jobs in Mumbai, India.",
             "Vercel: ecodrix.com and the ERIX console.",
             "Cloudflare R2: files.",
           ],

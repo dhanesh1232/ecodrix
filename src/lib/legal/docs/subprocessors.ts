@@ -1,4 +1,4 @@
-import { Server, Bell, Info } from "@/components/icons";
+import { Bell, Info, Server } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const subprocessorsDoc: LegalDoc = {
@@ -8,7 +8,7 @@ export const subprocessorsDoc: LegalDoc = {
   description:
     "Every company ECODrIx uses to run ERIX and LAIE that may handle personal data: what each one does for us, what data it handles and where it is processed.",
   intro: `To run ${LEGAL.brand}, we use the companies below. Each one handles personal data only to do its job for us. Channels and apps a workspace connects for itself (its own email provider, payment gateway or other app) are that workspace's choice and are not listed here.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "list",
@@ -23,7 +23,7 @@ export const subprocessorsDoc: LegalDoc = {
                 "Google Cloud",
                 "Runs our API (Cloud Run), database (Cloud SQL), background-job server (Compute Engine) and server logs (Cloud Logging)",
                 "All account and workspace data",
-                "Database and background jobs: Mumbai, India. API: United States (Iowa), moving to Mumbai",
+                "Mumbai, India",
               ],
               [
                 "Vercel",
@@ -91,18 +91,8 @@ export const subprocessorsDoc: LegalDoc = {
                 "Pages viewed, device, browser, approximate location and Google Analytics cookie IDs",
                 "Google's data centres",
               ],
-              [
-                "GitHub",
-                "Sign in with GitHub",
-                "Your name, email address and profile picture",
-                "United States",
-              ],
-              [
-                "LinkedIn",
-                "Sign in with LinkedIn",
-                "Your name, email address and profile picture",
-                "United States",
-              ],
+              ["GitHub", "Sign in with GitHub", "Your name, email address and profile picture", "United States"],
+              ["LinkedIn", "Sign in with LinkedIn", "Your name, email address and profile picture", "United States"],
               [
                 "Truecaller",
                 "Phone verification in ERIX checkout, when a business's checkout offers it",

@@ -19,7 +19,7 @@ export const dpaDoc: LegalDoc = {
   description:
     "How ECODrIx processes personal data for businesses that use ERIX and LAIE: our duties as data processor under the DPDP Act, breaches, deletion and audits.",
   intro: `This Data Processing Agreement ("DPA") is part of the Terms of Service between ${LEGAL.entity} ("we", the data processor) and the business that uses ${LEGAL.brand} ("you", the data fiduciary). It covers the personal data in your workspace that we process for you, under India's Digital Personal Data Protection Act, 2023 (DPDP Act).`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "roles",
@@ -91,7 +91,7 @@ export const dpaDoc: LegalDoc = {
       title: "Where Data Is Processed",
       icon: Globe,
       body: [
-        "Our database and background jobs run in Mumbai, India. Some processing happens outside India: our API servers currently run in the United States and are moving to Mumbai, and our AI providers process in the United States. Our Privacy Policy and Sub-processors page give the full list.",
+        "Our database, API servers and background jobs run in Mumbai, India. Some processing happens outside India: our AI providers process in the United States. Our Privacy Policy and Sub-processors page give the full list.",
       ],
     },
     {
