@@ -12,6 +12,7 @@ import { getProductPages } from "@/lib/product-pages";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { ClosingCta, Crumbs, GuideList, ModuleEyebrow, TYPE_LABEL } from "./ModulePage";
+import { buttonVariants } from "@/components/ui/button";
 
 const anchor = (heading: string) =>
   heading
@@ -57,8 +58,8 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
       {page.faqs && page.faqs.length > 0 && <JsonLd data={getFAQSchema(page.faqs)} />}
 
       {/* ── Header (light: only navy bands carry the brand flourish) ── */}
-      <section className="erix-mk-section erix-mk-section--subtle pt-10! md:pt-14!">
-        <div className={cn("wrapper grid items-center gap-10", Screen && "lg:grid-cols-[1fr_1.05fr] lg:gap-14")}>
+      <section data-tone="subtle" className="py-section bg-background pt-10! md:pt-14!">
+        <div className={cn("mx-auto w-full max-w-wrap px-gutter grid items-center gap-10", Screen && "lg:grid-cols-[1fr_1.05fr] lg:gap-14")}>
           <div className={Screen ? "" : "max-w-3xl"}>
             <Crumbs
               items={[
@@ -80,7 +81,7 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <PrimaryCta />
-              <Link href={`/platform/${m.slug}`} className="btn-ghost">
+              <Link href={`/platform/${m.slug}`} className={buttonVariants({ variant: "ghost" })}>
                 About {m.brand}
               </Link>
             </div>
@@ -93,8 +94,8 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
         </div>
       </section>
 
-      <section className="erix-mk-section">
-        <div className="wrapper grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
+      <section className="py-section">
+        <div className="mx-auto w-full max-w-wrap px-gutter grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
           {/* On this page */}
           <nav aria-label="On this page" className="hidden lg:block">
             <div className="sticky top-24">
@@ -130,7 +131,7 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
                 <ol className="mt-6 space-y-5">
                   {page.steps.map((s, i) => (
                     <li key={s} className="flex gap-4">
-                      <span className="erix-mk-steps__n mb-0! size-8! shrink-0 text-[14px]!">{i + 1}</span>
+                      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent font-sans text-[14px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">{i + 1}</span>
                       <p className="pt-1 text-[17px] text-foreground">{s}</p>
                     </li>
                   ))}
@@ -148,9 +149,9 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
                     </p>
                   ))}
                   {s.points && (
-                    <ul className="erix-mk-ticks">
+                    <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent">
                       {s.points.map((pt) => (
-                        <li key={pt}>
+                        <li key={pt} className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground">
                           <Icon name="check" size={16} strokeWidth={2.2} variant="line" className={m.ai ? "text-ai!" : undefined} />
                           {pt}
                         </li>
@@ -174,9 +175,9 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
       </section>
 
       {related.length > 0 && (
-        <section aria-labelledby="related-title" className="erix-mk-section erix-mk-section--subtle">
-          <div className="wrapper">
-            <h2 id="related-title" className="erix-mk-h2 mb-8!">
+        <section aria-labelledby="related-title" data-tone="subtle" className="py-section bg-background">
+          <div className="mx-auto w-full max-w-wrap px-gutter">
+            <h2 id="related-title" className="font-display text-mk-h2 text-foreground text-balance mb-8">
               More on {m.brand}
             </h2>
             <GuideList module={m.slug} pages={related} />

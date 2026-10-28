@@ -2,22 +2,20 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { CONSENT_BOOT_SCRIPT } from "@/lib/legal/consent";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 import Script from "next/script";
-import {
-  getOrganizationSchema,
-  getWebSiteSchema,
-  getSoftwareApplicationSchema,
-  getPersonSchema,
-} from "@/lib/jsonld";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
-import { WebVitals } from "@/components/analytics/WebVitals";
-import { VisitorTracker } from "@/components/analytics/VisitorTracker";
 import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
-import { CookieConsent } from "@/components/legal/CookieConsent";
-import { Navbar } from "@/components/layout/Navbar";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { VisitorTracker } from "@/components/analytics/VisitorTracker";
+import { WebVitals } from "@/components/analytics/WebVitals";
+import { ArrowRight, Check, ChevronDown, Cookie, Menu, ShieldCheck, X } from "@/components/icons";
 import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { CookieConsent } from "@/components/legal/CookieConsent";
 import { MotionRoot } from "@/components/motion/motion";
+import { MotionProvider } from "@/components/motion/motion-provider";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { getOrganizationSchema, getPersonSchema, getSoftwareApplicationSchema, getWebSiteSchema } from "@/lib/jsonld";
+import { cn } from "@/lib/utils";
 
 // ERIX design system type, self-hosted (SIL OFL — licences in ./fonts):
 // Bricolage Grotesque for headings, Manrope for text, JetBrains Mono for code.
@@ -59,7 +57,7 @@ export const metadata: Metadata = {
     template: "%s | ECODrIx",
   },
   description:
-    "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses. 99.9% uptime.",
+    "ERIX by ECODrIx: one workspace for Indian businesses that sell on WhatsApp. Inbox, AI agents, CRM, GST invoices, payment links and automation.",
   keywords: [
     "CRM software",
     "business automation",
@@ -71,12 +69,11 @@ export const metadata: Metadata = {
     "cloud storage",
     "SaaS platform India",
     "ECODrIx",
+    "Dhanesh M",
     "Dhanesh Mekalthuru",
     "ERIX CRM",
     "ERIX-FLOW",
     "ERIX-LAIE",
-    "ErixStore",
-    "Relay Fabric",
     "lead scraping",
     "lead enrichment",
     "Socket.io chat",
@@ -87,12 +84,6 @@ export const metadata: Metadata = {
   creator: "ECODrIx",
   publisher: "ECODrIx",
   category: "technology",
-
-  // No canonical here: a layout's `alternates` is inherited by every page,
-  // which told Google all pages were copies of the home page (Search Console
-  // "Crawled - currently not indexed", Oct 2026). Each page sets its own.
-
-  // Explicit crawler directives
   robots: {
     index: true,
     follow: true,
@@ -109,7 +100,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ECODrIx | Unified Business Infrastructure Platform",
     description:
-      "Unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. Trusted by 50+ businesses across India.",
+      "ERIX by ECODrIx: one workspace for Indian businesses that sell on WhatsApp. Inbox, AI agents, CRM, GST invoices, payment links and automation.",
     siteName: "ECODrIx",
     type: "website",
     locale: "en_IN",
@@ -120,8 +111,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ECODrIx | Unified Business Infrastructure Platform",
-    description:
-      "CRM, automation, WhatsApp, email marketing, and cloud storage in one platform. Trusted by 50+ businesses. 99.9% uptime.",
+    description: "One inbox, AI agents, CRM, GST invoices and automation for Indian businesses that sell on WhatsApp.",
     site: "@ecodrix",
     creator: "@ecodrix",
   },
@@ -133,9 +123,7 @@ export const metadata: Metadata = {
       { url: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
       { url: "/favicon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/favicon-16x16.png",
   },
 
@@ -156,41 +144,20 @@ export default function RootLayout({
       // The consent boot script sets data-consent before hydration.
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={cn(
-        "font-sans",
-        bricolage.variable,
-        manrope.variable,
-        jetbrains.variable,
-      )}
+      className={cn("font-sans", bricolage.variable, manrope.variable, jetbrains.variable)}
     >
       <head>
-        {/* Google Consent Mode v2 defaults + the stored choice, whether to
-            show the cookie banner, and the GA4 config (queued, so it always
-            precedes the page_view events GoogleAnalytics pushes). Synchronous,
-            before any Google tag. */}
-        {/* next/script, not a raw <script>: React never renders it on the
-            client, so a client re-render can't warn about it. */}
-        <Script
+        <script
           id="consent-boot"
-          strategy="beforeInteractive"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: static boot script
           dangerouslySetInnerHTML={{
             __html: `${CONSENT_BOOT_SCRIPT}gtag('js',new Date());gtag('config','G-DK8Q4TLZPM',{send_page_view:false,anonymize_ip:true});`,
           }}
         />
-
-        {/* Google Tag Manager and GA4 load on the visitor's first scroll,
-            tap or key press, or 5 s after the page has loaded, whichever is
-            first. Together they are ~300 KB and blocked a phone's main
-            thread for ~0.6 s while the page was still becoming usable.
-            Page views and events pushed before then wait in dataLayer and
-            are sent when the tags arrive. GA4 is also loaded directly as a
-            safety net for Search Console verification. */}
         <Script id="google-tags" strategy="afterInteractive">
           {`(function(w,d){var ev=['scroll','pointerdown','keydown','touchstart'],done=0;
     function go(){if(done)return;done=1;ev.forEach(function(e){w.removeEventListener(e,go);});
-    w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-    ['https://www.googletagmanager.com/gtm.js?id=GTM-MN6R938B','https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM'].forEach(function(s){var j=d.createElement('script');j.async=true;j.src=s;d.head.appendChild(j);});}
+    var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM';d.head.appendChild(j);}
     ev.forEach(function(e){w.addEventListener(e,go,{passive:true});});
     if(d.readyState==='complete')setTimeout(go,5000);else w.addEventListener('load',function(){setTimeout(go,5000);});
     })(window,document);`}
@@ -220,7 +187,7 @@ export default function RootLayout({
             __html: JSON.stringify(getSoftwareApplicationSchema()),
           }}
         />
-        {/* Person schema — anchors "who is Dhanesh Mekalthuru" knowledge-panel
+        {/* Person schema — anchors "who is Dhanesh M" knowledge-panel
             queries on Google, Bing, and AI answer engines. */}
         <script
           type="application/ld+json"
@@ -229,17 +196,9 @@ export default function RootLayout({
             __html: JSON.stringify(getPersonSchema()),
           }}
         />
-
       </head>
-      <body
-        className="antialiased"
-      >
-        <noscript
-          dangerouslySetInnerHTML={{
-            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MN6R938B"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
-          }}
-        />
+      {/* Browser extensions (e.g. ColorZilla) add attributes to <body> before React loads. */}
+      <body className="antialiased" suppressHydrationWarning>
         {/* SPA page view tracking — fires on every client-side navigation */}
         <GoogleAnalytics />
         <VisitorTracker />
@@ -247,16 +206,30 @@ export default function RootLayout({
         {/* Core Web Vitals reporting to GA4 */}
         <WebVitals />
         <MotionRoot />
-        {/* First in the body (it's fixed, so order doesn't move it): its HTML
-            then paints with the first frame instead of after the whole page. */}
-        <CookieConsent />
-        <div className="bg-surface text-foreground overflow-clip min-h-screen flex flex-col">
-          <Navbar />
-          <main id="main-content" className="flex-1 flex flex-col">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <SmoothScroll />
+        <CookieConsent
+          icons={{
+            cookie: <Cookie size={18} className="text-accent" />,
+            close: <X size={18} />,
+            check: <Check size={15} />,
+            shield: <ShieldCheck size={15} />,
+          }}
+        />
+        <MotionProvider>
+          <div className="bg-surface text-foreground overflow-clip min-h-screen flex flex-col">
+            <Navbar
+              icons={{
+                chevron: <ChevronDown aria-hidden="true" className="size-3.5" />,
+                arrow: <ArrowRight aria-hidden="true" className="hidden size-4 sm:block" />,
+                menu: <Menu aria-hidden="true" className="size-5" />,
+              }}
+            />
+            <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </MotionProvider>
       </body>
     </html>
   );

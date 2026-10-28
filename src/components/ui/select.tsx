@@ -75,6 +75,7 @@ function SelectContent({
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
+        data-lenis-prevent
         data-slot="select-content"
         className={cn(
           "relative z-50 max-h-96 min-w-32 overflow-hidden rounded-md! bg-elevated border border-border-strong text-foreground shadow-[0_16px_48px_-12px_color-mix(in_srgb,var(--color-foreground)_5%,transparent)]",

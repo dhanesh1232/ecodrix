@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { CtaBand, MkSection, WhatsAppCta } from "@/components/marketing/kit";
+import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { pageMetadata } from "@/lib/seo";
 import { PLATFORM_NAV } from "@/lib/site";
@@ -13,12 +14,11 @@ export const metadata = pageMetadata({
   path: "/about",
 });
 
-// Kept exactly as published; don't add numbers here.
+// Only facts we can stand behind. Removed: the "99.9% Uptime SLA" figure (plans
+// carry no uptime SLA) and "50+ businesses onboarded" (unverified), 27 Oct.
 const stats = [
-  { value: "2025", label: "Founded" },
-  { value: "50+", label: "Businesses onboarded" },
+  { value: "Aug 2025", label: "ERIX started" },
   { value: "6", label: "Tools in one platform" },
-  { value: "99.9%", label: "Uptime SLA" },
 ];
 
 const values = [
@@ -40,25 +40,12 @@ const values = [
   },
 ];
 
-const stack = [
-  "Next.js",
-  "Node.js",
-  "TypeScript",
-  "PostgreSQL",
-  "Google Cloud Run",
-  "Cloud SQL",
-  "AWS SES",
-  "Cloudflare R2",
-  "Meta WhatsApp API",
-  "Google OAuth",
-];
-
 export default function AboutPage() {
   return (
     <div className="w-full">
       {/* ── Story ── */}
-      <section className="erix-mk-section erix-mk-section--subtle pt-12! md:pt-16!">
-        <div className="wrapper grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <section data-tone="subtle" className="py-section bg-background pt-12! md:pt-16!">
+        <div className="mx-auto w-full max-w-wrap px-gutter grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div>
             <h1 className="text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
               We got tired of paying for 10 different tools.
@@ -70,8 +57,8 @@ export default function AboutPage() {
                 paying for 5–10 separate tools that didn&apos;t talk to each other.
               </p>
               <p>
-                So we built it once, properly, and made it available as a platform. That platform is ERIX: one
-                workspace for growing Indian businesses.
+                So we built it once, properly, and made it available as a platform. That platform is ERIX: one workspace
+                for growing Indian businesses.
               </p>
             </div>
           </div>
@@ -87,7 +74,7 @@ export default function AboutPage() {
 
       {/* ── At a glance ── */}
       <section aria-label="ECODrIx at a glance" className="bg-surface py-12 md:py-16">
-        <dl className="wrapper grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+        <dl className="mx-auto w-full max-w-wrap px-gutter grid grid-cols-2 gap-x-6 gap-y-10">
           {stats.map((s) => (
             <div key={s.label} className="flex flex-col">
               <dt className="order-2 mt-1 text-[15px] text-muted-foreground">{s.label}</dt>
@@ -109,14 +96,17 @@ export default function AboutPage() {
         <ul className="grid gap-x-10 md:grid-cols-2">
           {PLATFORM_NAV.map((m) => (
             <li key={m.key} className="border-t border-border">
-              <Link href={m.href} className="group -mx-3 flex items-start gap-4 rounded-[12px] px-3 py-5 hover:bg-hover">
+              <Link
+                href={m.href}
+                className="group -mx-3 flex items-start gap-4 rounded-[12px] px-3 py-5 hover:bg-hover"
+              >
                 <span
                   className={cn(
                     "grid size-10 shrink-0 place-items-center rounded-[11px]",
                     "ai" in m ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
                   )}
                 >
-                  <m.icon variant="duo" className="size-5" />
+                  <Icon name={m.icon} size={20} variant="duo" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-2 text-[17px] font-semibold text-foreground">
@@ -147,29 +137,13 @@ export default function AboutPage() {
         </ol>
       </MkSection>
 
-      {/* ── Infrastructure ── */}
-      <MkSection
-        id="infra"
-        tone="subtle"
-        title="Built on Google Cloud"
-        lead="The API runs on Google Cloud Run with PostgreSQL on Cloud SQL, background jobs on dedicated workers, email through AWS SES and files on Cloudflare R2. Designed for reliability, security and scale."
-      >
-        <ul className="flex flex-wrap gap-2">
-          {stack.map((t) => (
-            <li key={t} className="rounded-[8px] bg-surface px-3 py-1.5 text-sm text-muted-foreground shadow-[var(--shadow-card)]">
-              {t}
-            </li>
-          ))}
-        </ul>
-      </MkSection>
-
       {/* ── Contact ── */}
       <CtaBand
         title="Want to talk to the founder?"
         lead={
           <p className="text-inherit">
             We&apos;re an early-stage startup. Reach out directly; we respond to every message personally.{" "}
-            <Link href="/founder" className="link-on-dark underline underline-offset-4">
+            <Link href="/founder" className="on-dark:text-on-navy-link underline underline-offset-4">
               Meet Dhanesh
             </Link>
             .
@@ -177,9 +151,9 @@ export default function AboutPage() {
         }
         actions={
           <>
-            <a href="mailto:contact@ecodrix.com" className="btn-primary btn-lg">
+            <Link href="mailto:contact@ecodrix.com" className={buttonVariants({ size: "lg" })}>
               <Icon name="mail" size={16} variant="line" /> Email us
-            </a>
+            </Link>
             <WhatsAppCta lg />
           </>
         }

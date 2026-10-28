@@ -6,9 +6,11 @@
  */
 
 import {
+  BookOpen,
   CheckCheck,
   CheckCircle2,
   Clock,
+  Icon,
   Link2,
   MessageCircle,
   Send,
@@ -19,11 +21,12 @@ import {
   type IconComponent,
 } from "@/components/icons";
 import type { CSSProperties, ReactNode } from "react";
-import { Scene } from "@/components/motion/motion";
+import { Scene } from "@/components/motion/scene";
 import { LiveDot } from "@/components/motion/surface";
 import { cn } from "@/lib/utils";
 import type { ScreenKey } from "@/lib/product-pages";
 import { AppFrame, Avatar, Bubble, Channel, Pill, at } from "./parts";
+import { CrmScreen, FlowCanvasScreen } from "./showcase-scenes";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
 
@@ -56,7 +59,7 @@ export function InboxScreen() {
     >
       <AppFrame
         title="Inbox"
-        nav={0}
+        nav={1}
         className="h-[25rem]"
         action={
           <span className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground">
@@ -81,11 +84,11 @@ export function InboxScreen() {
                 <div className="mt-0.5 flex items-center justify-between gap-2">
                   <span className="truncate text-[11px] text-muted-foreground">{t.text}</span>
                   {"unread" in t && (
-                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white">
+                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-error text-[9px] font-bold text-white">
                       {t.unread}
                     </span>
                   )}
-                  {"needsYou" in t && <Pill tone="warning">Needs you</Pill>}
+                  {"needsYou" in t && <Pill tone="error">Needs you</Pill>}
                 </div>
                 <Channel name={t.ch} className="mt-1" />
               </li>
@@ -102,18 +105,21 @@ export function InboxScreen() {
               <Bubble show={at(1)} time="12:03 pm">
                 Is a site visit free? And what does a 2BHK in Vijay Nagar cost?
               </Bubble>
-              <div className="stack w-full">
+              <div className="inline-grid *:[grid-area:1/1] w-full">
                 <div
                   style={at(2, 4)}
-                  className="scene-in ml-auto w-[88%] rounded-[10px] border border-[var(--purple-500)] bg-ai-subtle px-3 py-2"
+                  className="scene-in ml-auto w-[88%] rounded-[10px] bg-ai-subtle px-3 py-2"
                 >
                   <span className="flex items-center gap-1 text-[11px] font-semibold text-ai">
-                    <Sparkles aria-hidden="true" className="size-3" /> AI draft · 94% confident
+                    <Sparkles aria-hidden="true" className="size-3" /> AI draft
+                    <span className="font-medium text-muted-foreground">· 94% confident</span>
                   </span>
                   <p className="mt-1 text-[12px] text-foreground">
                     Site visits are free. A 2BHK in Vijay Nagar starts from ₹48,00,000.
                   </p>
-                  <p className="mt-1 text-[10px] text-muted-foreground">Based on: Office hours and prices</p>
+                  <p className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
+                    <BookOpen aria-hidden="true" className="size-3" /> Based on: Office hours and prices
+                  </p>
                   <span className="mt-2 flex gap-2">
                     <span className="relative inline-flex items-center gap-1 rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold text-white">
                       <Send aria-hidden="true" className="size-3" /> Send
@@ -153,7 +159,7 @@ export function AiScreen() {
       timing={[0, 1300, 1300, 1500, 900]}
       label="ERIX AI: a new knowledge source is read and becomes ready, the latest draft shows the source it came from, and on the Approvals page the sales agent's request to create a ₹5,000 draft proposal is approved by a person. Nothing is sent to the customer."
     >
-      <AppFrame title="Approvals" nav={1} className="h-[25rem]">
+      <AppFrame title="Approvals" nav={2} className="h-[25rem]">
         <div className="grid h-full gap-3 overflow-hidden p-3 sm:p-4 md:grid-cols-[1fr_1.5fr]">
           <div className={cn(box, "hidden p-3 md:block")}>
             <p className="text-[12px] font-semibold text-foreground">AI knowledge</p>
@@ -164,7 +170,7 @@ export function AiScreen() {
               </li>
               <li className="flex items-center justify-between gap-2">
                 <span className="truncate text-foreground">Baner listing</span>
-                <span className="stack justify-items-end">
+                <span className="inline-grid *:[grid-area:1/1] justify-items-end">
                   <Pill tone="primary" className="scene-in" style={at(0, 2)}>
                     Reading
                   </Pill>
@@ -194,7 +200,7 @@ export function AiScreen() {
               </div>
               <div className="rounded-[10px] bg-[var(--brand-blue)] p-2.5 text-white">
                 <p className="text-[10px] text-white/85">Automations on hold</p>
-                <p className="stack mt-1 font-display text-xl font-bold text-white">
+                <p className="inline-grid *:[grid-area:1/1] mt-1 font-display text-xl font-bold text-white">
                   <span className="scene-in" style={at(0, 5)}>1</span>
                   <span className="scene-in" style={at(5)}>0</span>
                 </p>
@@ -203,7 +209,7 @@ export function AiScreen() {
             <div className={cn(box, "p-3")}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-[12px] font-semibold text-foreground">Sales agent: qualify a new enquiry</span>
-                <span className="stack">
+                <span className="inline-grid *:[grid-area:1/1]">
                   <Pill tone="warning" icon={Clock} className="scene-in" style={at(0, 5)}>
                     Waiting for approval
                   </Pill>
@@ -225,7 +231,7 @@ export function AiScreen() {
                   <dd className="text-foreground">₹5,000</dd>
                 </dl>
               </div>
-              <div className="stack mt-3 w-full">
+              <div className="inline-grid *:[grid-area:1/1] mt-3 w-full">
                 <span style={at(0, 5)} className="scene-in flex flex-wrap justify-end gap-2">
                   <span className="rounded-[6px] border border-error px-2.5 py-1 text-[11px] font-semibold text-error">
                     Stop
@@ -298,7 +304,7 @@ function Deal({ name, detail, value, className, style, children }: {
 }
 
 const swap = (a: string, b: string, step: number) => (
-  <span className="stack">
+  <span className="inline-grid *:[grid-area:1/1]">
     <span className="scene-in" style={at(0, step)}>{a}</span>
     <span className="scene-in" style={at(step)}>{b}</span>
   </span>
@@ -313,7 +319,7 @@ export function PipelineScreen() {
     >
       <AppFrame
         title="Pipeline · Real estate"
-        nav={2}
+        nav={3}
         className="h-[25rem]"
         action={
           <span className="flex gap-1 text-[11px]">
@@ -364,7 +370,7 @@ export function InvoiceScreen() {
         nav={3}
         className="h-[25rem]"
         action={
-          <span className="stack justify-items-end">
+          <span className="inline-grid *:[grid-area:1/1] justify-items-end">
             <Pill className="scene-in" style={at(0, 2)}>Draft</Pill>
             <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>Sent</Pill>
             <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>Paid</Pill>
@@ -373,6 +379,9 @@ export function InvoiceScreen() {
       >
         <div className="grid h-full gap-3 overflow-hidden p-3 sm:p-4 md:grid-cols-[1fr_1.25fr]">
           <div className="hidden space-y-2.5 text-[11px] md:block">
+            <p className="flex items-center gap-1 rounded-[6px] bg-accent-muted px-2 py-1 text-accent">
+              <CheckCircle2 aria-hidden="true" className="size-3" /> From proposal PRO-0018, accepted on a phone
+            </p>
             <div>
               <p className="text-muted-foreground">Bill to</p>
               <p className="mt-1 rounded-[6px] border border-border-strong bg-surface px-2 py-1.5 text-foreground">Rohan Mehta</p>
@@ -414,7 +423,7 @@ export function InvoiceScreen() {
               <span className="tabular-nums">₹29,500</span>
             </p>
             <p className="mt-1 text-subtle">Rupees Twenty Nine Thousand Five Hundred Only</p>
-            <div className="stack mt-auto w-full pt-2">
+            <div className="inline-grid *:[grid-area:1/1] mt-auto w-full pt-2">
               <p style={at(1, 4)} className="scene-in flex items-center gap-1 text-accent">
                 <Link2 aria-hidden="true" className="size-3" /> Razorpay payment link ready
               </p>
@@ -497,10 +506,9 @@ export function FlowScreen() {
               icon={Clock}
               kicker="Wait for a reply"
               title="Up to 1 day"
-              ai
               className="@min-[36rem]:w-[24%]"
               status={
-                <span className="stack">
+                <span className="inline-grid *:[grid-area:1/1]">
                   <Pill tone="warning" className="scene-in" style={at(3, 4)}>Waiting</Pill>
                   {done(4)}
                 </span>
@@ -508,7 +516,13 @@ export function FlowScreen() {
             />
             <span aria-hidden="true" className={line} />
             <div className="flex min-w-0 flex-col gap-2 @min-[36rem]:flex-1">
-              <Node icon={UserRound} kicker="Replied" title="Update contact: Interested" className="opacity-60" />
+              {/* The branch not taken: dashed, at full contrast (no opacity). */}
+              <Node
+                icon={UserRound}
+                kicker="Replied"
+                title="Update contact: Interested"
+                className="border border-dashed border-border-strong bg-transparent shadow-none"
+              />
               <Node icon={MessageCircle} kicker="No reply" title="Send a follow-up" status={done(5)} className="border-accent-border" />
             </div>
           </div>
@@ -517,7 +531,7 @@ export function FlowScreen() {
               Run · <span className="font-semibold">Rohan Mehta</span>
               <span className="text-subtle"> · started 9:42 pm</span>
             </span>
-            <span className="stack justify-items-end">
+            <span className="inline-grid *:[grid-area:1/1] justify-items-end">
               <Pill tone="primary" className="scene-in" style={at(0, 5)}>Running</Pill>
               <Pill tone="success" icon={CheckCheck} className="scene-in scene-pop" style={at(5)}>Done</Pill>
             </span>
@@ -588,7 +602,7 @@ export function BookingScreen() {
               </span>
             ))}
           </div>
-          <div className="stack mt-auto w-full pt-3">
+          <div className="inline-grid *:[grid-area:1/1] mt-auto w-full pt-3">
             <p style={at(0, 3)} className="scene-in text-[10px] text-subtle">
               Times in India Standard Time
             </p>
@@ -616,6 +630,9 @@ export function BookingScreen() {
                 Rohan Mehta <Pill tone="success">Confirmed</Pill>
               </p>
               <p className="text-muted-foreground">Site visit · Sat 31 Oct, 11:30 am</p>
+              <p className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
+                <Icon name="googlecalendar" size={11} /> On your Google Calendar
+              </p>
             </li>
           </ul>
         </div>
@@ -627,7 +644,7 @@ export function BookingScreen() {
 /* ── Project documents + click-to-sign (CRM projects / Storage) ──────── */
 
 const docStatus = (
-  <span className="stack justify-items-end">
+  <span className="inline-grid *:[grid-area:1/1] justify-items-end">
     <Pill tone="warning" icon={Clock} className="scene-in" style={at(0, 2)}>
       Waiting for Ananya
     </Pill>
@@ -647,7 +664,7 @@ export function DocumentsScreen() {
       timing={[0, 1300, 1400, 1100, 1600]}
       label="A project in ERIX with its documents. The client signs the quotation in her portal, then the business signs; the file turns Signed with an audit seal. Other files are shared with the client."
     >
-      <AppFrame title="2BHK interiors, Vijay Nagar" nav={2} className="h-[25rem]" action={<Pill tone="success">Active</Pill>}>
+      <AppFrame title="2BHK interiors, Vijay Nagar" nav={3} className="h-[25rem]" action={<Pill tone="success">Active</Pill>}>
         <div className="grid h-full gap-3 overflow-hidden p-3 sm:p-4 md:grid-cols-[1.4fr_1fr]">
           <div className="min-w-0 space-y-2.5">
             <div className={cn(box, "p-3")}>
@@ -714,7 +731,7 @@ export function LeadsScreen() {
       timing={[0, 1200, 1100, 1100, 1600]}
       label="ERIX LAIE, invite only: a search for dental clinics in Vijayawada lists matching businesses, their contact details are checked one by one, and a drafted outreach message waits for the owner's review."
     >
-      <AppFrame title="Lead research" nav={1} className="h-[25rem]" action={<Pill tone="primary">Invite only</Pill>}>
+      <AppFrame title="Lead research" nav={-1} className="h-[25rem]" action={<Pill tone="primary">Invite only</Pill>}>
         <div className="flex h-full flex-col gap-3 overflow-hidden p-3 sm:p-4">
           <p className="rounded-[6px] border border-border-strong bg-surface px-2.5 py-1.5 text-[12px] text-foreground">
             Dental clinics in Vijayawada
@@ -723,7 +740,7 @@ export function LeadsScreen() {
             {prospects.map((p, i) => (
               <li key={p} className={cn(box, "flex items-center justify-between gap-2 p-2.5")}>
                 <span className="truncate text-[12px] font-semibold text-foreground">{p}</span>
-                <span className="stack justify-items-end">
+                <span className="inline-grid *:[grid-area:1/1] justify-items-end">
                   <Pill tone="primary" className="scene-in" style={at(0, i + 1)}>Checking</Pill>
                   <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(i + 1)}>
                     Details checked
@@ -752,48 +769,6 @@ export function LeadsScreen() {
   );
 }
 
-/* ── The engine underneath (ERIX Store, coming soon) ───────────────────── */
-
-const engineEvents = [
-  ["queue", "A job added to a queue and run once", "Done"],
-  ["cache", "A value read straight from memory", "Hit"],
-  ["lock", "A lock held so two workers never clash", "Held"],
-  ["event", "A message published to its subscribers", "Delivered"],
-] as const;
-
-export function EngineScreen() {
-  return (
-    <Scene
-      steps={4}
-      timing={1100}
-      hold={3200}
-      label="ERIX Store, coming soon: an engine for queues, an in-memory cache, locks and publish-subscribe messages, shown as a live list of events."
-    >
-      <div className="surface-light h-[25rem] overflow-hidden rounded-[12px] bg-[var(--mk-navy)] p-4 font-mono shadow-[var(--shadow-lg)]">
-        <p className="flex items-center justify-between text-[11px] text-[var(--blue-200)]">
-          <span>erix-store · live</span>
-          <Pill tone="warning">Coming soon</Pill>
-        </p>
-        <ul className="mt-4 space-y-3">
-          {engineEvents.map(([kind, text, result], i) => (
-            <li
-              key={kind}
-              style={at(i + 1)}
-              className="scene-in rounded-[10px] border border-[color-mix(in_srgb,var(--ink-inverse)_14%,transparent)] p-3"
-            >
-              <p className="flex items-center justify-between gap-2 text-[11px]">
-                <span className="text-[var(--blue-200)]">{kind}</span>
-                <span className="text-[var(--ink-inverse)]">{result}</span>
-              </p>
-              <p className="mt-1 font-sans text-[12px] text-[var(--ink-inverse)]">{text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Scene>
-  );
-}
-
 /* ── WhatsApp broadcast (CRM → Connect) ────────────────────────────────── */
 
 export function BroadcastScreen() {
@@ -803,7 +778,7 @@ export function BroadcastScreen() {
       timing={[0, 1300, 1300, 1500, 1600]}
       label="An ERIX WhatsApp broadcast: the Diwali offer template, approved by WhatsApp, goes to the 1,186 customers tagged diwali, and the broadcast finishes. Meta bills the business directly, with no ERIX markup."
     >
-      <AppFrame title="New broadcast" nav={0} className="h-[25rem]">
+      <AppFrame title="New broadcast" nav={3} className="h-[25rem]">
         <div className="flex h-full flex-col gap-3 overflow-hidden p-3 sm:p-4">
           <div className={cn(box, "p-3")}>
             <p className="text-[11px] text-subtle">Template · approved by WhatsApp</p>
@@ -824,14 +799,14 @@ export function BroadcastScreen() {
           <div className={cn(box, "mt-auto p-3")}>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-[12px] font-semibold text-foreground">Diwali festive offer</span>
-              <span className="stack justify-items-end">
+              <span className="inline-grid *:[grid-area:1/1] justify-items-end">
                 <Pill className="scene-in" style={at(0, 2)}>Ready</Pill>
                 <Pill tone="primary" icon={Send} className="scene-in" style={at(2, 4)}>Sending</Pill>
                 <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(4)}>Sent</Pill>
               </span>
             </div>
             <span className="mt-2.5 block h-1.5 overflow-hidden rounded-full bg-background">
-              <span className="stack block h-full">
+              <span className="inline-grid *:[grid-area:1/1] h-full">
                 <span style={at(2, 3)} className="scene-in block h-full w-1/3 rounded-full bg-accent" />
                 <span style={at(3, 4)} className="scene-in block h-full w-2/3 rounded-full bg-accent" />
                 <span style={at(4)} className="scene-in block h-full w-full rounded-full bg-accent" />
@@ -855,5 +830,6 @@ export const SCREENS: Record<ScreenKey, () => ReactNode> = {
   ai: AiScreen,
   documents: DocumentsScreen,
   leads: LeadsScreen,
-  engine: EngineScreen,
+  crm: CrmScreen,
+  flowCanvas: FlowCanvasScreen,
 };

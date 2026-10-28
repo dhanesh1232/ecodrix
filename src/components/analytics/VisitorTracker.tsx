@@ -1,7 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { analyticsConsented } from "@/lib/legal/consent";
+import { captureLanding, getLanding, getVisitorId } from "@/lib/track";
 
 const API_URL =
   process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
@@ -12,40 +14,61 @@ const API_URL =
  *
  * - Uses navigator.sendBeacon (non-blocking, survives page unload)
  * - Generates a per-session visitor ID stored in sessionStorage
- * - Captures referrer, path, and UTM params (first hit only)
+ * - Captures the landing referrer, path and UTM params into sessionStorage on
+ *   the first load (no network), and sends them with the first beacon after
+ *   analytics consent — also when consent comes later on another page
  * - Fail-open: any error is swallowed; tracking never breaks the page
  */
-function getVisitorId(): string {
-  try {
-    let id = sessionStorage.getItem("ecdx_vid");
-    if (!id) {
-      id = `v_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
-      sessionStorage.setItem("ecdx_vid", id);
-    }
-    return id;
-  } catch {
-    return "v_anon";
-  }
-}
+
+/**
+ * Only the live site reports visits. Local dev, test runs and Vercel previews
+ * used to beacon the production API from their own origin, which CORS
+ * rejected (~1,600 "CORS blocked" warnings in the system logs on 26 Oct).
+ */
+const TRACKED_HOSTS = new Set(["ecodrix.com", "www.ecodrix.com"]);
 
 export function VisitorTracker() {
   const pathname = usePathname();
   const firstHit = useRef(true);
+  const lastSent = useRef<string | null>(null);
+  // Bumped when the visitor answers the cookie banner, so the page they are
+  // on is counted the moment they consent.
+  const [consentTick, setConsentTick] = useState(0);
 
   useEffect(() => {
+    const onChange = () => setConsentTick((t) => t + 1);
+    window.addEventListener("ecodrix:consent-changed", onChange);
+    return () => window.removeEventListener("ecodrix:consent-changed", onChange);
+  }, []);
+
+  useEffect(() => {
+    captureLanding();
+    if (!TRACKED_HOSTS.has(window.location.hostname)) return;
+    // The cookie banner promises analytics only with consent; this counts too.
+    if (!analyticsConsented()) return;
+    // A consent change on the same page must not count it twice.
+    if (lastSent.current === pathname) return;
     try {
       const url = `${API_URL}/v1/api/platform/public/track`;
-      const params = new URLSearchParams(window.location.search);
+      const landing = firstHit.current ? getLanding() : null;
       const payload = JSON.stringify({
         visitorId: getVisitorId(),
         path: pathname,
         title: document.title,
-        referrer: firstHit.current ? document.referrer || null : null,
-        utm: firstHit.current
+        referrer: landing?.referrer ?? null,
+        utm: landing
           ? {
-            source: params.get("utm_source"),
-            medium: params.get("utm_medium"),
-            campaign: params.get("utm_campaign"),
+            source: landing.utmSource,
+            medium: landing.utmMedium,
+            campaign: landing.utmCampaign,
+          }
+          : null,
+        // Columns exist for source/medium/campaign only; the rest rides here.
+        eventData: landing
+          ? {
+            landingPath: landing.landingPath,
+            utmTerm: landing.utmTerm,
+            utmContent: landing.utmContent,
           }
           : null,
         screen: firstHit.current
@@ -55,6 +78,7 @@ export function VisitorTracker() {
       });
 
       firstHit.current = false;
+      lastSent.current = pathname;
 
       // sendBeacon is fire-and-forget and survives navigation
       if (navigator.sendBeacon) {
@@ -72,7 +96,7 @@ export function VisitorTracker() {
     } catch {
       // fail-open — tracking must never break the page
     }
-  }, [pathname]);
+  }, [pathname, consentTick]);
 
   return null;
 }

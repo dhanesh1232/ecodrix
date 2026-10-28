@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { Crumbs } from "@/components/platform/ModulePage";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { LEGAL, type LegalBlock, type LegalDoc } from "@/lib/legal/config";
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -104,8 +105,8 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
 
   return (
     <div className="w-full">
-      <section className="erix-mk-section erix-mk-section--subtle pt-10! pb-12! md:pt-14!">
-        <div className="wrapper">
+      <section data-tone="subtle" className="py-section bg-background pt-10! pb-12! md:pt-14!">
+        <div className="mx-auto w-full max-w-wrap px-gutter">
           <Crumbs items={[{ name: "Legal", href: "/legal" }, { name: doc.title }]} />
           <p className="mt-6 text-[14px] font-semibold text-accent">{doc.pill}</p>
           <h1 className="mt-2 text-[clamp(34px,4.6vw,52px)] leading-[1.06] tracking-[-0.035em]">{doc.title}</h1>
@@ -116,18 +117,21 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
         </div>
       </section>
 
-      <div className="erix-mk-section pt-10! md:pt-14!">
-        <div className="wrapper grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-16">
+      <div className="py-section pt-10! md:pt-14!">
+        <div className="mx-auto w-full max-w-wrap px-gutter grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-16">
           <aside>
-            <details className="erix-mk-faq__item rounded-[12px] bg-background px-4 lg:hidden">
-              <summary>
-                <span>Contents</span>
-                <Icon name="plus" size={18} variant="line" />
-              </summary>
-              <div className="pb-4">
-                <Contents doc={doc} />
-              </div>
-            </details>
+            <Accordion type="single" collapsible className="rounded-[12px] bg-background px-4 lg:hidden">
+              <AccordionItem value="contents" className="border-b-0">
+                <AccordionTrigger heading="div" className="py-4" icon={<Icon name="plus" size={18} variant="line" />}>
+                  Contents
+                </AccordionTrigger>
+                <AccordionContent className="pb-4">
+                  <nav aria-label="Contents">
+                    <Contents doc={doc} />
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
             <nav aria-label="Contents" className="sticky top-24 hidden lg:block">
               <p className="mb-3 px-3 text-sm font-semibold text-foreground">Contents</p>
               <Contents doc={doc} />
@@ -158,7 +162,7 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                 </a>{" "}
                 and we&apos;ll help clarify anything you need.
               </p>
-              <Link href="/legal" className="erix-mk-link group mt-4">
+              <Link href="/legal" className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus group mt-4">
                 <Icon name="arrow-left" size={14} variant="line" />
                 All legal documents
               </Link>

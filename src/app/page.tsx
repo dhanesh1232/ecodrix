@@ -1,18 +1,22 @@
 // Server Component: every section renders to HTML, so crawlers and link
 // previews see the real content without running JavaScript. Motion only
-// enhances what's already there (globals.css → "Motion"). Order follows the
-// house brief: promise → product → where leads go missing → the agent →
-// setup → verticals → proof → FAQ → call to action. Under the hero: the live
-// integrations ("Works with"); after the pain points: channels in, work out. No pricing during the
-// pilot: terms are agreed with each client (founder decision).
+// enhances what's already there (framer-motion islands, globals.css →
+// "Motion"). The page tells one story: promise → where leads go missing →
+// every channel in, every outcome out (the beam, founder's must-have) →
+// one enquiry's life in ERIX (the story) → inside ERIX (Connect, CRM, Flow,
+// Analytics, one screen each) → the agent → everything in 1.0 →
+// India → a day in each trade → why ECODrIx exists and how pilots work →
+// proof → FAQ → call to action. No pricing during the pilot: terms are
+// agreed with each client (founder decision).
 
 import { Agents } from "@/components/home/Agents";
+import { Capabilities } from "@/components/home/Capabilities";
 import { Hero } from "@/components/home/Hero";
+import { BuiltForIndia, Heart } from "@/components/home/HowItWorks";
 import { ChannelBeam, WorksWith } from "@/components/home/Integrations";
-import { BuiltForIndia, HowItWorks } from "@/components/home/HowItWorks";
 import { Pain } from "@/components/home/Pain";
-import { ProductTour } from "@/components/home/ProductTour";
-import { Stats } from "@/components/home/Stats";
+import { InsideErix } from "@/components/home/InsideErix";
+import { HomeStory } from "@/components/home/Story";
 import { Testimonials } from "@/components/home/Testimonials";
 import { UseCases } from "@/components/home/UseCases";
 import { WaitlistLazy } from "@/components/home/WaitlistLazy";
@@ -69,14 +73,16 @@ export default function Home() {
       <JsonLd data={getFAQSchema(faqs)} />
       <Hero />
       <WorksWith />
-      <Stats />
-      <ProductTour />
       <Pain />
-      <ChannelBeam />
+      {/* Founder, 27 Oct: required on home. Channels flow into ERIX and out as outcomes, one looping wave. */}
+      <ChannelBeam tone="subtle" />
+      <HomeStory />
+      <InsideErix />
       <Agents />
-      <HowItWorks />
+      <Capabilities />
       <BuiltForIndia />
       <UseCases />
+      <Heart />
       <Testimonials />
       <MkSection id="faq" tone="subtle" title="Questions owners ask">
         <Faq items={faqs} />

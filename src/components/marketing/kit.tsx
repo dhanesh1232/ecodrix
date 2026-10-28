@@ -1,7 +1,8 @@
 /**
  * The ERIX marketing kit (DS `components/src/marketing/marketing.jsx`),
- * ported as server components on the site's tokens. CSS: `erix-mk-*` in
- * globals.css. Interactive parts live in seg-tabs.tsx (client).
+ * ported as server components on the site's tokens. Styles are inline
+ * Tailwind; custom values (type scale, layout, brand colours, animations) are
+ * @theme tokens in globals.css. Interactive parts live in seg-tabs.tsx (client).
  *
  *   <MkHero>        navy band, swoosh + red dot, BlurText h1, product visual
  *   <MkSection>     tone plain | subtle | navy, h2 + lead, content
@@ -10,16 +11,19 @@
  *   <TrustBar>      "Works with" integrations, as a marquee
  *   <PrimaryCta> <WhatsAppCta>     the two calls to action
  *
- * Sections carry `erix-reveal` (design system v13): MotionRoot lets the ones
- * below the fold rise in once as they scroll into view.
+ * Product visuals rise in once with <Reveal> (framer-motion) as they scroll
+ * into view; headings and body text never animate (design system v13).
  */
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BrandIcon, type BrandName, Icon, type GlyphName } from "@/components/icons";
+import { Icon, type IconName, isBrandName, type GlyphName } from "@/components/icons";
 import { BlurText } from "@/components/motion/blur-text";
+import { Reveal } from "@/components/motion/motion";
 import { Spotlight } from "@/components/motion/spotlight";
 import { Marquee } from "@/components/motion/surface";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { buttonVariants } from "@/components/ui/button";
 import { PRIMARY_CTA, WHATSAPP_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +31,7 @@ import { cn } from "@/lib/utils";
 
 export function PrimaryCta({ lg, className }: { lg?: boolean; className?: string }) {
   return (
-    <Link href={PRIMARY_CTA.href} className={cn("btn-primary group", lg && "btn-lg", className)}>
+    <Link href={PRIMARY_CTA.href} className={cn(buttonVariants({ size: lg ? "lg" : "default" }), "group", className)}>
       {PRIMARY_CTA.label}
       <Icon name="arrow-right" variant="line" size={16} />
     </Link>
@@ -40,11 +44,11 @@ export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: strin
       href={WHATSAPP_CTA.href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn("btn-ghost", lg && "btn-lg", className)}
+      className={cn(buttonVariants({ variant: "ghost", size: lg ? "lg" : "default" }), className)}
     >
-      {/* Mono mark: the palette is brand-only, so no green on a button. */}
-      <BrandIcon name="whatsapp" size={16} variant="mono" label={null} />
+      <Icon name="whatsapp" size={16} />
       {WHATSAPP_CTA.label}
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );
 }
@@ -54,12 +58,15 @@ export function WhatsAppCta({ lg, className }: { lg?: boolean; className?: strin
 /** The navy band's one brand flourish: the logo's swoosh and red dot. */
 function HeroMotif() {
   return (
-    <svg className="erix-mk-hero__motif" viewBox="0 0 1200 520" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
-      <path className="erix-mk-hero__swoosh" d="M180 760 C 520 300 900 220 1320 250" />
-      <circle className="erix-mk-hero__dot" cx="1010" cy="438" r="26" />
+    <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 1200 520" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+      <path className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:56]" d="M180 760 C 520 300 900 220 1320 250" />
+      <circle className="fill-hero-dot max-[900px]:hidden" cx="1010" cy="438" r="26" />
     </svg>
   );
 }
+
+/** Lead, CTAs and facts fade in after the headline; `--d` sets each delay. */
+const fadeIn = "motion-safe:animate-fade motion-safe:[animation-delay:var(--d,420ms)]";
 
 /**
  * Hero: the promise (BlurText h1, sharpens in), the lead and CTAs fading in
@@ -85,30 +92,38 @@ export function MkHero({
   className?: string;
 }) {
   return (
-    <section className={cn("erix-mk-hero band-navy", className)}>
+    <section className={cn("band-navy relative overflow-hidden pt-[clamp(48px,7vw,45px)]", className)}>
       <HeroMotif />
-      <div className="wrapper erix-mk-hero__grid">
-        <div className="erix-mk-hero__copy">
+      <div className="relative mx-auto grid w-full max-w-wrap grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] items-end gap-[clamp(32px,5vw,64px)] px-gutter max-[900px]:grid-cols-[1fr]">
+        <div className="pb-[clamp(48px,7vw,45px)] max-[900px]:pb-0">
           {top}
-          <BlurText as="h1" text={title} className="erix-mk-hero__title" />
-          <p className="erix-mk-hero__lead fade-in">{lead}</p>
+          <BlurText as="h1" text={title} className="font-display text-mk-hero text-balance text-white" />
+          <p className={`mt-[22px] max-w-[34em] font-sans text-mk-hero-lead text-pretty text-[rgba(255,255,255,0.78)] ${fadeIn}`}>{lead}</p>
           {actions && (
-            <div className="erix-mk-hero__ctas fade-in" style={{ "--d": "520ms" } as React.CSSProperties}>
+            <div
+              className={`mt-[30px] flex flex-wrap gap-2.5 max-[900px]:*:flex-[1_1_100%] ${fadeIn}`}
+              style={{ "--d": "520ms" } as React.CSSProperties}
+            >
               {actions}
             </div>
           )}
           {facts.length > 0 && (
-            <ul className="erix-mk-hero__facts fade-in" style={{ "--d": "620ms" } as React.CSSProperties}>
+            <ul
+              className={`mt-[26px] flex list-none flex-wrap gap-x-[22px] gap-y-2 ${fadeIn}`}
+              style={{ "--d": "620ms" } as React.CSSProperties}
+            >
               {facts.map((f) => (
-                <li key={f.label}>
-                  <Icon name={f.icon} variant="line" size={16} />
+                <li key={f.label} className="inline-flex items-center gap-[7px] font-sans text-sm/5 font-medium text-[rgba(255,255,255,0.78)]">
+                  <Icon name={f.icon} variant="line" size={16} className="text-on-navy-link" />
                   {f.label}
                 </li>
               ))}
             </ul>
           )}
         </div>
-        {visual && <div className="erix-mk-hero__visual hero-in">{visual}</div>}
+        {visual && (
+          <div className="relative self-end motion-safe:animate-rise motion-safe:[animation-delay:var(--d,200ms)]">{visual}</div>
+        )}
       </div>
     </section>
   );
@@ -129,27 +144,44 @@ export function BrowserFrame({
   children: ReactNode;
 }) {
   return (
-    <div className={cn("erix-mk-browser surface-light", light && "erix-mk-browser--light", className)}>
-      <div className="erix-mk-browser__bar" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-        <span className="erix-mk-browser__url">
+    <div
+      data-browser=""
+      className={cn(
+        "surface-light overflow-hidden bg-background",
+        light
+          ? "rounded-[14px] shadow-lg"
+          : "rounded-[14px_14px_0_0] shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_40px_80px_-24px_rgba(4,13,66,0.55)]",
+        className,
+      )}
+    >
+      <div className="flex h-9 items-center gap-1.5 border-b border-b-border-soft bg-surface px-3.5" aria-hidden="true">
+        <i className="size-[9px] rounded-[50%] bg-border-strong opacity-60" />
+        <i className="size-[9px] rounded-[50%] bg-border-strong opacity-60" />
+        <i className="size-[9px] rounded-[50%] bg-border-strong opacity-60" />
+        <span className="mx-auto inline-flex items-center gap-[5px] rounded-sm bg-sunken px-3 py-[3px] font-sans text-[11.5px]/4 font-medium text-subtle">
           <Icon name="lock" variant="line" size={11} />
           {url}
         </span>
       </div>
-      <div className="erix-mk-browser__body">{children}</div>
+      {/* An app screen inside a browser window drops its own frame. */}
+      <div className="p-3.5 [&:has(>.scene_[data-app-frame])]:p-0">{children}</div>
     </div>
   );
 }
 
 export function PhoneFrame({ head, className, children }: { head?: ReactNode; className?: string; children: ReactNode }) {
   return (
-    <div className={cn("erix-mk-phone surface-light", className)}>
-      <div className="erix-mk-phone__notch" aria-hidden="true" />
-      {head && <div className="erix-mk-phone__head">{head}</div>}
-      <div className="erix-mk-phone__body">{children}</div>
+    <div
+      className={cn(
+        "surface-light relative w-[268px] rounded-[34px] bg-[#0d1020] p-2.5 shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_30px_60px_-20px_rgba(4,13,66,0.6)]",
+        className,
+      )}
+    >
+      <div className="absolute top-3.5 left-1/2 z-2 -ml-[38px] h-5 w-[76px] rounded-[12px] bg-[#0d1020]" aria-hidden="true" />
+      {head && (
+        <div className="flex items-center gap-2 rounded-[26px_26px_0_0] border-b border-b-border-soft bg-surface px-3.5 pt-[34px] pb-2.5">{head}</div>
+      )}
+      <div className="overflow-hidden rounded-[0_0_26px_26px] bg-background px-2.5 pt-3 pb-4">{children}</div>
     </div>
   );
 }
@@ -180,23 +212,19 @@ export function MkSection({
     <section
       id={id}
       aria-labelledby={title ? headingId : undefined}
-      className={cn(
-        "erix-mk-section scroll-mt-20",
-        tone === "subtle" && "erix-mk-section--subtle",
-        tone === "navy" && "band-navy",
-        className,
-      )}
+      data-tone={tone === "subtle" ? "subtle" : undefined}
+      className={cn("py-section scroll-mt-20", tone === "subtle" && "bg-background", tone === "navy" && "band-navy", className)}
     >
-      <div className="wrapper erix-reveal">
+      <div className="mx-auto w-full max-w-wrap px-gutter">
         {(title || lead) && (
-          <div className={cn("erix-mk-section__head", center && "text-center [&_.erix-mk-lead]:mx-auto")}>
+          <div className={cn("mb-[clamp(36px,5vw,56px)]", center && "text-center")}>
             {kicker && <div className="mb-3">{kicker}</div>}
             {title && (
-              <h2 id={headingId} className="erix-mk-h2">
+              <h2 id={headingId} className="font-display text-mk-h2 text-foreground text-balance">
                 {title}
               </h2>
             )}
-            {lead && <p className="erix-mk-lead">{lead}</p>}
+            {lead && <p className="mt-4 max-w-[60ch] font-sans text-mk-lead text-muted-foreground text-pretty">{lead}</p>}
           </div>
         )}
         {children}
@@ -208,14 +236,14 @@ export function MkSection({
 /** Where leads go missing today. */
 export function PainGrid({ items }: { items: { icon: GlyphName; title: string; text: string }[] }) {
   return (
-    <ul className="erix-mk-pain">
+    <ul className="grid list-none grid-cols-3 gap-4 max-[900px]:grid-cols-[1fr]">
       {items.map((it) => (
-        <Spotlight as="li" key={it.title} className="erix-anim-host">
-          <span className="erix-mk-pain__icon">
+        <Spotlight as="li" key={it.title} className="rounded-xl bg-surface px-6 py-[26px] shadow-card">
+          <span className="mb-[18px] grid size-11 place-items-center rounded-lg bg-error-subtle text-error">
             <Icon name={it.icon} size={20} variant="duo" />
           </span>
-          <h3>{it.title}</h3>
-          <p>{it.text}</p>
+          <h3 className="font-sans text-lg/6 font-[650] tracking-[-0.01em]">{it.title}</h3>
+          <p className="mt-2 font-sans text-[15px]/[1.6] text-muted-foreground">{it.text}</p>
         </Spotlight>
       ))}
     </ul>
@@ -248,20 +276,23 @@ export function FeatureSplit({
 }) {
   const H = headingLevel;
   return (
-    <div className={cn("erix-mk-split", flip && "erix-mk-split--flip")}>
-      <div className="erix-mk-split__copy">
+    <div
+      data-split=""
+      className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] items-center gap-[clamp(32px,6vw,88px)] max-[900px]:grid-cols-[1fr] [[data-split]+&]:mt-[clamp(64px,9vw,120px)]"
+    >
+      <div className={cn(flip && "order-2 max-[900px]:order-0")}>
         {module && (
-          <span className={cn("erix-mk-split__module", ai && "erix-mk-split__module--ai")}>
+          <span className={cn("mb-3.5 inline-flex items-center gap-[7px] font-sans text-[13.5px]/[18px] font-[650]", ai ? "text-ai" : "text-accent")}>
             <Icon name={icon} size={14} variant="solid" />
             {module}
           </span>
         )}
-        <H className="erix-mk-h3">{title}</H>
-        {children && <p className="erix-mk-body">{children}</p>}
+        <H className="font-display text-mk-h3 text-foreground text-balance">{title}</H>
+        {children && <p className="mt-3 max-w-[56ch] font-sans text-mk-body text-muted-foreground text-pretty">{children}</p>}
         {points.length > 0 && (
-          <ul className="erix-mk-ticks">
+          <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent">
             {points.map((p) => (
-              <li key={p}>
+              <li key={p} className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground">
                 <Icon name="check" size={16} strokeWidth={2.2} variant="line" />
                 {p}
               </li>
@@ -269,13 +300,18 @@ export function FeatureSplit({
           </ul>
         )}
         {link && (
-          <Link href={link.href} className="erix-mk-link group mt-6">
+          <Link
+            href={link.href}
+            className="group mt-6 inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus"
+          >
             {link.label}
             <Icon name="arrow-right" size={14} variant="line" />
           </Link>
         )}
       </div>
-      <div className="erix-mk-split__visual">{visual}</div>
+      <Reveal className="relative rounded-3xl bg-background p-[clamp(14px,3vw,32px)] shadow-[inset_0_0_0_1px_var(--border-soft)] in-data-[tone=subtle]:bg-surface">
+        {visual}
+      </Reveal>
     </div>
   );
 }
@@ -283,14 +319,20 @@ export function FeatureSplit({
 /** A real sequence, so the numbers are earned. */
 export function Steps({ items }: { items: { title: string; text: string; time?: string }[] }) {
   return (
-    <ol className="erix-mk-steps">
+    <ol className="grid list-none grid-cols-3 max-[900px]:grid-cols-[1fr]">
       {items.map((s, i) => (
-        <li key={s.title}>
-          <span className="erix-mk-steps__n">{i + 1}</span>
-          <h3>{s.title}</h3>
-          <p>{s.text}</p>
+        <li
+          key={s.title}
+          // Phones: the steps stack, each divided from the one above.
+          className="relative pr-7 not-first:border-l not-first:border-l-border-soft not-first:pl-7 max-[900px]:[border-left:0]! max-[900px]:[border-top:1px_solid_var(--border-soft)] max-[900px]:px-0! max-[900px]:py-[22px] max-[900px]:first:[border-top:0] max-[900px]:first:pt-0"
+        >
+          <span className="mb-[18px] grid size-9 place-items-center rounded-full bg-accent font-sans text-[15px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">
+            {i + 1}
+          </span>
+          <h3 className="font-sans text-lg/6 font-[650]">{s.title}</h3>
+          <p className="mt-2 font-sans text-[15px]/[1.6] text-muted-foreground">{s.text}</p>
           {s.time && (
-            <span className="erix-mk-steps__time">
+            <span className="mt-3.5 inline-flex items-center gap-1.5 font-sans text-[13px]/[18px] font-semibold text-subtle">
               <Icon name="clock" size={13} variant="line" />
               {s.time}
             </span>
@@ -301,20 +343,18 @@ export function Steps({ items }: { items: { title: string; text: string; time?: 
   );
 }
 
-/** FAQ on native <details>: keyboard and find-in-page work for free. */
+/** FAQ on the shadcn Accordion: the first answer starts open, and every
+ *  answer is in the server HTML (find-in-page, crawlers, no-JS). */
 export function Faq({ items, className }: { items: { q: string; a: string }[]; className?: string }) {
   return (
-    <div className={cn("erix-mk-faq", className)}>
-      {items.map((q, i) => (
-        <details key={q.q} className="erix-mk-faq__item" open={i === 0 ? true : undefined}>
-          <summary>
-            <span>{q.q}</span>
-            <Icon name="plus" size={18} variant="line" />
-          </summary>
-          <div className="erix-mk-faq__a">{q.a}</div>
-        </details>
+    <Accordion type="single" collapsible defaultValue={items[0]?.q} className={cn("max-w-full border-t", className)}>
+      {items.map((q) => (
+        <AccordionItem key={q.q} value={q.q}>
+          <AccordionTrigger icon={<Icon name="plus" size={18} variant="line" />}>{q.q}</AccordionTrigger>
+          <AccordionContent className="max-w-[68ch] pr-12 font-sans text-[15.5px]/[1.65] text-muted-foreground">{q.a}</AccordionContent>
+        </AccordionItem>
       ))}
-    </div>
+    </Accordion>
   );
 }
 
@@ -333,18 +373,22 @@ export function CtaBand({
   aside?: ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={id ? `${id}-title` : undefined} className="erix-mk-cta band-navy scroll-mt-20">
-      <svg className="erix-mk-cta__motif" viewBox="0 0 600 300" aria-hidden="true">
-        <path d="M-40 360 C 160 120 380 70 640 90" />
-        <circle cx="566" cy="94" r="12" />
+    <section
+      id={id}
+      aria-labelledby={id ? `${id}-title` : undefined}
+      className="band-navy scroll-mt-20 py-[clamp(56px,7vw,96px)]"
+    >
+      <svg className="pointer-events-none absolute right-0 bottom-0 h-full w-[56%]" viewBox="0 0 600 300" aria-hidden="true">
+        <path className="fill-none stroke-hero-swoosh opacity-[0.28] [stroke-linecap:round] [stroke-width:34]" d="M-40 360 C 160 120 380 70 640 90" />
+        <circle className="fill-hero-dot" cx="566" cy="94" r="12" />
       </svg>
-      <div className={cn("wrapper erix-reveal relative grid items-center gap-10", aside && "lg:grid-cols-[1fr_1.05fr] lg:gap-16")}>
+      <div className={cn("relative mx-auto grid w-full max-w-wrap items-center gap-10 px-gutter", aside && "lg:grid-cols-[1fr_1.05fr] lg:gap-16")}>
         <div>
-          <h2 id={id ? `${id}-title` : undefined} className="erix-mk-cta__title">
+          <h2 id={id ? `${id}-title` : undefined} className="font-display text-mk-cta text-balance text-white">
             {title}
           </h2>
-          {lead && <div className="erix-mk-cta__lead">{lead}</div>}
-          {actions && <div className="erix-mk-hero__ctas">{actions}</div>}
+          {lead && <div className="mt-4 max-w-[46ch] font-sans text-[17px]/[1.6] text-[rgba(255,255,255,0.78)]">{lead}</div>}
+          {actions && <div className="mt-[30px] flex flex-wrap gap-2.5 max-[900px]:*:flex-[1_1_100%]">{actions}</div>}
         </div>
         {aside}
       </div>
@@ -354,34 +398,41 @@ export function CtaBand({
 
 /**
  * "Works with": integrations as an endless row (design system v13 TrustBar
- * with marquee). Third-party marks via BrandIcon, our own channels as
- * glyphs. Only integrations that are live today; one per page at most.
+ * with marquee). Third-party marks in their real colours, our own channels
+ * as glyphs, all through <Icon>. Only integrations that are live today; one per page at most.
  */
 export function TrustBar({
   label = "Works with",
   items,
 }: {
   label?: string;
-  items: { label: string; brand?: BrandName; icon?: GlyphName }[];
+  items: { label: string; icon: IconName }[];
 }) {
   // Short lists repeat once inside the set so the row is wider than the
   // screen; the repeat is hidden from assistive tech and under reduced motion.
   const row = (dup: boolean) =>
     items.map((it) => (
-      <li key={`${dup ? "d" : ""}${it.label}`} className={dup ? "erix-marquee__dup" : undefined} aria-hidden={dup || undefined}>
-        {it.brand ? (
-          <BrandIcon name={it.brand} size={18} label={null} />
+      <li
+        key={`${dup ? "d" : ""}${it.label}`}
+        className={cn(
+          "inline-flex items-center gap-2 font-sans text-[15px]/5 font-semibold whitespace-nowrap text-muted-foreground",
+          dup && "motion-reduce:hidden!",
+        )}
+        aria-hidden={dup || undefined}
+      >
+        {isBrandName(it.icon) ? (
+          <Icon name={it.icon} size={18} />
         ) : (
-          <Icon name={it.icon ?? "plug"} size={18} variant="duo" animate="none" className="text-accent" />
+          <Icon name={it.icon} size={18} variant="duo" className="text-accent" />
         )}
         {it.label}
       </li>
     ));
   return (
-    <div className="erix-mk-trust">
-      <span className="erix-mk-trust__label">{label}</span>
+    <div className="flex items-center gap-6 py-[22px] max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
+      <span className="flex-none font-sans text-[13px]/[18px] font-semibold text-subtle">{label}</span>
       <Marquee duration={36} label={label}>
-        <ul>
+        <ul className="flex list-none flex-wrap gap-x-7 gap-y-2.5">
           {row(false)}
           {row(true)}
         </ul>

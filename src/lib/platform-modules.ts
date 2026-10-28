@@ -99,7 +99,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
     features: [
       { title: "Your own WhatsApp account", body: "Official WhatsApp Business API through Meta's Embedded Signup. Meta bills you directly, and ERIX adds no markup." },
       { title: "Templates and broadcasts", body: "Approved templates, broadcasts and the 24-hour reply window handled for you." },
-      { title: "Instagram DMs and email", body: "Instagram DMs, and email sent from your own domain, with replies threaded on the customer's contact." },
+      { title: "Instagram DMs and email", body: "Instagram DMs, and email sent from your own domain, all on the customer's contact." },
       { title: "Website chat with ticks", body: "One line to embed, your colours and logo. ✓ sent, ✓✓ delivered and blue ✓✓ read, just like WhatsApp." },
       { title: "An inbox that shows what needs you", body: "Unread counts, a Needs you list for handed-over chats, and AI drafts that show where the answer came from." },
       { title: "Calendar and payments", body: "Google Calendar and Meet for bookings, and your own Razorpay for payment links." },
@@ -191,7 +191,7 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       { title: "Click-to-sign with a seal", body: "Every signature is stamped with the signer's name and the date, plus an audit seal of the signed file." },
       { title: "The client sees only theirs", body: "Each client sees only the project you invited them to, on a page that works on a phone." },
       { title: "Share links", body: "Send a file as a link instead of another WhatsApp attachment." },
-      { title: "Separate for every workspace", body: "Files are kept on Cloudflare R2, in a space of their own for each workspace." },
+      { title: "Separate for every workspace", body: "Every workspace's files are kept in a space of their own, and storage limits are checked before each upload." },
     ],
     steps: [
       "Create a project under ERIX CRM → Active projects.",
@@ -253,35 +253,6 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       },
     ],
     searchQueries: ["ECODrIx LAIE", "ERIX LAIE", "lead research India", "B2B lead finder India"],
-  },
-  {
-    slug: "erix-store",
-    brand: "ERIX Store",
-    name: "ERIX Store: the data engine under ERIX",
-    title: "ERIX Store: the data engine under ERIX",
-    tagline: "The engine under ERIX, opening to developers later",
-    category: "infrastructure",
-    status: "soon",
-    description:
-      "ERIX Store is the in-memory engine behind ERIX's job queues, cache, locks and events. It is coming soon for developers, with each workspace kept separate.",
-    longDescription:
-      "ERIX Store runs inside ERIX today: it queues background jobs, keeps hot data in memory and holds locks. We plan to open it to developers later, with every key, queue and channel kept separate per workspace.",
-    features: [
-      { title: "Job queues", body: "Priority queues with delays and retries for background work." },
-      { title: "In-memory cache", body: "Keys with an expiry time, read straight from memory." },
-      { title: "Locks and counters", body: "So two workers never do the same job at once." },
-      { title: "Publish and subscribe", body: "Channels that pass messages to whoever is listening." },
-      { title: "Separate per workspace", body: "Every key, job, channel and queue belongs to one workspace." },
-      { title: "One SDK", body: "Developers will reach it through a single client package." },
-    ],
-    steps: [],
-    faqs: [
-      {
-        q: "Can I use ERIX Store today?",
-        a: "Not yet. It powers ERIX's own background work today and is coming soon for developers. Join the waitlist to hear when it opens.",
-      },
-    ],
-    searchQueries: ["ErixStore", "ERIX Store", "job queue server"],
   },
 ];
 

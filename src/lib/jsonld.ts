@@ -56,8 +56,8 @@ export function getOrganizationSchema() {
     },
     image: `${BASE_URL}/logo.png`,
     description:
-      "ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. It powers the ERIX-CRM, ERIX-FLOW, ERIX-LAIE, ErixStore, and Relay Fabric subsystems — built for growing businesses across India and worldwide.",
-    foundingDate: "2024-03",
+      "ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp messaging, email marketing, and cloud storage. It builds the ERIX suite (CRM, Connect, Flow and AI agents), started in August 2025 for growing businesses across India.",
+    foundingDate: "2025-08",
     areaServed: "Worldwide",
     email: "contact@ecodrix.com",
     knowsLanguage: ["en", "hi", "te"],
@@ -101,18 +101,6 @@ export function getOrganizationSchema() {
         description:
           "Distributed B2B lead generation, scraping, enrichment, and AI-research platform.",
       },
-      {
-        "@type": "Brand",
-        name: "ErixStore",
-        description:
-          "High-performance in-memory database, queue, cache, and pub/sub server.",
-      },
-      {
-        "@type": "Brand",
-        name: "Relay Fabric",
-        description:
-          "Distributed worker engine executing AI research and scraper campaigns across regions.",
-      },
     ],
     sameAs: SAME_AS,
   };
@@ -146,7 +134,8 @@ export function getWebSiteSchema() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   SoftwareApplication — the platform itself, with offer + rating.
+   SoftwareApplication — the platform itself. No rating or price: there are no
+   public reviews or prices yet, and structured data must not claim them.
 ─────────────────────────────────────────────────────────────────────── */
 
 export function getSoftwareApplicationSchema() {
@@ -159,28 +148,21 @@ export function getSoftwareApplicationSchema() {
     url: BASE_URL,
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "CRM",
-    operatingSystem: "Web, iOS, Android",
+    operatingSystem: "Web",
     softwareVersion: "1.0",
     description:
-      "Unified business infrastructure platform combining CRM, AI automation, WhatsApp Business API, email marketing, and cloud storage. Helps businesses automate operations and scale growth — without enterprise-software complexity.",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "50",
-      bestRating: "5",
-      worstRating: "1",
-    },
+      "ERIX by ECODrIx: one workspace for Indian businesses that sell over WhatsApp, Instagram, email and their website. One inbox, AI agents, a CRM with GST invoices and payment links, and automations.",
     featureList: [
-      "CRM & Lead Pipeline (kanban, lead scoring, AI enrichment)",
-      "WhatsApp Business API (Meta Cloud API, broadcasts, templates)",
-      "Email Marketing (AWS SES, drag-and-drop builder, segmentation)",
-      "Workflow Automation Engine (visual canvas, custom-node marketplace)",
-      "B2B Lead Intelligence (LAIE — discovery, enrichment, outreach)",
-      "Cloud Storage (Cloudflare R2, presigned URLs, AI image description)",
-      "Meeting Scheduler (Google Calendar + Meet integration)",
-      "Client Portal (project tasks, milestones, secure messaging)",
-      "Real-time Chat (Socket.IO, multi-channel inbox)",
-      "Analytics & Reporting (pipeline conversion, revenue forecast)",
+      "One inbox for WhatsApp, Instagram, email and website chat",
+      "Official WhatsApp Business API with approved templates and broadcasts",
+      "CRM: contacts, pipeline, forms, bookings, proposals and projects",
+      "GST invoices (CGST and SGST or IGST, financial-year numbering) with payment links",
+      "Automations with approvals, Wait for a reply and AI replies",
+      "AI agents that answer from your own knowledge and hand off to your team",
+      "Bookings with Google Calendar and Meet",
+      "Client portal with documents and e-sign",
+      "Email from your own domain, with open and click tracking",
+      "Analytics for pipeline, revenue and lead sources",
     ],
     screenshot: `${BASE_URL}/logo.png`,
     author: { "@id": ORG_ID },
@@ -191,7 +173,7 @@ export function getSoftwareApplicationSchema() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   Person — Dhanesh Mekalthuru. Critical for "who is …" knowledge-panel
+   Person. Pages show "Dhanesh M"; the full name stays here for search identity.
    queries on Google, Bing, ChatGPT, and Perplexity.
 ─────────────────────────────────────────────────────────────────────── */
 
@@ -201,19 +183,13 @@ export function getPersonSchema() {
     "@type": "Person",
     "@id": PERSON_ID,
     name: "Dhanesh Mekalthuru",
-    alternateName: [
-      "Dhanesh M.",
-      "Erix",
-      "erix.dhanesh",
-      "Dhanesh Reddy",
-      "Dhanesh M Reddy",
-    ],
+    alternateName: ["Dhanesh M", "Erix", "erix.dhanesh"],
     url: PORTFOLIO_URL,
     mainEntityOfPage: PORTFOLIO_URL,
     image: `${PORTFOLIO_URL}/og-card.png`,
     jobTitle: "Founder & CEO",
     description:
-      "Dhanesh Mekalthuru (also known as Erix) is the founder of ECODrIx, a unified business infrastructure platform. He is a full-stack engineer and SaaS architect who designed the ERIX suite — including ERIX-CRM, ERIX-FLOW visual automation, ERIX-LAIE lead intelligence, the ErixStore in-memory database, and the Relay Fabric distributed worker engine.",
+      "Dhanesh Mekalthuru (Dhanesh M, also known as Erix) is the founder of ECODrIx and started the ERIX suite in August 2025: ERIX CRM, ERIX Connect, ERIX Flow and AI agents for Indian businesses that sell over WhatsApp.",
     email: "mailto:dhanesh@ecodrix.com",
     telephone: "+91-81439-63821",
     nationality: { "@type": "Country", name: "India" },
@@ -233,9 +209,6 @@ export function getPersonSchema() {
       "Express",
       "PostgreSQL",
       "Drizzle ORM",
-      "MongoDB",
-      "ErixStore",
-      "Relay Fabric",
       "AI Automation",
       "n8n Workflows",
       "WhatsApp Cloud API",

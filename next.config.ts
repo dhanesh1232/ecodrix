@@ -14,12 +14,6 @@ const nextConfig: NextConfig = {
   // Remove the X-Powered-By: Next.js fingerprinting header
   poweredByHeader: false,
 
-  // Modern browser targeting and optimizations
-  experimental: {
-    // Enable CSS optimization and tree-shaking
-    optimizeCss: true,
-  },
-
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -33,7 +27,10 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
-  // Security & performance response headers applied to every route
+  // Security response headers applied to every route. No Cache-Control for
+  // /_next/static: Next already serves it `immutable` in production, and a
+  // custom one made browsers keep stale dev chunks (dev file names aren't
+  // hashed), which showed up as hydration errors after code changes.
   async headers() {
     return [
       {
@@ -51,17 +48,6 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
-          },
-        ],
-      },
-      {
-        // Long-lived cache for static assets (JS, CSS, images, fonts)
-        // Next.js content-hashes these filenames so this is safe
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -92,6 +78,12 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       { source: "/laie/:path*", destination: "/platform/erix-laie", permanent: true },
+      // The waitlist invite email (server waitlist-email-templates.ts) links here.
+      { source: "/get-started", destination: "/#contact", permanent: false },
+      // Internal engines aren't marketed (founder, 27 Oct 2026): their old pages land on what customers get.
+      { source: "/platform/erix-store", destination: "/platform", permanent: true },
+      { source: "/platform/erix-store/:path*", destination: "/platform", permanent: true },
+      { source: "/platform/erix-laie/relay-fabric", destination: "/platform/erix-laie", permanent: true },
     ];
   },
 

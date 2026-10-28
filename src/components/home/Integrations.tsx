@@ -1,4 +1,5 @@
-import { IntegrationBeam } from "@/components/marketing/integration-beam";
+import { Icon, type IconName, isBrandName } from "@/components/icons";
+import { type BeamItem, IntegrationBeam } from "@/components/marketing/integration-beam";
 import { MkSection, TrustBar } from "@/components/marketing/kit";
 
 /**
@@ -9,13 +10,13 @@ import { MkSection, TrustBar } from "@/components/marketing/kit";
 export function WorksWith() {
   return (
     <section aria-label="Works with" className="border-b border-border-soft bg-surface">
-      <div className="wrapper">
+      <div className="mx-auto w-full max-w-wrap px-gutter">
         <TrustBar
           items={[
-            { label: "WhatsApp", brand: "whatsapp" },
-            { label: "Instagram", brand: "instagram" },
-            { label: "Google Calendar and Meet", brand: "googlecalendar" },
-            { label: "Razorpay", brand: "razorpay" },
+            { label: "WhatsApp", icon: "whatsapp" },
+            { label: "Instagram", icon: "instagram" },
+            { label: "Google Calendar and Meet", icon: "googlecalendar" },
+            { label: "Razorpay", icon: "razorpay" },
             { label: "Email on your domain", icon: "mail" },
             { label: "Website chat", icon: "message-square" },
           ]}
@@ -25,10 +26,17 @@ export function WorksWith() {
   );
 }
 
-export function ChannelBeam() {
+const beam = (it: { label: string; icon: IconName }): BeamItem => ({
+  label: it.label,
+  brand: isBrandName(it.icon),
+  glyph: isBrandName(it.icon) ? <Icon name={it.icon} size={18} /> : <Icon name={it.icon} size={18} variant="duo" />,
+});
+
+export function ChannelBeam({ tone }: { tone?: "plain" | "subtle" }) {
   return (
     <MkSection
       id="channels"
+      tone={tone}
       kicker="One place for every enquiry"
       title="Every channel in. Every outcome out."
       lead="WhatsApp, your website chat, Instagram DMs and email all land in ERIX, and the next step happens on its own: the lead is in your pipeline, the visit is booked, the payment link is sent and the follow-up is set."
@@ -36,17 +44,17 @@ export function ChannelBeam() {
       <IntegrationBeam
         label="ERIX"
         inputs={[
-          { label: "WhatsApp", brand: "whatsapp" },
-          { label: "Website chat", icon: "message-square" },
-          { label: "Instagram DMs", brand: "instagram" },
-          { label: "Email", icon: "mail" },
-        ]}
+          { label: "WhatsApp", icon: "whatsapp" as const },
+          { label: "Website chat", icon: "message-square" as const },
+          { label: "Instagram DMs", icon: "instagram" as const },
+          { label: "Email", icon: "mail" as const },
+        ].map(beam)}
         outputs={[
-          { label: "Lead in your CRM", icon: "user-check" },
-          { label: "Visit booked", icon: "calendar-check" },
-          { label: "Payment link sent", icon: "indian-rupee" },
-          { label: "Follow-up scheduled", icon: "calendar-clock" },
-        ]}
+          { label: "Lead in your CRM", icon: "user-check" as const },
+          { label: "Visit booked", icon: "calendar-check" as const },
+          { label: "Payment link sent", icon: "indian-rupee" as const },
+          { label: "Follow-up scheduled", icon: "calendar-clock" as const },
+        ].map(beam)}
       />
     </MkSection>
   );

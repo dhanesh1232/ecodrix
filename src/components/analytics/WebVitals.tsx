@@ -1,8 +1,7 @@
 "use client";
 
 import { useReportWebVitals } from "next/web-vitals";
-import { useEffect } from "react";
-import { performanceMonitor } from "@/lib/performance-monitor";
+import { analyticsConsented } from "@/lib/legal/consent";
 
 /**
  * Forwards Core Web Vitals (CLS, LCP, FID, FCP, TTFB, INP) to GA4.
@@ -12,16 +11,14 @@ import { performanceMonitor } from "@/lib/performance-monitor";
  * The `rating` field ("good" | "needs-improvement" | "poor") enables
  * easy segmentation in GA4 Explore reports.
  *
+ * The only web-vitals sender (lib/performance-monitor.ts sent every metric a
+ * second time and was removed). Sends only with analytics consent.
+ *
  * Must be mounted inside the root layout body.
  */
 export function WebVitals() {
-  // Initialize performance monitoring on mount
-  useEffect(() => {
-    performanceMonitor.init();
-  }, []);
-
   useReportWebVitals((metric) => {
-    if (typeof window.gtag !== "function") return;
+    if (typeof window.gtag !== "function" || !analyticsConsented()) return;
 
     window.gtag("event", metric.name, {
       event_category: "Web Vitals",

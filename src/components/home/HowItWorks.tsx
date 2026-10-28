@@ -1,25 +1,74 @@
-import { FeatureSplit, MkSection, Steps } from "@/components/marketing/kit";
+import Link from "next/link";
+import { Icon } from "@/components/icons";
+import { FeatureSplit, MkSection } from "@/components/marketing/kit";
 import { CountUp } from "@/components/motion/motion";
 
-export function HowItWorks() {
+/**
+ * The heart of the site: why ECODrIx exists, in the founder's voice (facts
+ * from /founder), and how a pilot works today: our team sets the workspace
+ * up with the owner, and terms are agreed with each pilot (no prices).
+ */
+export function Heart() {
   return (
-    <MkSection id="how" title="Live in an afternoon, not a quarter">
-      <Steps
-        items={[
-          {
-            title: "Connect your channels",
-            text: "Link your WhatsApp Business number, Instagram, email and website chat. Every new enquiry lands as a lead, with the chat attached.",
-          },
-          {
-            title: "Teach the agent, pick your follow-ups",
-            text: "Add your price list, hours and FAQs. Start from a pipeline and automations made for your industry: the confirmations, reminders and nudges you send by hand today.",
-          },
-          {
-            title: "Reply, follow up and get paid",
-            text: "Your team works from one inbox. Send a GST invoice with a payment link, and see every rupee against the lead.",
-          },
-        ]}
-      />
+    <MkSection id="why" tone="subtle" title="Why ECODrIx exists">
+      <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <figure>
+          <blockquote className="space-y-4 text-[clamp(17px,1.6vw,19px)] leading-relaxed text-foreground">
+            <p className="text-inherit">
+              Before ERIX, I spent a year building systems for Indian businesses. Every one of them needed the same
+              stitched-together stack: a CRM, WhatsApp, email, automation and somewhere to keep files.
+            </p>
+            <p className="text-inherit">
+              Enquiries came in on WhatsApp at night, follow-ups lived in someone&apos;s head, invoices were made in a
+              spreadsheet and payments were checked in the bank app. ERIX is the one workspace I wanted to give them.
+            </p>
+          </blockquote>
+          <figcaption className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="flex items-center gap-2.5">
+              <span aria-hidden="true" className="grid size-10 place-items-center rounded-full bg-accent-muted font-display text-[14px] font-bold text-accent">
+                DM
+              </span>
+              <span>
+                <span className="block text-[15px] font-semibold text-foreground">Dhanesh M</span>
+                <span className="block text-[13.5px] text-muted-foreground">Founder, ECODrIx · Andhra Pradesh</span>
+              </span>
+            </span>
+            <Link href="/founder" className="group inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus">
+              Read his story
+              <Icon name="arrow-right" size={14} variant="line" />
+            </Link>
+          </figcaption>
+        </figure>
+        <div className="rounded-[16px] bg-surface p-6 shadow-[var(--shadow-card)] md:p-8">
+          <h3 className="font-display text-mk-h3 text-foreground text-balance">How a pilot works: we set it up with you</h3>
+          <ol className="mt-6 space-y-6">
+            {[
+              {
+                title: "Tell us how you sell today",
+                text: "A short WhatsApp or video call about your enquiries, your team and how you bill.",
+              },
+              {
+                title: "We set ERIX up with you",
+                text: "We connect your WhatsApp number, Instagram, email and website chat, shape the pipeline, teach the agent your price list and hours, and switch on the follow-ups you send by hand today.",
+              },
+              {
+                title: "You run it, we stay close",
+                text: "The agent starts in Suggest, so nothing goes out without you. Your feedback decides what we build next, and terms are agreed with each pilot.",
+              },
+            ].map((s, i) => (
+              <li key={s.title} className="grid grid-cols-[36px_1fr] gap-4">
+                <span className="mb-0 grid size-9 place-items-center rounded-full bg-accent font-sans text-[15px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="text-[16.5px] font-semibold text-foreground">{s.title}</p>
+                  <p className="mt-1 text-[15px]">{s.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </MkSection>
   );
 }

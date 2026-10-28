@@ -1,15 +1,17 @@
 // Copied from ECOD/saas/src/components/icons (keep the three files in step with the SaaS copy).
 // One component per icon name the site imports (the lucide-react names), each drawing that real
 // Lucide icon from data copied into glyphs.ts (Lucide v0.577.0, ISC licence in LICENSE-lucide.txt).
-// No icon package at runtime. New code: <Icon name="…" /> with a Lucide icon name.
+// No icon package at runtime. New code: <Icon name="…" /> with a Lucide icon name or a brand
+// name (whatsapp, instagram, googlecalendar, razorpay…): one component for every icon.
 
 import { createIcon, createLetterIcon, SpinnerArc } from "./Icon";
 
 export {
-  BrandIcon,
+  type BrandIconProps,
   createIcon,
   createLetterIcon,
   GLYPH_CATEGORIES,
+  type GlyphIconProps,
   type GlyphName,
   ICON_NAMES,
   Icon,
@@ -17,15 +19,15 @@ export {
   IconChip,
   type IconChipTone,
   type IconComponent,
-  type IconAnimate,
-  type IconAnimation,
-  iconAnimation,
+  type IconName,
+  type MixedIconProps,
   type IconProps,
   type IconVariant,
+  isBrandName,
   opticalStroke,
   SpinnerArc,
 } from "./Icon";
-export type { BrandName } from "./glyphs";
+export type { BrandGradient, BrandMark, BrandName } from "./glyphs";
 
 
 export const Activity = createIcon("activity");

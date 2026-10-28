@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
-import { BrandIcon, type BrandName, Icon, type GlyphName } from "@/components/icons";
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-export type BeamItem = { label: string; brand?: BrandName; icon?: GlyphName };
+/** `glyph` is drawn by the server (ChannelBeam), so no icon data ships with
+ *  the beam; `brand` marks a third-party mark (white chip). */
+export type BeamItem = { label: string; brand?: boolean; glyph: ReactNode };
 /** One wire: which side of ERIX it is on and its row (0 = top), for the wave's timing. */
 type Wire = { k: string; d: string; side: "in" | "out"; r: number };
 const row = (r: number) => ({ "--r": r }) as CSSProperties;
@@ -95,50 +97,93 @@ export function IntegrationBeam({ inputs, outputs, label }: { inputs: BeamItem[]
     return () => ro.disconnect();
   }, [inputs.length, outputs.length]);
 
-  const node = (it: BeamItem) => (
-    <span className="erix-beam__node">
-      {it.brand ? (
-        <span className="erix-beam__icon erix-beam__icon--brand">
-          <BrandIcon name={it.brand} size={18} label={null} />
-        </span>
-      ) : (
-        <span className="erix-beam__icon">
-          <Icon name={it.icon ?? "plug"} size={18} variant="duo" animate="none" />
-        </span>
+  // Channels give off the wave (emit); outcomes light up when it lands (land).
+  const node = (it: BeamItem, side: Wire["side"]) => (
+    <span
+      className={cn(
+        "inline-flex items-center gap-2.5 rounded-[9999px] bg-surface py-2 pr-3.5 pl-2 font-sans text-sm/5 font-semibold whitespace-nowrap text-foreground shadow-[0_0_0_1px_var(--border-soft),var(--shadow-sm)]",
+        "max-[760px]:gap-2 max-[760px]:py-[5px] max-[760px]:pr-3 max-[760px]:pl-[5px] max-[760px]:text-[13px]",
+        // Use the animate-* utility for each side: Tailwind only emits @theme keyframes that a utility uses.
+        side === "out" ? "motion-safe:group-[.is-live]/beam:animate-beam-land" : "motion-safe:group-[.is-live]/beam:animate-beam-emit",
+        "motion-safe:group-[.is-live]/beam:[animation-delay:calc(var(--r,0)*70ms)]",
       )}
+    >
+      <span
+        className={cn(
+          "grid size-8 place-items-center rounded-[9999px] text-accent max-[760px]:size-7",
+          it.brand ? "bg-white shadow-[0_0_0_1px_rgba(11,27,100,0.08)]" : "bg-accent-muted",
+        )}
+      >
+        {it.glyph}
+      </span>
       <span>{it.label}</span>
     </span>
   );
 
+  // One dash, 22% of the wire, parked before the start; the wave runs it in, then out.
+  const pulse = (side: Wire["side"]) =>
+    cn(
+      "fill-none stroke-accent opacity-0 [stroke-dasharray:0.22_1] [stroke-dashoffset:0.22] [stroke-linecap:round]",
+      side === "out" ? "motion-safe:group-[.is-live]/beam:animate-beam-out" : "motion-safe:group-[.is-live]/beam:animate-beam-in",
+      "motion-safe:group-[.is-live]/beam:[animation-delay:calc(var(--r,0)*70ms)]",
+    );
+
   return (
-    <div ref={wrap} className={paths.d.length ? "erix-beam is-live" : "erix-beam"}>
-      <svg className="erix-beam__wires" width={paths.w} height={paths.h} aria-hidden="true">
+    <div
+      ref={wrap}
+      className={cn(
+        // One clock for the whole beam: wave out of the channels, onto ERIX, out to the outcomes.
+        "group/beam relative grid grid-cols-[1fr_auto_1fr] items-center gap-[clamp(48px,9vw,140px)] py-3 [--beam-dur:3.6s] [--beam-ease:cubic-bezier(0.4,0,0.2,1)]",
+        // Phones: channels on top, ERIX in the middle, outcomes below, labels kept.
+        "max-[760px]:grid-cols-[minmax(0,1fr)] max-[760px]:justify-items-center max-[760px]:gap-11",
+        paths.d.length > 0 && "is-live",
+      )}
+    >
+      <svg className="pointer-events-none absolute inset-0 overflow-visible" width={paths.w} height={paths.h} aria-hidden="true">
         {paths.d.map((p) => (
-          <path key={p.k} d={p.d} className="erix-beam__wire" />
+          <path
+            key={p.k}
+            d={p.d}
+            // The wires flow slowly all the time, in the direction of the wave.
+            className="fill-none stroke-border [stroke-linecap:round] [stroke-width:1.5] motion-safe:group-[.is-live]/beam:animate-beam-flow motion-safe:group-[.is-live]/beam:[stroke-dasharray:3_6]"
+          />
         ))}
         {paths.d.map((p) => (
-          <path key={`g${p.k}`} d={p.d} pathLength={1} className={`erix-beam__pulse erix-beam__pulse--glow is-${p.side}`} style={row(p.r)} />
+          <path key={`g${p.k}`} d={p.d} pathLength={1} className={cn(pulse(p.side), "[stroke-opacity:0.16] [stroke-width:9]")} style={row(p.r)} />
         ))}
         {paths.d.map((p) => (
-          <path key={`p${p.k}`} d={p.d} pathLength={1} className={`erix-beam__pulse is-${p.side}`} style={row(p.r)} />
+          <path key={`p${p.k}`} d={p.d} pathLength={1} className={cn(pulse(p.side), "[stroke-width:2.25]")} style={row(p.r)} />
         ))}
       </svg>
-      <ul className="erix-beam__col" aria-label="Comes in from">
+      <ul
+        className="relative z-1 flex list-none flex-col gap-3.5 max-[760px]:flex-row max-[760px]:flex-wrap max-[760px]:justify-center max-[760px]:gap-2.5"
+        aria-label="Comes in from"
+      >
         {inputs.map((it, i) => (
-          <li key={it.label} ref={(n) => void (ins.current[i] = n)} style={row(i)}>
-            {node(it)}
+          <li key={it.label} ref={(n) => void (ins.current[i] = n)} style={row(i)} className="self-end max-[760px]:self-auto">
+            {node(it, "in")}
           </li>
         ))}
       </ul>
-      <div ref={mid} className="erix-beam__center">
-        <span className="grid size-16 place-items-center rounded-[18px] bg-white max-[760px]:size-12">
+      <div
+        ref={mid}
+        className={cn(
+          "relative z-1 grid size-[104px] place-items-center rounded-[28px] bg-navy shadow-[0_0_0_8px_color-mix(in_srgb,var(--accent)_10%,transparent),0_18px_40px_-12px_color-mix(in_srgb,var(--accent)_55%,transparent)] max-[760px]:size-[76px] max-[760px]:rounded-[22px]",
+          // ERIX takes the hit: the tile nudges (its child) and a halo rings out.
+          "motion-safe:group-[.is-live]/beam:after:absolute motion-safe:group-[.is-live]/beam:after:-inset-2 motion-safe:group-[.is-live]/beam:after:rounded-[34px] motion-safe:group-[.is-live]/beam:after:border-[1.5px] motion-safe:group-[.is-live]/beam:after:border-[color:color-mix(in_srgb,var(--accent)_45%,transparent)] motion-safe:group-[.is-live]/beam:after:opacity-0 motion-safe:group-[.is-live]/beam:after:animate-beam-halo",
+        )}
+      >
+        <span className="grid size-16 place-items-center rounded-[18px] bg-white max-[760px]:size-12 motion-safe:group-[.is-live]/beam:animate-beam-thump">
           <Image src="/brand/erix-mark-trimmed.png" alt={label} width={410} height={242} className="w-11 max-[760px]:w-8" />
         </span>
       </div>
-      <ul className="erix-beam__col erix-beam__col--out" aria-label="Goes out as">
+      <ul
+        className="relative z-1 flex list-none flex-col gap-3.5 max-[760px]:flex-row max-[760px]:flex-wrap max-[760px]:justify-center max-[760px]:gap-2.5"
+        aria-label="Goes out as"
+      >
         {outputs.map((it, i) => (
-          <li key={it.label} ref={(n) => void (outs.current[i] = n)} style={row(i)}>
-            {node(it)}
+          <li key={it.label} ref={(n) => void (outs.current[i] = n)} style={row(i)} className="self-start max-[760px]:self-auto">
+            {node(it, "out")}
           </li>
         ))}
       </ul>

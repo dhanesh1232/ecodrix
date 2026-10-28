@@ -10,7 +10,17 @@
  * merge-or-drop decision.
  */
 
-export type ScreenKey = "pipeline" | "inbox" | "invoice" | "flow" | "booking" | "ai" | "documents" | "leads" | "engine";
+export type ScreenKey =
+  | "pipeline"
+  | "inbox"
+  | "invoice"
+  | "flow"
+  | "booking"
+  | "ai"
+  | "documents"
+  | "leads"
+  | "crm"
+  | "flowCanvas";
 
 export interface SubPage {
   slug: string;
@@ -612,6 +622,111 @@ export const CRM_PAGES: SubPage[] = [
       },
     ],
   },
+  {
+    slug: "google-meet-guide",
+    title: "Google Calendar and Meet bookings",
+    description: "Connect Google to ERIX so bookings land on your calendar with a Meet link: sign in, create appointment types, set your hours, then share your booking page.",
+    type: "guide",
+    lead: "Customers pick a free slot, and the meeting appears on your Google Calendar with a Meet link. You set it up once.",
+    screen: "booking",
+    steps: [
+      "Go to Connect → Apps → Google (Meet / Calendar) and click Connect. An owner or admin signs in with Google and allows access.",
+      "Open Appointment types → New appointment type. Add a title and the length, and keep Google Meet as the location.",
+      "Open Availability → Edit hours to set your weekly hours, the gap between meetings and your time zone (India by default).",
+      "Copy your booking link from Availability and share it on WhatsApp, by email or on your website.",
+    ],
+    sections: [
+      {
+        heading: "What ERIX can see",
+        body: [
+          "ERIX asks Google for two things: to create and update the events it books, and to see when you're busy. It doesn't read what your other events are about. Busy times on your main calendar are left out of your booking page, so nobody books over them.",
+        ],
+      },
+      {
+        heading: "What happens when someone books",
+        body: [
+          "A booking with Google Meet as the location goes on your main Google Calendar with a Meet link, and the customer is added as a guest. They see a Join on Google Meet button straight away. Cancelling removes the event and rescheduling moves it. Phone and in-person bookings are saved in ERIX without a calendar event.",
+        ],
+      },
+      {
+        heading: "Send your own confirmation",
+        body: [
+          "ERIX doesn't send a confirmation message on its own yet. Build one in ERIX Flow: start an automation on Meeting booked and send a WhatsApp template or an email.",
+        ],
+      },
+      {
+        heading: "Booking on your website",
+        body: [
+          "The Share tab of an appointment type gives you code to add booking to your site as a popup, a full page or a slide-in panel.",
+        ],
+      },
+      {
+        heading: "If Google can't be reached",
+        body: [
+          "The booking is still saved, just without a Meet link, so you never lose one. Check connection on the Google page's Settings tells you if something needs fixing.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Which time zone do bookings use?",
+        a: "The time zone in your booking hours: India Standard Time unless you change it.",
+      },
+      {
+        q: "How do I disconnect Google?",
+        a: "Open the Google page → Settings → Remove connection. ERIX removes its access from your Google account.",
+      },
+    ],
+  },
+  {
+    slug: "razorpay-guide",
+    title: "Collect payments with Razorpay links",
+    description: "Connect your own Razorpay account to ERIX, send a payment link with each GST invoice on WhatsApp or email, and see the invoice turn paid when the customer pays.",
+    type: "guide",
+    lead: "Customers pay from a link on the invoice, the money goes to your Razorpay account, and ERIX marks the invoice paid.",
+    screen: "invoice",
+    steps: [
+      "In your Razorpay dashboard, open Account & Settings → API Keys and generate a key. Keep the Key ID and Key Secret handy.",
+      "In ERIX, go to Connect → Apps → Payments, choose Razorpay, paste the Key ID and Key Secret, add a Webhook Secret of your choice, and click Connect.",
+      "Open Settings → Check connection to test the keys.",
+      "Under Payment confirmations, copy the webhook URL. In Razorpay, open Account & Settings → Webhooks, add it, tick payment_link.paid and payment.captured, and use the same Webhook Secret.",
+      "Open a saved invoice, click Create payment link, then Send on WhatsApp or Send email.",
+    ],
+    sections: [
+      {
+        heading: "Your account, your money",
+        body: [
+          "Payments go straight to your own Razorpay account; ERIX never holds the money. Razorpay's own fees and settlement times apply.",
+        ],
+      },
+      {
+        heading: "Why the webhook matters",
+        body: [
+          "Razorpay tells ERIX about each payment through the webhook. Without the Webhook Secret, ERIX can't trust that message, so the invoice stays unpaid until you record the payment yourself.",
+        ],
+      },
+      {
+        heading: "When the customer pays",
+        body: [
+          "The invoice turns Paid, or Partly paid for a smaller amount, and you get a notification with a link to it. An automation in ERIX Flow that starts on Invoice paid can send a thank-you on its own.",
+        ],
+      },
+      {
+        heading: "Good to know",
+        body: [
+          "A few details save confusion later:",
+        ],
+        points: [
+          "The link asks for the balance due, in the invoice's currency",
+          "Creating the link again reuses the same one",
+          "Editing the total, recording a manual payment or voiding the invoice cancels the old link",
+          "Send on WhatsApp works while the customer's 24-hour window is open; otherwise send the invoice by email",
+          "Try it with Razorpay test keys first, then replace them with your live keys",
+          "Refunds are made in Razorpay and don't change the invoice in ERIX",
+        ],
+      },
+    ],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -669,8 +784,8 @@ export const FLOW_PAGES: SubPage[] = [
         body: ["These steps aren't in ERIX Flow today. They arrive in version 1.2:"],
         points: [
           "Webhooks, to send data to other software and take data in",
-          "Schedules that start an automation at a set time",
-          "Branches and conditions beyond Replied and No reply",
+          "Schedules beyond once a day, such as every few hours or on chosen weekdays",
+          "Branches with more than two paths, and AND/OR conditions",
           "Loops over a list",
           "Connected apps",
         ],
@@ -741,7 +856,7 @@ export const FLOW_PAGES: SubPage[] = [
       {
         heading: "Coming soon",
         body: [
-          "Starting an automation from a schedule or from a webhook arrives in version 1.2. Today, automations start on events inside ERIX.",
+          "Today an automation starts on an event inside ERIX, once a day at a set hour, or when you run it for a segment. Webhooks, and schedules beyond once a day, arrive in version 1.2.",
         ],
       },
     ],
@@ -752,7 +867,7 @@ export const FLOW_PAGES: SubPage[] = [
       },
       {
         q: "Can an automation start at a set time every week?",
-        a: "Not yet. Schedules arrive in version 1.2. Today, automations start when something happens in ERIX.",
+        a: "Once a day at a set hour, yes. Weekly and other schedules arrive in version 1.2.",
       },
     ],
   },
@@ -767,7 +882,7 @@ export const FLOW_PAGES: SubPage[] = [
       {
         heading: "What you can do now",
         body: [
-          "The built-in steps cover sending on WhatsApp or email, waiting, waiting for a reply, approvals, AI replies and updating the contact. Webhooks, branches, loops and connected apps are coming soon, in version 1.2.",
+          "The built-in steps cover sending on WhatsApp or email, waiting, waiting for a reply, a yes-or-no condition, approvals, AI replies and updating the contact. Webhooks, multi-path branches, loops and connected apps are coming soon, in version 1.2.",
         ],
       },
     ],
@@ -831,6 +946,70 @@ export const FLOW_PAGES: SubPage[] = [
       },
     ],
   },
+  {
+    slug: "email-automation-guide",
+    title: "Automate emails from your business address",
+    description: "Send emails automatically from your own domain with ERIX Flow: pick a trigger like a new contact or a paid invoice, write the email, and add an approval step.",
+    type: "guide",
+    lead: "Welcome emails, booking follow-ups and thank-yous for paid invoices can go out on their own, from your own address.",
+    screen: "flowCanvas",
+    steps: [
+      "Connect your domain first (Connect → Apps → Email), so emails come from you@yourcompany.com.",
+      "Open ERIX Flow → Automations and start a new automation. Under What starts this automation?, choose When something happens and pick the event.",
+      "Add an Email step. Write the subject and the message, and insert details such as {{firstName}} from Data you can use.",
+      "Add an Approval step before the email if a person should check it first, then try it with Test run and turn it on.",
+    ],
+    sections: [
+      {
+        heading: "Events that can start an email",
+        body: [
+          "Pick the moment the email should go out:",
+        ],
+        points: [
+          "New contact added",
+          "Contact moves into a stage of your pipeline",
+          "Meeting booked, completed or cancelled",
+          "Invoice paid, or a payment received",
+          "An email or WhatsApp message received",
+          "Deal won or lost",
+        ],
+      },
+      {
+        heading: "Writing the message",
+        body: [
+          "Leave a blank line for a new paragraph, wrap words in two stars for bold, and paste links as they are; they become clickable. Details about the contact, such as first name, company or city, and details from the event that started the automation can be dropped in from Data you can use.",
+        ],
+      },
+      {
+        heading: "Who receives it",
+        body: [
+          "ERIX emails only people who have contacted you, for example through a form, a booking or a message. Turn on Marketing email for offers: those go only to contacts who ticked Send me offers and updates on your form or booking page, carry an Unsubscribe link, and need your business address in Invoice settings first. Anyone who unsubscribes is skipped from then on.",
+        ],
+      },
+      {
+        heading: "Emailing a whole segment",
+        body: [
+          "To email a group, such as everyone with a tag, start the automation On a schedule and choose Each contact in a segment.",
+        ],
+      },
+      {
+        heading: "The approval step",
+        body: [
+          "An Approval step pauses the automation and emails your owners and admins, or the people you name, one-click Approve and Reject links. You choose what happens if nobody decides in time: a reminder, a rejection or a separate path.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Which address do automation emails come from?",
+        a: "The sender you set when you connected your domain. Replies go to your reply-to address, or to the From address if you didn't set one.",
+      },
+      {
+        q: "Can I send a newsletter?",
+        a: "Yes, as a Marketing email to a segment. It goes only to contacts who agreed to offers, with an Unsubscribe link in every email.",
+      },
+    ],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -872,23 +1051,6 @@ export const LAIE_PAGES: SubPage[] = [
         heading: "Checked before it reaches you",
         body: [
           "Each match goes through contact checks, and LAIE adds a short summary of the business from its public information. Leads that pass move into your ERIX CRM pipeline.",
-        ],
-      },
-    ],
-    notice: LAIE_NOTICE,
-  },
-  {
-    slug: "relay-fabric",
-    title: "Relay Fabric: the workers behind LAIE",
-    description:
-      "Relay Fabric is the pool of workers that runs ERIX LAIE's research jobs, with health checks that retire failing workers. Part of the invite-only beta.",
-    type: "capability",
-    lead: "Relay Fabric is internal infrastructure: the pool of workers that runs LAIE's research jobs.",
-    sections: [
-      {
-        heading: "Workers that look after themselves",
-        body: [
-          "Workers report their health regularly. Ones that fail checks are retired and replaced, so a research run doesn't stall on a broken worker.",
         ],
       },
     ],
@@ -1023,8 +1185,8 @@ export const CONNECT_PAGES: SubPage[] = [
     lead: "Connecting takes a few minutes. Here is the order that works, and the rules WhatsApp sets once you're live.",
     screen: "inbox",
     steps: [
-      "Go to Connect → WhatsApp and choose Embedded Signup. Log in with Facebook and pick your business number.",
-      "Create your message templates and wait for WhatsApp to approve them.",
+      "Go to Connect → Apps → WhatsApp. Keep Meta Embedded Signup selected, click Connect with Meta, log in with Facebook and pick your business number.",
+      "Open Templates → New template, write the message, choose its category and language, and send it to WhatsApp for approval.",
       "Reply to customers from the inbox while their 24-hour window is open.",
       "Use approved templates for broadcasts and for messages outside the 24-hour window.",
     ],
@@ -1044,13 +1206,13 @@ export const CONNECT_PAGES: SubPage[] = [
       {
         heading: "Templates and broadcasts",
         body: [
-          "Templates need WhatsApp's approval before you use them. Once approved, send one to a single contact or as a broadcast to a group, such as everyone with a tag. Broadcasts wait out quiet hours in Indian time.",
+          "Templates need WhatsApp's approval before you use them. Once approved, send one to a single contact or as a broadcast to a group, such as everyone with a tag. Broadcasts wait out quiet hours, 9 pm to 9 am IST.",
         ],
       },
       {
         heading: "Replies with AI, checked by you",
         body: [
-          "With the AI agent on, it drafts replies from your knowledge and shows the source of each answer. In Suggest mode, the default, a person sends every reply. Refunds, complaints and medical questions always go to your team.",
+          "Turn on AI replies under AI → Assistant and the agent drafts answers from your knowledge, showing the source of each. Until you switch on Auto-reply, every draft waits for a person to send it; even then, only answers it is confident about go out on their own. Refunds, complaints, medical and legal questions are set to go to your team by default.",
         ],
       },
       {
@@ -1143,6 +1305,118 @@ export const CONNECT_PAGES: SubPage[] = [
       },
     ],
   },
+  {
+    slug: "website-chat-guide",
+    title: "Add ERIX chat to your website",
+    description: "Put the ERIX chat on your website with one line of code: register your domain, paste the code before </body>, check it, and answer visitors from your inbox.",
+    type: "guide",
+    lead: "Visitors ask, and the message lands in the same inbox as WhatsApp and email. Setup is one line of code.",
+    screen: "inbox",
+    steps: [
+      "Go to Connect → Apps → Website Chat Widget and click Connect.",
+      "Enter your website's domain and click Connect. ERIX shows you one line of code.",
+      "Paste that line just before </body> on every page of your site, then publish the site.",
+      "Click Check my website. Once ERIX finds the chat on your site, the channel turns on.",
+    ],
+    sections: [
+      {
+        heading: "Make it look like your business",
+        body: [
+          "Set the business name, the greeting visitors see first, the colour (pick one or type a hex code), the corner the chat button sits in, and your logo. A preview shows each change, and visitors see it the next time a page loads. The code never changes, so you don't paste it again.",
+        ],
+      },
+      {
+        heading: "Decide when to ask for details",
+        body: [
+          "Ask visitors for their name and a phone number or email before the chat, only when needed, or never. When they share a phone or email, ERIX matches it to an existing contact or creates a new one, so the chat sits on the right record.",
+        ],
+      },
+      {
+        heading: "The websites it runs on",
+        body: [
+          "The chat runs only on the websites you add under Your websites, with or without www; until you add one, it stays off everywhere. *.yourdomain.com covers your subdomains. Your plan sets how many websites you can add.",
+        ],
+      },
+      {
+        heading: "On WordPress, Shopify or Wix",
+        body: [
+          "The line goes wherever your site lets you add code to every page:",
+        ],
+        points: [
+          "WordPress: a header-and-footer code plugin, or your theme's footer",
+          "Shopify: Online Store → Themes → Edit code → theme.liquid, just before </body>",
+          "Wix: Settings → Custom code, in the body on all pages (needs a paid Wix plan with your own domain)",
+          "Paste it into the site itself: Check my website reads your page's HTML, so code added only through a tag manager may not be found",
+        ],
+      },
+      {
+        heading: "Replies, by people or AI",
+        body: [
+          "Messages arrive in the inbox marked Website chat. Reply there yourself, or turn on AI replies under AI → Assistant: every AI draft waits for a person to send it until you switch on auto-reply, and visitors always see AI replies labelled as AI.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Does the chat work on phones?",
+        a: "Yes. On small screens it opens full screen.",
+      },
+      {
+        q: "Is the code a secret?",
+        a: "No. It carries your workspace's public ID, and the chat runs only on the websites you've added.",
+      },
+    ],
+  },
+  {
+    slug: "email-domain-guide",
+    title: "Send email from your own domain",
+    description: "Set up ERIX to send email as you@yourcompany.com: add your domain, copy four DNS records, verify, and choose the sender name and address customers see.",
+    type: "guide",
+    lead: "Customers trust email from your own address. Setup is four DNS records and a few minutes; DNS can take longer to catch up.",
+    steps: [
+      "Go to Connect → Apps → Email and click Connect. Choose the Domain option, not Gmail.",
+      "Type your domain without https:// or www, for example sharmadental.in, and click Verify domain.",
+      "Copy the four records ERIX shows into your domain's DNS: three CNAME records for DKIM and one TXT record for DMARC.",
+      "Click Check now. DNS changes can take anywhere from 5 minutes to 72 hours, so check again later if it isn't verified yet.",
+      "Add your sender name, a From address that ends with your domain and an optional reply-to address, then click Finish setup.",
+    ],
+    sections: [
+      {
+        heading: "Where to add the records",
+        body: [
+          "Add them wherever your domain's DNS is managed: usually your domain registrar, such as GoDaddy, Hostinger, BigRock or Namecheap, or Cloudflare if you use it. Copy each Name and Value exactly. Some DNS panels add your domain to the name for you, so if the name already ends with your domain, don't type it twice.",
+        ],
+      },
+      {
+        heading: "Your mailbox keeps working",
+        body: [
+          "ERIX doesn't touch your MX records, so Gmail, Google Workspace, Zoho or whichever mailbox you use today keeps receiving mail as before. The records only show inboxes that ERIX may send on your domain's behalf.",
+        ],
+      },
+      {
+        heading: "Already have a DMARC record?",
+        body: [
+          "A domain should have only one DMARC record. If yours already has one, keep it and skip the DMARC record ERIX shows; two DMARC records make both invalid.",
+        ],
+      },
+      {
+        heading: "Changing the sender later",
+        body: [
+          "To change the sender name or address, remove the domain on the Email page and set it up again with the new details.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Do I need to change my MX records?",
+        a: "No. ERIX only adds DKIM and DMARC records, so your current mailbox keeps receiving mail.",
+      },
+      {
+        q: "How long does verification take?",
+        a: "Often minutes, but DNS can take up to 72 hours. Click Check now again later; nothing breaks while you wait.",
+      },
+    ],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -1154,7 +1428,7 @@ export const STORAGE_PAGES: SubPage[] = [
     slug: "presigned-uploads",
     title: "Direct uploads to ERIX Storage",
     description:
-      "Files uploaded to ERIX go straight to Cloudflare R2 through short-lived signed links, kept in each workspace's own folder, with its storage checked first.",
+      "Files uploaded to ERIX go straight to storage through short-lived signed links, kept in each workspace's own folder, with its storage checked first.",
     type: "capability",
     lead: "Uploads go directly from the browser to storage, not through ERIX's servers.",
     screen: "documents",
@@ -1162,7 +1436,7 @@ export const STORAGE_PAGES: SubPage[] = [
       {
         heading: "Signed, short-lived links",
         body: [
-          "ERIX hands the browser a time-limited upload link, and the file goes straight to Cloudflare R2. Every file sits under its workspace's own folder, and the workspace's storage is checked before the upload starts.",
+          "ERIX hands the browser a time-limited upload link, and the file goes straight to storage. Every file sits under its workspace's own folder, and the workspace's storage is checked before the upload starts.",
         ],
       },
     ],
@@ -1202,69 +1476,6 @@ export const STORAGE_PAGES: SubPage[] = [
   },
 ];
 
-/* ═══════════════════════════════════════════════════════════════════════
- * ERIX Store (coming soon): internal engine notes, kept short
- * ═════════════════════════════════════════════════════════════════════ */
-
-const STORE_NOTICE = "ERIX Store is coming soon for developers. Today it runs ERIX's own background work.";
-
-export const STORE_PAGES: SubPage[] = [
-  {
-    slug: "queue-system",
-    title: "Job queues in ERIX Store",
-    description:
-      "ERIX Store's priority job queues, with delays, retries and a list for failed jobs, run ERIX's background work today. Developer access is coming soon.",
-    type: "capability",
-    lead: "Queues let ERIX do slow work in the background, in the right order.",
-    screen: "engine",
-    sections: [
-      {
-        heading: "Priority, delay and retry",
-        body: [
-          "A job can wait until later, jump ahead of slower batch work, retry after a failure, and land in a separate list if it keeps failing, so nothing disappears silently.",
-        ],
-      },
-    ],
-    notice: STORE_NOTICE,
-  },
-  {
-    slug: "cache-pubsub",
-    title: "Cache and publish-subscribe in ERIX Store",
-    description:
-      "ERIX Store keeps hot data in memory with an expiry time and passes messages between services through channels. Coming soon for developers, per workspace.",
-    type: "capability",
-    lead: "Fast reads from memory, and channels that pass messages to whoever is listening.",
-    screen: "engine",
-    sections: [
-      {
-        heading: "Memory first",
-        body: [
-          "Values are kept in memory with an expiry time, so frequently read data doesn't hit the database each time. Channels pass a message to every subscriber at once.",
-        ],
-      },
-    ],
-    notice: STORE_NOTICE,
-  },
-  {
-    slug: "rate-limiting",
-    title: "Rate limits and locks in ERIX Store",
-    description:
-      "ERIX Store provides rate limits, locks and atomic counters, so two workers never do the same job at once. Coming soon for developers, separate per workspace.",
-    type: "capability",
-    lead: "Limits and locks keep shared work orderly when many workers run at once.",
-    screen: "engine",
-    sections: [
-      {
-        heading: "One holder at a time",
-        body: [
-          "A lock has one holder at a time and expires on its own. Counters change atomically, and rate limits cap how often something can happen per workspace.",
-        ],
-      },
-    ],
-    notice: STORE_NOTICE,
-  },
-];
-
 /** All sub-pages for a module slug. */
 export function getProductPages(product: string): SubPage[] {
   switch (product) {
@@ -1278,8 +1489,6 @@ export function getProductPages(product: string): SubPage[] {
       return CONNECT_PAGES;
     case "erix-storage":
       return STORAGE_PAGES;
-    case "erix-store":
-      return STORE_PAGES;
     default:
       return [];
   }

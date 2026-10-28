@@ -1,6 +1,8 @@
-import { pageMetadata } from "@/lib/seo";
+// blog/page.tsx
+
+import { BlogPage, type SubscribeResult } from "@/components/blog/blogPage";
 import { blogs } from "@/lib/api";
-import { BlogPage } from "@/components/blog/blogPage";
+import { pageMetadata } from "@/lib/seo";
 
 // Render on demand — don't block build waiting for API
 export const dynamic = "force-dynamic";
@@ -12,8 +14,10 @@ export const metadata = pageMetadata({
   path: "/blog",
 });
 
-export default async function BlogListPage() {
-  const posts = await blogs.fetchPublishedPosts();
+export default async function BlogListPage({ searchParams }: { searchParams: Promise<{ subscribed?: string }> }) {
+  const [posts, { subscribed }] = await Promise.all([blogs.fetchPublishedPosts(), searchParams]);
+  // The confirmation link lands here with ?subscribed=1 (or =expired).
+  const result: SubscribeResult = subscribed === "1" || subscribed === "expired" ? subscribed : undefined;
 
-  return <BlogPage posts={posts} />;
+  return <BlogPage posts={posts} subscribed={result} />;
 }

@@ -3,57 +3,43 @@
  * Used by Server Components and generateStaticParams/generateMetadata.
  */
 
-import { cache } from "react";
-
 const API_BASE = process.env.API_URL || "https://api.ecodrix.com";
 
 /**
- * Fetch all published blog posts from the server's public endpoint.
- * Uses ISR with 60s revalidation. 5s timeout prevents build/dev hangs
- * when the API is unreachable.
+ * GET a public endpoint's `data`, or null when it fails. ISR with 60s
+ * revalidation (Next dedupes the same URL within a render); the 5s timeout
+ * keeps builds and dev from hanging when the API is unreachable.
  */
+async function getData<T>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return null;
+    return ((await res.json()) as { data?: T }).data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Fetch all published blog posts. Cached per-request via React.cache()
- * so generateMetadata + page component share a single fetch.
- * 
+ * The blog is read-only here: posts are written in admin and the server decides
+ * what's live (published and past its date, so scheduled posts appear on their own).
  */
-
-
 export const blogs = {
-  cache: (fn: () => Promise<BlogPost[]>) => fn,
-    async fetchPublishedPosts(): Promise<BlogPost[]> {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-
-        // Public endpoint: published posts only, no credentials needed.
-        const res = await fetch(`${API_BASE}/v1/api/platform/public/blogs`, {
-          next: { revalidate: 60 },
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeout);
-
-        if (!res.ok) return [];
-        const json: BlogListResponse = await res.json();
-        // The server sends live posts only (published and past their date), without bodies.
-        return json.data || [];
-      } catch {
-        return [];
-      }
-  }, 
+  /** Live posts, newest first, without bodies. */
+  async fetchPublishedPosts(): Promise<BlogSummary[]> {
+    return (await getData<BlogSummary[]>("/v1/api/platform/public/blogs")) ?? [];
+  },
 
   /** One live post with its body; null when it's not live or doesn't exist. */
   async fetchPostBySlug(slug: string): Promise<BlogPost | null> {
-    try {
-      const res = await fetch(
-        `${API_BASE}/v1/api/platform/public/blogs/${encodeURIComponent(slug)}`,
-        { next: { revalidate: 60 }, signal: AbortSignal.timeout(5000) },
-      );
-      if (!res.ok) return null;
-      return ((await res.json()) as { data?: BlogPost }).data ?? null;
-    } catch {
-      return null;
-    }
-  }
-}
+    const post = await getData<BlogPost>(`/v1/api/platform/public/blogs/${encodeURIComponent(slug)}`);
+    if (post) return post;
+    // ponytail: an API without the detail route (before the 28 Oct server deploy) lists full
+    // posts; a newer API lists no bodies, so this finds nothing there — drop once it's deployed.
+    const listed = (await this.fetchPublishedPosts()).find((p) => p.slug === slug);
+    return listed && "body" in listed ? (listed as BlogPost) : null;
+  },
+};

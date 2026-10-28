@@ -9,6 +9,7 @@ import { COMPARISONS, getComparisonBySlug, getComparisonSlugs } from "@/lib/comp
 import { getBreadcrumbSchema, getFAQSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 /* ──────────────────────────────────────────────────────────────────────
    /compare/[slug] — "ECODrIx vs {Competitor}" comparison page.
@@ -48,6 +49,11 @@ const AROUND = [
   "Automations that wait for a reply, ask for approval before money or a customer message goes out, and keep a run history on each contact",
 ];
 
+// Comparison table on phones: rows become stacked blocks and each cell is labelled with its
+// column (from data-label), so nothing scrolls sideways.
+const CELL_PHONE =
+  "max-md:block max-md:py-1.5 max-md:before:mb-0.5 max-md:before:block max-md:before:text-[12px] max-md:before:font-semibold max-md:before:text-subtle max-md:before:content-[attr(data-label)]";
+
 const fmtDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
@@ -69,8 +75,8 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
       />
       <JsonLd data={getFAQSchema(c.faqs)} />
 
-      <section className="erix-mk-section erix-mk-section--subtle pt-10! md:pt-14!">
-        <div className="wrapper max-w-[calc(var(--mk-wrap))]">
+      <section data-tone="subtle" className="py-section bg-background pt-10! md:pt-14!">
+        <div className="mx-auto w-full px-gutter max-w-[calc(var(--mk-wrap))]">
           <Crumbs items={[{ name: "Compare", href: "/compare" }, { name: `ECODrIx vs ${c.competitor}` }]} />
           <h1 className="mt-6 max-w-4xl text-[clamp(36px,5vw,56px)] leading-[1.05] tracking-[-0.035em]">
             ECODrIx (ERIX) vs {c.competitor}
@@ -78,7 +84,7 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
           <p className="mt-5 max-w-[64ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">{c.tldr}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <PrimaryCta />
-            <Link href="/platform" className="btn-ghost">
+            <Link href="/platform" className={buttonVariants({ variant: "ghost" })}>
               See the whole platform
             </Link>
           </div>
@@ -88,30 +94,30 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
       {/* ── Side by side ── */}
       <MkSection id="table" title={`Side by side: ERIX and ${c.competitor}`}>
         <div className="overflow-hidden rounded-[16px] shadow-[var(--shadow-card)]">
-          <table className="cmp-table w-full border-collapse bg-surface text-left text-[15px]">
+          <table className="w-full border-collapse bg-surface text-left text-[15px] max-md:block">
             <caption className="sr-only">
               ECODrIx (ERIX) compared with {c.competitor}
             </caption>
-            <thead>
-              <tr className="bg-sunken text-[13px] text-muted-foreground">
-                <th scope="col" className="w-1/4 px-5 py-3 font-semibold">
+            <thead className="max-md:absolute max-md:size-px max-md:overflow-hidden max-md:[clip-path:inset(50%)]">
+              <tr className="bg-sunken text-[13px] text-muted-foreground max-md:block">
+                <th scope="col" className="w-1/4 px-5 py-3 font-semibold max-md:block max-md:py-1.5">
                   What
                 </th>
-                <th scope="col" className="px-5 py-3 font-semibold text-foreground">
+                <th scope="col" className="px-5 py-3 font-semibold text-foreground max-md:block max-md:py-1.5">
                   ECODrIx (ERIX)
                 </th>
-                <th scope="col" className="px-5 py-3 font-semibold">
+                <th scope="col" className="px-5 py-3 font-semibold max-md:block max-md:py-1.5">
                   {c.competitor}
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="max-md:block">
               {c.rows.map((row) => (
-                <tr key={row.dimension} className="border-t border-border-soft align-top">
-                  <th scope="row" className="px-5 py-4 font-semibold text-foreground">
+                <tr key={row.dimension} className="border-t border-border-soft align-top max-md:block max-md:px-0 max-md:py-2">
+                  <th scope="row" className="px-5 py-4 font-semibold text-foreground max-md:block max-md:py-1.5">
                     {row.dimension}
                   </th>
-                  <td data-label="ECODrIx (ERIX)" className="px-5 py-4 text-foreground">
+                  <td data-label="ECODrIx (ERIX)" className={cn("px-5 py-4 text-foreground", CELL_PHONE)}>
                     <span className="flex gap-2">
                       {row.ecodrixWins && (
                         <Icon name="circle-check" size={16} variant="solid" label="ERIX has the edge" className="mt-0.5 shrink-0 text-accent" />
@@ -119,7 +125,7 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
                       {row.ecodrix}
                     </span>
                   </td>
-                  <td data-label={c.competitor} className="px-5 py-4 text-muted-foreground">
+                  <td data-label={c.competitor} className={cn("px-5 py-4 text-muted-foreground", CELL_PHONE)}>
                     {row.competitor}
                   </td>
                 </tr>
@@ -153,9 +159,9 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
         title="What ERIX adds around the messaging"
         lead="Every provider here uses Meta's official WhatsApp platform. These are the parts ERIX builds around it, all on one contact record."
       >
-        <ul className="erix-mk-ticks grid gap-x-10 md:grid-cols-2">
+        <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent md:grid-cols-2">
           {AROUND.map((a) => (
-            <li key={a}>
+            <li key={a} className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground">
               <Icon name="check" size={16} strokeWidth={2.2} variant="line" />
               {a}
             </li>

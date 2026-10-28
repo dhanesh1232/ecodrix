@@ -13,28 +13,23 @@ export const slaDoc: LegalDoc = {
   title: "Service Level Agreement",
   pill: "Uptime & Support SLA",
   description:
-    "ECODrIx uptime commitments, how availability is measured, exclusions, support response targets, and service credits for eligible paid plans.",
-  intro: `This Service Level Agreement ("SLA") describes our target availability and support commitments for the ${LEGAL.brand} platform. SLA commitments and service credits apply to eligible paid plans as specified on the Pricing page; free and beta features are excluded.`,
+    "How ECODrIx handles availability, maintenance and support. Standard plans carry no uptime commitment; an Enterprise contract can include one.",
+  intro: `This Service Level Agreement ("SLA") describes our target availability and support commitments for the ${LEGAL.brand} platform. Standard plans (Free, Starter, Growth and Scale) carry no uptime commitment: we run the platform on a best-effort basis. An uptime commitment and service credits apply only where an Enterprise contract states them.`,
   sections: [
     {
       id: "uptime",
       title: "Uptime Commitment",
       icon: Activity,
       body: [
-        "We target the monthly uptime percentage associated with your plan tier. Higher tiers carry stronger commitments.",
+        "We work to keep the platform available at all times, but standard plans carry no uptime percentage commitment.",
         {
           table: {
             headers: ["Plan tier", "Monthly uptime target"],
             rows: [
-              ["Free / Beta", "No SLA (best effort)"],
-              ["Growth", "99.0%"],
-              ["Scale", "99.9%"],
-              ["Enterprise", "99.99% (or as contracted)"],
+              ["Free, Starter, Growth, Scale", "No uptime commitment (best effort)"],
+              ["Enterprise", "As stated in your contract"],
             ],
           },
-        },
-        {
-          note: "Confirm these tiers/targets against your current Pricing page before publishing.",
         },
       ],
     },
@@ -76,13 +71,13 @@ export const slaDoc: LegalDoc = {
       title: "Service Credits",
       icon: BadgePercent,
       body: [
-        "If we miss the uptime target for your eligible plan in a given month, you may request service credits applied to a future invoice. Credits are the sole and exclusive remedy for missed uptime targets.",
+        "Service credits apply only where an Enterprise contract includes an uptime commitment. If we miss that commitment in a given month, you may request credits applied to a future invoice. Credits are the sole and exclusive remedy for missed uptime commitments.",
         {
           list: [
             "Request credits within 30 days of the incident by emailing " +
               LEGAL.emails.support +
               ".",
-            "Credits are calculated as a percentage of that month's fee based on the shortfall, per your plan's terms.",
+            "Credits are calculated as a percentage of that month's fee based on the shortfall, per your contract's terms.",
             "Credits do not apply to third-party pass-through charges.",
           ],
         },

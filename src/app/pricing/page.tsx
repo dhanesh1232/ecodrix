@@ -79,8 +79,8 @@ export default async function PricingPage() {
     <div className="w-full">
       <JsonLd data={getFAQSchema(faqs)} />
 
-      <section className="erix-mk-section erix-mk-section--subtle pt-12! pb-10! md:pt-16!">
-        <div className="wrapper text-center">
+      <section data-tone="subtle" className="py-section bg-background pt-12! pb-10! md:pt-16!">
+        <div className="mx-auto w-full max-w-wrap px-gutter text-center">
           <h1 className="mx-auto max-w-3xl text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
             Plans in rupees. GST added at 18%.
           </h1>

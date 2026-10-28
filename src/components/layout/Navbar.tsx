@@ -1,265 +1,223 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Menu, X } from "@/components/icons";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type CSSProperties, useEffect, useRef, useState } from "react";
-import { StatusBadge } from "@/components/ui/status-badge";
-import { PLATFORM_NAV, PRIMARY_CTA } from "@/lib/site";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { buttonVariants } from "@/components/ui/button";
+import { CONTACT_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { NAV_SECTIONS, type NavSection, sectionOf } from "./nav-data";
 
-const links = [
-  { label: "Blog", href: "/blog" },
-  { label: "Compare", href: "/compare" },
-  { label: "About", href: "/about" },
-];
+// Both menus load on demand, so neither costs a phone anything on first
+// load: the phone sheet (Radix Dialog + Accordion) on the first touch of its
+// button, the desktop NavigationMenu once a wide screen is idle.
+const MobileNav = dynamic(() => import("./MobileNav"), { ssr: false });
+const DesktopNav = dynamic(() => import("./DesktopNav"), { ssr: false });
 
-function ModuleIcon({ m, className }: { m: (typeof PLATFORM_NAV)[number]; className?: string }) {
-  return (
-    <span
-      className={cn(
-        "flex size-9 shrink-0 items-center justify-center rounded-[8px]",
-        "ai" in m ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
-        className,
-      )}
-    >
-      <m.icon aria-hidden="true" className="size-4" />
-    </span>
-  );
-}
+/* ── Header ──────────────────────────────────────────────────────────── */
 
 /**
- * Site header. Fixed, with a spacer, so compacting it on scroll never shifts
- * the page. The Platform menu is a native popover (Esc, light dismiss, top
- * layer); the mobile menu is a native modal <dialog> (focus trap, Esc,
- * backdrop, focus returns to the button).
+ * Site header on the shadcn NavigationMenu (Radix): four sections, each a
+ * panel that enters with framer-motion. A pill glides to the open section
+ * and the logo's red dot marks the current one (both `layoutId`). Fixed,
+ * translucent, and 8px tighter once the page scrolls; a spacer holds its
+ * height, so compacting never shifts the page. Phones get a Sheet with an
+ * Accordion. Without JavaScript the menus become plain links and the menu
+ * button jumps to the footer's site map (globals.css, `scripting`).
  */
-export function Navbar() {
+export function Navbar({
+  icons,
+}: {
+  /** Drawn by the server (layout.tsx), so the header ships no icon data. */
+  icons: { chevron: ReactNode; arrow: ReactNode; menu: ReactNode };
+}) {
+  const path = usePathname();
+  // false until the desktop menu is wanted; a section key when a placeholder
+  // had keyboard focus (focus moves to the real trigger).
+  const [desktop, setDesktop] = useState<boolean | NavSection>(false);
   const [scrolled, setScrolled] = useState(false);
-  const [platformOpen, setPlatformOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuWanted, setMenuWanted] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
-  const platform = useRef<HTMLDivElement>(null);
-  const menu = useRef<HTMLDialogElement>(null);
-  const pathname = usePathname();
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const closedByNav = useRef(false);
+  const current = sectionOf(path);
 
   // Scrolled = the spacer under the header is no longer fully on screen.
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setScrolled(e.intersectionRatio < 1), {
-      threshold: [1],
-    });
+    const io = new IntersectionObserver(([e]) => setScrolled(e.intersectionRatio < 1), { threshold: [1] });
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  // Close both menus after navigating.
+  // Wide screens: fetch the desktop menu when the browser is idle.
   useEffect(() => {
-    menu.current?.close();
-    if (platform.current?.matches(":popover-open")) platform.current.hidePopover();
-  }, [pathname]);
+    const wide = window.matchMedia("(min-width: 1024px)");
+    let idle = 0;
+    const load = () => {
+      if (!wide.matches) return;
+      const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200));
+      idle = ric(() => setDesktop((d) => d || true));
+    };
+    load();
+    wide.addEventListener("change", load);
+    return () => {
+      wide.removeEventListener("change", load);
+      (window.cancelIdleCallback ?? clearTimeout)(idle);
+    };
+  }, []);
 
-  const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
-  const closePlatform = () => {
-    if (platform.current?.matches(":popover-open")) platform.current.hidePopover();
+  // Navigating closes the phone menu.
+  const [lastPath, setLastPath] = useState(path);
+  if (lastPath !== path) {
+    setLastPath(path);
+    setMenuOpen(false);
+  }
+
+  // The sheet is opened by our own button (not a Radix Trigger), so say
+  // where focus goes when it closes: back to the button, or, after a link
+  // in it was followed, to the link's #target or the new page's heading.
+  const onMenuClosed = (e: Event) => {
+    e.preventDefault();
+    const hash = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    const target = closedByNav.current && (hash || document.querySelector<HTMLElement>("#main-content h1"));
+    closedByNav.current = false;
+    if (target) {
+      if (!target.matches("a, button, input, select, textarea, [tabindex]")) target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    } else menuButton.current?.focus();
   };
 
   return (
     <>
-      <div ref={sentinel} aria-hidden="true" className="h-16" />
+      <div ref={sentinel} aria-hidden="true" className="h-[3.75rem]" />
       <header
+        data-scrolled={scrolled || undefined}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
-          scrolled
-            ? "border-border-soft bg-surface/85 backdrop-blur-sm backdrop-saturate-150 md:backdrop-blur-md"
-            : "border-transparent bg-surface",
+          "fixed inset-x-0 top-0 z-50 border-b border-transparent bg-surface/80 backdrop-blur-md backdrop-saturate-150",
+          "transition-[background-color,border-color,box-shadow] duration-150 ease-in-out",
+          "data-[scrolled]:border-border-soft data-[scrolled]:bg-surface/88 data-[scrolled]:shadow-[0_1px_12px_-4px_rgba(11,27,100,0.12)]",
         )}
       >
-        <nav
-          aria-label="Main"
-          role="navigation"
+        <div
           className={cn(
-            "wrapper flex items-center justify-between gap-6 transition-[height] duration-200 ease-out",
-            scrolled ? "h-14" : "h-16",
+            "mx-auto w-full max-w-7xl px-gutter flex items-center gap-3 transition-[height] duration-150 ease-in-out lg:gap-6",
+            scrolled ? "h-[3.25rem]" : "h-[3.75rem]",
           )}
         >
-          <Link href="/" className="flex items-center gap-2" aria-label="ERIX home">
+          <Link href="/" className="flex shrink-0 items-center gap-2">
             <Image
               src="/logo.svg"
               alt=""
-              width={36}
-              height={36}
+              width={32}
+              height={32}
               priority
-              className={cn("transition-[width,height] duration-200", scrolled ? "size-8" : "size-9")}
+              className={cn("transition-[width,height] duration-300", scrolled ? "size-7" : "size-8")}
             />
-            <span className="font-display text-xl font-bold text-foreground">ERIX</span>
+            <span className="font-display text-[19px] font-bold tracking-[-0.02em] text-foreground">ERIX</span>
+            {/* The visible word starts the link's name (WCAG 2.5.3, label in name). */}
+            <span className="sr-only">by ECODrIx, home</span>
           </Link>
 
-          <ul className="hidden items-center gap-1 lg:flex">
-            <li>
-              <button
-                type="button"
-                popoverTarget="platform-menu"
-                aria-expanded={platformOpen}
-                aria-controls="platform-menu"
-                className={cn(
-                  "flex items-center gap-1 rounded-[8px] px-3 py-2 text-[14.5px] font-semibold",
-                  isActive("/platform") || platformOpen
-                    ? "text-accent"
-                    : "text-muted-foreground hover:bg-accent-muted hover:text-foreground",
-                )}
-              >
-                Platform
-                <ChevronDown
-                  aria-hidden="true"
-                  className={cn("size-4 transition-transform duration-200", platformOpen && "rotate-180")}
-                />
-              </button>
-            </li>
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  aria-current={isActive(l.href) ? "page" : undefined}
-                  className={cn(
-                    "rounded-[8px] px-3 py-2 text-[14.5px] font-semibold",
-                    isActive(l.href)
-                      ? "text-accent"
-                      : "text-muted-foreground hover:bg-accent-muted hover:text-foreground",
-                  )}
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* Wide screens: the Radix menu loads once the page is idle (or on
+              first hover/focus); until then these same-looking buttons hold
+              its place, so nothing shifts. Phones never load it. */}
+          <div className="js-only hidden lg:block">
+            {desktop ? (
+              <DesktopNav path={path} current={current} focusKey={desktop === true ? undefined : desktop} />
+            ) : (
+              <ul className="flex items-center gap-0.5" aria-label="Main">
+                {NAV_SECTIONS.map((s) => (
+                  <li key={s.key}>
+                    <button
+                      type="button"
+                      aria-expanded={false}
+                      onPointerEnter={() => setDesktop(true)}
+                      onFocus={() => setDesktop(s.key)}
+                      className={cn(
+                        "relative inline-flex h-9 items-center gap-1 rounded-[8px] px-3 text-[14.5px] font-semibold text-muted-foreground hover:text-foreground",
+                        current === s.key && "text-foreground",
+                      )}
+                    >
+                      {s.label}
+                      {icons.chevron}
+                      {current === s.key && (
+                        <span
+                          aria-hidden="true"
+                          className="absolute bottom-0 left-[calc(50%-2.5px)] size-[5px] rounded-full bg-[var(--hero-dot)]"
+                        />
+                      )}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-          <div className="flex items-center gap-2">
-            <Link href={PRIMARY_CTA.href} className="btn-primary group hidden min-h-10 sm:inline-flex">
-              {PRIMARY_CTA.label}
-              <ArrowRight aria-hidden="true" className="size-4" />
+          {/* Without JavaScript the menus can't open: plain links instead. */}
+          <nav aria-label="Main" className="nojs-lg hidden items-center gap-1">
+            {[
+              { label: "Platform", href: "/platform" },
+              { label: "Industries", href: "/#verticals" },
+              { label: "Blog", href: "/blog" },
+              { label: "About", href: "/about" },
+            ].map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="rounded-[8px] px-3 py-2 text-[14.5px] font-semibold text-muted-foreground hover:text-foreground"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+            <Link href={CONTACT_CTA.href} className={cn(buttonVariants({ size: "sm" }), "group px-3.5 sm:px-4")}>
+              {CONTACT_CTA.label}
+              {icons.arrow}
             </Link>
             <button
+              ref={menuButton}
               type="button"
+              aria-label="Open menu"
+              aria-haspopup="dialog"
+              aria-expanded={menuOpen}
+              onPointerEnter={() => setMenuWanted(true)}
+              onTouchStart={() => setMenuWanted(true)}
+              onFocus={() => setMenuWanted(true)}
               onClick={() => {
-                menu.current?.showModal();
+                setMenuWanted(true);
                 setMenuOpen(true);
               }}
-              aria-label="Open menu"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              className="flex size-11 items-center justify-center rounded-[8px] text-foreground ring-1 ring-border hover:bg-hover lg:hidden"
+              className="js-only flex size-11 items-center justify-center rounded-[8px] text-foreground hover:bg-hover lg:hidden"
             >
-              <Menu aria-hidden="true" className="size-5" />
+              {icons.menu}
             </button>
-          </div>
-        </nav>
-
-        {/* Platform menu (desktop) */}
-        <div
-          id="platform-menu"
-          ref={platform}
-          popover="auto"
-          onToggle={(e) => setPlatformOpen(e.newState === "open")}
-          className="menu-pop fixed inset-x-0 top-[4.25rem] bottom-auto m-0 mx-auto w-[min(54rem,calc(100vw-2rem))] rounded-[16px] bg-surface p-3 text-foreground shadow-[var(--shadow-lg)]"
-        >
-          <ul className="grid gap-1 sm:grid-cols-2">
-            {PLATFORM_NAV.map((m, i) => (
-              <li key={m.key} style={{ "--i": i } as CSSProperties}>
-                <Link
-                  href={m.href}
-                  onClick={closePlatform}
-                  className="flex gap-3 rounded-[10px] p-3 hover:bg-hover"
-                >
-                  <ModuleIcon m={m} />
-                  <span className="min-w-0">
-                    <span className="flex flex-wrap items-center gap-2 font-semibold text-foreground">
-                      {m.name}
-                      {m.status !== "live" && <StatusBadge status={m.status} />}
-                    </span>
-                    <span className="mt-0.5 block text-sm text-muted-foreground">{m.summary}</span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-            <li className="flex items-end p-3" style={{ "--i": PLATFORM_NAV.length } as CSSProperties}>
-              <Link
-                href="/platform"
-                onClick={closePlatform}
-                className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:text-accent-hover"
-              >
-                See how it all fits together
-                <ArrowRight aria-hidden="true" className="size-4" />
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </header>
-
-      {/* Mobile menu */}
-      <dialog
-        id="mobile-menu"
-        ref={menu}
-        aria-label="Menu"
-        onClose={() => setMenuOpen(false)}
-        onClick={(e) => e.target === menu.current && menu.current?.close()}
-        className="sheet mr-0 ml-auto h-dvh max-h-dvh w-[min(360px,88vw)] max-w-none bg-surface p-0 text-foreground lg:hidden"
-      >
-        <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between px-5 py-3">
-            <span className="font-display text-lg font-bold">Menu</span>
-            <button
-              type="button"
-              onClick={() => menu.current?.close()}
-              aria-label="Close menu"
-              className="flex size-11 items-center justify-center rounded-[8px] ring-1 ring-border hover:bg-hover"
+            <Link
+              href="#site-map"
+              className="nojs-sm hidden size-11 items-center justify-center rounded-[8px] text-foreground"
             >
-              <X aria-hidden="true" className="size-5" />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto px-3 py-4">
-            <p className="px-2 text-sm font-semibold text-muted-foreground">Platform</p>
-            <ul className="mt-2">
-              {PLATFORM_NAV.map((m, i) => (
-                <li key={m.key} style={{ "--i": i } as CSSProperties}>
-                  <Link
-                    href={m.href}
-                    onClick={() => menu.current?.close()}
-                    className="flex items-center gap-3 rounded-[8px] px-2 py-2.5 hover:bg-hover"
-                  >
-                    <ModuleIcon m={m} className="size-8" />
-                    <span className="font-semibold">{m.name}</span>
-                    {m.status !== "live" && <StatusBadge status={m.status} className="ml-auto" />}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <ul className="mt-6">
-              {[{ label: "All of ERIX", href: "/platform" }, ...links].map((l, i) => (
-                <li key={l.href} style={{ "--i": PLATFORM_NAV.length + i } as CSSProperties}>
-                  <Link
-                    href={l.href}
-                    aria-current={pathname === l.href ? "page" : undefined}
-                    className={cn(
-                      "block rounded-[8px] px-2 py-3 font-display text-xl font-semibold",
-                      pathname === l.href ? "bg-accent-muted text-accent" : "hover:bg-hover",
-                    )}
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="p-4">
-            <Link href={PRIMARY_CTA.href} onClick={() => menu.current?.close()} className="btn-primary w-full">
-              {PRIMARY_CTA.label}
+              {icons.menu}
+              <span className="sr-only">Site map</span>
             </Link>
           </div>
         </div>
-      </dialog>
+      </header>
+      {menuWanted && (
+        <MobileNav
+          open={menuOpen}
+          onOpenChange={setMenuOpen}
+          onNavigate={() => (closedByNav.current = true)}
+          onCloseAutoFocus={onMenuClosed}
+          path={path}
+          current={current}
+        />
+      )}
     </>
   );
 }

@@ -46,11 +46,6 @@ export const subprocessorsDoc: LegalDoc = {
                 "AI outreach and assistance (Claude)",
                 "Global",
               ],
-              [
-                "MongoDB Atlas",
-                "Managed database (tenant data)",
-                "India / Global",
-              ],
               ["Razorpay / Stripe", "Payment processing", "India / Global"],
             ],
           },

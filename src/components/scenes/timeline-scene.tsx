@@ -1,5 +1,5 @@
 import { CheckCircle2, Inbox, KanbanSquare, Sparkles, Workflow, type IconComponent } from "@/components/icons";
-import { Scene } from "@/components/motion/motion";
+import { Scene } from "@/components/motion/scene";
 import { Avatar, Pill, at } from "./parts";
 
 const events: { tool: string; icon: IconComponent; tone: "primary" | "ai"; text: string; time: string }[] = [
@@ -19,7 +19,7 @@ export function TimelineScene() {
       timing={1100}
       hold={3800}
       label="One contact record for Rohan Mehta. Events from every ERIX tool land on the same timeline: a WhatsApp enquiry, the AI agent's answer, a booked site visit, an automated reminder, an accepted proposal and a paid invoice of ₹29,500."
-      className="hero-in mx-auto w-full max-w-[34rem] lg:max-w-none"
+      className="motion-safe:animate-rise motion-safe:[animation-delay:var(--d,200ms)] mx-auto w-full max-w-[34rem] lg:max-w-none"
     >
       <div className="surface-light overflow-hidden rounded-[12px] bg-surface shadow-[var(--shadow-lg)]">
         <div className="flex items-center gap-3 border-b border-border p-4">

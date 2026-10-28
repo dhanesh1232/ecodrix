@@ -61,8 +61,8 @@ export default function CompareHubPage() {
       />
       <JsonLd data={getFAQSchema(HUB_FAQS)} />
 
-      <section className="erix-mk-section erix-mk-section--subtle pt-12! md:pt-16!">
-        <div className="wrapper">
+      <section data-tone="subtle" className="py-section bg-background pt-12! md:pt-16!">
+        <div className="mx-auto w-full max-w-wrap px-gutter">
           <h1 className="max-w-4xl text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">
             Choosing a WhatsApp CRM in India
           </h1>

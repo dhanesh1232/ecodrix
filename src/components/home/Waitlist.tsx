@@ -13,6 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { buttonVariants } from "@/components/ui/button";
+import { analyticsConsented } from "@/lib/legal/consent";
+import { getLanding, getVisitorId, trackEvent } from "@/lib/track";
+import { cn } from "@/lib/utils";
 
 const API_URL =
   process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
@@ -69,6 +73,10 @@ export function WaitlistForm() {
           // An invite link lands here as ?ref=CODE.
           referral:
             new URLSearchParams(window.location.search).get("ref") || undefined,
+          // First-touch attribution, only with analytics consent.
+          attribution: analyticsConsented()
+            ? { ...getLanding(), visitorId: getVisitorId() }
+            : undefined,
         }),
       });
       const result = await res.json().catch(() => null);
@@ -82,6 +90,9 @@ export function WaitlistForm() {
         return;
       }
       setState("sent");
+      // A new entry (201, not "already on the list"): GA4 `generate_lead` +
+      // the first-party form_submit action, both consent-gated in trackEvent.
+      if (res.status === 201) trackEvent("generate_lead", "form_submit", { form: "waitlist" });
       setPosition(result.data?.position ?? null);
       setReferralCode(result.data?.referralCode ?? null);
       reset();
@@ -99,7 +110,7 @@ export function WaitlistForm() {
   };
 
   return (
-    <div className="surface-light card p-6 text-foreground shadow-[var(--shadow-lg)] md:p-8">
+    <div className="surface-light rounded-lg bg-surface p-6 text-foreground shadow-[var(--shadow-lg)] md:p-8">
       {state === "sent" ? (
         <div role="status" className="py-6 text-center">
           <CheckCircle2 aria-hidden="true" className="mx-auto size-10 text-success" />
@@ -117,7 +128,7 @@ export function WaitlistForm() {
               <button
                 type="button"
                 onClick={copyReferralLink}
-                className="btn-ghost mt-3"
+                className={cn(buttonVariants({ variant: "ghost" }), "mt-3")}
               >
                 <Copy aria-hidden="true" className="size-4" />
                 {copied ? "Link copied" : "Copy your invite link"}
@@ -202,7 +213,7 @@ export function WaitlistForm() {
               {error}
             </p>
           )}
-          <button type="submit" disabled={state === "sending"} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60">
+          <button type="submit" disabled={state === "sending"} className={cn(buttonVariants(), "w-full disabled:cursor-not-allowed disabled:opacity-60")}>
             {state === "sending" && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
             {state === "sending" ? "Joining…" : "Join the waitlist"}
           </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import PhoneInput from "react-phone-number-input";
+import PhoneInput, { type Country } from "react-phone-number-input";
 import { cn } from "@/lib/utils";
 import "react-phone-number-input/style.css";
 
@@ -36,13 +36,13 @@ PhoneInputField.displayName = "PhoneInputField";
 /**
  * Detect user's country from browser locale/timezone
  */
-function detectCountry(): string {
+function detectCountry(): Country {
   if (typeof window === "undefined") return "IN";
 
   try {
     // Try Intl API timezone → country mapping
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const tzCountryMap: Record<string, string> = {
+    const tzCountryMap: Record<string, Country> = {
       "Asia/Kolkata": "IN",
       "Asia/Calcutta": "IN",
       "America/New_York": "US",
@@ -79,7 +79,7 @@ function detectCountry(): string {
     const lang = navigator.language || "";
     const parts = lang.split("-");
     if (parts.length >= 2 && parts[1].length === 2) {
-      return parts[1].toUpperCase();
+      return parts[1].toUpperCase() as Country;
     }
   } catch {
     // Silent fallback
@@ -94,41 +94,42 @@ function detectCountry(): string {
  * - Country selector is click-only (tabIndex=-1)
  * - Default country auto-detected from user's locale
  */
-export const StyledPhoneInput = React.forwardRef<any, StyledPhoneProps>(
-  (
-    { id, className, value, onChange, error, placeholder = "Enter phone number" },
-    ref,
-  ) => {
-    const [defaultCountry, setDefaultCountry] = React.useState<string>("IN");
+export function StyledPhoneInput({
+  id,
+  className,
+  value,
+  onChange,
+  error,
+  placeholder = "Enter phone number",
+}: StyledPhoneProps) {
+  // Client-only (the waitlist form loads with ssr: false), so reading the
+  // browser's locale here can't mismatch hydration.
+  const [defaultCountry] = React.useState(detectCountry);
 
-    React.useEffect(() => {
-      setDefaultCountry(detectCountry());
-    }, []);
-
-    return (
-      <div className="w-full">
-        <PhoneInput
-          ref={ref}
-          id={id}
-          international
-          defaultCountry={defaultCountry as any}
-          value={value}
-          onChange={onChange as (value?: string) => void}
-          inputComponent={PhoneInputField as any}
-          placeholder={placeholder}
-          countrySelectProps={{ "aria-label": "Country code" }}
-          className={cn(
-            "phone-input-brand flex items-center w-full h-11 px-4 gap-2 rounded-md transition-all duration-200",
-            "bg-elevated border border-border-strong",
-            "hover:border-accent/40",
-            "focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25",
-            error && "border-error ring-2 ring-error/25",
-            className,
-          )}
-        />
-      </div>
-    );
-  },
-);
-
-StyledPhoneInput.displayName = "StyledPhoneInput";
+  return (
+    <div className="w-full">
+      <PhoneInput
+        id={id}
+        international
+        defaultCountry={defaultCountry}
+        value={value}
+        onChange={onChange as (value?: string) => void}
+        inputComponent={PhoneInputField}
+        placeholder={placeholder}
+        countrySelectProps={{ "aria-label": "Country code" }}
+        className={cn(
+          "flex items-center w-full h-11 px-4 gap-2 rounded-md transition-all duration-200",
+          // Country picker: themed through the library's own variables (its style.css sets these properties),
+          // plus the divider and flag corners it doesn't style.
+          "[--PhoneInputCountrySelect-marginRight:4px] [--PhoneInputCountrySelectArrow-marginLeft:2px] [--PhoneInputCountrySelectArrow-opacity:0.7] [--PhoneInputCountryFlag-height:14px] [--PhoneInputCountryFlag-aspectRatio:calc(20/14)]",
+          "[&_.PhoneInputCountry]:gap-1.5 [&_.PhoneInputCountry]:border-r [&_.PhoneInputCountry]:border-border [&_.PhoneInputCountry]:pr-2.5 [&_.PhoneInputCountryIcon]:overflow-hidden [&_.PhoneInputCountryIcon]:rounded-[2px] [&_.PhoneInputCountrySelectArrow]:text-subtle",
+          "bg-elevated border border-border-strong",
+          "hover:border-accent/40",
+          "focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25",
+          error && "border-error ring-2 ring-error/25",
+          className,
+        )}
+      />
+    </div>
+  );
+}

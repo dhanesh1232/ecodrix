@@ -30,9 +30,17 @@ const initials = (name: string) =>
 
 function Quote({ q, lead }: { q: (typeof quotes)[number]; lead?: boolean }) {
   return (
-    <figure className={`erix-mk-quote h-full ${lead ? "erix-mk-quote--lead" : ""}`}>
-      <blockquote>“{q.text}”</blockquote>
-      <figcaption>
+    <figure className="flex h-full flex-col gap-[22px] rounded-3xl bg-surface p-[clamp(24px,4vw,44px)] shadow-card">
+      <blockquote
+        className={
+          lead
+            ? "font-display text-mk-quote-lead font-semibold text-foreground text-pretty"
+            : "font-sans text-mk-quote font-medium text-foreground text-pretty"
+        }
+      >
+        “{q.text}”
+      </blockquote>
+      <figcaption className="mt-auto flex items-center gap-3">
         <span
           aria-hidden="true"
           className="flex size-10 items-center justify-center rounded-full bg-accent-muted text-sm font-bold text-accent"
@@ -52,10 +60,10 @@ function Quote({ q, lead }: { q: (typeof quotes)[number]; lead?: boolean }) {
 export function Testimonials() {
   const [first, ...rest] = quotes;
   return (
-    <MkSection id="proof" tone="subtle" title="What owners tell us">
+    <MkSection id="proof" title="What owners tell us">
       <div className="grid gap-4">
         <Quote q={first} lead />
-        <div className="erix-mk-quotes">
+        <div className="grid grid-cols-2 gap-4 max-[900px]:grid-cols-[1fr]">
           {rest.map((q) => (
             <Quote key={q.name} q={q} />
           ))}

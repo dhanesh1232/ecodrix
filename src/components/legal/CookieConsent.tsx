@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { Cookie, X, Check, ShieldCheck } from "@/components/icons";
 import { CONSENT_STORAGE_KEY as STORAGE_KEY, CONSENT_VERSION } from "@/lib/legal/consent";
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -49,6 +48,8 @@ function applyConsent(c: { analytics: boolean; marketing: boolean }) {
   });
 }
 
+const CHANGED = "ecodrix:consent-changed";
+
 function persist(c: { analytics: boolean; marketing: boolean }) {
   const state: ConsentState = {
     ...c,
@@ -61,27 +62,52 @@ function persist(c: { analytics: boolean; marketing: boolean }) {
     /* storage unavailable — consent applies for the session only */
   }
   applyConsent(c);
+  window.dispatchEvent(new Event(CHANGED));
 }
 
-export function CookieConsent() {
-  // null until hydrated: the boot script and CSS decide; then React does.
-  const [visible, setVisible] = useState<boolean | null>(null);
+// The stored choice as an external store: the server (and hydration) sees
+// `undefined`, so the banner's HTML and the CSS decide until React takes over.
+function subscribe(onChange: () => void) {
+  window.addEventListener(CHANGED, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(CHANGED, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+const storedChoice = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
+/** Icons come from the server (layout.tsx), so no icon data ships with the banner. */
+export function CookieConsent({
+  icons,
+}: {
+  icons: { cookie: ReactNode; close: ReactNode; check: ReactNode; shield: ReactNode };
+}) {
+  // undefined on the server and while hydrating; then the stored JSON or null.
+  const stored = useSyncExternalStore(subscribe, storedChoice, () => undefined);
+  const decided = stored === undefined ? undefined : readConsent() !== null;
+  // Opened again from "Cookie preferences"; closed for this page even when
+  // the choice couldn't be stored (private browsing).
+  const [reopened, setReopened] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
+  const visible = decided === undefined ? null : reopened || (!decided && !dismissed);
 
-  // On mount: re-apply stored consent, or show the banner for new visitors.
+  // Re-apply the stored choice once per load (Consent Mode v2).
   useEffect(() => {
     const existing = readConsent();
-    if (existing) {
-      setAnalytics(existing.analytics);
-      setMarketing(existing.marketing);
-      applyConsent(existing);
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
+    if (existing) applyConsent(existing);
+  }, []);
 
+  useEffect(() => {
     const open = () => {
       const cur = readConsent();
       if (cur) {
@@ -89,7 +115,7 @@ export function CookieConsent() {
         setMarketing(cur.marketing);
       }
       setShowPrefs(true);
-      setVisible(true);
+      setReopened(true);
     };
     window.addEventListener("ecodrix:open-cookie-preferences", open);
     return () =>
@@ -98,7 +124,8 @@ export function CookieConsent() {
 
   const close = useCallback(() => {
     delete document.documentElement.dataset.consent;
-    setVisible(false);
+    setDismissed(true);
+    setReopened(false);
     setShowPrefs(false);
   }, []);
 
@@ -122,6 +149,7 @@ export function CookieConsent() {
   return (
     <div
       data-cookie-banner=""
+      data-lenis-prevent
       data-open={visible ? "" : undefined}
       className="fixed inset-x-0 bottom-0 z-300 p-3 sm:p-6"
       role="dialog"
@@ -131,7 +159,7 @@ export function CookieConsent() {
       <div className="mx-auto max-w-3xl rounded-lg border border-border bg-surface p-4 shadow-[var(--shadow-lg)] sm:p-5">
         <div className="flex items-start gap-4">
           <div className="shrink-0 w-10 h-10 hidden sm:flex items-center justify-center rounded-md bg-accent-muted border border-accent-border">
-            <Cookie size={18} className="text-accent" />
+            {icons.cookie}
           </div>
 
           <div className="flex-1">
@@ -144,7 +172,7 @@ export function CookieConsent() {
                 aria-label="Reject non-essential cookies and close"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <X size={18} />
+                {icons.close}
               </button>
             </div>
 
@@ -197,7 +225,7 @@ export function CookieConsent() {
                 onClick={acceptAll}
                 className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover"
               >
-                <Check size={15} /> Accept all
+                {icons.check} Accept all
               </button>
               <button
                 onClick={rejectNonEssential}
@@ -210,7 +238,7 @@ export function CookieConsent() {
                   onClick={savePreferences}
                   className="inline-flex min-h-10 items-center justify-center gap-2 px-3 text-sm font-semibold text-accent hover:text-accent-hover"
                 >
-                  <ShieldCheck size={15} /> Save preferences
+                  {icons.shield} Save preferences
                 </button>
               ) : (
                 <button

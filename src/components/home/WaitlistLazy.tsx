@@ -12,7 +12,9 @@ const WaitlistForm = dynamic(
   { ssr: false },
 );
 
-/** Holds the form's space (its rendered height) until it loads, so nothing shifts. */
+/** Holds the form's space until it loads, so nothing shifts: at least the
+ *  form's tallest rendered height (measured 27 Oct: 564px on phones, 480 to
+ *  496px from md up). It was 64px short, which moved #contact after a jump. */
 export function WaitlistLazy() {
   const ref = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
@@ -34,7 +36,7 @@ export function WaitlistLazy() {
   }, []);
 
   return (
-    <div ref={ref} className="min-h-[516px] md:min-h-[416px]">
+    <div ref={ref} className="min-h-[570px] md:min-h-[500px]">
       {show && <WaitlistForm />}
     </div>
   );

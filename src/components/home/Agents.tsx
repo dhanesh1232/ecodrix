@@ -1,6 +1,7 @@
 import { Icon, type GlyphName } from "@/components/icons";
 import { MkSection } from "@/components/marketing/kit";
-import { AgentScene } from "@/components/scenes/agent-scene";
+import { Reveal } from "@/components/motion/motion";
+import { LazyScreen } from "@/components/scenes/lazy-screen";
 
 /** What the agent does — each line is a shipped v1.0 behaviour (docs/modules/agents.md). */
 const abilities: { icon: GlyphName; title: string; body: string }[] = [
@@ -40,7 +41,7 @@ export function Agents() {
       id="agents"
       tone="navy"
       kicker={
-        <span className="ai-chip">
+        <span className="inline-flex items-center gap-1 rounded-sm bg-ai-subtle px-2 py-0.5 text-[12px] font-semibold text-ai">
           <Icon name="sparkles" variant="solid" size={12} /> AI agents
         </span>
       }
@@ -83,9 +84,10 @@ export function Agents() {
           </ul>
         </div>
 
-        <div className="lg:sticky lg:top-24">
-          <AgentScene />
-        </div>
+        {/* The sales agent's held action on Approvals (the story above shows the inbox side). */}
+        <Reveal className="lg:sticky lg:top-24">
+          <LazyScreen name="ai" />
+        </Reveal>
       </div>
 
       <div className="mt-14 rounded-[16px] bg-white/5 p-6 ring-1 ring-white/10 md:p-8">

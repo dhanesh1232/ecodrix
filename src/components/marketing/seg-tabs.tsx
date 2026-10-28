@@ -1,10 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Icon, type GlyphName } from "@/components/icons";
+import { m } from "framer-motion";
+import { createContext, type ReactNode, useContext, useId, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
-export type SegTab = { id: string; label: string; icon?: GlyphName; panel: ReactNode };
+/** `icon`/`iconActive`: drawn by the server (line and solid), so the tabs
+ *  ship no icon data. */
+export type SegTab = { id: string; label: string; icon?: ReactNode; iconActive?: ReactNode; panel: ReactNode };
 
 const PanelSeen = createContext(true);
 
@@ -12,101 +15,63 @@ const PanelSeen = createContext(true);
  * Renders its children only once their tab has been opened. For the heavy,
  * decorative part of a panel (the redrawn product screens): the copy beside
  * it stays in the HTML for every tab, while the screens of unopened tabs
- * (~1,000 elements on the home page) are neither parsed nor hydrated on load.
+ * are neither parsed nor hydrated on load.
  */
 export function OnceVisible({ children }: { children: ReactNode }) {
   return useContext(PanelSeen) ? children : null;
 }
 
 /**
- * WAI-ARIA tabs drawn as the DS segmented control (`.erix-seg`): one
- * measured indicator glides between items (DS `useIndicator`). Arrow keys,
- * Home/End, automatic activation. Every panel is server-rendered into the
- * HTML; inactive ones are `hidden`, and parts wrapped in `OnceVisible` wait
- * until their tab is first opened. Until measured (SSR, no JS) the selected
- * item carries its own fill.
+ * shadcn Tabs (Radix: arrow keys, Home/End, automatic activation) drawn as
+ * the DS segmented control. The selected pill glides between items with a
+ * framer-motion `layoutId` (instant under reduced motion), and the panel
+ * rises in. Every panel is in the server HTML; parts wrapped in
+ * `OnceVisible` wait until their tab is first opened.
  */
-export function SegTabs({
-  tabs,
-  label,
-  panelClassName,
-}: {
-  tabs: SegTab[];
-  label: string;
-  panelClassName?: string;
-}) {
-  const [active, setActiveIndex] = useState(0);
-  const [seen, setSeen] = useState<number[]>([0]);
-  const setActive = (i: number) => {
-    setActiveIndex(i);
-    setSeen((s) => (s.includes(i) ? s : [...s, i]));
-  };
-  const list = useRef<HTMLDivElement>(null);
-  const ind = useRef<HTMLSpanElement>(null);
-  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-
-  useEffect(() => {
-    const place = () => {
-      const b = buttons.current[active];
-      const el = ind.current;
-      if (!b || !el || !list.current) return;
-      el.style.translate = `${b.offsetLeft}px ${b.offsetTop}px`;
-      el.style.width = `${b.offsetWidth}px`;
-      el.style.height = `${b.offsetHeight}px`;
-      void el.offsetWidth; // commit the first position before transitions switch on
-      list.current.dataset.ind = "";
-    };
-    place();
-    window.addEventListener("resize", place);
-    return () => window.removeEventListener("resize", place);
-  }, [active]);
-
-  const onKey = (e: KeyboardEvent) => {
-    const n = tabs.length;
-    const to = { ArrowRight: active + 1, ArrowLeft: active - 1, Home: 0, End: n - 1 }[e.key];
-    if (to === undefined) return;
-    e.preventDefault();
-    const i = (to + n) % n;
-    setActive(i);
-    buttons.current[i]?.focus();
-  };
+export function SegTabs({ tabs, label, panelClassName }: { tabs: SegTab[]; label: string; panelClassName?: string }) {
+  const [active, setActive] = useState(tabs[0].id);
+  const [seen, setSeen] = useState<string[]>([tabs[0].id]);
+  const pill = useId();
 
   return (
-    <div>
-      <div ref={list} role="tablist" aria-label={label} onKeyDown={onKey} className="erix-seg">
-        <span ref={ind} aria-hidden="true" className="erix-seg__ind" />
-        {tabs.map((t, i) => (
-          <button
-            key={t.id}
-            ref={(el) => {
-              buttons.current[i] = el;
-            }}
-            type="button"
-            role="tab"
-            id={`tab-${t.id}`}
-            aria-selected={i === active}
-            aria-controls={`panel-${t.id}`}
-            tabIndex={i === active ? 0 : -1}
-            onClick={() => setActive(i)}
-            className="erix-seg__item"
-          >
-            {t.icon && <Icon name={t.icon} size={16} variant={i === active ? "solid" : "line"} />}
+    <Tabs
+      value={active}
+      onValueChange={(v) => {
+        setActive(v);
+        setSeen((s) => (s.includes(v) ? s : [...s, v]));
+      }}
+    >
+      <TabsList aria-label={label}>
+        {tabs.map((t) => (
+          <TabsTrigger key={t.id} value={t.id}>
+            {t.id === active && (
+              <m.span
+                layoutId={pill}
+                aria-hidden="true"
+                data-seg-ind
+                className="absolute inset-0 -z-1 rounded-[7px] bg-surface shadow-sm"
+                transition={{ type: "spring", bounce: 0.18, duration: 0.42 }}
+              />
+            )}
+            {t.id === active ? (t.iconActive ?? t.icon) : t.icon}
             {t.label}
-          </button>
+          </TabsTrigger>
         ))}
-      </div>
-      {tabs.map((t, i) => (
-        <div
-          key={t.id}
-          role="tabpanel"
-          id={`panel-${t.id}`}
-          aria-labelledby={`tab-${t.id}`}
-          hidden={i !== active}
-          className={cn("tab-panel mt-8", panelClassName)}
-        >
-          <PanelSeen.Provider value={seen.includes(i)}>{t.panel}</PanelSeen.Provider>
-        </div>
+      </TabsList>
+      {tabs.map((t) => (
+        <TabsContent key={t.id} value={t.id} className={cn("mt-8", panelClassName)}>
+          <PanelSeen.Provider value={seen.includes(t.id)}>
+            <m.div
+              key={t.id === active ? "on" : "off"}
+              initial={t.id === active && seen.length > 1 ? { opacity: 0, y: 8 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {t.panel}
+            </m.div>
+          </PanelSeen.Provider>
+        </TabsContent>
       ))}
-    </div>
+    </Tabs>
   );
 }

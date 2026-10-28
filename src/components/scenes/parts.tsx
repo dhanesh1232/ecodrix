@@ -7,13 +7,14 @@
 
 import {
   BookOpen,
-  CalendarCheck,
   Check,
   CheckCheck,
+  ClipboardCheck,
   Icon,
-  Inbox,
+  isBrandName,
   KanbanSquare,
-  Receipt,
+  LayoutDashboard,
+  MessageCircle,
   Search,
   Sparkles,
   Workflow,
@@ -29,7 +30,7 @@ export const at = (n: number, until?: number) =>
 /** ✓ sent → ✓✓ delivered → ✓✓ read (blue, heavier), WhatsApp's meaning. */
 export function Ticks({ from }: { from: number }) {
   return (
-    <span className="stack text-subtle">
+    <span className="inline-grid *:[grid-area:1/1] text-subtle">
       <Check className="scene-in scene-pop size-3.5" style={at(from, from + 1)} />
       <CheckCheck className="scene-in scene-pop size-3.5" style={at(from + 1, from + 2)} />
       <CheckCheck className="scene-in scene-pop size-3.5 text-accent" strokeWidth={2.75} style={at(from + 2)} />
@@ -37,20 +38,20 @@ export function Ticks({ from }: { from: number }) {
   );
 }
 
-// No brand logos: our own glyph plus the channel's name.
+// Real brand marks in their own colours; channels without a brand keep our glyph.
 const channels = {
-  whatsapp: ["message-circle", "WhatsApp"],
-  instagram: ["image", "Instagram"],
+  whatsapp: ["whatsapp", "WhatsApp"],
+  instagram: ["instagram", "Instagram"],
   email: ["mail", "Email"],
   web: ["globe", "Website chat"],
 } as const;
 
-/** Channel = icon plus the word (brand rule: no WhatsApp green). */
+/** Channel = mark plus the word. */
 export function Channel({ name, className }: { name: keyof typeof channels; className?: string }) {
   const [glyph, label] = channels[name];
   return (
     <span className={cn("inline-flex items-center gap-1 text-[11px] text-muted-foreground", className)}>
-      <Icon name={glyph} variant="line" size={12} />
+      {isBrandName(glyph) ? <Icon name={glyph} size={12} /> : <Icon name={glyph} variant="line" size={12} />}
       {label}
     </span>
   );
@@ -160,21 +161,23 @@ export function Typing({ show, className }: { show: CSSProperties; className?: s
       )}
     >
       <Sparkles aria-hidden="true" className="size-3" /> AI agent is typing
-      <span className="typing-dots text-ai">
-        <i />
-        <i />
-        <i />
+      <span className="inline-flex items-center gap-[3px] text-ai">
+        <i className="size-1.5 animate-dot rounded-[9999px] bg-current" />
+        <i className="size-1.5 animate-dot rounded-[9999px] bg-current [animation-delay:0.15s]" />
+        <i className="size-1.5 animate-dot rounded-[9999px] bg-current [animation-delay:0.3s]" />
       </span>
     </div>
   );
 }
 
-const navIcons = [Inbox, Sparkles, KanbanSquare, Receipt, Workflow, CalendarCheck];
+// The SaaS sidebar's order (saas lib/nav/unified.ts): Overview, Inbox,
+// Approvals, then the products ERIX CRM, ERIX Flow and AI.
+const navIcons = [LayoutDashboard, MessageCircle, ClipboardCheck, KanbanSquare, Workflow, Sparkles];
 
 /**
  * The ERIX app shell in miniature (light theme): the navy sidebar with the
  * current item marked, a top bar and the page. `nav` = index into
- * inbox, AI, pipeline, invoices, automations, bookings.
+ * overview, inbox, approvals, CRM, Flow, AI (-1: none).
  */
 export function AppFrame({
   title,
@@ -191,8 +194,10 @@ export function AppFrame({
 }) {
   return (
     <div
+      data-app-frame
       className={cn(
-        "app-frame surface-light flex overflow-hidden rounded-[12px] bg-background text-foreground shadow-[var(--shadow-lg)]",
+        // Inside a browser frame the app screen drops its own corners and shadow.
+        "surface-light flex overflow-hidden rounded-[12px] bg-background text-foreground shadow-[var(--shadow-lg)] in-data-[browser]:rounded-none in-data-[browser]:[box-shadow:none]",
         className,
       )}
     >

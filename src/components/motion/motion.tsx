@@ -1,21 +1,23 @@
 "use client";
 
 /**
- * Site motion helpers (CSS lives in globals.css → "Motion"). No animation
- * library: scroll-driven CSS, IntersectionObserver, requestAnimationFrame
- * and the Web Animations API. Every helper renders its final state on the
- * server and does nothing under `prefers-reduced-motion: reduce`.
+ * Site motion helpers (CSS lives in globals.css → "Motion"). Entrances and
+ * scroll-linked motion use framer-motion (`m.*` under the LazyMotion in
+ * motion-provider.tsx); product scenes, count-ups and the hero headline stay
+ * on CSS, IntersectionObserver and requestAnimationFrame. Every helper renders
+ * its final state on the server and does nothing under
+ * `prefers-reduced-motion: reduce`.
  *
- *   <MotionRoot />                once, in the root layout (route fade, focus,
- *                                 and Reveal for `.erix-reveal` sections)
- *   <Scene steps label>…</Scene>  a looping product scene (parts use `at()`)
+ *   <MotionRoot />                once, in the root layout (route fade, focus)
+ *   <Reveal>…</Reveal>            a product visual that rises in once, in view
+ *   <Scene steps label>…</Scene>  a looping product scene (scene.tsx; parts use `at()`)
  *   <CountUp value="₹29,500" />   counts up when it comes into view
  *   <BlurText> (blur-text.tsx)    server-safe hero headline that sharpens in
  */
 
-import { Pause, Play } from "@/components/icons";
+import { m, type Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /** True when the visitor asked for reduced motion (or there is no DOM). */
@@ -28,36 +30,8 @@ export function motionOff(): boolean {
 
 // ponytail: soft route changes get an entry fade, not a view transition — switch to React <ViewTransition> once Next's experimental.viewTransition is stable.
 /**
- * Reveal (design system v13, marketing only): `.erix-reveal` sections that
- * start below the fold wait hidden and rise in once when they scroll into
- * view. Sections already on screen are never touched, and nothing is hidden
- * without JS, without IntersectionObserver or under reduced motion, so the
- * HTML (and crawlers) always carry every word.
- */
-function revealSections(): () => void {
-  if (motionOff() || !("IntersectionObserver" in window)) return () => {};
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.classList.remove("is-wait");
-        e.target.classList.add("is-in");
-        io.unobserve(e.target);
-      }
-    },
-    { rootMargin: "0px 0px -8% 0px" },
-  );
-  for (const el of document.querySelectorAll<HTMLElement>(".erix-reveal:not(.is-in)")) {
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) continue;
-    el.classList.add("is-wait");
-    io.observe(el);
-  }
-  return () => io.disconnect();
-}
-
-/**
- * Root effect: a short entry fade on client-side route changes, focus moves
- * to the new page's h1 (like the SaaS shell), and Reveal for the page.
+ * Root effect: a short entry fade on client-side route changes, and focus
+ * moves to the new page's h1 (like the SaaS shell).
  *
  * Why not View Transitions for route changes: Next 16 only wires them to
  * React's experimental `<ViewTransition>` (`experimental.viewTransition`),
@@ -74,13 +48,12 @@ export function MotionRoot() {
     if (lastPath.current !== pathname) {
       lastPath.current = pathname;
       if (!motionOff()) {
-        document.getElementById("main-content")?.animate(
-          [
-            { opacity: 0, translate: "0 8px" },
-            { opacity: 1, translate: "0 0" },
-          ],
-          { duration: 320, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
-        );
+        // Opacity only: a translate here would shift where a #hash
+        // navigation measures its target (it landed 8px off under the header).
+        document.getElementById("main-content")?.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 320,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        });
       }
       const h1 = location.hash ? null : document.querySelector<HTMLElement>("#main-content h1");
       if (h1) {
@@ -88,10 +61,68 @@ export function MotionRoot() {
         h1.focus({ preventScroll: true });
       }
     }
-    return revealSections();
   }, [pathname]);
 
   return null;
+}
+
+const noop = () => () => {};
+/** False on the server and during hydration, true after: lets a component
+ *  bind scroll-linked styles only once the server HTML has hydrated. */
+export function useHydrated(): boolean {
+  return useSyncExternalStore(
+    noop,
+    () => true,
+    () => false,
+  );
+}
+
+const reveal: Variants = {
+  wait: { opacity: 0, y: 24, transition: { duration: 0 } },
+  in: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+};
+
+/**
+ * Reveal (design system v13, marketing only): a product visual that starts
+ * below the fold waits hidden and rises in once when it scrolls into view.
+ * Body text never animates. Nothing is hidden on the server, without JS,
+ * before the motion features load, or under reduced motion, and visuals
+ * already on screen (or scrolled past, e.g. after a jump to #contact) are
+ * never touched. Opacity and transform only, so the layout never moves.
+ */
+export function Reveal({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [phase, setPhase] = useState<"in" | "wait">("in");
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || motionOff() || !("IntersectionObserver" in window)) return;
+    let first = true;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (first) {
+          first = false;
+          // On screen, or above it: leave it alone.
+          if (e.isIntersecting || e.boundingClientRect.top < 0) return io.disconnect();
+          return setPhase("wait");
+        }
+        // In view, or flung past it in one step: show it.
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
+          setPhase("in");
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <m.div ref={ref} className={className} variants={reveal} initial={false} animate={phase}>
+      {children}
+    </m.div>
+  );
 }
 
 /**
@@ -101,13 +132,15 @@ export function MotionRoot() {
  * reduced motion) is the finished frame. A pause button satisfies WCAG
  * 2.2.2 (moving content longer than 5 s can be stopped).
  */
-export function Scene({
+export function SceneDriver({
   steps,
   timing = 1100,
   hold = 3200,
   label,
   className,
   toggleClassName = "ml-auto",
+  pauseIcon,
+  playIcon,
   children,
 }: {
   /** Index of the last step. */
@@ -122,6 +155,9 @@ export function Scene({
   className?: string;
   /** Where the pause button sits under the scene (default: right). */
   toggleClassName?: string;
+  /** Rendered by the server (scene.tsx), so no icon data ships with this. */
+  pauseIcon: ReactNode;
+  playIcon: ReactNode;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -162,13 +198,9 @@ export function Scene({
       <button
         type="button"
         onClick={() => setPaused(!paused)}
-        className={cn("scene-toggle relative z-10 mt-2 flex size-8 items-center justify-center rounded-[8px] text-subtle hover:bg-hover hover:text-accent", toggleClassName)}
+        className={cn("scene-toggle relative z-10 mt-2 in-data-[browser]:my-1.5 in-data-[browser]:mr-2 in-data-[browser]:ml-auto flex size-8 items-center justify-center rounded-[8px] text-subtle hover:bg-hover hover:text-accent", toggleClassName)}
       >
-        {paused ? (
-          <Play aria-hidden="true" className="size-3.5" />
-        ) : (
-          <Pause aria-hidden="true" className="size-3.5" />
-        )}
+        {paused ? playIcon : pauseIcon}
         <span className="sr-only">{paused ? "Play animation" : "Pause animation"}</span>
       </button>
     </div>

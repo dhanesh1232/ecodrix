@@ -1,6 +1,6 @@
 import { CalendarCheck, CheckCircle2, Link2, Sparkles } from "@/components/icons";
 import { BrowserFrame, PhoneFrame } from "@/components/marketing/kit";
-import { Scene } from "@/components/motion/motion";
+import { Scene } from "@/components/motion/scene";
 import { Avatar, Bubble, Channel, Pill, Typing, at } from "./parts";
 
 /**
@@ -21,8 +21,9 @@ export function HeroScene() {
       toggleClassName="mr-auto"
       label="ERIX at work: a WhatsApp enquiry about a 3BHK flat is answered by the AI agent from the business's listing, a site visit is booked, the lead moves into the pipeline, and a GST invoice for ₹29,500 is sent with a payment link and marked paid."
     >
-      <div className="erix-mk-herovis">
-        <BrowserFrame>
+      {/* Window plus a phone overlapping its lower corner; on phones the window runs to the screen edge. */}
+      <div className="relative pr-[120px] max-[900px]:pr-0">
+        <BrowserFrame className="max-[900px]:-mr-gutter max-[900px]:rounded-[12px_0_0_0]">
           {/* The phone overlaps the window's right edge on desktop, so the content keeps clear of it. */}
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:pr-[118px]">
             {/* Pipeline: the lead lands in the right stage */}
@@ -32,7 +33,7 @@ export function HeroScene() {
                   <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-accent" />
                   <span className="truncate">Site visit booked</span>
                 </span>
-                <span className="stack text-right tabular-nums text-muted-foreground">
+                <span className="inline-grid text-right text-muted-foreground tabular-nums *:[grid-area:1/1]">
                   <span className="scene-in" style={at(0, 6)}>₹1,20,000</span>
                   <span className="scene-in" style={at(6)}>₹3,05,000</span>
                 </span>
@@ -59,7 +60,7 @@ export function HeroScene() {
             <div className="rounded-[12px] bg-surface p-3 shadow-[var(--shadow-card)]">
               <div className="flex flex-wrap items-center justify-between gap-1.5">
                 <p className="font-mono text-[11px] text-muted-foreground">INV/26-27/0042</p>
-                <span className="stack justify-items-end">
+                <span className="inline-grid justify-items-end *:[grid-area:1/1]">
                   <Pill tone="neutral" className="scene-in" style={at(0, 7)}>
                     Draft
                   </Pill>
@@ -95,8 +96,9 @@ export function HeroScene() {
         </BrowserFrame>
 
         {/* The owner's inbox on a phone */}
-        <div className="erix-mk-herovis__phone">
+        <div className="absolute right-0 -bottom-10 z-2 max-[900px]:relative max-[900px]:right-auto max-[900px]:bottom-auto max-[900px]:mt-[-140px] max-[900px]:ml-auto max-[900px]:w-max">
           <PhoneFrame
+            className="w-[250px] max-[900px]:w-[230px]"
             head={
               <>
                 <Avatar name="Rohan Mehta" className="size-7" />
@@ -114,7 +116,7 @@ export function HeroScene() {
               <Bubble show={at(1)} time="9:42 pm" className="max-w-[92%] text-[12px]">
                 Hi, is the 3BHK at Baner still available? Can I visit on Saturday?
               </Bubble>
-              <div className="stack w-full">
+              <div className="inline-grid w-full *:[grid-area:1/1]">
                 <Typing show={at(2, 3)} className="self-start" />
                 <Bubble side="out" ai show={at(3)} time="9:42 pm" ticks={3} source="Baner listing" className="max-w-[92%] text-[12px]">
                   Yes, two 3BHK flats are open at Baner. Saturday has visits at 11 am and 4 pm. Which suits you?

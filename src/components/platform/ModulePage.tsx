@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import { BrowserFrame, CtaBand, Faq, MkHero, MkSection, PrimaryCta, WhatsAppCta } from "@/components/marketing/kit";
+import { Story } from "@/components/marketing/story";
+import { MODULE_TOURS } from "@/components/platform/module-tours";
 import { SCREENS } from "@/components/scenes/screens";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -15,12 +17,11 @@ import { cn } from "@/lib/utils";
 
 /** The coded screen each module page leads with. */
 const HERO_SCREEN: Record<string, ScreenKey> = {
-  "erix-crm": "pipeline",
+  "erix-crm": "crm",
   "erix-connect": "inbox",
-  "erix-flow": "flow",
+  "erix-flow": "flowCanvas",
   "erix-storage": "documents",
   "erix-laie": "leads",
-  "erix-store": "engine",
 };
 
 export const TYPE_LABEL = {
@@ -120,6 +121,7 @@ export function ModulePage({ slug }: { slug: string }) {
   if (!m) notFound();
   const Screen = SCREENS[HERO_SCREEN[m.slug]];
   const pages = getProductPages(m.slug);
+  const tour = MODULE_TOURS[m.slug];
 
   return (
     <div className="w-full">
@@ -157,37 +159,42 @@ export function ModulePage({ slug }: { slug: string }) {
         }
       />
 
-      <MkSection id="features" title={`What you can do with ${m.brand}`}>
-        <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {m.features.map((f) => (
-            <li key={f.title} className="grid grid-cols-[40px_1fr] gap-4">
-              <span
-                className={cn(
-                  "grid size-10 place-items-center rounded-[11px]",
-                  m.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
-                )}
-              >
-                <Icon name="check" size={18} variant="line" strokeWidth={2.2} />
-              </span>
-              <div>
-                <h3 className="font-sans text-[17px] font-semibold tracking-normal">{f.title}</h3>
-                <p className="mt-1 text-[15px] text-muted-foreground">{f.body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </MkSection>
+      {/* Live modules: one chapter per feature, each with its screen. */}
+      {tour && <Story id="features" title={tour.title} lead={tour.lead} chapters={tour.chapters} />}
+
+      {!tour && (
+        <MkSection id="features" title={`What you can do with ${m.brand}`}>
+          <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+            {m.features.map((f) => (
+              <li key={f.title} className="grid grid-cols-[40px_1fr] gap-4">
+                <span
+                  className={cn(
+                    "grid size-10 place-items-center rounded-[11px]",
+                    m.ai ? "bg-ai-subtle text-ai" : "bg-accent-muted text-accent",
+                  )}
+                >
+                  <Icon name="check" size={18} variant="line" strokeWidth={2.2} />
+                </span>
+                <div>
+                  <h3 className="font-sans text-[17px] font-semibold tracking-normal">{f.title}</h3>
+                  <p className="mt-1 text-[15px] text-muted-foreground">{f.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </MkSection>
+      )}
 
       {m.steps.length > 0 && (
         <MkSection id="steps" tone="subtle">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-            <h2 id="steps-title" className="erix-mk-h2">
+            <h2 id="steps-title" className="font-display text-mk-h2 text-foreground text-balance">
               Getting started with {m.brand}
             </h2>
             <ol className="space-y-6">
               {m.steps.map((s, i) => (
                 <li key={s} className="flex gap-4">
-                  <span className="erix-mk-steps__n mb-0! shrink-0">{i + 1}</span>
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent font-sans text-[15px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">{i + 1}</span>
                   <p className="pt-1.5 text-[17px] text-foreground">{s}</p>
                 </li>
               ))}

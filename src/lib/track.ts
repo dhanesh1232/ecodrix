@@ -6,10 +6,18 @@
  * Fail-open, non-blocking (sendBeacon). Safe to call anywhere client-side.
  */
 
-const API_URL =
+import { analyticsConsented } from "@/lib/legal/consent";
+
+/** The public API the site posts to (track beacons, waitlist, newsletter). */
+export const API_URL =
   process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
 
-function getVisitorId(): string {
+// Same guards as VisitorTracker: only the live site beacons the production
+// API (other origins are CORS-blocked), and only after analytics consent.
+const TRACKED_HOSTS = new Set(["ecodrix.com", "www.ecodrix.com"]);
+
+/** Per-session anonymous visitor id. Call only behind analytics consent. */
+export function getVisitorId(): string {
   try {
     let id = sessionStorage.getItem("ecdx_vid");
     if (!id) {
@@ -19,6 +27,61 @@ function getVisitorId(): string {
     return id;
   } catch {
     return "v_anon";
+  }
+}
+
+const LANDING_KEY = "ecdx_landing";
+
+/** Where this session first landed: UTM tags, referrer origin, landing path. */
+export interface Landing {
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
+  /** Origin only (no path or query, which can carry personal data). */
+  referrer?: string;
+  landingPath?: string;
+}
+
+/**
+ * Remembers the session's first landing in sessionStorage so attribution
+ * survives until the visitor answers the cookie banner. Storage only: nothing
+ * leaves the browser here, and the first call per session wins.
+ */
+export function captureLanding(): void {
+  try {
+    if (sessionStorage.getItem(LANDING_KEY)) return;
+    const q = new URLSearchParams(window.location.search);
+    const utm = (k: string) => q.get(`utm_${k}`)?.trim().slice(0, 120) || undefined;
+    let referrer: string | undefined;
+    try {
+      const r = new URL(document.referrer);
+      if (r.host !== window.location.host) referrer = r.origin.slice(0, 255);
+    } catch {
+      /* no referrer */
+    }
+    const landing: Landing = {
+      utmSource: utm("source"),
+      utmMedium: utm("medium"),
+      utmCampaign: utm("campaign"),
+      utmTerm: utm("term"),
+      utmContent: utm("content"),
+      referrer,
+      landingPath: window.location.pathname.slice(0, 512),
+    };
+    sessionStorage.setItem(LANDING_KEY, JSON.stringify(landing));
+  } catch {
+    // storage unavailable — no attribution this session
+  }
+}
+
+/** The session's landing (see captureLanding), or null. */
+export function getLanding(): Landing | null {
+  try {
+    return JSON.parse(sessionStorage.getItem(LANDING_KEY) ?? "null") as Landing | null;
+  } catch {
+    return null;
   }
 }
 
@@ -36,6 +99,7 @@ export function trackEvent(
   data?: Record<string, unknown>,
 ): void {
   if (typeof window === "undefined") return;
+  if (!TRACKED_HOSTS.has(window.location.hostname) || !analyticsConsented()) return;
   try {
     const payload = JSON.stringify({
       visitorId: getVisitorId(),

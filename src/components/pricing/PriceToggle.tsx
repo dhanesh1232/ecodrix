@@ -20,6 +20,8 @@ import {
   yearlyDiscountPct,
 } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { segClass, segItemClass } from "@/components/ui/tabs";
 
 type Billing = "monthly" | "yearly";
 
@@ -51,8 +53,8 @@ export default function PricingPlansSection({
   const yearlyPct = ref ? yearlyDiscountPct(ref.priceMonthlyUsd, ref.priceYearlyUsd) : 0;
 
   return (
-    <section aria-label="Plans" className="erix-mk-section pt-10! md:pt-12!">
-      <div className="wrapper">
+    <section aria-label="Plans" className="py-section pt-10! md:pt-12!">
+      <div className="mx-auto w-full max-w-wrap px-gutter">
         {usedFallback && (
           <p role="status" className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-sunken px-4 py-3 text-sm text-foreground">
             <Icon name="info" size={16} variant="solid" className="mt-0.5 shrink-0 text-warning" />
@@ -62,10 +64,10 @@ export default function PricingPlansSection({
 
         {/* Billing period: native radios drawn as the DS segmented control */}
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <fieldset className="erix-seg">
+          <fieldset className={segClass}>
             <legend className="sr-only">Billing period</legend>
             {(["monthly", "yearly"] as const).map((b) => (
-              <label key={b} className="erix-seg__item">
+              <label key={b} className={segItemClass}>
                 <input
                   type="radio"
                   name="billing"
@@ -93,8 +95,16 @@ export default function PricingPlansSection({
             const price = priceFor(plan, billing);
             const featured = plan.slug === "growth";
             return (
-              <li key={plan.slug} className={cn("erix-mk-plan", featured && "erix-mk-plan--featured")}>
-                {featured && <span className="erix-mk-plan__flag">Recommended</span>}
+              <li
+                key={plan.slug}
+                // Featured: `tile-blue` is a solid-blue tile with a soft white bloom (same hue).
+                className={cn("relative flex flex-col gap-4 rounded-[20px] bg-surface px-[26px] py-7 shadow-card", featured && "tile-blue")}
+              >
+                {featured && (
+                  <span className="absolute -top-3 left-6 rounded-sm bg-navy px-2.5 py-1 font-sans text-xs/4 font-[650] text-white shadow-btn">
+                    Recommended
+                  </span>
+                )}
                 <h2 className="font-display text-xl font-bold text-foreground">{plan.name}</h2>
                 <p className="-mt-2 min-h-10 text-sm text-muted-foreground">{planDescription(plan.slug)}</p>
                 {price && (
@@ -115,7 +125,7 @@ export default function PricingPlansSection({
                     ) : null}
                   </div>
                 )}
-                <a href={planCtaHref(plan.slug)} className={cn("group w-full", featured ? "btn-primary" : "btn-ghost")}>
+                <a href={planCtaHref(plan.slug)} className={cn("group w-full", buttonVariants({ variant: featured ? "primary" : "ghost" }))}>
                   {planCtaLabel(plan.slug)}
                   <Icon name="arrow-right" size={16} variant="line" />
                 </a>
@@ -144,7 +154,7 @@ export default function PricingPlansSection({
               <h2 className="font-display text-xl font-bold text-foreground">{enterprise.name}</h2>
               <p className="mt-1 text-muted-foreground">{planDescription("enterprise")} Priced with you.</p>
             </div>
-            <a href={planCtaHref("enterprise")} className="btn-ghost group shrink-0">
+            <a href={planCtaHref("enterprise")} className={cn(buttonVariants({ variant: "ghost" }), "group shrink-0")}>
               {planCtaLabel("enterprise")}
               <Icon name="arrow-right" size={16} variant="line" />
             </a>

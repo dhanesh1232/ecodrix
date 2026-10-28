@@ -14,3 +14,19 @@ export const CONSENT_VERSION = 1;
  * before any Google tag.
  */
 export const CONSENT_BOOT_SCRIPT = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});try{var c=JSON.parse(localStorage.getItem(${JSON.stringify(CONSENT_STORAGE_KEY)})||'null');if(c&&c.version===${CONSENT_VERSION}){gtag('consent','update',{analytics_storage:c.analytics?'granted':'denied',ad_storage:c.marketing?'granted':'denied',ad_user_data:c.marketing?'granted':'denied',ad_personalization:c.marketing?'granted':'denied'});}else{document.documentElement.dataset.consent='ask';}}catch(e){document.documentElement.dataset.consent='ask';}`;
+
+/**
+ * Whether the visitor's stored choice allows analytics. Client only; false
+ * until they choose, and when storage is unavailable.
+ */
+export function analyticsConsented(): boolean {
+  try {
+    const c = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "null") as {
+      analytics?: boolean;
+      version?: number;
+    } | null;
+    return c?.version === CONSENT_VERSION && c.analytics === true;
+  } catch {
+    return false;
+  }
+}

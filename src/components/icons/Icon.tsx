@@ -11,7 +11,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { BRANDS, type BrandName, GLYPH_CATEGORIES, GLYPHS, type GlyphName, SOLID } from "./glyphs";
+import { type BrandMark, BRANDS, type BrandName, GLYPH_CATEGORIES, GLYPHS, type GlyphName, SOLID } from "./glyphs";
 
 export type IconVariant = "duo" | "line" | "solid";
 
@@ -57,54 +57,51 @@ export interface IconBaseProps
   variant?: IconVariant;
   /** Accessible name. Only when the icon stands alone (no visible text). */
   label?: string;
-  /**
-   * Micro-animation (design system v13, Motion 2). `hover` (default) plays once when the host
-   * control (a, button, summary, label, tab, radio, menu item or `.erix-anim-host`) is hovered or
-   * focused; `loop` repeats with a rest; `once` plays on mount; `none` turns it off. CSS in
-   * globals.css ("Icon micro-animations"); nothing plays under prefers-reduced-motion.
-   */
-  animate?: IconAnimate;
-  /** Override the animation picked from the icon's meaning (see `iconAnimation`). */
-  animation?: IconAnimation;
 }
 
-export interface IconProps extends IconBaseProps {
+/** Props for an ERIX glyph (`name` is a GlyphName). */
+export interface GlyphIconProps extends IconBaseProps {
   name: GlyphName;
   /** SVG transform for the glyph (used for rotated/mirrored stand-ins). */
   transform?: string;
 }
 
-export type IconAnimate = "hover" | "loop" | "once" | "none";
+/**
+ * Props for a third-party brand mark (`name` is a BrandName: whatsapp, instagram, razorpay…).
+ * `color` (default) = the brand's real colours, gradients and multi-colour marks included ·
+ * `mono` = currentColor, for marks on a solid fill · `tile` = real colours on a white tile.
+ * Glyph-only options (duo/line/solid, strokeWidth) don't apply and won't type-check.
+ */
+export interface BrandIconProps {
+  name: BrandName;
+  variant?: "color" | "mono" | "tile";
+  /** px. Defaults to the size in `className` (e.g. `size-4` → 16), else 16. */
+  size?: number;
+  /** Accessible name. Only when the mark stands alone (no visible text). */
+  label?: string;
+  className?: string;
+}
 
-// ---- Animated icons (design system v13) ----
-// Every icon carries a micro-animation picked by meaning. Transform, opacity and stroke-dashoffset
-// only, played on the host's hover or focus. Unlisted icons get `pop`.
-const ANIMATIONS = {
-  ring: "bell bell-ring alarm-clock megaphone",
-  spin: "settings refresh-cw rotate-ccw loader-circle user-cog gauge",
-  "nudge-r":
-    "arrow-right chevron-right chevrons-right send send-horizontal forward move-right log-out external-link arrow-up-right corner-down-left",
-  "nudge-l": "arrow-left chevron-left chevrons-left undo-2 reply log-in",
-  "nudge-u": "arrow-up upload trending-up rocket chevron-up share-2",
-  "nudge-d": "arrow-down download file-down chevron-down trending-down arrow-down-right",
-  wiggle:
-    "phone phone-call phone-incoming phone-outgoing phone-forwarded phone-missed phone-off message-circle message-square message-square-text messages-square smartphone mic headphones voicemail volume-2 bot-message-square",
-  beat: "heart heart-pulse star bookmark flag thumbs-up thumbs-down gift badge-percent",
-  twinkle: "sparkles wand-sparkles zap lightbulb bot brain",
-  draw: "check circle-check square-check badge-check calendar-check list-checks shield-check user-check clipboard-check file-check chart-line activity workflow audio-lines git-branch webhook signature",
-  tilt: "search zoom-in zoom-out pencil square-pen key key-round tag",
-  shake: "lock lock-open triangle-alert circle-alert shield-alert circle-x x trash-2",
-  blink: "eye eye-off",
-  rise: "chart-bar chart-pie indian-rupee wallet wallet-cards coins banknote piggy-bank receipt credit-card",
-} as const;
-export type IconAnimation = keyof typeof ANIMATIONS | "pop";
-const ANIM_BY_NAME = new Map<string, IconAnimation>(
-  Object.entries(ANIMATIONS).flatMap(([anim, names]) =>
-    names.split(" ").map((n) => [n, anim as IconAnimation] as const),
-  ),
-);
-/** The micro-animation an icon plays, picked by its meaning. */
-export const iconAnimation = (name: string): IconAnimation => ANIM_BY_NAME.get(name) ?? "pop";
+/** Every name <Icon> draws: ERIX glyphs and brand marks. */
+export type IconName = GlyphName | BrandName;
+
+/**
+ * For data-driven names that may be either (menus, lists): the shared options plus a glyph style.
+ * Brand marks ignore the style and keep their real colours.
+ */
+export interface MixedIconProps {
+  name: IconName;
+  variant?: "line" | "duo";
+  size?: number;
+  label?: string;
+  className?: string;
+}
+
+/** `<Icon>` props: the options follow from the name, so a glyph can't get brand options or the reverse. */
+export type IconProps = GlyphIconProps | BrandIconProps | MixedIconProps;
+
+/** True for brand-mark names (whatsapp, instagram…), false for ERIX glyphs. */
+export const isBrandName = (name: string): name is BrandName => Object.hasOwn(BRANDS, name);
 
 /** Any ERIX icon component: what used to be `LucideIcon`. */
 export type IconComponent = React.ForwardRefExoticComponent<
@@ -133,8 +130,7 @@ function tintOf(name: string, els: ReadonlyArray<Element>): number {
 
 /** Resolved px size, stroke and the shared <svg> props for every ERIX icon. */
 function svgBase(
-  // `animate`/`animation` are read by <Icon>; never forwarded to the DOM.
-  { size, strokeWidth, label, className, style, animate: _animate, animation: _animation, ...rest }: IconBaseProps,
+  { size, strokeWidth, label, className, style, ...rest }: IconBaseProps,
   variantClass: string,
   strokeFor: (px: number) => number = opticalStroke,
 ) {
@@ -162,22 +158,29 @@ function svgBase(
 }
 
 /**
- * ERIX icon (design system Icons v3). `<Icon name="users" />`, see `GLYPH_CATEGORIES`.
- * `duo` (default): Lucide line plus a soft tint on the main closed shape. `line`: dense UI.
- * `solid`: the Tabler filled glyph when one exists (`SOLID`), otherwise duo.
+ * The one icon component (design system Icons v3): ERIX glyphs and brand marks.
+ * - Glyphs: `<Icon name="users" />`, see `GLYPH_CATEGORIES`. `duo` (default): Lucide line plus a
+ *   soft tint on the main closed shape. `line`: dense UI. `solid`: the Tabler filled glyph when
+ *   one exists (`SOLID`), otherwise duo.
+ * - Brand marks: `<Icon name="whatsapp" />` in real colours; `variant="mono"` on a solid fill.
  */
-export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { name, variant = "duo", transform, animate = "hover", animation, ...props },
+export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(props, ref) {
+  if (isBrandName(props.name)) {
+    const { name, size, label, className, variant } = props as BrandIconProps | MixedIconProps;
+    const tone = variant === "mono" || variant === "tile" ? variant : "color";
+    return <BrandMarkSvg ref={ref} name={name as BrandName} size={size} label={label} className={className} variant={tone} />;
+  }
+  return <GlyphSvg ref={ref} {...(props as GlyphIconProps)} />;
+});
+
+const GlyphSvg = React.forwardRef<SVGSVGElement, GlyphIconProps>(function GlyphSvg(
+  { name, variant = "duo", transform, ...props },
   ref,
 ) {
   const els = GLYPHS[name] as ReadonlyArray<Element>;
   if (!els) return null;
   const h = React.createElement;
   const solid = variant === "solid" ? SOLID[name] : undefined;
-  const anim = animate === "none" ? undefined : (animation ?? iconAnimation(name));
-  const animAttrs = anim ? { "data-anim": anim, "data-anim-on": animate } : {};
-  // `draw` animates stroke-dashoffset over a normalised path length.
-  const pathLength = anim === "draw" && !solid ? 1 : undefined;
 
   if (solid) {
     const body = solid.map(([t, a], i) => h(t, { key: i, ...a }));
@@ -185,7 +188,6 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
       <svg
         ref={ref}
         {...svgBase(props, "erix-icon--solid")}
-        {...animAttrs}
         fill="currentColor"
         stroke="none"
       >
@@ -205,64 +207,83 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
           fill: "currentColor",
           stroke: "none",
         })}
-      {els.map(([t, a], i) => h(t, { key: i, ...a, pathLength }))}
+      {els.map(([t, a], i) => h(t, { key: i, ...a }))}
     </>
   );
   return (
-    <svg ref={ref} {...svgBase(props, `erix-icon--${v}`)} {...animAttrs}>
+    <svg ref={ref} {...svgBase(props, `erix-icon--${v}`)}>
       {transform ? <g transform={transform}>{body}</g> : body}
     </svg>
   );
 });
 
-/**
- * Third-party brand mark (design system Icons v3), for integrations and channels only (WhatsApp,
- * Razorpay, Google Sheets…). `color` (brand colour) | `mono` (currentColor) | `tile` (on a white
- * rounded tile, for dark surfaces and dark marks). Never recolour, redraw or crop a mark, and never
- * use one as ECODrIx branding. `label={null}` when a visible word names it.
- */
-export function BrandIcon({
-  name,
-  size = 20,
-  variant = "color",
-  label,
-  className,
-}: {
-  name: BrandName;
-  size?: number;
-  variant?: "color" | "mono" | "tile";
-  label?: string | null;
-  className?: string;
-}) {
-  const b = BRANDS[name];
-  const a11y =
-    label === null
-      ? { "aria-hidden": true as const }
-      : { role: "img", "aria-label": label ?? b.title };
+/** Brand marks for <Icon> (integrations and channels only; never as ECODrIx branding). */
+const BrandMarkSvg = React.forwardRef<SVGSVGElement, BrandIconProps>(function BrandMarkSvg(
+  { name, size, variant = "color", label, className },
+  ref,
+) {
+  const b: BrandMark = BRANDS[name];
+  const px = size ?? sizeFromClass(className) ?? 16;
+  const mono = variant === "mono";
+  // White parts of a multi-colour mark (e.g. the calendar page) become see-through
+  // in mono, so the mark keeps its shape instead of turning into a solid block.
+  const fill = (hex: string) => (mono ? (/^#f{3}(f{3})?$/i.test(hex) ? "none" : "currentColor") : hex);
+  // Unique per instance: a shared id resolves to the first copy, and if that copy sits in a
+  // display:none subtree (closed menu, other breakpoint) Chrome paints every other copy blank.
+  const gradientId = `erix-brand-${name}-${React.useId().replace(/:/g, "")}`;
+  const g = !mono && "gradient" in b ? b.gradient : undefined;
+  // Same rule as glyphs: decorative unless the call site names it.
+  const a11y = label ? { role: "img" as const, "aria-label": label } : { "aria-hidden": true as const };
+
   const svg = (
     <svg
-      className={cn("erix-brand", variant !== "tile" && className)}
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      ref={ref}
+      className={cn("erix-brand shrink-0", variant !== "tile" && className)}
+      width={px}
+      height={px}
+      viewBox={b.viewBox ?? "0 0 24 24"}
+      xmlns="http://www.w3.org/2000/svg"
       {...a11y}
     >
-      <path d={b.path} fill={variant === "mono" ? "currentColor" : b.hex} />
+      {g && (
+        <defs>
+          {g.type === "radial" ? (
+            <radialGradient id={gradientId} cx={g.cx ?? 0.5} cy={g.cy ?? 0.5} r={g.r ?? 0.5}>
+              {g.stops.map(([offset, hex]) => (
+                <stop key={offset} offset={offset} stopColor={hex} />
+              ))}
+            </radialGradient>
+          ) : (
+            <linearGradient id={gradientId} x1={g.x1 ?? 0} y1={g.y1 ?? 0} x2={g.x2 ?? 1} y2={g.y2 ?? 0}>
+              {g.stops.map(([offset, hex]) => (
+                <stop key={offset} offset={offset} stopColor={hex} />
+              ))}
+            </linearGradient>
+          )}
+        </defs>
+      )}
+      {"paths" in b ? (
+        b.paths.map((item, index) => <path key={index} d={item.d} fill={fill(item.hex)} />)
+      ) : (
+        <path d={b.path} fill={g ? `url(#${gradientId})` : fill(b.hex)} />
+      )}
     </svg>
   );
+
   if (variant !== "tile") return svg;
+
   return (
     <span
       className={cn(
         "inline-grid place-items-center rounded-lg bg-white shadow-[0_0_0_1px_rgba(11,27,100,0.08)]",
         className,
       )}
-      style={{ width: size + 16, height: size + 16 }}
+      style={{ width: px + 16, height: px + 16 }}
     >
       {svg}
     </span>
   );
-}
+});
 
 export const ICON_NAMES = Object.keys(GLYPHS) as GlyphName[];
 export { GLYPH_CATEGORIES, type GlyphName };

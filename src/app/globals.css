@@ -2,24 +2,29 @@
 @import "tw-animate-css";
 
 /* ══════════════════════════════════════════════════════════════════════════
- * ECODrIx marketing — ERIX design system, marketing kit (erix-mk-*).
- * Source of truth: the ERIX Design System artifact (README "Marketing",
- * tokens.json, components/bundle.css v11). Same tokens as the SaaS.
+ * ECODrIx marketing site: global CSS.
  *
- * - Blue = structure and action, purple = AI / automation only, red = the
- *   logo's dot and urgency. Gradients stay within one hue.
- * - Sections sit on surface (white) or surface-subtle; navy bands
- *   (`--mk-navy`) carry the one brand flourish: the logo swoosh + red dot.
- * - Bricolage Grotesque headings, Manrope text, sentence case.
- * - Radii: badges 6, buttons/inputs 8, cards 12, dialogs/banner 16.
- *   Cards have no border: shadow-card, a navy-tinted ring.
+ * Every component styles itself with inline Tailwind classes in its TSX.
+ * This file only holds what can't live on one element:
+ *   1. Design tokens (:root) and theme scopes (.surface-light, .band-navy,
+ *      .tile-blue) that re-colour everything inside them.
+ *   2. @theme inline: the tokens as Tailwind utilities (colours, fonts, radii,
+ *      shadows, layout, the marketing type scale, animations + keyframes).
+ *      Need a new custom value? Add it here, then use the utility.
+ *   3. Base element defaults (body, headings, links, focus, scrollbar).
+ *   4. Engines: rules driven by attributes or state across many elements
+ *      (product-scene steps, no-JS fallbacks,
+ *      Radix/Lenis/consent hooks, reduced motion).
  *
- * Naming: on this site `--accent` is the PRIMARY blue (legacy name kept so
- * every page re-themes at once). ERIX purple is `--ai`. The DS names
- * (`--primary`, `--ink`, `--surface-raised`…) are aliases for the ported kit.
+ * Brand rules (ERIX design system): blue = structure and action, purple =
+ * AI / automation only, red = the logo's dot and urgency; gradients stay in
+ * one hue; radii 6 / 8 / 12 / 16; cards have no border (shadow-card).
+ * On this site `--accent` is the PRIMARY blue (legacy name); purple is `--ai`.
  * ══════════════════════════════════════════════════════════════════════════ */
 
 @custom-variant dark (&:is(.dark *));
+/* on-dark: inside a navy band or the blue featured tile, but not a light card placed in one. */
+@custom-variant on-dark (&:where(.band-navy *, .tile-blue *):not(.surface-light *));
 
 /* ── Design tokens (ERIX light) ────────────────────────────────────────── */
 /* `.surface-light` re-declares the light set, so a product mock placed inside
@@ -148,6 +153,7 @@
   --mk-wrap: 1180px;
   --mk-gutter: clamp(16px, 4vw, 32px);
   --mk-section: clamp(64px, 8vw, 112px);
+  --ease-soft-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
   interpolate-size: allow-keywords;
 }
 
@@ -176,7 +182,7 @@
 /* Aliases resolve where they're declared, so re-point them in every scope
    that remaps the base tokens (navy bands, the featured plan tile). */
 .band-navy,
-.erix-mk-plan--featured {
+.tile-blue {
   --ink: var(--text);
   --ink-muted: var(--text-muted);
   --ink-subtle: var(--text-faint);
@@ -184,12 +190,19 @@
   --muted-foreground: var(--text-muted);
   --subtle: var(--text-faint);
 }
-.band-navy .eyebrow,
-.band-navy .link-on-dark {
-  color: var(--on-navy-link);
-}
 .band-navy *:focus-visible {
   outline-color: #ffffff;
+}
+/* Featured plan tile: solid blue with a soft white bloom (same hue). */
+.tile-blue {
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.8);
+  --text-faint: rgba(255, 255, 255, 0.72);
+  --border-soft: rgba(255, 255, 255, 0.18);
+  background-color: var(--brand-blue);
+  background-image: radial-gradient(80% 70% at 85% 0%, rgba(255, 255, 255, 0.22), transparent 70%);
+  box-shadow: var(--shadow-btn), var(--shadow-lg);
+  color: #ffffff;
 }
 
 /* ── Tailwind @theme ───────────────────────────────────────────────────── */
@@ -265,6 +278,155 @@
   --color-secondary: var(--canvas);
   --color-secondary-foreground: var(--text);
   --color-destructive: var(--error);
+
+  /* Layout: page width, side gutter, section rhythm (max-w-wrap, px-gutter, py-section) */
+  --container-wrap: var(--mk-wrap);
+  --spacing-gutter: var(--mk-gutter);
+  --spacing-section: var(--mk-section);
+
+  /* Marketing type scale (text-mk-*): size, line height, tracking and weight together */
+  --text-mk-hero: clamp(38px, 5.4vw, 64px);
+  --text-mk-hero--line-height: 1.04;
+  --text-mk-hero--letter-spacing: -0.035em;
+  --text-mk-hero--font-weight: 700;
+  --text-mk-hero-lead: clamp(16px, 1.5vw, 19px);
+  --text-mk-hero-lead--line-height: 1.6;
+  --text-mk-h2: clamp(28px, 3.4vw, 44px);
+  --text-mk-h2--line-height: 1.12;
+  --text-mk-h2--letter-spacing: -0.03em;
+  --text-mk-h2--font-weight: 700;
+  --text-mk-h3: clamp(22px, 2.2vw, 28px);
+  --text-mk-h3--line-height: 1.2;
+  --text-mk-h3--letter-spacing: -0.02em;
+  --text-mk-h3--font-weight: 700;
+  --text-mk-cta: clamp(30px, 3.6vw, 46px);
+  --text-mk-cta--line-height: 1.1;
+  --text-mk-cta--letter-spacing: -0.03em;
+  --text-mk-cta--font-weight: 700;
+  --text-mk-lead: clamp(16px, 1.4vw, 18px);
+  --text-mk-lead--line-height: 1.6;
+  --text-mk-body: 16px;
+  --text-mk-body--line-height: 1.65;
+  --text-mk-quote: clamp(17px, 1.6vw, 20px);
+  --text-mk-quote--line-height: 1.55;
+  --text-mk-quote-lead: clamp(20px, 2.2vw, 28px);
+  --text-mk-quote-lead--line-height: 1.4;
+  --text-mk-quote-lead--letter-spacing: -0.015em;
+
+  /* Brand colours the marketing kit needs as utilities */
+  --color-on-navy-link: var(--on-navy-link);
+  --color-hero-swoosh: var(--hero-swoosh);
+  --color-hero-dot: var(--hero-dot);
+  --color-surface-white: var(--surface-white);
+  --color-blue-50: var(--blue-50);
+  --color-blue-300: var(--blue-300);
+  --color-blue-800: var(--blue-800);
+
+  /* Animations (animate-*). Keyframes live right here with them. */
+  --animate-rise: erix-rise var(--dur-enter) var(--ease-out) both;
+  --animate-fade: erix-fade 500ms var(--ease-out) both;
+  --animate-blur-word: erix-blur-word 700ms var(--ease-out) both;
+  --animate-dot: erix-dot 1.1s var(--ease-in-out) infinite;
+  --animate-focus: erix-focus 360ms var(--ease-soft-spring);
+  --animate-marquee: erix-marquee var(--mq-dur) linear infinite;
+  --animate-livedot: erix-livedot 2s var(--ease-out) infinite;
+  --animate-beam-flow: erix-beam-flow 1.4s linear infinite;
+  --animate-beam-in: erix-beam-in var(--beam-dur) var(--beam-ease) infinite;
+  --animate-beam-out: erix-beam-out var(--beam-dur) var(--beam-ease) infinite;
+  --animate-beam-emit: erix-beam-emit var(--beam-dur) var(--ease-out) infinite;
+  --animate-beam-land: erix-beam-land var(--beam-dur) var(--ease-out) infinite;
+  --animate-beam-thump: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
+  --animate-beam-halo: erix-beam-halo var(--beam-dur) var(--ease-out) infinite;
+
+  /* Keyframes for the animate-* utilities above */
+  @keyframes erix-rise {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+  @keyframes erix-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes erix-blur-word {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+      translate: 0 4px;
+    }
+  }
+  @keyframes erix-dot {
+    0%,
+    60%,
+    100% {
+      opacity: 0.35;
+      translate: 0 0;
+    }
+    30% {
+      opacity: 1;
+      translate: 0 -3px;
+    }
+  }
+  @keyframes erix-focus {
+    from {
+      outline-offset: 6px;
+      outline-color: transparent;
+    }
+  }
+  @keyframes erix-marquee {
+    to {
+      transform: translateX(calc(-50% - var(--mq-gap) / 2));
+    }
+  }
+  @keyframes erix-livedot {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70%,
+    100% {
+      transform: scale(2.8);
+      opacity: 0;
+    }
+  }
+  @keyframes erix-beam-flow {
+    to { stroke-dashoffset: -9; }
+  }
+  @keyframes erix-beam-in {
+    0% { stroke-dashoffset: 0.22; opacity: 0; }
+    4% { opacity: 1; }
+    40% { opacity: 1; }
+    44% { stroke-dashoffset: -1; opacity: 0; }
+    100% { stroke-dashoffset: -1; opacity: 0; }
+  }
+  @keyframes erix-beam-out {
+    0%, 46% { stroke-dashoffset: 0.22; opacity: 0; }
+    50% { opacity: 1; }
+    86% { opacity: 1; }
+    90% { stroke-dashoffset: -1; opacity: 0; }
+    100% { stroke-dashoffset: -1; opacity: 0; }
+  }
+  @keyframes erix-beam-emit {
+    0% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
+    18%, 100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+  }
+  @keyframes erix-beam-land {
+    0%, 82% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+    88% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
+    100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
+  }
+  @keyframes erix-beam-thump {
+    0%, 38% { transform: scale(1); }
+    45% { transform: scale(1.06); }
+    60%, 100% { transform: scale(1); }
+  }
+  @keyframes erix-beam-halo {
+    0%, 40% { transform: scale(0.94); opacity: 0; }
+    45% { transform: scale(0.98); opacity: 1; }
+    80%, 100% { transform: scale(1.24); opacity: 0; }
+  }
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */
@@ -277,7 +439,9 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* framer-motion measures scroll targets against the page, which needs a
+       positioned root. */
+    position: relative;
     background: var(--surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -329,931 +493,32 @@
     outline-offset: 2px;
   }
 
-  .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--accent);
-    color: #ffffff;
-    padding: 8px 16px;
-    z-index: 100;
+  /* Scrollbar: thin, border-coloured */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-mid) transparent;
   }
-  .skip-link:focus {
-    top: 0;
+  *::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
   }
-}
-
-/* ── Brand utilities ───────────────────────────────────────────────────── */
-
-/* Optional small label above a heading (the kit's `kicker`). Use sparingly:
-   no eyebrow above every heading. */
-.eyebrow {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  color: var(--accent);
-}
-
-/* AI / automation marker: a 6px-cornered chip, purple = AI only */
-.ai-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--ai-subtle);
-  color: var(--ai);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* ── Components ────────────────────────────────────────────────────────── */
-@layer components {
-  .wrapper {
-    width: 100%;
-    max-width: var(--mk-wrap);
-    margin: 0 auto;
-    padding: 0 var(--mk-gutter);
+  *::-webkit-scrollbar-track {
+    background: transparent;
   }
-
-  .section-pad {
-    padding-top: var(--mk-section);
-    padding-bottom: var(--mk-section);
-  }
-
-  /* Card: no border — a navy-tinted ring, 12px corners */
-  .card {
-    background: var(--surface);
-    border-radius: 12px;
-    box-shadow: var(--shadow-card);
-  }
-
-  /* Buttons — 8px corners, 44px touch height, verb labels. Solid buttons
-     carry the 1px top highlight (shadow-btn). */
-  .btn-primary,
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 0 20px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 650;
-    cursor: pointer;
-    transition:
-      color var(--dur-fast) ease-out,
-      background-color var(--dur-fast) ease-out,
-      box-shadow var(--dur-fast) ease-out,
-      scale 360ms var(--ease-soft-spring);
-  }
-  /* Press: a 2% squeeze in 90ms, then a soft spring back */
-  .btn-primary:active,
-  .btn-ghost:active {
-    scale: 0.98;
-    transition-duration: var(--dur-fast), var(--dur-fast), var(--dur-fast), 90ms;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: #ffffff;
-    box-shadow: var(--shadow-btn);
-  }
-  .btn-primary:hover {
-    background: var(--accent-hover);
-  }
-  .btn-ghost {
-    background: var(--surface-white);
-    color: var(--text);
-    box-shadow: 0 0 0 1px var(--border), var(--shadow-xs);
-  }
-  .btn-ghost:hover {
-    background: var(--canvas);
-    box-shadow: 0 0 0 1px var(--border-mid), var(--shadow-xs);
-  }
-  .btn-lg {
-    min-height: 48px;
-    padding: 0 22px;
-    font-size: 15.5px;
-    border-radius: 12px;
-  }
-  /* On navy: the main action is white, the second is glass */
-  .band-navy .btn-primary {
-    background: #ffffff;
-    color: var(--blue-800);
-    box-shadow: inset 0 -1px 0 rgba(11, 27, 100, 0.08), 0 1px 2px rgba(0, 0, 0, 0.2);
-  }
-  .band-navy .btn-primary:hover {
-    background: var(--blue-50);
-  }
-  .band-navy .btn-ghost {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
-  }
-  .band-navy .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.14);
-  }
-  /* A light card inside a navy band (the waitlist form) keeps light buttons. */
-  .band-navy .surface-light .btn-primary {
-    background: var(--accent);
-    color: #ffffff;
-    box-shadow: var(--shadow-btn);
-  }
-  .band-navy .surface-light .btn-primary:hover {
-    background: var(--accent-hover);
-  }
-  .band-navy .surface-light .btn-ghost {
-    background: var(--surface-white);
-    color: var(--text);
-    box-shadow: 0 0 0 1px var(--border), var(--shadow-xs);
-  }
-
-  /* Pill — small 6px-cornered tag */
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px 10px;
-    border-radius: 6px;
-    background: var(--accent-dim);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--border-mid);
+    border-radius: 2px;
   }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
- * Marketing kit (ported from the DS bundle.css v11, `erix-mk-*`), mapped to
- * the site tokens. Only the parts the site uses.
+ * Engines: attribute/state-driven rules that span many elements.
  * ══════════════════════════════════════════════════════════════════════════ */
 
-/* type scale */
-.erix-mk-h2 {
-  margin: 0;
-  font: 700 clamp(28px, 3.4vw, 44px) / 1.12 var(--font-display);
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  text-wrap: balance;
-}
-.erix-mk-h3 {
-  margin: 0;
-  font: 700 clamp(22px, 2.2vw, 28px) / 1.2 var(--font-display);
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-wrap: balance;
-}
-.erix-mk-lead {
-  margin: 16px 0 0;
-  max-width: 60ch;
-  font: 400 clamp(16px, 1.4vw, 18px) / 1.6 var(--font-sans);
-  color: var(--ink-muted);
-  text-wrap: pretty;
-}
-.erix-mk-body {
-  margin: 12px 0 0;
-  max-width: 56ch;
-  font: 400 16px / 1.65 var(--font-sans);
-  color: var(--ink-muted);
-  text-wrap: pretty;
-}
-.erix-mk-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: 650 15px / 20px var(--font-sans);
-  color: var(--primary);
-}
-.erix-mk-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.erix-mk-ticks {
-  list-style: none;
-  margin: 20px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 10px;
-}
-.erix-mk-ticks li {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  font: 500 15px / 22px var(--font-sans);
-  color: var(--ink);
-}
-.erix-mk-ticks .erix-icon {
-  color: var(--primary);
-  margin-top: 3px;
-  flex: none;
-}
-.erix-mk-section__head {
-  margin-bottom: clamp(36px, 5vw, 56px);
-}
-
-/* hero: navy band, swoosh + red dot (the one brand flourish) */
-.erix-mk-hero {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(48px, 7vw, 96px) 0 0;
-}
-.erix-mk-hero__motif,
-.erix-mk-cta__motif {
-  position: absolute;
-  pointer-events: none;
-}
-.erix-mk-hero__motif {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.erix-mk-hero__swoosh {
-  fill: none;
-  stroke: var(--hero-swoosh);
-  stroke-width: 56;
-  stroke-linecap: round;
-  opacity: 0.28;
-}
-.erix-mk-hero__dot {
-  fill: var(--hero-dot);
-}
-.erix-mk-hero__grid {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(32px, 5vw, 64px);
-  align-items: end;
-}
-.erix-mk-hero__copy {
-  padding-bottom: clamp(48px, 7vw, 96px);
-}
-.erix-mk-hero__title {
-  margin: 0;
-  font: 700 clamp(38px, 5.4vw, 64px) / 1.04 var(--font-display);
-  letter-spacing: -0.035em;
-  color: #ffffff;
-  text-wrap: balance;
-}
-.erix-mk-hero__lead {
-  margin: 22px 0 0;
-  max-width: 34em;
-  font: 400 clamp(16px, 1.5vw, 19px) / 1.6 var(--font-sans);
-  color: rgba(255, 255, 255, 0.78);
-  text-wrap: pretty;
-}
-.erix-mk-hero__ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-}
-.erix-mk-hero__facts {
-  list-style: none;
-  margin: 26px 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-}
-.erix-mk-hero__facts li {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font: 500 14px / 20px var(--font-sans);
-  color: rgba(255, 255, 255, 0.78);
-}
-.erix-mk-hero__facts .erix-icon {
-  color: var(--on-navy-link);
-}
-.erix-mk-hero__visual {
-  position: relative;
-  align-self: end;
-}
-
-/* frames: real product UI, never a screenshot */
-.erix-mk-browser {
-  border-radius: 14px 14px 0 0;
-  overflow: hidden;
-  background: var(--surface-subtle);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 40px 80px -24px rgba(4, 13, 66, 0.55);
-}
-.erix-mk-browser--light {
-  border-radius: 14px;
-  box-shadow: var(--shadow-lg);
-}
-.erix-mk-browser__bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 14px;
-  background: var(--surface-raised);
-  border-bottom: 1px solid var(--border-soft);
-}
-.erix-mk-browser__bar i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--border-strong);
-  opacity: 0.6;
-}
-.erix-mk-browser__url {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin: 0 auto;
-  padding: 3px 12px;
-  border-radius: 6px;
-  background: var(--surface-sunken);
-  font: 500 11.5px / 16px var(--font-sans);
-  color: var(--ink-subtle);
-}
-.erix-mk-browser__body {
-  padding: 14px;
-}
-/* An app screen inside a browser window drops its own frame. */
-.erix-mk-browser__body:has(> .scene .app-frame) {
-  padding: 0;
-}
-.erix-mk-browser .app-frame {
-  border-radius: 0;
-  box-shadow: none;
-}
-.erix-mk-browser .scene-toggle {
-  margin: 6px 8px 6px auto;
-}
-.erix-mk-phone {
-  position: relative;
-  width: 268px;
-  border-radius: 34px;
-  padding: 10px;
-  background: #0d1020;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 60px -20px rgba(4, 13, 66, 0.6);
-}
-.erix-mk-phone__notch {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 76px;
-  height: 20px;
-  margin-left: -38px;
-  border-radius: 12px;
-  background: #0d1020;
-  z-index: 2;
-}
-.erix-mk-phone__head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 34px 14px 10px;
-  background: var(--surface-raised);
-  border-radius: 26px 26px 0 0;
-  border-bottom: 1px solid var(--border-soft);
-}
-.erix-mk-phone__body {
-  background: var(--surface-subtle);
-  border-radius: 0 0 26px 26px;
-  overflow: hidden;
-  padding: 12px 10px 16px;
-}
-/* hero composite: window + phone overlapping its lower corner */
-.erix-mk-herovis {
-  position: relative;
-  padding: 0 120px 0 0;
-}
-.erix-mk-herovis__phone {
-  position: absolute;
-  right: 0;
-  bottom: -40px;
-  z-index: 2;
-}
-.erix-mk-herovis__phone .erix-mk-phone {
-  width: 250px;
-}
-
-/* sections */
-.erix-mk-section {
-  padding: var(--mk-section) 0;
-  /* No content-visibility here: with smooth scrolling, sections growing from
-     their placeholder height mid-scroll made "Join the waitlist" (/#contact)
-     stop ~2,000 px short on phones. */
-}
-.erix-mk-section--subtle {
-  background: var(--surface-subtle);
-}
-
-/* pain */
-.erix-mk-pain {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.erix-mk-pain li {
-  padding: 26px 24px;
-  border-radius: 16px;
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-card);
-}
-.erix-mk-pain__icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--danger-subtle);
-  color: var(--danger);
-  margin-bottom: 18px;
-}
-.erix-mk-pain h3 {
-  margin: 0;
-  font: 650 18px / 24px var(--font-sans);
-  letter-spacing: -0.01em;
-}
-.erix-mk-pain p {
-  margin: 8px 0 0;
-  font: 400 15px / 1.6 var(--font-sans);
-  color: var(--ink-muted);
-}
-
-/* feature split */
-.erix-mk-split {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(32px, 6vw, 88px);
-  align-items: center;
-}
-.erix-mk-split + .erix-mk-split {
-  margin-top: clamp(64px, 9vw, 120px);
-}
-.erix-mk-split--flip .erix-mk-split__copy {
-  order: 2;
-}
-.erix-mk-split__module {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 14px;
-  font: 650 13.5px / 18px var(--font-sans);
-  color: var(--primary);
-}
-.erix-mk-split__module--ai {
-  color: var(--ai);
-}
-.erix-mk-split__visual {
-  position: relative;
-  padding: clamp(14px, 3vw, 32px);
-  border-radius: 24px;
-  background: var(--surface-subtle);
-  box-shadow: inset 0 0 0 1px var(--border-soft);
-}
-.erix-mk-section--subtle .erix-mk-split__visual {
-  background: var(--surface);
-}
-
-/* steps */
-.erix-mk-steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.erix-mk-steps li {
-  position: relative;
-  padding: 0 28px 0 0;
-}
-.erix-mk-steps li + li {
-  padding-left: 28px;
-  border-left: 1px solid var(--border-soft);
-}
-.erix-mk-steps__n {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: var(--on-primary);
-  font: 700 15px / 1 var(--font-sans);
-  margin-bottom: 18px;
-  box-shadow: 0 0 0 6px var(--primary-subtle);
-}
-.erix-mk-steps h3 {
-  margin: 0;
-  font: 650 18px / 24px var(--font-sans);
-}
-.erix-mk-steps p {
-  margin: 8px 0 0;
-  font: 400 15px / 1.6 var(--font-sans);
-  color: var(--ink-muted);
-}
-.erix-mk-steps__time {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  font: 600 13px / 18px var(--font-sans);
-  color: var(--ink-subtle);
-}
-
-/* segmented control with a sliding indicator (VerticalTabs, pricing switch) */
-.erix-seg {
-  position: relative;
-  display: inline-flex;
-  gap: 2px;
-  padding: 3px;
-  border-radius: 10px;
-  background: var(--surface-sunken);
-  max-width: 100%;
-  overflow-x: auto;
-}
-.erix-seg__item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 0 16px;
-  border-radius: 7px;
-  font: 600 14.5px / 20px var(--font-sans);
-  color: var(--ink-muted);
-  white-space: nowrap;
-  cursor: pointer;
-}
-.erix-seg__item:hover {
-  color: var(--ink);
-}
-.erix-seg__item[aria-selected="true"],
-.erix-seg__item[aria-checked="true"],
-.erix-seg__item:has(input:checked) {
-  color: var(--ink);
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-sm);
-}
-.erix-seg__item:focus-visible,
-.erix-seg__item:has(:focus-visible) {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-.erix-seg__ind {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 7px;
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-sm);
-  opacity: 0;
-  pointer-events: none;
-}
-.erix-seg[data-ind] .erix-seg__ind {
-  opacity: 1;
-  transition:
-    translate 420ms var(--ease-soft-spring),
-    width 420ms var(--ease-soft-spring),
-    height 420ms var(--ease-soft-spring);
-}
-.erix-seg[data-ind] .erix-seg__item {
-  background: transparent;
-  box-shadow: none;
-}
-
-/* verticals */
-.erix-mk-vert__panel {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: start;
-}
-.erix-mk-vert__panel:not([hidden]) {
-  animation: erix-rise var(--dur-enter) var(--ease-out) both;
-}
-.erix-mk-vert__jobs {
-  list-style: none;
-  margin: 24px 0 28px;
-  padding: 0;
-  display: grid;
-  gap: 18px;
-}
-.erix-mk-vert__jobs li {
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 14px;
-}
-.erix-mk-vert__jobs li > span {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
-  background: var(--primary-subtle);
-  color: var(--primary);
-}
-.erix-mk-vert__jobs b {
-  font: 650 15.5px / 22px var(--font-sans);
-  color: var(--ink);
-}
-.erix-mk-vert__jobs p {
-  margin: 2px 0 0;
-  font: 400 14.5px / 1.55 var(--font-sans);
-  color: var(--ink-muted);
-}
-
-/* testimonial */
-.erix-mk-quote {
-  margin: 0;
-  padding: clamp(24px, 4vw, 44px);
-  border-radius: 24px;
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-.erix-mk-quote blockquote {
-  margin: 0;
-  font: 500 clamp(17px, 1.6vw, 20px) / 1.55 var(--font-sans);
-  color: var(--ink);
-  text-wrap: pretty;
-}
-.erix-mk-quote--lead blockquote {
-  font: 600 clamp(20px, 2.2vw, 28px) / 1.4 var(--font-display);
-  letter-spacing: -0.015em;
-}
-.erix-mk-quote figcaption {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: auto;
-}
-.erix-mk-quotes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-/* pricing */
-.erix-mk-plan {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 28px 26px;
-  border-radius: 20px;
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-card);
-}
-/* Featured plan: a solid-blue tile with a soft white bloom (same hue) */
-.erix-mk-plan--featured {
-  --text: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.8);
-  --text-faint: rgba(255, 255, 255, 0.72);
-  --border-soft: rgba(255, 255, 255, 0.18);
-  background-color: var(--brand-blue);
-  background-image: radial-gradient(80% 70% at 85% 0%, rgba(255, 255, 255, 0.22), transparent 70%);
-  box-shadow: var(--shadow-btn), var(--shadow-lg);
-  color: #ffffff;
-}
-.erix-mk-plan--featured .btn-primary {
-  background: #ffffff;
-  color: var(--blue-800);
-}
-.erix-mk-plan--featured .btn-primary:hover {
-  background: var(--blue-50);
-}
-.erix-mk-plan__flag {
-  position: absolute;
-  top: -12px;
-  left: 24px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: var(--mk-navy);
-  color: #ffffff;
-  font: 650 12px / 16px var(--font-sans);
-  box-shadow: var(--shadow-btn);
-}
-
-/* FAQ on native <details> */
-.erix-mk-faq {
-  max-width: 100%;
-  border-top: 1px solid var(--border);
-}
-.erix-mk-faq__item {
-  border-bottom: 1px solid var(--border);
-}
-.erix-mk-faq__item summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 20px 0;
-  cursor: pointer;
-  list-style: none;
-  font: 650 17px / 24px var(--font-sans);
-  color: var(--ink);
-}
-.erix-mk-faq__item summary::-webkit-details-marker {
-  display: none;
-}
-.erix-mk-faq__item summary .erix-icon {
-  flex: none;
-  color: var(--ink-subtle);
-  transition: rotate var(--dur-base) var(--ease-out);
-}
-.erix-mk-faq__item[open] summary .erix-icon {
-  rotate: 45deg;
-  color: var(--ink);
-}
-.erix-mk-faq__item summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-  border-radius: 6px;
-}
-.erix-mk-faq__a {
-  padding: 0 48px 22px 0;
-  font: 400 15.5px / 1.65 var(--font-sans);
-  color: var(--ink-muted);
-  max-width: 68ch;
-}
+/* Hard (cross-document) navigations crossfade natively. */
 @media (prefers-reduced-motion: no-preference) {
-  .erix-mk-faq__item::details-content {
-    block-size: 0;
-    overflow: clip;
-    transition:
-      block-size var(--dur-base) var(--ease-out),
-      content-visibility var(--dur-base) allow-discrete;
-  }
-  .erix-mk-faq__item[open]::details-content {
-    block-size: auto;
-  }
-}
-
-/* CTA band */
-.erix-mk-cta {
-  padding: clamp(56px, 7vw, 96px) 0;
-}
-.erix-mk-cta__motif {
-  right: 0;
-  bottom: 0;
-  width: 56%;
-  height: 100%;
-}
-.erix-mk-cta__motif path {
-  fill: none;
-  stroke: var(--hero-swoosh);
-  stroke-width: 34;
-  stroke-linecap: round;
-  opacity: 0.28;
-}
-.erix-mk-cta__motif circle {
-  fill: var(--hero-dot);
-}
-.erix-mk-cta__title {
-  margin: 0;
-  font: 700 clamp(30px, 3.6vw, 46px) / 1.1 var(--font-display);
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-  color: #ffffff;
-}
-.erix-mk-cta__lead {
-  margin: 16px 0 0;
-  max-width: 46ch;
-  font: 400 17px / 1.6 var(--font-sans);
-  color: rgba(255, 255, 255, 0.78);
-}
-
-/* phones first-class (360–420px) */
-@media (max-width: 900px) {
-  .erix-mk-hero__grid,
-  .erix-mk-split,
-  .erix-mk-vert__panel {
-    grid-template-columns: 1fr;
-  }
-  .erix-mk-split--flip .erix-mk-split__copy {
-    order: 0;
-  }
-  .erix-mk-hero__copy {
-    padding-bottom: 0;
-  }
-  .erix-mk-pain,
-  .erix-mk-steps,
-  .erix-mk-quotes {
-    grid-template-columns: 1fr;
-  }
-  .erix-mk-steps li,
-  .erix-mk-steps li + li {
-    padding: 22px 0;
-    border-left: 0;
-    border-top: 1px solid var(--border-soft);
-  }
-  .erix-mk-steps li:first-child {
-    border-top: 0;
-    padding-top: 0;
-  }
-  .erix-mk-hero__ctas > * {
-    flex: 1 1 100%;
-  }
-  .erix-mk-hero__dot {
-    display: none;
-  }
-  .erix-mk-herovis {
-    padding: 0;
-  }
-  .erix-mk-herovis .erix-mk-browser {
-    margin-right: calc(-1 * var(--mk-gutter));
-    border-radius: 12px 0 0 0;
-  }
-  .erix-mk-herovis__phone {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    margin: -140px 0 0 auto;
-    width: max-content;
-  }
-  .erix-mk-herovis__phone .erix-mk-phone {
-    width: 230px;
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
- * Motion — explains, never decorates. No library; transforms and opacity.
- * Helpers: src/components/motion (MotionRoot, Scene, CountUp, BlurText) and
- * src/components/scenes/parts.tsx (`at()`, scene parts).
- *
- *   .erix-blurtext   hero headline sharpens in word by word (55ms apart)
- *   .fade-in         lead and CTAs fade in after it (--d sets the delay)
- *   .hero-in         the hero visual rises in once
- *   .scene/.scene-in the looping product scene (see "Product scenes")
- *
- * Design system v13 "Motion 2" (see "Motion 2" below): icon micro-animations
- * on hover/focus of their control, Spotlight cards, Marquee, IntegrationBeam,
- * LiveDot, a lift-and-press for clickable cards, and Reveal: marketing
- * sections rise in once as they scroll into view. Reveal only ever hides
- * content after JS has checked it is below the fold, so the HTML, no-JS,
- * crawlers and reduced motion always see everything.
- * ══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes erix-rise {
-  from {
-    opacity: 0;
-    translate: 0 14px;
-  }
-}
-@keyframes erix-fade {
-  from {
-    opacity: 0;
-  }
-}
-@keyframes erix-blur-word {
-  from {
-    opacity: 0;
-    filter: blur(10px);
-    translate: 0 4px;
-  }
-}
-@keyframes erix-dot {
-  0%,
-  60%,
-  100% {
-    opacity: 0.35;
-    translate: 0 0;
-  }
-  30% {
-    opacity: 1;
-    translate: 0 -3px;
-  }
-}
-@keyframes erix-ping {
-  from {
-    scale: 1;
-    opacity: 0.55;
-  }
-  to {
-    scale: 2.6;
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /* Hard (cross-document) navigations crossfade natively. */
   @view-transition {
     navigation: auto;
-  }
-  .erix-blurtext > span {
-    display: inline-block;
-    animation: erix-blur-word 700ms var(--ease-out) both;
-    animation-delay: calc(var(--w, 0) * 55ms);
-  }
-  .fade-in {
-    animation: erix-fade 500ms var(--ease-out) both;
-    animation-delay: var(--d, 420ms);
-  }
-  .hero-in {
-    animation: erix-rise var(--dur-enter) var(--ease-out) both;
-    animation-delay: var(--d, 200ms);
   }
 }
 
@@ -1294,156 +559,29 @@
     translate var(--dur-enter) var(--ease-out),
     scale var(--dur-enter) var(--ease-spring);
 }
+/* Chart parts on the same step clock, finished by default: a line chart
+   wiped in from the left (as it draws) and bars that grow from the left. */
+.scene-wipe {
+  opacity: 1;
+  translate: none;
+  clip-path: inset(0 calc((1 - var(--vis)) * 100%) 0 0);
+}
+.scene-grow {
+  opacity: 1;
+  translate: none;
+  transform-origin: left center;
+  scale: max(var(--vis), 0.001) 1;
+}
+.scene[data-playing] .scene-wipe {
+  transition: clip-path var(--dur-draw) var(--ease-in-out);
+}
+.scene[data-playing] .scene-grow {
+  transition: scale var(--dur-enter) var(--ease-out);
+}
 .scene[data-paused] *,
 .scene[data-paused] *::after {
   animation-play-state: paused !important;
 }
-/* Overlaid states (✓ → ✓✓ → read) share one grid cell. */
-.stack {
-  display: inline-grid;
-}
-.stack > * {
-  grid-area: 1 / 1;
-}
-.typing-dots {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-.typing-dots > i {
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: currentColor;
-  animation: erix-dot 1.1s var(--ease-in-out) infinite;
-}
-.typing-dots > i:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.typing-dots > i:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-/* ── Overlays: native popover + <dialog>, entry/exit via @starting-style ── */
-/* Menus open from their button with a soft spring and leave in half the time. */
-.menu-pop {
-  transform-origin: top center;
-  transition:
-    opacity 140ms ease-in,
-    translate 140ms ease-in,
-    scale 140ms ease-in,
-    display 140ms allow-discrete,
-    overlay 140ms allow-discrete;
-}
-.menu-pop:popover-open {
-  transition:
-    opacity 200ms var(--ease-out),
-    translate 320ms var(--ease-soft-spring),
-    scale 320ms var(--ease-soft-spring),
-    display 320ms allow-discrete,
-    overlay 320ms allow-discrete;
-}
-.menu-pop:not(:popover-open) {
-  opacity: 0;
-  translate: 0 -6px;
-  scale: 0.97;
-}
-@starting-style {
-  .menu-pop:popover-open {
-    opacity: 0;
-    translate: 0 -6px;
-    scale: 0.97;
-  }
-}
-/* Menu rows follow the panel in, 30ms apart. */
-@media (prefers-reduced-motion: no-preference) {
-  .menu-pop:popover-open li,
-  .sheet[open] li {
-    animation: erix-rise 360ms var(--ease-out) both;
-    animation-delay: calc(60ms + var(--i, 0) * 30ms);
-  }
-}
-.sheet {
-  transition:
-    translate 180ms ease-in,
-    display 180ms allow-discrete,
-    overlay 180ms allow-discrete;
-}
-.sheet[open] {
-  transition:
-    translate 420ms var(--ease-soft-spring),
-    display 420ms allow-discrete,
-    overlay 420ms allow-discrete;
-}
-.sheet:not([open]) {
-  translate: 100% 0;
-}
-.sheet::backdrop {
-  background: rgb(18 21 29 / 0.48);
-  transition:
-    opacity 0.25s ease-out,
-    display 0.25s allow-discrete,
-    overlay 0.25s allow-discrete;
-}
-.sheet:not([open])::backdrop {
-  opacity: 0;
-}
-@starting-style {
-  .sheet[open] {
-    translate: 100% 0;
-  }
-  .sheet[open]::backdrop {
-    opacity: 0;
-  }
-}
-
-/* Tab panels fade up when shown (`hidden` → visible): a state change. */
-.tab-panel:not([hidden]) {
-  transition:
-    opacity var(--dur-base) ease-out,
-    translate var(--dur-enter) var(--ease-out);
-}
-@starting-style {
-  .tab-panel:not([hidden]) {
-    opacity: 0;
-    translate: 0 8px;
-  }
-}
-
-/* Comparison table: rows become stacked blocks on phones, each cell
-   labelled with its column, so nothing scrolls sideways. */
-@media (max-width: 767px) {
-  .cmp-table,
-  .cmp-table tbody,
-  .cmp-table tr,
-  .cmp-table th,
-  .cmp-table td {
-    display: block;
-  }
-  .cmp-table thead {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
-  .cmp-table tbody tr {
-    padding: 8px 0;
-  }
-  .cmp-table th,
-  .cmp-table td {
-    padding: 6px 20px;
-  }
-  .cmp-table td::before {
-    content: attr(data-label);
-    display: block;
-    margin-bottom: 2px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-faint);
-  }
-}
-
 /* ── ERIX Glyphs (components/icons): stroke as a variable; duo tint 16% ── */
 .erix-icon {
   flex: none;
@@ -1455,555 +593,7 @@
   fill-opacity: 0.16;
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────────────── */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-mid) transparent;
-}
-*::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-*::-webkit-scrollbar-thumb {
-  background-color: var(--border-mid);
-  border-radius: 2px;
-}
-
-/* ── Phone input ───────────────────────────────────────────────────────── */
-.phone-input-brand .PhoneInputCountry {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding-right: 10px;
-  border-right: 1px solid var(--border);
-  margin-right: 4px;
-}
-.phone-input-brand .PhoneInputCountryIcon {
-  width: 20px;
-  height: 14px;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.phone-input-brand .PhoneInputCountrySelectArrow {
-  color: var(--text-faint);
-  margin-left: 2px;
-  opacity: 0.7;
-}
-.phone-input-brand .PhoneInputCountrySelect {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 1;
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════════
- * Motion 2 (design system v13, components/bundle.css). Transform and opacity
- * only. Hover motion ≤ 600ms, entry ≤ 700ms. Springs only on things the
- * visitor touched (press, open, toggle); content uses ease-out.
- * ══════════════════════════════════════════════════════════════════════════ */
-:root {
-  --ease-soft-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
-  --icon-dur: 1500ms;
-}
-
-/* ── Icon micro-animations ──────────────────────────────────────────────
- * <Icon> sets data-anim (picked by meaning) and data-anim-on (hover | loop
- * | once). Keyframes move in 0–40% and hold, so one set serves a single
- * hover play and a loop with a rest. */
-@keyframes ei-ring { 0%, 40%, 100% { transform: rotate(0); } 6% { transform: rotate(16deg); } 13% { transform: rotate(-14deg); } 20% { transform: rotate(9deg); } 27% { transform: rotate(-5deg); } 34% { transform: rotate(2deg); } }
-@keyframes ei-spin { 0% { transform: rotate(0); } 40%, 100% { transform: rotate(180deg); } }
-@keyframes ei-nudge-r { 0%, 40%, 100% { transform: none; } 15% { transform: translateX(3px); } 28% { transform: translateX(-1px); } }
-@keyframes ei-nudge-l { 0%, 40%, 100% { transform: none; } 15% { transform: translateX(-3px); } 28% { transform: translateX(1px); } }
-@keyframes ei-nudge-u { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(-3px); } 28% { transform: translateY(1px); } }
-@keyframes ei-nudge-d { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(3px); } 28% { transform: translateY(-1px); } }
-@keyframes ei-wiggle { 0%, 40%, 100% { transform: rotate(0); } 8% { transform: rotate(-12deg); } 16% { transform: rotate(10deg); } 24% { transform: rotate(-6deg); } 32% { transform: rotate(3deg); } }
-@keyframes ei-beat { 0%, 40%, 100% { transform: scale(1); } 10% { transform: scale(1.22); } 20% { transform: scale(0.94); } 30% { transform: scale(1.06); } }
-@keyframes ei-twinkle { 0%, 40%, 100% { transform: scale(1) rotate(0); } 12% { transform: scale(0.78) rotate(-8deg); } 26% { transform: scale(1.14) rotate(10deg); } }
-@keyframes ei-tilt { 0%, 40%, 100% { transform: none; } 14% { transform: rotate(-14deg) translate(-1px, -1px); } 28% { transform: rotate(6deg); } }
-@keyframes ei-shake { 0%, 40%, 100% { transform: none; } 6% { transform: translateX(-2px); } 14% { transform: translateX(2px); } 22% { transform: translateX(-1.5px); } 30% { transform: translateX(1px); } }
-@keyframes ei-blink { 0%, 30%, 100% { transform: scaleY(1); } 15% { transform: scaleY(0.12); } }
-@keyframes ei-rise { 0%, 40%, 100% { transform: none; } 15% { transform: translateY(-2.5px) scale(1.06); } 28% { transform: translateY(0.5px); } }
-@keyframes ei-pop { 0%, 40%, 100% { transform: scale(1); } 12% { transform: scale(0.8); } 26% { transform: scale(1.1); } }
-@keyframes ei-draw { 0% { stroke-dashoffset: 1; } 40%, 100% { stroke-dashoffset: 0; } }
-@keyframes ei-spin-loop { to { transform: rotate(360deg); } }
-.erix-icon[data-anim="ring"] { transform-origin: 50% 12%; }
-.erix-icon[data-anim="tilt"] { transform-origin: 60% 60%; }
-.erix-icon[data-anim="draw"] > :not(.erix-icon__duo) { stroke-dasharray: 1 1; }
-@media (prefers-reduced-motion: no-preference) {
-  :is(a, button, summary, label, [role="menuitem"], [role="tab"], [role="option"], [role="radio"], [role="switch"], .erix-anim-host):is(:hover, :focus-visible) .erix-icon[data-anim-on="hover"],
-  .erix-icon[data-anim-on="loop"],
-  .erix-icon[data-anim-on="once"] {
-    animation: var(--ei, ei-pop) var(--icon-dur) var(--ease-out) both;
-  }
-  .erix-icon[data-anim-on="loop"] { animation-iteration-count: infinite; animation-duration: 2.4s; }
-  .erix-icon[data-anim="ring"] { --ei: ei-ring; }
-  .erix-icon[data-anim="spin"] { --ei: ei-spin; }
-  .erix-icon[data-anim="nudge-r"] { --ei: ei-nudge-r; }
-  .erix-icon[data-anim="nudge-l"] { --ei: ei-nudge-l; }
-  .erix-icon[data-anim="nudge-u"] { --ei: ei-nudge-u; }
-  .erix-icon[data-anim="nudge-d"] { --ei: ei-nudge-d; }
-  .erix-icon[data-anim="wiggle"] { --ei: ei-wiggle; }
-  .erix-icon[data-anim="beat"] { --ei: ei-beat; }
-  .erix-icon[data-anim="twinkle"] { --ei: ei-twinkle; }
-  .erix-icon[data-anim="tilt"] { --ei: ei-tilt; }
-  .erix-icon[data-anim="shake"] { --ei: ei-shake; }
-  .erix-icon[data-anim="blink"] { --ei: ei-blink; }
-  .erix-icon[data-anim="rise"] { --ei: ei-rise; }
-  /* draw: the strokes redraw, the svg itself stays put */
-  .erix-icon[data-anim="draw"] { --ei: none; }
-  :is(a, button, summary, label, [role="menuitem"], [role="tab"], [role="option"], [role="radio"], [role="switch"], .erix-anim-host):is(:hover, :focus-visible) .erix-icon[data-anim-on="hover"][data-anim="draw"] > :not(.erix-icon__duo),
-  .erix-icon[data-anim-on="loop"][data-anim="draw"] > :not(.erix-icon__duo),
-  .erix-icon[data-anim-on="once"][data-anim="draw"] > :not(.erix-icon__duo) {
-    animation: ei-draw var(--icon-dur) var(--ease-in-out) both;
-  }
-  .erix-icon[data-anim-on="loop"][data-anim="draw"] > :not(.erix-icon__duo) { animation-iteration-count: infinite; animation-duration: 2.4s; }
-  .erix-icon[data-anim-on="loop"][data-anim="spin"] { animation: ei-spin-loop 1.4s linear infinite; }
-}
-
-/* ── Clickable cards: lift 2px with a soft spring, press back down ─────── */
-.erix-card-link {
-  transition:
-    box-shadow 260ms var(--ease-out),
-    translate 360ms var(--ease-soft-spring),
-    scale 360ms var(--ease-soft-spring),
-    background-color var(--dur-fast) ease-out;
-}
-@media (hover: hover) {
-  .erix-card-link:hover {
-    translate: 0 -2px;
-    box-shadow: var(--shadow-md);
-  }
-}
-.erix-card-link:active {
-  translate: 0 0;
-  scale: 0.995;
-  transition-duration: 90ms;
-}
-
-/* ── Focus ring settles in (keyboard only) ─────────────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  :is(.btn-primary, .btn-ghost, .erix-card-link, .erix-seg__item, .erix-mk-link):focus-visible {
-    animation: erix-focus 360ms var(--ease-soft-spring);
-  }
-}
-@keyframes erix-focus {
-  from {
-    outline-offset: 6px;
-    outline-color: transparent;
-  }
-}
-
-/* ── Spotlight: a soft glow and a lit edge follow the mouse over a card ── */
-.erix-spot {
-  position: relative;
-  isolation: isolate;
-  --spot: var(--accent);
-}
-.erix-spot--ai {
-  --spot: var(--ai);
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .erix-spot::before,
-  .erix-spot::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 300ms var(--ease-out);
-  }
-  .erix-spot::before {
-    z-index: -1;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0), color-mix(in srgb, var(--spot) 9%, transparent), transparent 60%);
-  }
-  .erix-spot::after {
-    z-index: 2;
-    padding: 1px;
-    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0), color-mix(in srgb, var(--spot) 70%, transparent), transparent 70%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box exclude,
-      linear-gradient(#000 0 0);
-  }
-  .erix-spot:hover::before,
-  .erix-spot:hover::after {
-    opacity: 1;
-  }
-}
-
-/* ── Marquee: an endless, edge-faded row. Pauses on hover. Under reduced
- *    motion it is one static, wrapping row. ─────────────────────────────── */
-.erix-marquee {
-  overflow: hidden;
-  min-width: 0;
-  flex: 1;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-.erix-marquee__track {
-  display: flex;
-  width: max-content;
-  gap: var(--mq-gap);
-}
-.erix-marquee__set {
-  display: flex;
-  flex: none;
-  gap: var(--mq-gap);
-}
-.erix-marquee__set > ul {
-  flex-wrap: nowrap !important;
-  gap: var(--mq-gap) !important;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .erix-marquee__track {
-    animation: erix-marquee var(--mq-dur) linear infinite;
-  }
-  .erix-marquee:hover .erix-marquee__track,
-  .erix-marquee:focus-within .erix-marquee__track {
-    animation-play-state: paused;
-  }
-}
-@keyframes erix-marquee {
-  to {
-    transform: translateX(calc(-50% - var(--mq-gap) / 2));
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .erix-marquee__set[aria-hidden],
-  .erix-marquee__dup {
-    display: none !important;
-  }
-  .erix-marquee {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .erix-marquee__set > ul {
-    flex-wrap: wrap !important;
-  }
-}
-
-/* "Works with" row */
-.erix-mk-trust {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 22px 0;
-}
-.erix-mk-trust__label {
-  flex: none;
-  font: 600 13px / 18px var(--font-sans);
-  color: var(--ink-subtle);
-}
-.erix-mk-trust ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 28px;
-}
-.erix-mk-trust li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font: 600 15px / 20px var(--font-sans);
-  color: var(--ink-muted);
-  white-space: nowrap;
-}
-@media (max-width: 640px) {
-  .erix-mk-trust {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-}
-
-/* ── Reveal (marketing only): rises in once when scrolled into view.
- *    MotionRoot adds .is-wait only to sections below the fold. ──────────── */
-@media (prefers-reduced-motion: no-preference) {
-  .erix-reveal.is-wait {
-    opacity: 0;
-    translate: 0 18px;
-  }
-  .erix-reveal.is-in {
-    animation: erix-rise 700ms var(--ease-out) both;
-  }
-}
-
-@media print {
-  .erix-reveal.is-wait {
-    opacity: 1;
-    translate: none;
-  }
-}
-
-/* ── LiveDot: a status dot with a soft pulse for live states ───────────── */
-.erix-livedot {
-  position: relative;
-  display: inline-block;
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: var(--ld);
-  --ld: var(--success);
-}
-.erix-livedot--accent {
-  --ld: var(--accent);
-}
-.erix-livedot--ai {
-  --ld: var(--ai);
-}
-.erix-livedot--warning {
-  --ld: var(--warning);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .erix-livedot::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: var(--ld);
-    animation: erix-livedot 2s var(--ease-out) infinite;
-  }
-}
-@keyframes erix-livedot {
-  0% {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  70%,
-  100% {
-    transform: scale(2.8);
-    opacity: 0;
-  }
-}
-
-/* ── IntegrationBeam: channels flow into ERIX and out to outcomes ──────── */
-.erix-beam {
-  /* One clock for the whole beam: wave out of the channels, onto ERIX, out to the outcomes. */
-  --beam-dur: 3.6s;
-  --beam-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: clamp(48px, 9vw, 140px);
-  padding: 12px 0;
-}
-.erix-beam__wires {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-  pointer-events: none;
-}
-.erix-beam__wire {
-  fill: none;
-  stroke: var(--border);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-}
-.erix-beam__pulse {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.25;
-  stroke-linecap: round;
-  /* One dash, 22% of the wire, parked before the start. */
-  stroke-dasharray: 0.22 1;
-  stroke-dashoffset: 0.22;
-  opacity: 0;
-}
-.erix-beam__pulse--glow {
-  stroke-width: 9;
-  stroke-opacity: 0.16;
-}
-@media (prefers-reduced-motion: no-preference) {
-  /* The wires flow slowly all the time, in the direction of the wave. */
-  .erix-beam.is-live .erix-beam__wire {
-    stroke-dasharray: 3 6;
-    animation: erix-beam-flow 1.4s linear infinite;
-  }
-  .erix-beam.is-live .erix-beam__pulse {
-    animation: erix-beam-in var(--beam-dur) var(--beam-ease) infinite;
-    animation-delay: calc(var(--r, 0) * 70ms);
-  }
-  .erix-beam.is-live .erix-beam__pulse.is-out {
-    animation-name: erix-beam-out;
-  }
-  /* Channels give off the wave, outcomes light up when it lands. */
-  .erix-beam.is-live .erix-beam__col .erix-beam__node {
-    animation: erix-beam-emit var(--beam-dur) var(--ease-out) infinite;
-    animation-delay: calc(var(--r, 0) * 70ms);
-  }
-  .erix-beam.is-live .erix-beam__col--out .erix-beam__node {
-    animation-name: erix-beam-land;
-  }
-  /* ERIX takes the hit: the tile nudges and a halo rings out. */
-  .erix-beam.is-live .erix-beam__center > * {
-    animation: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
-  }
-  .erix-beam.is-live .erix-beam__center::after {
-    content: "";
-    position: absolute;
-    inset: -8px;
-    border-radius: 34px;
-    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
-    opacity: 0;
-    animation: erix-beam-halo var(--beam-dur) var(--ease-out) infinite;
-  }
-}
-@keyframes erix-beam-flow {
-  to { stroke-dashoffset: -9; }
-}
-@keyframes erix-beam-in {
-  0% { stroke-dashoffset: 0.22; opacity: 0; }
-  4% { opacity: 1; }
-  40% { opacity: 1; }
-  44% { stroke-dashoffset: -1; opacity: 0; }
-  100% { stroke-dashoffset: -1; opacity: 0; }
-}
-@keyframes erix-beam-out {
-  0%, 46% { stroke-dashoffset: 0.22; opacity: 0; }
-  50% { opacity: 1; }
-  86% { opacity: 1; }
-  90% { stroke-dashoffset: -1; opacity: 0; }
-  100% { stroke-dashoffset: -1; opacity: 0; }
-}
-@keyframes erix-beam-emit {
-  0% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
-  18%, 100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
-}
-@keyframes erix-beam-land {
-  0%, 82% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
-  88% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
-  100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
-}
-@keyframes erix-beam-thump {
-  0%, 38% { transform: scale(1); }
-  45% { transform: scale(1.06); }
-  60%, 100% { transform: scale(1); }
-}
-@keyframes erix-beam-halo {
-  0%, 40% { transform: scale(0.94); opacity: 0; }
-  45% { transform: scale(0.98); opacity: 1; }
-  80%, 100% { transform: scale(1.24); opacity: 0; }
-}
-.erix-beam__col {
-  position: relative;
-  z-index: 1;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.erix-beam__col li {
-  align-self: flex-end;
-}
-.erix-beam__col--out li {
-  align-self: flex-start;
-}
-.erix-beam__node {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px 8px 8px;
-  border-radius: 9999px;
-  background: var(--surface-raised);
-  box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm);
-  font: 600 14px / 20px var(--font-sans);
-  color: var(--ink);
-  white-space: nowrap;
-}
-.erix-beam__icon {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 9999px;
-  background: var(--accent-muted);
-  color: var(--accent);
-}
-.erix-beam__icon--brand {
-  background: #ffffff;
-  box-shadow: 0 0 0 1px rgba(11, 27, 100, 0.08);
-}
-.erix-beam__center {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 104px;
-  height: 104px;
-  border-radius: 28px;
-  background: var(--mk-navy);
-  box-shadow:
-    0 0 0 8px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 18px 40px -12px color-mix(in srgb, var(--accent) 55%, transparent);
-}
-@media (max-width: 760px) {
-  /* Phones: channels on top, ERIX in the middle, outcomes below, labels kept. */
-  .erix-beam {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 44px;
-  }
-  .erix-beam__col,
-  .erix-beam__col--out {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .erix-beam__col li,
-  .erix-beam__col--out li {
-    align-self: auto;
-  }
-  .erix-beam__node {
-    gap: 8px;
-    padding: 5px 12px 5px 5px;
-    font-size: 13px;
-  }
-  .erix-beam__icon {
-    width: 28px;
-    height: 28px;
-  }
-  .erix-beam__center {
-    width: 76px;
-    height: 76px;
-    border-radius: 22px;
-  }
-}
-
-/* ── Off switch for everything in Motion 2 ─────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .erix-icon[data-anim],
-  .erix-icon[data-anim] > *,
-  .erix-reveal,
-  .erix-marquee__track,
-  .erix-beam__pulse,
-  .erix-beam__center::after,
-  .erix-livedot::after {
-    animation: none !important;
-  }
-  .erix-reveal.is-wait {
-    opacity: 1;
-    translate: none;
-  }
-}
-
-/* ── Reduced motion ────────────────────────────────────────────────────── */
+/* ── Reduced motion: everything stops on its finished frame ────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2013,23 +603,75 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .erix-mk-vert__panel:not([hidden]) {
-    animation: none;
-  }
   /* Scenes stay on their finished frame, so there is nothing to pause. */
   .scene-toggle {
     display: none !important;
   }
 }
 
-/* ── Blog Content — minimal fallback (classes injected by BlogContent component) ── */
-.blog-content {
-  font-size: 1.0625rem;
-  line-height: 1.8;
-  color: var(--text-muted);
+/* ══════════════════════════════════════════════════════════════════════════
+ * Progressive enhancement: Radix menus, tabs and accordions need scripts.
+ * Without them, the header shows plain links, tabs stack their panels and
+ * every accordion answer is open. With them, closed and inactive content
+ * (always mounted, so it's in the HTML) is hidden here.
+ * ══════════════════════════════════════════════════════════════════════════ */
+@media (scripting: none) {
+  .js-only,
+  [data-slot="tabs-list"] {
+    display: none !important;
+  }
 }
-.blog-content > *:first-child { margin-top: 0; }
-.blog-content > *:last-child { margin-bottom: 0; }
+@media (scripting: none) and (min-width: 1024px) {
+  .nojs-lg {
+    display: flex !important;
+  }
+}
+@media (scripting: none) and (max-width: 1023.98px) {
+  .nojs-sm {
+    display: flex !important;
+  }
+}
+@media (scripting: enabled) {
+  [data-slot="accordion-content"][data-state="closed"],
+  [data-slot="tabs-content"][data-state="inactive"] {
+    display: none;
+  }
+}
+@media (scripting: none) {
+  [data-slot="tabs-content"] + [data-slot="tabs-content"] {
+    margin-top: 56px;
+  }
+}
+
+/* Header menu: panels hang from the header, not from Radix's list wrapper. */
+[data-slot="navigation-menu"] > div {
+  position: static !important;
+}
+
+/* ── Lenis (components/motion/smooth-scroll.tsx) ─────────────────────────
+ * Lenis smooths wheel and trackpad scrolling once a mouse or trackpad is
+ * used. Until it has loaded (it adds .lenis to <html>), and on touch screens,
+ * in-page anchors glide natively; it never runs under reduced motion, where
+ * scrolling is instant. Anchors land on the target's scroll-margin
+ * (scroll-mt-20), below the fixed header. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
 
 /* Cookie banner: server-rendered; before hydration it shows only when the
    consent boot script marked <html data-consent="ask">. */

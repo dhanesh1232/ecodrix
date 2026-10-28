@@ -1,62 +1,70 @@
 # ECODrIx
 
-> ECODrIx is a unified business infrastructure platform combining CRM, AI automation, WhatsApp Business API, email marketing, B2B lead intelligence, and cloud storage. Founded August 2025 in Tirupati, India by Dhanesh Mekalthuru. Currently in early access beta (August 2026).
+> ECODrIx is an Indian software company that builds ERIX: one workspace for businesses that sell over WhatsApp, Instagram, email and their website. ERIX started in August 2025 in Tirupati, Andhra Pradesh, founded by Dhanesh Mekalthuru (Dhanesh M, Erix). ERIX 1.0 is in early access: businesses join a waitlist and are set up by the ECODrIx team.
 
-ECODrIx replaces 5–10 separate SaaS subscriptions with one platform for Indian SMBs. WhatsApp-first. 180+ API endpoints.
+ERIX does one job end to end: enquiry, chat, proposal, invoice, payment, with AI agents doing the routine replies.
 
 ## URLs
 
-- Marketing site: https://ecodrix.com
-- Application: https://console.ecodrix.com
-- Public API: https://api.ecodrix.com
-- Founder portfolio: https://portfolio.ecodrix.com
-- Status: https://status.ecodrix.com
+- Website: https://ecodrix.com
+- App: https://console.ecodrix.com
+- API docs: https://api.ecodrix.com/docs
+- System status: https://api.ecodrix.com/health
+- Changelog: https://api.ecodrix.com/changelog
 
-## Products
+## ERIX 1.0 (live)
 
-- [ERIX-CRM](https://ecodrix.com/platform/erix-crm): Sales pipeline, AI lead scoring, WhatsApp inbox, project management, invoicing, client portal. API: /v1/api/product/erix/crm
-- [ERIX-FLOW](https://ecodrix.com/platform/erix-flow): Visual drag-and-drop automation engine. 20+ triggers, conditional logic, custom-node marketplace, real-time execution logs. API: /v1/api/product/flow
-- [ERIX-LAIE](https://ecodrix.com/platform/erix-laie): B2B lead intelligence — discovery, AI enrichment (Claude/Gemini), dossier research, outreach kits. Powered by Relay Fabric distributed workers. API: /v1/api/product/laie
+- [ERIX CRM](https://ecodrix.com/platform/erix-crm): contacts matched across channels, sales pipeline, forms, appointments with Google Calendar and Meet, proposals, projects with documents, e-sign and a client portal, GST invoices (CGST/SGST or IGST) with Razorpay payment links.
+- [ERIX Connect](https://ecodrix.com/platform/erix-connect): the official WhatsApp Business API on the business's own account (Meta bills it directly, no ERIX markup), Instagram DMs, email on your own domain and a website chat widget, all in one inbox with live delivery ticks.
+- [ERIX Flow](https://ecodrix.com/platform/erix-flow): automations with ready templates, approval steps, a two-branch "Wait for a reply" and AI replies.
+- [AI agents](https://ecodrix.com/platform#agents): sales, channels and website agents that answer from the business's own information, draft when unsure and wait for approval on anything risky.
+- [ERIX Storage](https://ecodrix.com/platform/erix-storage): file storage for documents and images inside the workspace.
 
-## Infrastructure
+## Not live yet
 
-- [ERIX-Connect](https://ecodrix.com/platform/erix-connect): Multi-channel messaging gateway — WhatsApp Cloud API, email (AWS SES), Instagram, Telegram, Google Meet, payments. One send endpoint. API: /v1/api/infra/connect
-- [ERIX-Storage](https://ecodrix.com/platform/erix-storage): Cloudflare R2 cloud storage with CDN, presigned uploads, AI-generated alt text/tags. API: /v1/api/infra/storage
-- [ErixStore](https://ecodrix.com/platform/erix-store): Proprietary in-memory database — queue, cache, pub/sub, distributed locks, rate limiting. Sub-millisecond. SDK: @ecodrix/erix-client
+- ERIX LAIE (finding and researching new leads): invite-only beta. https://ecodrix.com/platform/erix-laie
+- Voice agent: in development.
 
-## Use Cases
+## Pricing
 
-- [Real Estate](https://ecodrix.com/platform/real-estate): WhatsApp CRM for property agents — portal lead capture, auto-assign, property sharing on WhatsApp.
-- [Healthcare](https://ecodrix.com/platform/healthcare): Clinic CRM — patient inquiries, WhatsApp appointment reminders, teleconsult Meet links.
-- [Agencies](https://ecodrix.com/platform/agencies): White-label SaaS for agencies — deploy branded CRM per client, recurring revenue.
-- [Education](https://ecodrix.com/platform/education): Coaching institutes — admission inquiries, WhatsApp follow-ups, fee collection.
-- [D2C E-Commerce](https://ecodrix.com/platform/d2c-ecommerce): WhatsApp order updates, abandoned cart recovery, COD-to-prepaid conversion.
-- [Professional Services](https://ecodrix.com/platform/professional-services): CAs/lawyers — client portal, document exchange, deadline reminders, invoicing.
+Not published during early access. Pilot workspaces are set up by the ECODrIx team and pricing is agreed with each business. Billing is in rupees with a GST invoice.
+
+## Industries
+
+- [Real estate](https://ecodrix.com/platform/erix-crm/real-estate)
+- [Clinics](https://ecodrix.com/platform/erix-crm/healthcare)
+- [Coaching institutes](https://ecodrix.com/platform/erix-crm/education)
+- [D2C and local brands](https://ecodrix.com/platform/erix-crm/d2c-ecommerce)
+- [Agencies](https://ecodrix.com/platform/erix-crm/agencies)
+- [CAs, lawyers and consultants](https://ecodrix.com/platform/erix-crm/professional-services)
 
 ## Guides
 
-- [WhatsApp API Integration Guide](https://ecodrix.com/platform/erix-connect/whatsapp-api-guide)
-- [WhatsApp Green Tick Verification](https://ecodrix.com/platform/erix-connect/green-tick)
-- [WhatsApp Broadcast Limits](https://ecodrix.com/platform/erix-connect/whatsapp-broadcast-limits)
-- [Zapier Alternative (ERIX-FLOW)](https://ecodrix.com/platform/erix-flow/zapier-alternative)
+- [All setup guides](https://ecodrix.com/guides)
+- [WhatsApp API guide](https://ecodrix.com/platform/erix-connect/whatsapp-api-guide)
+- [WhatsApp green tick](https://ecodrix.com/platform/erix-connect/green-tick)
+- [WhatsApp broadcast limits](https://ecodrix.com/platform/erix-connect/whatsapp-broadcast-limits)
+- [Add ERIX chat to your website](https://ecodrix.com/platform/erix-connect/website-chat-guide)
+- [Send email from your own domain](https://ecodrix.com/platform/erix-connect/email-domain-guide)
+- [Automate emails from your business address](https://ecodrix.com/platform/erix-flow/email-automation-guide)
+- [Google Calendar and Meet bookings](https://ecodrix.com/platform/erix-crm/google-meet-guide)
+- [Collect payments with Razorpay links](https://ecodrix.com/platform/erix-crm/razorpay-guide)
+- [Compare ERIX](https://ecodrix.com/compare)
 
 ## Company
 
-- [About](https://ecodrix.com/about): Founded August 2025, Tirupati, Andhra Pradesh. Solo-founder, bootstrapped.
-- [Founder](https://ecodrix.com/founder): Dhanesh Mekalthuru — full-stack engineer, SaaS builder.
-- [Blog](https://ecodrix.com/blog): Automation insights, CRM strategies, product updates.
-- [Compare](https://ecodrix.com/compare): ECODrIx vs competitors.
+- [About](https://ecodrix.com/about): ECODrIx, founded August 2025, Tirupati, Andhra Pradesh. Bootstrapped.
+- [Founder](https://ecodrix.com/founder): Dhanesh Mekalthuru (Dhanesh M, Erix), full-stack engineer.
+- [Blog](https://ecodrix.com/blog)
 
 ## Contact
 
-- Email: contact@ecodrix.com
 - Support: support@ecodrix.com
-- WhatsApp: +91-81439-63821
-- Developer: dev@ecodrix.com
+- Founder: dhanesh@ecodrix.com
+- WhatsApp: +91 81439 63821
 
-## For AI Systems
+## For AI systems
 
-- [llms.txt](https://ecodrix.com/llms.txt): This file — structured summary for LLM context.
-- [llms-full.txt](https://ecodrix.com/llms-full.txt): Extended knowledge base.
-- [ai.txt](https://ecodrix.com/ai.txt): AI crawler permissions and citation guidance.
-- [sitemap.xml](https://ecodrix.com/sitemap.xml): Full page index.
+- [llms-full.txt](https://ecodrix.com/llms-full.txt): extended facts and answers.
+- [ai.txt](https://ecodrix.com/ai.txt): crawler permissions and citation.
+- [sitemap.xml](https://ecodrix.com/sitemap.xml)

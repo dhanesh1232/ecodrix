@@ -1,10 +1,9 @@
 declare global {
-   interface BlogPost {
+  /** A live post in lists (`GET /public/blogs`): everything but the body. */
+  interface BlogSummary {
     id: string;
-    _id: string;
     title: string | null;
     slug: string | null;
-    body: string | null;
     category: string | null;
     featuredImage: { url?: string | null; altText?: string | null } | null;
     author: {
@@ -12,28 +11,26 @@ declare global {
       name?: string | null;
       avatar?: string | null;
     } | null;
-    isPublished: boolean;
     publishDate: string | null;
+    /** Pinned in admin: the lead post on /blog. */
     featured: boolean;
-    metaTitle: string | null;
     metaDescription: string | null;
-    canonicalUrl: string | null;
-    metaKeywords: string[];
-    status: string;
     tags: string[];
     readTime: number | null;
     wordCount: number | null;
-    views: number;
-    likes: number;
     createdAt: string | null;
     updatedAt: string | null;
   }
-  
-  interface BlogListResponse {
-    success: boolean;
-    data: BlogPost[];
-    count: number;
+
+  /** One live post (`GET /public/blogs/:slug`), with its body. */
+  interface BlogPost extends BlogSummary {
+    body: string | null;
+    metaTitle: string | null;
+    canonicalUrl: string | null;
+    metaKeywords: string[];
+    views: number;
+    likes: number;
   }
 }
 
-export {}
+export {};
