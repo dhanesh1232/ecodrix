@@ -1,13 +1,4 @@
-import {
-  Tag,
-  IndianRupee,
-  CreditCard,
-  Calendar,
-  Zap,
-  MessageSquare,
-  ArrowUpDown,
-  RefreshCw,
-} from "@/components/icons";
+import { ArrowUpDown, Calendar, CreditCard, IndianRupee, MessageSquare, RefreshCw, Tag, Zap } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const pricingPolicyDoc: LegalDoc = {
@@ -17,7 +8,7 @@ export const pricingPolicyDoc: LegalDoc = {
   description:
     "How ECODrIx charges: prices in writing for pilots, INR plus 18% GST, monthly or yearly through Razorpay, trial, credits, plan changes and WhatsApp charges.",
   intro: `This Pricing Policy explains the rules behind what ${LEGAL.brand} charges, so there are no surprises.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "plans",
@@ -49,6 +40,7 @@ export const pricingPolicyDoc: LegalDoc = {
             "Plans renew automatically until you cancel (see our Refund & Cancellation Policy).",
           ],
         },
+        "Razorpay processes every payment. For a problem with the payment itself, write to us first; you can also reach Razorpay at https://razorpay.com/support/.",
       ],
     },
     {

@@ -1,13 +1,4 @@
-import {
-  ShieldAlert,
-  Ban,
-  MessageSquareWarning,
-  Bug,
-  Scale,
-  UserX,
-  Gauge,
-  AlertOctagon,
-} from "@/components/icons";
+import { AlertOctagon, Ban, Bug, Gauge, MessageSquareWarning, Scale, ShieldAlert, UserX } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const acceptableUseDoc: LegalDoc = {
@@ -17,7 +8,7 @@ export const acceptableUseDoc: LegalDoc = {
   description:
     "The rules for using ECODrIx: content and conduct that is not allowed, anti-spam rules for WhatsApp, email and other channels, and what we do about abuse.",
   intro: `This Acceptable Use Policy ("AUP") sets out what you may and may not do when using ${LEGAL.brand}. It applies to every user and is part of our Terms of Service. Breaking it can lead to suspension or termination.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "responsibility",
@@ -39,6 +30,10 @@ export const acceptableUseDoc: LegalDoc = {
             "Hateful, harassing, or that incites violence or discrimination.",
             "Fraudulent, deceptive, or promoting scams, pyramid/Ponzi schemes, or illegal goods.",
             "Infringing on intellectual property, privacy, or publicity rights.",
+            "Owned by someone else, where you have no right to use or share it.",
+            "Impersonating another person or business, or misleading about who a message is from.",
+            "Threatening the unity, integrity, defence, security or sovereignty of India, friendly relations with foreign States, or public order.",
+            "Promoting online games that are not permitted under Indian law.",
             "Malware, phishing, or otherwise harmful code or links.",
           ],
         },
@@ -109,6 +104,7 @@ export const acceptableUseDoc: LegalDoc = {
       icon: AlertOctagon,
       body: [
         `Report abuse to ${LEGAL.emails.abuse}. We may investigate suspected violations and, at our discretion, remove content, throttle, suspend, or terminate accounts, and cooperate with law enforcement. Serious violations may result in immediate termination without refund.`,
+        "If what you store or send breaks the law, you may also face penalties under the Information Technology Act, 2000 and other Indian law, and where the law requires an offence to be reported, we report it to the authorities.",
       ],
     },
   ],

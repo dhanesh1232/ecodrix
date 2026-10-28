@@ -1,14 +1,14 @@
 import {
-  MessageCircle,
-  CheckCircle2,
-  UserCheck,
+  AlertTriangle,
   Ban,
   BellOff,
+  Bot,
+  CheckCircle2,
   Clock,
   FileText,
-  Bot,
+  MessageCircle,
   ShieldAlert,
-  AlertTriangle,
+  UserCheck,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
@@ -19,7 +19,7 @@ export const whatsappPolicyDoc: LegalDoc = {
   description:
     "Rules for WhatsApp through ERIX Connect: your own WhatsApp Business Account, opt-in, STOP and START, the 24-hour window, templates and AI agents.",
   intro: `${LEGAL.brand} connects your business to WhatsApp through Meta's official WhatsApp Business Cloud API, in ERIX Connect. When you message people on WhatsApp through ERIX, follow this policy, the WhatsApp Business Messaging Policy, Meta's Commerce and Business policies and the law. This protects your number, the people you message and the platform.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "official",
@@ -35,6 +35,7 @@ export const whatsappPolicyDoc: LegalDoc = {
       icon: MessageCircle,
       body: [
         "Each workspace connects its own WhatsApp Business Account, through Meta's embedded signup or with its own access token. Meta reviews the account and number, sets quality ratings and messaging limits, and bills that account directly for conversation charges. We do not resell or mark up Meta's charges.",
+        "Keep your WhatsApp Business profile accurate and up to date, with a way for customers to reach your support (an email address, website or phone number), as Meta requires. Do not pretend to be another business.",
       ],
     },
     {
@@ -60,7 +61,7 @@ export const whatsappPolicyDoc: LegalDoc = {
       icon: BellOff,
       body: [
         "When a contact sends only STOP (or UNSUBSCRIBE, STOP ALL, or the same word in a supported Indian language), ERIX opts them out of marketing on every channel at once and sends them one confirmation. ERIX then skips marketing messages to them; service messages, such as replies, reminders and invoices, still go. When they send START or SUBSCRIBE, they are opted back in.",
-        "If someone asks you to stop in other words, stop messaging them yourself.",
+        "Meta requires you to respect every request to stop, whether it comes on WhatsApp or anywhere else. If someone asks you to stop in other words, or by phone, email or in person, stop messaging them yourself and remove them from your lists.",
       ],
     },
     {
@@ -101,6 +102,8 @@ export const whatsappPolicyDoc: LegalDoc = {
             "The agent hands a conversation to your team, stops replying there for 24 hours and marks it “Needs you” in the inbox when the customer asks for a person or it cannot help, when the message is about a topic you set to “Always send to a person”, or after 10 automatic replies in an hour.",
           ],
         },
+        "Meta allows automated replies only with a prompt, clear way to reach a person. The handoff above gives customers that inside the chat; make sure someone on your team answers conversations marked “Needs you”.",
+        "Neither we nor our AI providers use your WhatsApp messages to train AI models.",
       ],
     },
     {
@@ -114,6 +117,9 @@ export const whatsappPolicyDoc: LegalDoc = {
             "Anything Meta's Commerce Policy prohibits, such as illegal or restricted goods.",
             "Deceptive, fraudulent or misleading messages, or a false sender identity.",
             "Harassment, hate speech, or content that puts others in danger.",
+            "Asking people to send, or sending, full card numbers, bank account numbers, identity document numbers or other sensitive identifiers.",
+            "Sending or asking for health information, or offering telemedicine, where the law requires safeguards that WhatsApp does not provide. Clinics should check this before sharing reports or test results on WhatsApp.",
+            "Forwarding or sharing anything from one customer's chat with another customer.",
           ],
         },
       ],

@@ -1,17 +1,17 @@
 import {
+  AlertTriangle,
+  Ban,
+  Bot,
+  CreditCard,
+  Database,
   FileText,
+  Gavel,
+  Plug,
+  RefreshCw,
+  Scale,
   Shield,
   User,
-  CreditCard,
-  Ban,
-  Database,
-  Bot,
-  Plug,
-  AlertTriangle,
-  Scale,
   XCircle,
-  Gavel,
-  RefreshCw,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
@@ -22,14 +22,14 @@ export const termsDoc: LegalDoc = {
   description:
     "The agreement for using ECODrIx: accounts, trial and plans, payment, your data, AI agents, liability, ending the service, and Indian law and courts.",
   intro: `These Terms of Service ("Terms") are an agreement between you (and the business you sign up for) and ${LEGAL.entity} ("${LEGAL.brand}", "we", "us"). They cover ecodrix.com, the ERIX console and our products, ERIX and LAIE (together, the "Service").`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "acceptance",
       title: "Accepting These Terms",
       icon: FileText,
       body: [
-        "You accept these Terms when you create an account. They include our Privacy Policy, Acceptable Use Policy, WhatsApp Messaging Policy, Refund & Cancellation Policy, Pricing Policy and Data Processing Agreement. If you sign up for a business, you confirm you are allowed to bind it.",
+        "You accept these Terms when you create an account. Before you create it, the sign-up page links to these Terms and our Privacy Policy and tells you that creating an account means you agree to them. These Terms include our Privacy Policy, Acceptable Use Policy, WhatsApp Messaging Policy, Refund & Cancellation Policy, Pricing Policy and Data Processing Agreement. If you sign up for a business, you confirm you are allowed to bind it.",
         "If you do not agree, do not use the Service.",
       ],
     },
@@ -140,7 +140,8 @@ export const termsDoc: LegalDoc = {
       icon: Scale,
       body: [
         "To the extent the law allows, we are not liable for indirect, incidental, special, consequential or punitive losses, or for loss of profit, data, goodwill or business.",
-        "Our total liability for anything arising from the Service is limited to the fees you paid us in the 12 months before the event that led to the claim.",
+        "Our total liability for all claims arising from the Service or these Terms is limited to the fees you paid us in the 12 months before the claim.",
+        "Nothing in these Terms limits or excludes liability for fraud or wilful misconduct, or any liability that Indian law does not allow to be limited or excluded.",
       ],
     },
     {
@@ -148,7 +149,8 @@ export const termsDoc: LegalDoc = {
       title: "Indemnity",
       icon: Shield,
       body: [
-        "You will compensate us for claims, losses and costs (including reasonable legal fees) arising from your Customer Data, your use of the Service, your breach of these Terms or the law, or your infringement of anyone else's rights.",
+        "You will compensate us for claims, losses and costs (including reasonable legal fees) arising from your Customer Data and other content, the messages your workspace sends through the Service (including replies an AI agent sends for you), your use of the Service, your breach of these Terms or the law, or your infringement of anyone else's rights.",
+        "We will compensate you only for claims, losses and costs arising from our own breach of these Terms or of the law, within the limits in “Limitation of Liability”. We give no other indemnity.",
       ],
     },
     {

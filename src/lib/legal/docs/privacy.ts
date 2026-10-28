@@ -1,17 +1,17 @@
 import {
-  Info,
-  Eye,
-  Bot,
-  Share2,
-  Lock,
-  Globe,
-  Clock,
-  UserCheck,
-  ShieldCheck,
-  Building2,
   Baby,
-  RefreshCw,
+  Bot,
+  Building2,
+  Clock,
+  Eye,
+  Globe,
+  Info,
+  Lock,
   Mail,
+  RefreshCw,
+  Share2,
+  ShieldCheck,
+  UserCheck,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
@@ -22,7 +22,7 @@ export const privacyDoc: LegalDoc = {
   description:
     "What personal data ECODrIx collects for ERIX and LAIE, why, where it is stored, how long we keep it, and how to use your rights under India's DPDP Act.",
   intro: `This Privacy Policy explains how ${LEGAL.entity} ("${LEGAL.brand}", "we", "us") handles personal data on ecodrix.com, in the ERIX console (${LEGAL.appUrl}) and in our products: ERIX (CRM, Connect messaging, Flow automations and AI agents) and LAIE (invite-only lead discovery). It follows India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology Act, 2000.`,
-  effectiveDate: "28 October 2026",
+  effectiveDate: "29 October 2026",
   sections: [
     {
       id: "roles",
@@ -180,10 +180,7 @@ export const privacyDoc: LegalDoc = {
               ],
               ["Website analytics events", "180 days"],
               ["Server logs", "180 days"],
-              [
-                "Waitlist and newsletter entries",
-                "Until you ask us to remove them, or you unsubscribe",
-              ],
+              ["Waitlist and newsletter entries", "Until you ask us to remove them, or you unsubscribe"],
               ["Invoices and payment records", "As long as tax law requires"],
             ],
           },
@@ -199,6 +196,10 @@ export const privacyDoc: LegalDoc = {
           table: {
             headers: ["Right", "How to use it"],
             rows: [
+              [
+                "Get a summary of your data",
+                `Email ${LEGAL.emails.privacy} for a summary of the personal data we hold about you, what we do with it, and who we have shared it with. Our Sub-processors page lists the companies that process it for us.`,
+              ],
               [
                 "See and correct your account data",
                 `In the console, open Settings → Account → Profile. Or email ${LEGAL.emails.privacy}.`,
@@ -221,11 +222,12 @@ export const privacyDoc: LegalDoc = {
               ],
               [
                 "Complain",
-                "Write to our Grievance Officer (see “Contact & Grievance Officer” below). If you are not satisfied with the answer, you can complain to the Data Protection Board of India.",
+                "Write to our Grievance Officer first (see “Contact & Grievance Officer” below); the DPDP Act asks you to do this before going to the Board. If you are not satisfied with the answer, you can complain to the Data Protection Board of India.",
               ],
             ],
           },
         },
+        "When you write to us, send it from the email address on your account, or tell us that address and your workspace name, so we can find your data and confirm the request is yours.",
         {
           note: "If your data sits in a business's ERIX workspace because you are that business's customer, the business handles your request. If you write to us, we forward it to them.",
         },
@@ -244,7 +246,7 @@ export const privacyDoc: LegalDoc = {
       title: "Google API Services & Limited Use",
       icon: Lock,
       body: [
-        "When a workspace connects Google Calendar, ECODrIx creates and manages calendar events (with Google Meet links) for the appointments booked through ERIX, and reads free/busy times to avoid double bookings. When a workspace connects Google Sheets, ECODrIx reads and adds rows in the spreadsheets its automations name. When you sign in with Google, we receive your name, email address and profile picture. We ask only for the access these features need.",
+        "When a workspace connects Google Calendar, ECODrIx creates and updates calendar events (with Google Meet links) for the appointments booked through ERIX, and deletes an appointment's event when that appointment is cancelled. On the Google page in the ERIX console, the workspace can see the connected calendar's events from the last 30 days to the next 6 months, and create or edit events there. For the booking page, ERIX reads only free/busy times, never event titles or details, to avoid double bookings. When a workspace connects Google Sheets, ECODrIx reads and adds rows in the spreadsheets its automations name. When you sign in with Google, we receive your name, email address and profile picture. We ask only for the access these features need.",
         {
           note: "ECODrIx's use and transfer of information received from Google APIs adheres to the Google API Services User Data Policy, including the Limited Use requirements. The use of raw or derived user data received from Google Workspace APIs will adhere to the Google User Data Policy, including the Limited Use requirements.",
         },
@@ -263,7 +265,8 @@ export const privacyDoc: LegalDoc = {
       icon: Lock,
       body: [
         "Data travels encrypted (TLS), our cloud providers encrypt it at rest, and the credentials a workspace uses to connect its channels are encrypted with AES-256-GCM before we store them. Our Security page has the details.",
-        "If a breach affects data we hold for you or your business, we tell you without undue delay and within 48 hours of confirming it. We report incidents to CERT-In within 6 hours of noticing them, as Indian law requires, and notify the Data Protection Board and the people affected as the DPDP Act and its Rules require.",
+        "If a breach affects data we hold for you or your business, we tell you without undue delay and within 48 hours of confirming it. We report incidents to CERT-In within 6 hours of noticing them, as Indian law requires.",
+        "For data we are responsible for ourselves (see “Who Is Responsible for Your Data”), we follow the DPDP Rules: we tell the Data Protection Board without delay and send it a full report within 72 hours, and we tell each person affected without delay, through their account or the email address or phone number they gave us, what happened, how it may affect them, what we are doing about it, what they can do to protect themselves, and whom to contact.",
       ],
     },
     {
