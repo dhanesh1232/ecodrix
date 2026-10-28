@@ -9,6 +9,7 @@ import {
   fmtDay,
   fmtDuration,
   fmtIsoDay,
+  fmtMs,
   fmtPct,
   fmtTime,
   type StatusComponent,
@@ -141,6 +142,19 @@ function ComponentRow({ c }: { c: StatusComponent }) {
       {l && [l.last, l.p50, l.p95].some((v) => v != null) && (
         <p className="mt-2 text-[12.5px] text-subtle tabular-nums">
           Response time: last {ms(l.last)} · p50 {ms(l.p50)} · p95 {ms(l.p95)}
+        </p>
+      )}
+      {!!c.performance?.length && (
+        <p className="mt-1 text-[12.5px] text-subtle tabular-nums">
+          Last 24 hours:{" "}
+          {c.performance.map((p, i) => (
+            <span key={p.label}>
+              {i > 0 && " · "}
+              <span className="whitespace-nowrap">
+                {p.unit === "%" ? fmtPct(p.value) : fmtMs(p.value)} {p.label}
+              </span>
+            </span>
+          ))}
         </p>
       )}
     </li>

@@ -23,6 +23,8 @@ export interface StatusComponent {
   status: ComponentStatus;
   uptimePct: number | null;
   latencyMs: { last: number | null; p50: number | null; p95: number | null } | null;
+  /** Last 24 h, system-wide, e.g. 98.5 % "of AI requests answered". Absent from older APIs. */
+  performance?: { value: number; unit: "%" | "ms"; label: string }[];
   days: StatusDay[];
 }
 
@@ -102,6 +104,8 @@ export const fmtTime = (d: Date) => timeFmt.format(d);
 /** `2026-10-28` → "28 Oct 2026". */
 export const fmtIsoDay = (iso: string) => fmtDay(new Date(`${iso}T12:00:00+05:30`));
 export const fmtPct = (v: number | null) => (v == null ? null : `${Math.round(v * 100) / 100}%`);
+/** 412 → "412 ms", 2843 → "2.8 s". */
+export const fmtMs = (ms: number) => (ms < 1000 ? `${Math.round(ms)} ms` : `${Math.round(ms / 100) / 10} s`);
 
 /** "45 min", "2 h 5 min", "1 d 3 h". */
 export function fmtDuration(min: number) {

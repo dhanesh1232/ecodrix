@@ -43,9 +43,9 @@ const facts: { icon: GlyphName; text: string }[] = [
 ];
 
 /** Developer pages, on this site (the API serves JSON only). */
-const developer = [
+const developer: { label: string; href: string; live?: boolean }[] = [
   { label: "API docs", href: "/docs" },
-  { label: "System status", href: "/status" },
+  { label: "System status", href: "/status",  live: true },
   { label: "Changelog", href: "/changelog" },
 ];
 
@@ -108,7 +108,7 @@ export function Footer() {
             <div className="mt-6 flex flex-wrap gap-2.5">
               <Link href={PRIMARY_CTA.href} className={cn(buttonVariants(), "group min-h-10! px-4! text-[14px]")}>
                 {PRIMARY_CTA.label}
-                <Icon name="arrow-right" size={15} variant="line" />
+                <Icon name="arrow-right" size={15} variant="line" className="group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform" />
               </Link>
               <a
                 href={WHATSAPP_CTA.href}
@@ -123,7 +123,7 @@ export function Footer() {
             </div>
             <Link
               href="/founder"
-              className="group mt-7 flex items-center gap-3 rounded-[12px] p-2 -m-2 transition-colors hover:bg-surface"
+              className="group mt-7 flex items-center gap-3 group rounded-[12px] p-2 -m-2 transition-colors hover:bg-surface"
             >
               <span
                 aria-hidden="true"
@@ -135,7 +135,7 @@ export function Footer() {
                 Built in Andhra Pradesh by <span className="font-semibold text-foreground">Dhanesh M</span>
                 <span className="block text-accent">
                   Why ERIX exists
-                  <Icon name="arrow-right" size={13} variant="line" className="ml-1 inline align-[-2px]" />
+                  <Icon name="arrow-right" size={13} variant="line" className="ml-1 inline align-[-2px] group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform" />
                 </span>
               </span>
             </Link>
@@ -178,7 +178,10 @@ export function Footer() {
               ))}
               {developer.map((d) => (
                 <li key={d.href}>
-                  <Link href={d.href} className={linkCls}>
+                  <Link href={d.href} className={cn(linkCls, d.live && "relative")}>
+                  {d.live && (
+                    <span className="inline-flex size-2 absolute -left-3.5 shrink-0 items-center justify-center rounded-full bg-green-500 animate-pulse"/>
+                  )}
                     {d.label}
                   </Link>
                 </li>

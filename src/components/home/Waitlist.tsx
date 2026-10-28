@@ -34,7 +34,7 @@ const interests = [
   { value: "crm", label: "CRM and pipeline" },
   { value: "whatsapp", label: "WhatsApp inbox and broadcasts" },
   { value: "email", label: "Email campaigns" },
-  { value: "laie", label: "Finding new leads (LAIE)" },
+  // { value: "laie", label: "Finding new leads (LAIE)" },
   { value: "other", label: "Something else" },
 ];
 
@@ -172,7 +172,7 @@ export function WaitlistForm() {
             </div>
             <div>
               <Label htmlFor="wl-company">Business name</Label>
-              <Input id="wl-company" autoComplete="organization" className="mt-1.5" {...register("company")} />
+              <Input id="wl-company" autoComplete="organization" placeholder="Business name" className="mt-1.5" {...register("company")} />
             </div>
           </div>
           <div>
