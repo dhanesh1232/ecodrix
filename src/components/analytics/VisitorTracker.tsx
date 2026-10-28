@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { analyticsConsented } from "@/lib/legal/consent";
+import { analyticsConsented, CONSENT_CHANGED_EVENT } from "@/lib/legal/consent";
 import { captureLanding, getLanding, getVisitorId } from "@/lib/track";
 
 const API_URL =
@@ -37,8 +37,8 @@ export function VisitorTracker() {
 
   useEffect(() => {
     const onChange = () => setConsentTick((t) => t + 1);
-    window.addEventListener("ecodrix:consent-changed", onChange);
-    return () => window.removeEventListener("ecodrix:consent-changed", onChange);
+    window.addEventListener(CONSENT_CHANGED_EVENT, onChange);
+    return () => window.removeEventListener(CONSENT_CHANGED_EVENT, onChange);
   }, []);
 
   useEffect(() => {

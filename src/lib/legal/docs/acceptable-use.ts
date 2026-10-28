@@ -15,8 +15,9 @@ export const acceptableUseDoc: LegalDoc = {
   title: "Acceptable Use Policy",
   pill: "Acceptable Use",
   description:
-    "The rules for using ECODrIx responsibly — prohibited content and conduct, anti-spam and messaging compliance, and enforcement.",
-  intro: `This Acceptable Use Policy ("AUP") sets out what you may and may not do when using ${LEGAL.brand}. It applies to all users and forms part of our Terms of Service. Violations may lead to suspension or termination.`,
+    "The rules for using ECODrIx: content and conduct that is not allowed, anti-spam rules for WhatsApp, email and other channels, and what we do about abuse.",
+  intro: `This Acceptable Use Policy ("AUP") sets out what you may and may not do when using ${LEGAL.brand}. It applies to every user and is part of our Terms of Service. Breaking it can lead to suspension or termination.`,
+  effectiveDate: "28 October 2026",
   sections: [
     {
       id: "responsibility",
@@ -52,7 +53,7 @@ export const acceptableUseDoc: LegalDoc = {
           list: [
             "Attempting to access accounts, data, or systems without authorisation.",
             "Reverse engineering, scraping, or circumventing security or rate limits of the Service.",
-            "Reselling or sublicensing the Service except as expressly permitted (e.g., approved white-label).",
+            "Reselling or sublicensing the Service without our written permission.",
             "Interfering with or disrupting the integrity or performance of the Service.",
             "Using the Service to build a competing product by copying our software.",
           ],
@@ -64,13 +65,13 @@ export const acceptableUseDoc: LegalDoc = {
       title: "Anti-Spam & Messaging Compliance",
       icon: MessageSquareWarning,
       body: [
-        "Messaging (WhatsApp, email, SMS) must follow anti-spam laws and platform policies:",
+        "Messages you send through ERIX (WhatsApp, email, website chat, Instagram, Messenger and Telegram) must follow anti-spam law and each platform's policies:",
         {
           list: [
             "Obtain valid opt-in/consent before sending marketing messages; honour opt-outs promptly.",
             "Comply with the WhatsApp Business Messaging Policy and Meta's Commerce and Business policies (see our WhatsApp Messaging Policy).",
             "Do not send unsolicited bulk messages, misleading sender information, or prohibited message categories.",
-            "Respect applicable telemarketing and DND/TRAI regulations in India and equivalent laws elsewhere.",
+            "Follow Indian law on unsolicited commercial messages, and the equivalent law in any other country you message.",
           ],
         },
         {
@@ -91,7 +92,7 @@ export const acceptableUseDoc: LegalDoc = {
       title: "Fair Use & System Integrity",
       icon: Gauge,
       body: [
-        "Automated features, API access, and messaging are subject to fair-use limits and rate limits to protect platform stability. Excessive or abusive usage that degrades the Service for others may be throttled or suspended.",
+        "Automations, AI replies, API access and messaging have rate limits that keep the Service stable for everyone. Use that harms the Service for others may be slowed down or suspended.",
       ],
     },
     {

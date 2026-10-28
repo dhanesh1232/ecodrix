@@ -1,11 +1,11 @@
 import {
   Tag,
   IndianRupee,
-  Percent,
+  CreditCard,
+  Calendar,
   Zap,
   MessageSquare,
   ArrowUpDown,
-  Receipt,
   RefreshCw,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
@@ -15,85 +15,85 @@ export const pricingPolicyDoc: LegalDoc = {
   title: "Pricing Policy",
   pill: "Pricing & Charges",
   description:
-    "How ECODrIx pricing works — plans, currency, taxes, usage-based add-ons, WhatsApp message pass-through charges, and price changes.",
-  intro: `This Pricing Policy explains how ${LEGAL.brand} prices its plans and charges, so there are no surprises. Current prices are always shown on our Pricing page and at checkout; this policy explains the rules behind them.`,
+    "How ECODrIx charges: prices in writing for pilots, INR plus 18% GST, monthly or yearly through Razorpay, trial, credits, plan changes and WhatsApp charges.",
+  intro: `This Pricing Policy explains the rules behind what ${LEGAL.brand} charges, so there are no surprises.`,
+  effectiveDate: "28 October 2026",
   sections: [
     {
       id: "plans",
-      title: "Plans & What's Included",
+      title: "Prices",
       icon: Tag,
       body: [
-        "We offer tiered plans (including a free tier) with defined quotas across products — contacts, agents, WhatsApp messages, AI calls, automation runs, storage, and more. The exact inclusions for each plan are listed on the Pricing page.",
-        {
-          note: "Because features and quotas evolve, the Pricing page and checkout are the authoritative source for current inclusions and prices.",
-        },
+        "We have not published prices yet. If you are a pilot customer, we send you your plan and price in writing before you pay.",
+        "What your plan includes is shown in the console under Billing.",
       ],
     },
     {
       id: "currency",
-      title: "Currency & Regional Pricing",
+      title: "INR and GST",
       icon: IndianRupee,
       body: [
-        "Prices may be displayed in Indian Rupees (INR) or US Dollars (USD) depending on your region and the plan. The currency and amount you will be charged are confirmed at checkout before payment.",
+        "All prices are in Indian rupees (INR). 18% GST is added on top.",
+        "Every payment gets a GST invoice (numbered ERIX/YY-YY/NNNNN, SAC 998315), which you can download from Billing → Payments in the console.",
       ],
     },
     {
-      id: "taxes",
-      title: "Taxes (GST)",
-      icon: Receipt,
+      id: "billing",
+      title: "Billing Cycles",
+      icon: CreditCard,
       body: [
-        "Listed prices are exclusive of taxes unless stated otherwise. Applicable Goods and Services Tax (GST) and any other statutory taxes are calculated and added at checkout based on your billing location. A GST-compliant invoice is issued for each payment where applicable.",
-      ],
-    },
-    {
-      id: "usage",
-      title: "Usage-Based Add-Ons",
-      icon: Zap,
-      body: [
-        "Some resources are metered. If you exceed your plan's included quota, add-on usage may be charged (for example, additional AI calls, storage, bandwidth, or messages).",
         {
           list: [
-            "Metered usage is measured by the platform and shown in your billing dashboard.",
-            "You can set plan limits or upgrade to a higher tier to change your included quotas.",
+            "You pay through Razorpay, monthly or yearly.",
+            "A yearly plan costs 10 times the monthly price.",
+            "Plans renew automatically until you cancel (see our Refund & Cancellation Policy).",
           ],
         },
       ],
     },
     {
+      id: "trial",
+      title: "Trial",
+      icon: Calendar,
+      body: [
+        "A new workspace gets a 7-day trial of the Growth plan. When it ends, the workspace moves to the Free plan. We never charge you automatically at the end of a trial.",
+      ],
+    },
+    {
+      id: "usage",
+      title: "Allowances and Credits",
+      icon: Zap,
+      body: [
+        "Each plan comes with monthly allowances, for example AI replies. If your plan allows it, use beyond an allowance is paid from credits you buy in advance under Billing → Credits. Otherwise that use stops until the allowance resets or you upgrade.",
+        "Credits are priced in INR, plus 18% GST, and you see the price before you pay.",
+      ],
+    },
+    {
       id: "whatsapp",
-      title: "WhatsApp / Third-Party Pass-Through Charges",
+      title: "WhatsApp Charges",
       icon: MessageSquare,
       body: [
-        "Sending on the WhatsApp Business API incurs Meta's per-message charges, which are separate from and additional to your ECODrIx plan fee.",
+        "Sending on the WhatsApp Business API costs money, charged by Meta, not by us.",
         {
           list: [
-            "Since 2025, Meta bills per message by category (marketing, utility, authentication) and region. In India, service replies are generally free within the allowed window.",
-            "These charges are set by Meta, passed through to you, and consumed on send — they are non-refundable.",
-            "Other third-party costs (e.g., email sending, certain AI providers) may also be passed through where applicable.",
+            "Meta charges per message, by category (marketing, utility, authentication) and by the recipient's country. In India, service replies within the customer service window are generally free.",
+            "Meta bills these charges directly to your workspace's WhatsApp Business Account. They are not part of your ERIX bill, and we do not resell or mark them up.",
           ],
         },
       ],
     },
     {
       id: "upgrades",
-      title: "Upgrades, Downgrades & Proration",
+      title: "Upgrades and Downgrades",
       icon: ArrowUpDown,
       body: [
         {
           list: [
-            "Upgrades take effect immediately; we may prorate the difference for the remainder of the current cycle.",
-            "Downgrades typically take effect at the next renewal, and reduced quotas apply from then.",
-            "Downgrading may cause loss of access to features or data that exceed the lower plan's limits — export first if needed.",
+            "Upgrade: the new plan starts at once and you pay its full price. There is no proration.",
+            "Downgrade to Free: applies at the end of your paid period. You keep your current plan until then.",
+            "Switch to a lower paid plan: applies at once, when you pay for the new plan. Unused days on your old plan are not refunded.",
           ],
         },
-      ],
-    },
-    {
-      id: "discounts",
-      title: "Discounts, Trials & Promotions",
-      icon: Percent,
-      body: [
-        "We may offer trials, annual discounts, or promotional pricing. Promotions are subject to their stated terms and eligibility, cannot be combined unless stated, and may be withdrawn or changed at any time.",
       ],
     },
     {
@@ -101,8 +101,8 @@ export const pricingPolicyDoc: LegalDoc = {
       title: "Price Changes",
       icon: RefreshCw,
       body: [
-        "We may change prices. For existing paid subscriptions, we will give reasonable advance notice (via the platform or email) before a price change applies to your next renewal. You can cancel before the change takes effect if you do not accept it.",
-        `Questions about pricing or invoices: ${LEGAL.emails.billing}.`,
+        "If we change the price of a plan you pay for, we will tell you by email before your next renewal at the new price. You can cancel before the change applies.",
+        `Questions about prices or invoices: ${LEGAL.emails.billing}.`,
       ],
     },
   ],

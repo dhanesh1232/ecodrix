@@ -95,13 +95,7 @@ function Contents({ doc }: { doc: LegalDoc }) {
 }
 
 export function LegalLayout({ doc }: { doc: LegalDoc }) {
-  const updated =
-    doc.effectiveDate ??
-    new Date().toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+  const updated = doc.effectiveDate;
 
   return (
     <div className="w-full">

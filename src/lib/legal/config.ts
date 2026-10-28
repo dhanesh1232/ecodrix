@@ -1,39 +1,44 @@
 /**
- * Shared legal/compliance configuration for ECODrIx public policy pages.
+ * Shared legal/compliance facts for ECODrIx public policy pages.
  *
- * ⚠️ IMPORTANT: These documents are drafted as thorough, good-faith templates
- * for an India-based SaaS handling CRM data, WhatsApp Business messaging, and
- * payments. They are NOT a substitute for legal advice. Before publishing,
- * have a qualified lawyer review them and fill every [BRACKETED] placeholder
- * (registered address, CIN, GST, jurisdiction, grievance officer name, etc.).
+ * Every value here is a real fact about the business, as on its GST registration (founder,
+ * 28 Oct 2026); never put a placeholder back. The documents in ./docs must only state what the
+ * product and the business actually do. ECODrIx is the trade name of a sole proprietorship
+ * (registered 8 Jun 2026), so there is no CIN; the GSTIN's PAN is the proprietor's.
  */
 
 import type { IconComponent } from "@/components/icons";
 
 export const LEGAL = {
   brand: "ECODrIx",
-  entity: "ECODrIx Private Limited",
+  /** The sole proprietor: the GST "Legal Name of Business", exactly as registered. */
+  proprietor: "Mekalthuru Dhanesh",
+  /** How the business is named in agreements: legal name plus GST trade name. */
+  entity: "Mekalthuru Dhanesh, sole proprietor, trading as ECODrIx",
   domain: "https://ecodrix.com",
   appUrl: "https://console.ecodrix.com",
-  // ── Fill these before going live ──────────────────────────────────────
-  registeredAddress: "[Registered Office Address], India",
-  cin: "[CIN – Corporate Identification Number]",
-  gstin: "[GSTIN]",
-  jurisdiction: "[City], [State], India",
+  /** Principal place of business. */
+  address: "Yerpadu, Tirupati district, Andhra Pradesh 517619, India",
+  gstin: "37GHCPM6574C1Z5",
+  /** Courts with exclusive jurisdiction. */
+  jurisdiction: "Sri Kalahasthi, Andhra Pradesh, India",
   governingLaw: "the laws of India",
-  grievanceOfficer: "[Grievance Officer Name]",
-  // ── Contact emails ────────────────────────────────────────────────────
+  grievanceOfficer: "Mekalthuru Dhanesh",
+  /** Business phone and WhatsApp (already public on the founder page and in the site's JSON-LD). */
+  phone: "+91 81439 63821",
+  /** What support actually commits to (founder, 28 Oct 2026). */
+  supportHours: "Monday to Saturday, 10:00 to 19:00 IST",
+  supportReply: "within one business day",
+  // Every address below is an alias on the ecodrix.com mailbox (founder, 28 Oct 2026).
   emails: {
     support: "support@ecodrix.com",
     privacy: "privacy@ecodrix.com",
-    dpo: "dpo@ecodrix.com",
     grievance: "grievance@ecodrix.com",
     legal: "legal@ecodrix.com",
     billing: "billing@ecodrix.com",
     security: "security@ecodrix.com",
     abuse: "abuse@ecodrix.com",
   },
-  products: ["ERIX", "LAIE", "FLOW", "Connect", "ErixStore"],
 } as const;
 
 /** Content blocks a legal section can render. Strings are treated as paragraphs. */
@@ -59,8 +64,8 @@ export interface LegalDoc {
   pill: string;
   description: string;
   intro?: string;
-  /** Optional fixed effective date; defaults to build date when omitted. */
-  effectiveDate?: string;
+  /** Fixed effective date shown as "Last updated", e.g. "28 October 2026". Required: a page never shows its build date. */
+  effectiveDate: string;
   sections: LegalSection[];
 }
 

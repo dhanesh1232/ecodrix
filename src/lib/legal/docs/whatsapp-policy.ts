@@ -1,9 +1,12 @@
 import {
   MessageCircle,
   CheckCircle2,
+  UserCheck,
   Ban,
   BellOff,
+  Clock,
   FileText,
+  Bot,
   ShieldAlert,
   AlertTriangle,
 } from "@/components/icons";
@@ -14,86 +17,122 @@ export const whatsappPolicyDoc: LegalDoc = {
   title: "WhatsApp Messaging Policy",
   pill: "WhatsApp & Meta Compliance",
   description:
-    "Rules for using WhatsApp Business messaging through ECODrIx Connect — consent, opt-outs, message categories, and Meta policy compliance.",
-  intro: `${LEGAL.brand} provides access to the official Meta WhatsApp Business Cloud API through Connect. When you send WhatsApp messages via our platform, you must comply with this policy, the WhatsApp Business Messaging Policy, Meta's Commerce and Business policies, and applicable law. This protects your number, your recipients, and the platform.`,
+    "Rules for WhatsApp through ERIX Connect: your own WhatsApp Business Account, opt-in, STOP and START, the 24-hour window, templates and AI agents.",
+  intro: `${LEGAL.brand} connects your business to WhatsApp through Meta's official WhatsApp Business Cloud API, in ERIX Connect. When you message people on WhatsApp through ERIX, follow this policy, the WhatsApp Business Messaging Policy, Meta's Commerce and Business policies and the law. This protects your number, the people you message and the platform.`,
+  effectiveDate: "28 October 2026",
   sections: [
     {
       id: "official",
       title: "Official API Only",
       icon: CheckCircle2,
       body: [
-        "We use the official Meta WhatsApp Business Cloud API. We do not support or permit unofficial, grey-route, or modified WhatsApp clients. Your WhatsApp Business Account and phone number are subject to Meta's review, quality ratings, and enforcement.",
+        "ERIX uses Meta's official WhatsApp Business Cloud API (the Graph API). We do not support unofficial, grey-route or modified WhatsApp apps.",
+      ],
+    },
+    {
+      id: "account",
+      title: "Your Own WhatsApp Business Account",
+      icon: MessageCircle,
+      body: [
+        "Each workspace connects its own WhatsApp Business Account, through Meta's embedded signup or with its own access token. Meta reviews the account and number, sets quality ratings and messaging limits, and bills that account directly for conversation charges. We do not resell or mark up Meta's charges.",
       ],
     },
     {
       id: "consent",
-      title: "Opt-In & Consent",
-      icon: MessageCircle,
+      title: "Opt-In",
+      icon: UserCheck,
       body: [
-        "You must obtain valid opt-in before messaging a person on WhatsApp, and keep records of consent.",
+        "Message only people who have agreed to hear from your business on WhatsApp.",
         {
           list: [
-            "Clearly identify your business and state that the person will receive WhatsApp messages.",
-            "Collect opt-in through a lawful, unambiguous action (e.g., form, checkbox, or explicit request).",
-            "Do not message people who have not opted in or who are outside a valid service window.",
+            "When a contact messages your number first, or replies START, ERIX records that as their opt-in, with the time.",
+            "When a contact ticks a consent box on an ERIX form whose wording names WhatsApp, ERIX records that consent too.",
+            "ERIX automations and broadcasts send a WhatsApp template only to contacts with one of these records.",
+            "For contacts you import or add yourself, ERIX has no record of consent. Collect opt-in yourself, keep your own proof of it, and be ready to show it if Meta or the contact asks.",
+            "An opt-in request must name your business and say the person will get WhatsApp messages.",
           ],
         },
       ],
     },
     {
       id: "optout",
-      title: "Opt-Out & Honouring Requests",
+      title: "STOP and START",
       icon: BellOff,
       body: [
-        "You must offer an easy way to opt out and honour opt-out and stop requests promptly. Continuing to message after opt-out violates this policy and Meta's rules.",
+        "When a contact sends only STOP (or UNSUBSCRIBE, STOP ALL, or the same word in a supported Indian language), ERIX opts them out of marketing on every channel at once and sends them one confirmation. ERIX then skips marketing messages to them; service messages, such as replies, reminders and invoices, still go. When they send START or SUBSCRIBE, they are opted back in.",
+        "If someone asks you to stop in other words, stop messaging them yourself.",
+      ],
+    },
+    {
+      id: "window",
+      title: "The 24-Hour Window",
+      icon: Clock,
+      body: [
+        "You can send free-form messages, including AI replies, only within 24 hours of the contact's last message to you. Outside that window you must use a Meta-approved template. ERIX blocks free-form messages outside the window.",
       ],
     },
     {
       id: "templates",
-      title: "Message Templates & Categories",
+      title: "Message Templates",
       icon: FileText,
       body: [
-        "Business-initiated messages require Meta-approved templates in the correct category:",
+        "Templates need Meta's approval, in the right category:",
         {
           list: [
-            "Marketing: promotions and offers (requires opt-in; higher scrutiny).",
-            "Utility: transaction or account updates related to an existing interaction.",
+            "Marketing: promotions and offers (needs opt-in; Meta checks these more strictly).",
+            "Utility: updates about an order, booking, account or other existing interaction.",
             "Authentication: one-time passcodes and verification.",
           ],
         },
-        "Submitting templates in the wrong category, or including prohibited content, can lead to rejection or account penalties.",
+        "Templates in the wrong category, or with content Meta does not allow, can be rejected or lead to penalties on your account.",
+      ],
+    },
+    {
+      id: "ai",
+      title: "AI Agents on WhatsApp",
+      icon: Bot,
+      body: [
+        "An ERIX AI agent answers only for your business, from your own information and instructions. It is not a general-purpose assistant.",
+        {
+          list: [
+            "Auto-reply is off until you turn it on. While it is off, every AI reply waits in the inbox for a person to approve, edit or dismiss.",
+            "With auto-reply on, the agent sends on its own only replies it is confident about and that are backed by your business information, plus short answers to greetings and thanks; the rest wait for a person.",
+            "Your team can reply in any conversation from the inbox at any time.",
+            "The agent hands a conversation to your team, stops replying there for 24 hours and marks it “Needs you” in the inbox when the customer asks for a person or it cannot help, when the message is about a topic you set to “Always send to a person”, or after 10 automatic replies in an hour.",
+          ],
+        },
       ],
     },
     {
       id: "prohibited",
-      title: "Prohibited Use",
+      title: "Not Allowed",
       icon: Ban,
       body: [
         {
           list: [
-            "Spam, unsolicited bulk messaging, or purchased/scraped contact lists without consent.",
-            "Content prohibited by Meta's Commerce Policy (e.g., illegal products, restricted goods).",
-            "Deceptive, fraudulent, or misleading messaging and sender identity.",
-            "Harassment, hate speech, or content that endangers others.",
+            "Spam, unsolicited bulk messages, or bought or scraped contact lists without consent.",
+            "Anything Meta's Commerce Policy prohibits, such as illegal or restricted goods.",
+            "Deceptive, fraudulent or misleading messages, or a false sender identity.",
+            "Harassment, hate speech, or content that puts others in danger.",
           ],
         },
       ],
     },
     {
       id: "quality",
-      title: "Quality Rating & Limits",
+      title: "Quality Rating and Limits",
       icon: ShieldAlert,
       body: [
-        "Meta assigns quality ratings and messaging limits to your number based on recipient feedback (e.g., blocks and reports). Poor quality can reduce your limits or cause restrictions. Send relevant, consented, well-formatted messages to maintain a healthy rating.",
+        "Meta rates your number's quality from how people respond, for example when they block or report you. A low rating can reduce your messaging limits or restrict your number. Send relevant messages, to people who agreed to them, to keep a good rating.",
       ],
     },
     {
       id: "responsibility",
-      title: "Your Responsibility & Enforcement",
+      title: "Your Responsibility and Enforcement",
       icon: AlertTriangle,
       body: [
-        "You are solely responsible for your messaging content, consent basis, and compliance. Meta's decisions about your number, templates, and account are outside our control.",
-        `Violations of this policy may lead to feature suspension or account termination under our Terms and AUP. Questions: ${LEGAL.emails.support}.`,
+        "You are responsible for what you send, for having consent, and for following Meta's rules. Meta's decisions about your number, templates and account are outside our control.",
+        `If you break this policy, we may suspend features or close your account under our Terms and Acceptable Use Policy. Questions: ${LEGAL.emails.support}.`,
       ],
     },
   ],

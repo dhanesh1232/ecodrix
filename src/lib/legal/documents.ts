@@ -3,16 +3,17 @@
  * Drives each /[policy] route, the /legal index, the footer, and the sitemap.
  */
 import type { LegalDoc } from "@/lib/legal/config";
-import { privacyDoc } from "@/lib/legal/docs/privacy";
-import { termsDoc } from "@/lib/legal/docs/terms";
-import { refundDoc } from "@/lib/legal/docs/refund";
-import { pricingPolicyDoc } from "@/lib/legal/docs/pricing-policy";
 import { acceptableUseDoc } from "@/lib/legal/docs/acceptable-use";
+import { contactDoc } from "@/lib/legal/docs/contact";
 import { cookieDoc } from "@/lib/legal/docs/cookie";
 import { dpaDoc } from "@/lib/legal/docs/dpa";
-import { subprocessorsDoc } from "@/lib/legal/docs/subprocessors";
+import { pricingPolicyDoc } from "@/lib/legal/docs/pricing-policy";
+import { privacyDoc } from "@/lib/legal/docs/privacy";
+import { refundDoc } from "@/lib/legal/docs/refund";
 import { securityDoc } from "@/lib/legal/docs/security";
-import { slaDoc } from "@/lib/legal/docs/sla";
+import { shippingDoc } from "@/lib/legal/docs/shipping";
+import { subprocessorsDoc } from "@/lib/legal/docs/subprocessors";
+import { termsDoc } from "@/lib/legal/docs/terms";
 import { whatsappPolicyDoc } from "@/lib/legal/docs/whatsapp-policy";
 
 /** All documents, in the order shown on the /legal index. */
@@ -24,15 +25,14 @@ export const LEGAL_DOCS: LegalDoc[] = [
   whatsappPolicyDoc,
   refundDoc,
   pricingPolicyDoc,
-  slaDoc,
+  shippingDoc,
   dpaDoc,
   subprocessorsDoc,
   securityDoc,
+  contactDoc,
 ];
 
-const BY_SLUG: Record<string, LegalDoc> = Object.fromEntries(
-  LEGAL_DOCS.map((d) => [d.slug, d]),
-);
+const BY_SLUG: Record<string, LegalDoc> = Object.fromEntries(LEGAL_DOCS.map((d) => [d.slug, d]));
 
 export function getLegalDoc(slug: string): LegalDoc | undefined {
   return BY_SLUG[slug];

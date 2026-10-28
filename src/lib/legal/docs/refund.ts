@@ -2,9 +2,9 @@ import {
   RotateCcw,
   Calendar,
   XCircle,
-  CreditCard,
   Clock,
   AlertCircle,
+  MessageSquare,
   Mail,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
@@ -14,83 +14,69 @@ export const refundDoc: LegalDoc = {
   title: "Refund & Cancellation Policy",
   pill: "Billing & Refunds",
   description:
-    "How subscription cancellations, refunds, free trials, and prorations work at ECODrIx — including non-refundable third-party message charges.",
-  intro: `This Refund & Cancellation Policy explains how billing, cancellations, and refunds work for paid ${LEGAL.brand} subscriptions. It forms part of our Terms of Service.`,
+    "Cancel an ECODrIx plan any time: access runs to the end of the paid period. No refunds for partial periods; refunds only for duplicate or wrong charges.",
+  intro: `This policy explains how cancelling and refunds work for paid ${LEGAL.brand} plans. It is part of our Terms of Service.`,
+  effectiveDate: "28 October 2026",
   sections: [
     {
-      id: "trial",
-      title: "Free Trial & Free Plan",
-      icon: Calendar,
-      body: [
-        "We offer a free plan and/or a time-limited free trial so you can evaluate the platform before paying. No charges apply during a free trial unless you upgrade or exceed free quotas that require a paid add-on.",
-        "If you do not upgrade, your account moves to the free plan or is paused at the end of the trial — you are not charged automatically without a selected paid plan.",
-      ],
-    },
-    {
-      id: "billing",
-      title: "Billing Cycles",
-      icon: CreditCard,
-      body: [
-        {
-          list: [
-            "Monthly plans are billed each month on your signup date.",
-            "Annual plans are billed once for the year, typically at a discount versus monthly.",
-            "Subscriptions renew automatically until cancelled.",
-            "All fees are exclusive of applicable taxes (e.g., GST), which are added at checkout.",
-          ],
-        },
-      ],
-    },
-    {
       id: "cancellation",
-      title: "How to Cancel",
+      title: "Cancel Any Time",
       icon: XCircle,
       body: [
-        `You can cancel anytime from your account billing settings, or by emailing ${LEGAL.emails.billing}.`,
+        "You can cancel at any time. Cancelling stops the next renewal. Your plan keeps working until the end of the period you have paid for, and then the workspace moves to the Free plan.",
         {
           list: [
-            "Cancellation stops the next renewal; your plan stays active until the end of the current paid period.",
-            "After the period ends, your account moves to the free plan or is deactivated, and premium features stop.",
-            "You are responsible for exporting your data before deactivation (see Terms and DPA).",
+            "In the console: open Billing → Plans, choose the Free plan and confirm “Downgrade to Free”.",
+            `If your workspace does not show plan choices (plans our team set up for you), email ${LEGAL.emails.billing} and we will cancel it for you.`,
           ],
         },
+      ],
+    },
+    {
+      id: "no-partial",
+      title: "No Refunds for Partial Periods",
+      icon: Calendar,
+      body: [
+        "We do not refund unused days or months, on monthly or yearly plans. This includes switching to a lower paid plan: that change applies at once, and the unused days on your old plan are not refunded.",
       ],
     },
     {
       id: "refunds",
-      title: "Refund Eligibility",
+      title: "When We Refund",
       icon: RotateCcw,
       body: [
-        { subheading: "Monthly plans" },
-        "Monthly fees are generally non-refundable once a billing period has started, as you retain access for the full period.",
-        { subheading: "Annual plans" },
-        "Annual plans may be eligible for a prorated refund of unused full months if you cancel due to a material, unresolved fault in the Service, at our reasonable discretion.",
-        { subheading: "Discretionary refunds" },
-        "We may grant refunds in cases of accidental duplicate charges, proven billing errors, or where required by law.",
-      ],
-    },
-    {
-      id: "non-refundable",
-      title: "Non-Refundable Items",
-      icon: AlertCircle,
-      body: [
+        "We refund only:",
         {
           list: [
-            "Third-party pass-through charges already incurred — notably Meta's WhatsApp per-message charges, which are consumed on send and cannot be reversed.",
-            "One-time setup, onboarding, or professional-services fees, once work has begun.",
-            "Add-on usage (AI calls, storage, messages) already consumed.",
-            "Amounts for periods already elapsed on monthly plans.",
+            "a duplicate charge (you were charged twice for the same thing), or",
+            "a wrong charge (an amount we should not have taken).",
           ],
         },
+        `Email ${LEGAL.emails.billing} with the Razorpay payment ID from your receipt or from Billing → Payments.`,
       ],
     },
     {
       id: "process",
-      title: "Refund Process & Timelines",
+      title: "How Refunds Are Paid",
       icon: Clock,
       body: [
-        `To request a refund, email ${LEGAL.emails.billing} with your account details and reason. We aim to respond within 5 business days.`,
-        "Approved refunds are returned to the original payment method via our payment processor. Depending on your bank or provider, it may take 5–10 business days to reflect.",
+        "We refund approved amounts through Razorpay, to the payment method you used. The money usually reaches you 5–7 business days after we approve the refund, depending on your bank.",
+      ],
+    },
+    {
+      id: "trial",
+      title: "Trial and Free Plan",
+      icon: Calendar,
+      body: [
+        "A new workspace gets a 7-day trial of the Growth plan, then moves to the Free plan. We never charge you automatically at the end of the trial, so there is nothing to refund.",
+      ],
+    },
+    {
+      id: "whatsapp",
+      title: "WhatsApp Charges",
+      icon: MessageSquare,
+      body: [
+        "Meta bills your WhatsApp Business Account directly for WhatsApp conversation charges. We do not collect them, so we cannot refund them; contact Meta about those charges.",
       ],
     },
     {
@@ -98,7 +84,7 @@ export const refundDoc: LegalDoc = {
       title: "Chargebacks",
       icon: AlertCircle,
       body: [
-        "Please contact us first — most issues are resolved quickly. Initiating a chargeback without contacting us may result in suspension of your account pending resolution.",
+        "Please contact us first; most billing problems are quick to fix. If you raise a chargeback without contacting us, we may suspend your account until it is resolved.",
       ],
     },
     {
@@ -106,7 +92,8 @@ export const refundDoc: LegalDoc = {
       title: "Contact",
       icon: Mail,
       body: [
-        `Billing and refund queries: ${LEGAL.emails.billing}. ${LEGAL.entity}, ${LEGAL.registeredAddress}.`,
+        `Billing and refund questions: ${LEGAL.emails.billing}, ${LEGAL.supportHours}. We reply ${LEGAL.supportReply}.`,
+        `${LEGAL.entity}, ${LEGAL.address}.`,
       ],
     },
   ],

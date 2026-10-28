@@ -1,12 +1,14 @@
 import {
   Info,
   Eye,
+  Bot,
   Share2,
   Lock,
   Globe,
   Clock,
   UserCheck,
-  Cookie,
+  ShieldCheck,
+  Building2,
   Baby,
   RefreshCw,
   Mail,
@@ -18,137 +20,223 @@ export const privacyDoc: LegalDoc = {
   title: "Privacy Policy",
   pill: "Privacy & Data Protection",
   description:
-    "How ECODrIx collects, uses, shares, and protects personal data across ERIX, LAIE, FLOW, and Connect — aligned with India's DPDP Act 2023 and the GDPR.",
-  intro: `This Privacy Policy explains how ${LEGAL.entity} ("${LEGAL.brand}", "we", "us") collects, uses, discloses, and safeguards personal data when you use our website and platform (ERIX, LAIE, FLOW, Connect and related services). It is designed to meet India's Digital Personal Data Protection Act, 2023 (DPDP Act), the Information Technology Act, 2000 and its rules, and — where applicable — the EU/UK GDPR.`,
+    "What personal data ECODrIx collects for ERIX and LAIE, why, where it is stored, how long we keep it, and how to use your rights under India's DPDP Act.",
+  intro: `This Privacy Policy explains how ${LEGAL.entity} ("${LEGAL.brand}", "we", "us") handles personal data on ecodrix.com, in the ERIX console (${LEGAL.appUrl}) and in our products: ERIX (CRM, Connect messaging, Flow automations and AI agents) and LAIE (invite-only lead discovery). It follows India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology Act, 2000.`,
+  effectiveDate: "28 October 2026",
   sections: [
     {
       id: "roles",
-      title: "Our Role: Controller vs Processor",
+      title: "Who Is Responsible for Your Data",
       icon: Info,
       body: [
-        "We handle personal data in two distinct roles, and this Policy applies to both.",
         {
           list: [
-            "As a data fiduciary/controller: for data about our own account holders, website visitors, and prospects (e.g., your name, email, billing details).",
-            "As a data processor: for the customer data you upload into the platform (your leads, contacts, conversations). You remain the controller of that data; we process it only on your instructions under our Terms and Data Processing Agreement.",
+            "For people who deal with us directly (account holders, website visitors, waitlist and newsletter subscribers), we are the data fiduciary: we decide why and how that data is used.",
+            "For data a business keeps in its ERIX workspace (its contacts, leads, conversations and files), that business is the data fiduciary and we are its data processor. We use that data only to run the service for that business, under our Terms of Service and Data Processing Agreement.",
           ],
         },
+        "If you are a customer of a business that uses ERIX, ask that business about your data. If you write to us instead, we pass your request to the business.",
       ],
     },
     {
       id: "collection",
-      title: "Information We Collect",
+      title: "What We Collect",
       icon: Info,
       body: [
-        { subheading: "Information you provide" },
+        { subheading: "Your account" },
         {
           list: [
-            "Account and profile data: name, email, phone number, company name, role, password.",
-            "Billing data: billing name, address, GSTIN, and payment metadata (card/UPI details are handled by our payment processors, not stored by us).",
-            "Content and customer data: leads, contacts, messages, files, and other data you or your team enter into ERIX/LAIE/FLOW.",
-            "Communications: support tickets, emails, and feedback you send us.",
+            "Your name, email address and workspace name when you sign up.",
+            "Your password, stored only as a scrypt hash, never in readable form. If you sign in with Google, GitHub or LinkedIn instead, that service gives us your name, email address and profile picture.",
+            "Your phone number, only if you add it.",
+            "Business details you choose to add during setup, such as industry and country.",
           ],
         },
-        { subheading: "Information collected automatically" },
+        { subheading: "Payments" },
         {
           list: [
-            "Usage and log data: pages viewed, features used, automation runs, IP address, device and browser type, timestamps.",
-            "Cookies and similar technologies (see our Cookie Policy).",
+            "Your plan, the amount, the payment status and Razorpay's payment references. Razorpay collects your card, UPI or bank details; we never see or store them.",
           ],
         },
-        { subheading: "Information from third parties" },
+        { subheading: "Workspace data" },
         {
           list: [
-            "Connected channels you authorise (e.g., Meta WhatsApp Business, Google, email providers).",
-            "Publicly available business data enriched by LAIE for lead-generation features you run.",
+            "Contacts, leads, conversations, messages, files, automations, invoices and anything else a team puts into ERIX or receives through the channels it connects. We hold this for the business that owns the workspace (see “Who Is Responsible for Your Data”).",
+          ],
+        },
+        { subheading: "Collected automatically" },
+        {
+          list: [
+            "Signed-in devices: IP address, browser, device and approximate country, so you can see your devices and sign them out.",
+            "Server logs, used to keep the service secure and to fix faults.",
+            "On ecodrix.com, only if you allow analytics: pages viewed, the site that sent you, campaign tags, screen size, browser, approximate country and a one-way hash of your IP address (not the address itself). See our Cookie Policy.",
+          ],
+        },
+        { subheading: "Forms and messages to us" },
+        {
+          list: [
+            "Waitlist: name, email address, business name, what you are interested in and, if you add it, your WhatsApp number. Newsletter: your email address.",
+            "Support: whatever you send us by email, phone or WhatsApp.",
+          ],
+        },
+        { subheading: "LAIE (invite-only)" },
+        {
+          list: [
+            "LAIE finds businesses from public sources: search engines, business directories and Google Places. What it collects are public business listings, such as business name, category, address, phone number and website.",
           ],
         },
       ],
     },
     {
       id: "usage",
-      title: "How We Use Information",
+      title: "How We Use It",
       icon: Eye,
       body: [
         {
           list: [
-            "Provide, operate, secure, and improve the platform and its products.",
-            "Process transactions, manage subscriptions, and send billing information.",
-            "Send service communications: technical notices, updates, security alerts, and support.",
-            "Provide AI-assisted features (e.g., lead research, smart replies, auto-responses) using vetted AI providers.",
-            "Detect, prevent, and address fraud, abuse, and security incidents.",
-            "Comply with legal obligations and enforce our agreements.",
-            "With your consent, send marketing communications you can opt out of at any time.",
+            "Create and run your account and workspace, and keep you signed in.",
+            "Do what you set up: send and receive messages on your connected channels, run your automations and run your AI agents.",
+            "Bill you, issue GST invoices and keep tax records.",
+            "Send service emails: sign-in and verification codes, security alerts, billing notices and replies to your requests.",
+            "Keep the service secure: detect abuse, investigate incidents and fix faults.",
+            "With your consent only: website analytics and our newsletter.",
           ],
         },
+        "We do not sell personal data.",
+      ],
+    },
+    {
+      id: "ai",
+      title: "AI Features",
+      icon: Bot,
+      body: [
+        "ERIX AI agents and other AI features send the text they need, such as a customer's message, the recent conversation and the business's own information and instructions, to one of our AI providers: Anthropic, OpenAI or Google (the paid Gemini API). These providers process it in the United States. None of them trains its models on the data we send.",
+        "Each AI agent answers only for the business that set it up, from that business's own information. It is not a general-purpose assistant. The business's team can read every AI conversation in the ERIX inbox and reply themselves.",
       ],
     },
     {
       id: "legal-basis",
-      title: "Legal Bases for Processing",
+      title: "Why We Are Allowed to Use It",
       icon: UserCheck,
       body: [
-        "Where the DPDP Act or GDPR applies, we rely on one or more of the following bases:",
         {
           list: [
-            "Performance of a contract (to deliver the services you sign up for).",
-            "Consent (for marketing, certain cookies, and specific processing — withdrawable anytime).",
-            "Legitimate interests (to secure, improve, and operate our services, balanced against your rights).",
-            "Legal obligation (tax, accounting, and regulatory requirements).",
+            "Consent: when you sign up, join the waitlist or newsletter, or allow analytics. You can withdraw it at any time (see “Your Rights and How to Use Them”).",
+            "Legitimate uses the DPDP Act allows without separate consent: data you give us yourself for a stated purpose (for example, your email address to run your account) and data the law requires us to keep, such as tax records.",
           ],
         },
       ],
     },
     {
       id: "sharing",
-      title: "How We Share Information",
+      title: "Who We Share It With",
       icon: Share2,
       body: [
-        "We do not sell your personal data. We share it only as follows:",
         {
           list: [
-            "Sub-processors and service providers who help us run the platform (hosting, storage, messaging, payments, AI). See our Sub-processors page for the current list.",
-            "Connected services you authorise, to deliver the integrations you enable.",
-            "Legal and safety: when required by law, court order, or to protect rights, safety, and property.",
-            "Business transfers: in a merger, acquisition, or asset sale, subject to this Policy.",
+            "Service providers that run parts of ERIX for us: hosting, file storage, email, payments, AI and sign-in. Each gets only what its job needs. Our Sub-processors page lists every one, with what it handles and where.",
+            "Channels and apps a workspace connects, such as WhatsApp, Instagram or Google Calendar. Data goes to them because the workspace asked for it.",
+            "Authorities, when Indian law or a court order requires it.",
+            "A new owner, if the business is ever transferred, who must keep the promises in this Policy.",
           ],
         },
       ],
     },
     {
-      id: "transfers",
-      title: "International Data Transfers",
+      id: "location",
+      title: "Where Your Data Is Stored and Processed",
       icon: Globe,
       body: [
-        "We are based in India and use reputable global infrastructure providers. Where personal data is transferred across borders, we use safeguards such as contractual protections and provider commitments consistent with the DPDP Act and, where applicable, GDPR transfer mechanisms.",
+        {
+          list: [
+            "Database and background jobs: Google Cloud in Mumbai, India.",
+            "API servers: Google Cloud in the United States (Iowa) today. We are moving them to Mumbai.",
+            "ecodrix.com and the ERIX console: Vercel, in the United States.",
+            "Files: Cloudflare R2.",
+            "Email sending: Amazon SES in Mumbai, India.",
+            "AI processing: Anthropic, OpenAI and Google, in the United States.",
+            "Payments: Razorpay, in India.",
+          ],
+        },
+        "So some personal data is processed outside India.",
       ],
     },
     {
       id: "retention",
-      title: "Data Retention",
+      title: "How Long We Keep It",
       icon: Clock,
       body: [
-        "We retain personal data for as long as your account is active or as needed to provide the services, then for the period required to meet legal, tax, and accounting obligations. Customer data you upload is retained per your instructions and deleted after account closure subject to the timelines in our Terms and DPA.",
+        {
+          table: {
+            headers: ["Data", "How long we keep it"],
+            rows: [
+              [
+                "Account and workspace data, messages and AI conversation history",
+                "Until the workspace deletes it, or until the workspace is deleted",
+              ],
+              [
+                "A deleted workspace",
+                "30 days, during which it can be restored on request; then it is erased. If the owner chooses “Delete permanently”, it is erased at once. Database backups that still hold it expire within 7 days after it is erased.",
+              ],
+              ["Website analytics events", "180 days"],
+              ["Server logs", "180 days"],
+              [
+                "Waitlist and newsletter entries",
+                "Until you ask us to remove them, or you unsubscribe",
+              ],
+              ["Invoices and payment records", "As long as tax law requires"],
+            ],
+          },
+        },
       ],
     },
     {
       id: "rights",
-      title: "Your Rights",
+      title: "Your Rights and How to Use Them",
       icon: UserCheck,
       body: [
-        "Subject to applicable law, you may:",
         {
-          list: [
-            "Access, correct, update, or complete your personal data.",
-            "Request erasure of your personal data.",
-            "Withdraw consent where processing is based on consent.",
-            "Nominate another individual to exercise your rights in the event of death or incapacity (DPDP Act).",
-            "Lodge a grievance with our Grievance Officer, and escalate to the Data Protection Board of India or your local authority.",
-          ],
+          table: {
+            headers: ["Right", "How to use it"],
+            rows: [
+              [
+                "See and correct your account data",
+                `In the console, open Settings → Account → Profile. Or email ${LEGAL.emails.privacy}.`,
+              ],
+              [
+                "Get a copy of workspace data",
+                `A workspace owner or admin can download a JSON file from Settings → Workspace → Danger zone → Export all data. One export holds up to 10,000 contacts and 5,000 conversations; the file says when a list was cut short. For the rest, write to ${LEGAL.emails.support}.`,
+              ],
+              [
+                "Erase data",
+                `A workspace owner can delete the workspace in Settings → Workspace → Danger zone. A business can erase one person's data from that contact's page in ERIX (invoices are kept for GST records). For anything else, email ${LEGAL.emails.privacy}.`,
+              ],
+              [
+                "Withdraw consent",
+                `Analytics: “Cookie preferences” in the footer of any ecodrix.com page. Newsletter: the unsubscribe link in any newsletter email. Anything else: email ${LEGAL.emails.privacy}. Withdrawing does not undo what was done before.`,
+              ],
+              [
+                "Nominate someone",
+                `Name a person to use your rights if you die or cannot act yourself, as the DPDP Act allows. Email ${LEGAL.emails.privacy}.`,
+              ],
+              [
+                "Complain",
+                "Write to our Grievance Officer (see “Contact & Grievance Officer” below). If you are not satisfied with the answer, you can complain to the Data Protection Board of India.",
+              ],
+            ],
+          },
         },
         {
-          note: `To exercise these rights, email ${LEGAL.emails.privacy}. If we act as a processor for data you access through another business's account, we will refer your request to that business (the controller).`,
+          note: "If your data sits in a business's ERIX workspace because you are that business's customer, the business handles your request. If you write to us, we forward it to them.",
         },
+      ],
+    },
+    {
+      id: "staff-access",
+      title: "When Our Staff See Your Data",
+      icon: ShieldCheck,
+      body: [
+        "Our staff can open a workspace to help you, for example when you contact support. Staff accounts are on an approved list, each with a role, and read-only staff cannot change anything. Signing in as a workspace is limited to our most senior admin role, lasts at most one hour, and every use is logged.",
       ],
     },
     {
@@ -156,41 +244,43 @@ export const privacyDoc: LegalDoc = {
       title: "Google API Services & Limited Use",
       icon: Lock,
       body: [
-        "When you connect a Google account (e.g., Google Calendar), ECODrIx accesses only the data needed to deliver the feature you enabled: creating and managing calendar events for the appointments you book, and reading free/busy intervals to avoid scheduling clashes. We request the minimum scopes required for this.",
+        "When a workspace connects Google Calendar, ECODrIx creates and manages calendar events (with Google Meet links) for the appointments booked through ERIX, and reads free/busy times to avoid double bookings. When a workspace connects Google Sheets, ECODrIx reads and adds rows in the spreadsheets its automations name. When you sign in with Google, we receive your name, email address and profile picture. We ask only for the access these features need.",
         {
           note: "ECODrIx's use and transfer of information received from Google APIs adheres to the Google API Services User Data Policy, including the Limited Use requirements. The use of raw or derived user data received from Google Workspace APIs will adhere to the Google User Data Policy, including the Limited Use requirements.",
         },
         {
           list: [
-            "We do not use Google Workspace data — raw, aggregated, or derived — to develop, train, or improve foundational or generalised AI/ML models.",
-            "We do not transfer or sell Google user data, except as needed to provide or improve the connected feature, comply with law, or as part of a merger or acquisition with user notice.",
-            "Humans do not read your Google data except with your explicit consent, for security or abuse investigations, to comply with law, or where the data has been aggregated and anonymised.",
+            "We do not use Google Workspace data, raw, aggregated or derived, to develop, train or improve foundational or generalised AI/ML models.",
+            "We do not transfer or sell Google user data, except as needed to provide the connected feature, to comply with law, or as part of a merger or acquisition with notice to users.",
+            "People do not read your Google data except with your explicit consent, for security or abuse investigations, to comply with law, or where the data has been aggregated and anonymised.",
           ],
         },
       ],
     },
     {
-      id: "cookies",
-      title: "Cookies & Tracking",
-      icon: Cookie,
-      body: [
-        "We use cookies and similar technologies for essential functionality, analytics, and (with consent) marketing. See our Cookie Policy for details and how to manage preferences.",
-      ],
-    },
-    {
       id: "security",
-      title: "Data Security",
+      title: "Security and Breaches",
       icon: Lock,
       body: [
-        "We apply reasonable technical and organisational measures — including encryption in transit and at rest, access controls, and monitoring — to protect personal data. See our Security page for details. No method of transmission or storage is 100% secure; we notify affected users and authorities of breaches as required by law.",
+        "Data travels encrypted (TLS), our cloud providers encrypt it at rest, and the credentials a workspace uses to connect its channels are encrypted with AES-256-GCM before we store them. Our Security page has the details.",
+        "If a breach affects data we hold for you or your business, we tell you without undue delay and within 48 hours of confirming it. We report incidents to CERT-In within 6 hours of noticing them, as Indian law requires, and notify the Data Protection Board and the people affected as the DPDP Act and its Rules require.",
       ],
     },
     {
       id: "children",
-      title: "Children's Privacy",
+      title: "Under-18s",
       icon: Baby,
       body: [
-        "The platform is intended for businesses and is not directed at children. We do not knowingly collect personal data from children below the age of 18 without verifiable parental/guardian consent as required by the DPDP Act. If you believe a child has provided us data, contact us for removal.",
+        `ERIX is for businesses. You must be 18 or older to create an account. If you think someone under 18 has given us their own data, email ${LEGAL.emails.privacy} and we will delete it.`,
+        "A business that keeps children's data in its workspace, such as a clinic or a school, must get verifiable consent from a parent or guardian where the DPDP Act requires it.",
+      ],
+    },
+    {
+      id: "businesses",
+      title: "If Your Business Uses ERIX",
+      icon: Building2,
+      body: [
+        "You are the data fiduciary for your own customers' data. Under the DPDP Act it is your job to give them your own privacy notice, get their consent where needed, answer their requests (ERIX lets you export data and erase a contact) and tell them about breaches. Our Data Processing Agreement sets out what we do for you.",
       ],
     },
     {
@@ -198,7 +288,7 @@ export const privacyDoc: LegalDoc = {
       title: "Changes to This Policy",
       icon: RefreshCw,
       body: [
-        "We may update this Policy from time to time. Material changes will be notified via the platform or email, and the “Last updated” date above will change. Continued use after changes take effect constitutes acceptance.",
+        "When what we do changes, we update this page and the date at the top. For important changes, we email account holders or show a notice in the console before the change applies.",
       ],
     },
     {
@@ -206,9 +296,9 @@ export const privacyDoc: LegalDoc = {
       title: "Contact & Grievance Officer",
       icon: Mail,
       body: [
-        `Privacy questions: ${LEGAL.emails.privacy}. Data Protection Officer: ${LEGAL.emails.dpo}.`,
-        `Grievance Officer (per the IT Act, 2000 and DPDP Act, 2023): ${LEGAL.grievanceOfficer}, ${LEGAL.emails.grievance}.`,
-        `${LEGAL.entity}, ${LEGAL.registeredAddress}.`,
+        `Privacy questions and requests: ${LEGAL.emails.privacy}.`,
+        `Grievance Officer (under the IT Act, 2000 and the DPDP Act, 2023): ${LEGAL.grievanceOfficer}, proprietor. Email ${LEGAL.emails.grievance} or call ${LEGAL.phone}. We acknowledge a grievance within 48 hours and resolve it within one month.`,
+        `${LEGAL.entity}, ${LEGAL.address}.`,
       ],
     },
   ],

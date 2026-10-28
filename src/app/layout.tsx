@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { CONSENT_BOOT_SCRIPT } from "@/lib/legal/consent";
+import { CONSENT_BOOT_SCRIPT, GA_LOADER_SCRIPT } from "@/lib/legal/consent";
 import "./globals.css";
 import Script from "next/script";
 import { AutoEventTracker } from "@/components/analytics/AutoEventTracker";
@@ -152,13 +152,9 @@ export default function RootLayout({
             __html: `${CONSENT_BOOT_SCRIPT}gtag('js',new Date());gtag('config','G-DK8Q4TLZPM',{send_page_view:false,anonymize_ip:true});`,
           }}
         />
+        {/* gtag.js loads only after the visitor allows analytics (see GA_LOADER_SCRIPT). */}
         <Script id="google-tags" strategy="afterInteractive">
-          {`(function(w,d){var ev=['scroll','pointerdown','keydown','touchstart'],done=0;
-    function go(){if(done)return;done=1;ev.forEach(function(e){w.removeEventListener(e,go);});
-    var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-DK8Q4TLZPM';d.head.appendChild(j);}
-    ev.forEach(function(e){w.addEventListener(e,go,{passive:true});});
-    if(d.readyState==='complete')setTimeout(go,5000);else w.addEventListener('load',function(){setTimeout(go,5000);});
-    })(window,document);`}
+          {GA_LOADER_SCRIPT}
         </Script>
 
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

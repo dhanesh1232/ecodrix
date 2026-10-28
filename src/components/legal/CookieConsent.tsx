@@ -2,7 +2,11 @@
 
 import { type ReactNode, useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { CONSENT_STORAGE_KEY as STORAGE_KEY, CONSENT_VERSION } from "@/lib/legal/consent";
+import {
+  CONSENT_CHANGED_EVENT as CHANGED,
+  CONSENT_STORAGE_KEY as STORAGE_KEY,
+  CONSENT_VERSION,
+} from "@/lib/legal/consent";
 
 /* ──────────────────────────────────────────────────────────────────────
    CookieConsent — GDPR/DPDP-friendly consent banner wired to Google
@@ -48,7 +52,6 @@ function applyConsent(c: { analytics: boolean; marketing: boolean }) {
   });
 }
 
-const CHANGED = "ecodrix:consent-changed";
 
 function persist(c: { analytics: boolean; marketing: boolean }) {
   const state: ConsentState = {
@@ -97,7 +100,8 @@ export function CookieConsent({
   const [reopened, setReopened] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
-  const [analytics, setAnalytics] = useState(true);
+  // Off until the visitor turns it on: consent must be an active choice (DPDP Act).
+  const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
   const visible = decided === undefined ? null : reopened || (!decided && !dismissed);
 

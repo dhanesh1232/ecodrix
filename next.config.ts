@@ -67,7 +67,6 @@ const nextConfig: NextConfig = {
       "pricing-policy",
       "refund-policy",
       "security",
-      "sla",
       "subprocessors",
       "whatsapp-policy",
     ];
@@ -77,6 +76,9 @@ const nextConfig: NextConfig = {
         destination: `/legal/${slug}`,
         permanent: true,
       })),
+      // No SLA until paid plans (founder, 28 Oct 2026): the status page shows real uptime.
+      { source: "/sla", destination: "/status", permanent: false },
+      { source: "/legal/sla", destination: "/status", permanent: false },
       { source: "/laie/:path*", destination: "/platform/erix-laie", permanent: true },
       // The waitlist invite email (server waitlist-email-templates.ts) links here.
       { source: "/get-started", destination: "/#contact", permanent: false },

@@ -7,7 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Legal and policies",
   description:
-    "Every ECODrIx legal document in one place: terms, privacy, cookies, acceptable use, WhatsApp messaging, refunds, pricing, SLA, DPA, sub-processors and security.",
+    "All ECODrIx legal documents: terms, privacy, cookies, acceptable use, WhatsApp, refunds, pricing, delivery, DPA, sub-processors, security and contact details.",
   path: "/legal",
 });
 
@@ -18,8 +18,8 @@ export default function LegalIndexPage() {
         <div className="mx-auto w-full max-w-wrap px-gutter">
           <h1 className="text-[clamp(38px,5.4vw,60px)] leading-[1.04] tracking-[-0.035em]">Legal and compliance</h1>
           <p className="mt-5 max-w-[62ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
-            Everything governing your use of {LEGAL.brand}: the terms you agree to, how we handle data, and the policies
-            that keep the platform safe and compliant. Operated by {LEGAL.entity}.
+            Everything governing your use of {LEGAL.brand}: the terms you agree to, how we handle data, and the rules for
+            using the platform. Operated by {LEGAL.entity}.
           </p>
         </div>
       </section>
