@@ -3,6 +3,7 @@ import { CodeSample } from "@/components/docs/CodeSample";
 import { Rich } from "@/components/docs/Rich";
 import { Icon } from "@/components/icons";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { API_BASE_URL, DOC_SECTIONS, type DocBlock, type DocSection } from "@/lib/docs";
 import { getBreadcrumbSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/seo";
@@ -259,25 +260,35 @@ export default function DocsPage() {
                 </dd>
               </div>
             </dl>
-            <details className="mt-4 rounded-[12px] bg-surface shadow-[var(--shadow-card)] lg:hidden">
-              <summary className="cursor-pointer px-4 py-3 text-[14.5px] font-semibold">Jump to a section</summary>
-              <nav aria-label="Docs sections" className="px-2 pb-3">
-                {GROUPS.map((g) => (
-                  <div key={g.group} className="mt-2">
-                    <p className="px-2.5 text-[12px] font-semibold text-subtle">{g.group}</p>
-                    <ul>
-                      {g.sections.map((s) => (
-                        <li key={s.id}>
-                          <a href={`#${s.id}`} className={navLink}>
-                            {s.title}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </nav>
-            </details>
+            <Accordion
+              type="single"
+              collapsible
+              className="mt-4 rounded-[12px] bg-surface px-4 shadow-[var(--shadow-card)] lg:hidden"
+            >
+              <AccordionItem value="sections" className="border-b-0">
+                <AccordionTrigger heading="div" className="py-4" icon={<Icon name="plus" size={18} variant="line" />}>
+                  Jump to a section
+                </AccordionTrigger>
+                <AccordionContent className="pb-3">
+                  <nav aria-label="Docs sections" className="-mx-2">
+                    {GROUPS.map((g) => (
+                      <div key={g.group} className="mt-2">
+                        <p className="px-2.5 text-[12px] font-semibold text-subtle">{g.group}</p>
+                        <ul>
+                          {g.sections.map((s) => (
+                            <li key={s.id}>
+                              <a href={`#${s.id}`} className={navLink}>
+                                {s.title}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </header>
 
           {DOC_SECTIONS.map((s) => (

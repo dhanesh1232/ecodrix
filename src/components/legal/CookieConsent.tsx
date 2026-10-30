@@ -1,11 +1,12 @@
 "use client";
 
-import { type ReactNode, useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { type ReactNode, useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { Switch } from "@/components/ui/switch";
 import {
   CONSENT_CHANGED_EVENT as CHANGED,
-  CONSENT_STORAGE_KEY as STORAGE_KEY,
   CONSENT_VERSION,
+  CONSENT_STORAGE_KEY as STORAGE_KEY,
 } from "@/lib/legal/consent";
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -51,7 +52,6 @@ function applyConsent(c: { analytics: boolean; marketing: boolean }) {
     ad_personalization: c.marketing ? "granted" : "denied",
   });
 }
-
 
 function persist(c: { analytics: boolean; marketing: boolean }) {
   const state: ConsentState = {
@@ -122,8 +122,7 @@ export function CookieConsent({
       setReopened(true);
     };
     window.addEventListener("ecodrix:open-cookie-preferences", open);
-    return () =>
-      window.removeEventListener("ecodrix:open-cookie-preferences", open);
+    return () => window.removeEventListener("ecodrix:open-cookie-preferences", open);
   }, []);
 
   const close = useCallback(() => {
@@ -168,9 +167,7 @@ export function CookieConsent({
 
           <div className="flex-1">
             <div className="flex items-center justify-between gap-4 mb-2">
-              <h2 className="text-foreground font-bold text-base">
-                We value your privacy
-              </h2>
+              <h2 className="text-foreground font-bold text-base">We value your privacy</h2>
               <button
                 onClick={rejectNonEssential}
                 aria-label="Reject non-essential cookies and close"
@@ -181,19 +178,13 @@ export function CookieConsent({
             </div>
 
             <p className="text-muted-foreground text-sm leading-relaxed">
-              We use essential cookies to run ECODrIx, and — with your consent —
-              analytics and marketing cookies to improve it. Read our{" "}
-              <Link
-                href="/legal/cookie-policy"
-                className="text-accent underline hover:text-accent-hover"
-              >
+              We use essential cookies to run ECODrIx, and — with your consent — analytics and marketing cookies to
+              improve it. Read our{" "}
+              <Link href="/legal/cookie-policy" className="text-accent underline hover:text-accent-hover">
                 Cookie Policy
               </Link>{" "}
               and{" "}
-              <Link
-                href="/legal/privacy"
-                className="text-accent underline hover:text-accent-hover"
-              >
+              <Link href="/legal/privacy" className="text-accent underline hover:text-accent-hover">
                 Privacy Policy
               </Link>
               .
@@ -275,34 +266,15 @@ function ConsentRow({
 }) {
   return (
     <label
-      className={`flex items-start justify-between gap-4 p-3 rounded-md border border-foreground/8 bg-foreground/2 ${disabled ? "opacity-70" : "cursor-pointer hover:border-foreground/15"
-        } transition-colors`}
+      className={`flex items-start justify-between gap-4 p-3 rounded-md border border-foreground/8 bg-foreground/2 ${
+        disabled ? "opacity-70" : "cursor-pointer hover:border-foreground/15"
+      } transition-colors`}
     >
       <span>
-        <span className="block text-foreground text-sm font-semibold">
-          {title}
-        </span>
-        <span className="block text-muted-foreground text-xs mt-0.5">
-          {desc}
-        </span>
+        <span className="block text-foreground text-sm font-semibold">{title}</span>
+        <span className="block text-muted-foreground text-xs mt-0.5">{desc}</span>
       </span>
-      <span className="relative shrink-0 mt-1">
-        <input
-          type="checkbox"
-          className="peer sr-only"
-          checked={checked}
-          disabled={disabled}
-          onChange={(e) => onChange?.(e.target.checked)}
-        />
-        <span
-          className="block w-10 h-5 rounded-full bg-foreground/10 peer-checked:bg-accent transition-colors"
-          aria-hidden
-        />
-        <span
-          className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-surface transition-transform peer-checked:translate-x-5"
-          aria-hidden
-        />
-      </span>
+      <Switch className="mt-1" checked={checked} disabled={disabled} onCheckedChange={onChange} />
     </label>
   );
 }

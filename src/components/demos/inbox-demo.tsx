@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { BookOpen, Send, Sparkles } from "@/components/icons";
 import { LiveDot } from "@/components/motion/surface";
 import { AppFrame, Avatar, Channel, Pill } from "@/components/scenes/parts";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { type ChatMsg, Composer, MessageList, msg, reducedMotion, sleep } from "./chat";
 
@@ -293,17 +294,18 @@ export function InboxDemo() {
               {/* Phones: the list is hidden, so switch conversations here. */}
               <label className="md:hidden">
                 <span className="sr-only">Conversation</span>
-                <select
-                  value={open}
-                  onChange={(e) => choose(e.target.value)}
-                  className="h-7 rounded-[6px] bg-background px-1.5 text-[11px] shadow-[inset_0_0_0_1px_var(--border-strong)]"
-                >
-                  {THREADS.map((x) => (
-                    <option key={x.id} value={x.id}>
-                      {x.name}
-                    </option>
-                  ))}
-                </select>
+                <Select value={open} onValueChange={choose}>
+                  <SelectTrigger size="sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {THREADS.map((x) => (
+                      <SelectItem key={x.id} value={x.id}>
+                        {x.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </label>
               {busy !== open && last && (
                 <span className="hidden items-center gap-1 text-[10.5px] text-subtle sm:flex">

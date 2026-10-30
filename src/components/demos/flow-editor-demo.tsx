@@ -20,6 +20,7 @@ import {
 } from "@/components/icons";
 import { LiveDot } from "@/components/motion/surface";
 import { AppFrame, Pill } from "@/components/scenes/parts";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const CircleDashed = createIcon("circle-dashed");
@@ -432,7 +433,7 @@ export function FlowEditorDemo() {
             <aside
               aria-label="Step settings"
               className="absolute inset-x-0 bottom-0 z-30 flex flex-col gap-2.5 border-t border-border bg-surface p-3 shadow-[var(--shadow-lg)] sm:static sm:w-52 sm:shrink-0 sm:border-t-0 sm:border-l sm:shadow-none"
-              onKeyDown={(e) => e.key === "Escape" && setSelected(null)}
+              onKeyDown={(e) => e.key === "Escape" && !e.defaultPrevented && setSelected(null)}
             >
               <div className="flex items-center justify-between gap-2">
                 <p className="text-[12px] font-semibold text-foreground">{KINDS[sel.kind].kicker}</p>
@@ -447,16 +448,18 @@ export function FlowEditorDemo() {
               </div>
               <label className="flex flex-col gap-1 text-[10.5px] font-semibold text-muted-foreground">
                 {sel.kind === "trigger" ? "Start when" : sel.kind === "whatsapp" ? "Template" : "Setting"}
-                <select
-                  value={sel.value}
-                  onChange={(e) => edit(sel.id, e.target.value)}
-                  disabled={running}
-                  className="h-8 rounded-[6px] bg-background px-2 text-[11.5px] font-medium text-foreground shadow-[inset_0_0_0_1px_var(--border-strong)] outline-none focus:shadow-[inset_0_0_0_2px_var(--accent)]"
-                >
-                  {KINDS[sel.kind].options.map((o) => (
-                    <option key={o}>{o}</option>
-                  ))}
-                </select>
+                <Select value={sel.value} onValueChange={(v) => edit(sel.id, v)} disabled={running}>
+                  <SelectTrigger size="sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {KINDS[sel.kind].options.map((o) => (
+                      <SelectItem key={o} value={o}>
+                        {o}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </label>
               {sel.kind === "whatsapp" && (
                 <p className="rounded-[8px] border border-accent-border bg-accent-muted px-2 py-1.5 text-[11px] leading-snug text-foreground">

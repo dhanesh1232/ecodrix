@@ -8,20 +8,21 @@
  * every new workspace trials for 7 days.
  */
 
-import { Icon } from "@/components/icons";
+import { RadioGroup } from "radix-ui";
 import { useState } from "react";
+import { Icon } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { segClass, segItemClass } from "@/components/ui/tabs";
 import {
-  type PublicPlan,
   formatMoney,
   humaniseFeatures,
+  type PublicPlan,
   planCtaHref,
   planCtaLabel,
   planDescription,
   yearlyDiscountPct,
 } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { segClass, segItemClass } from "@/components/ui/tabs";
 
 type Billing = "monthly" | "yearly";
 
@@ -56,30 +57,29 @@ export default function PricingPlansSection({
     <section aria-label="Plans" className="py-section pt-10! md:pt-12!">
       <div className="mx-auto w-full max-w-wrap px-gutter">
         {usedFallback && (
-          <p role="status" className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-sunken px-4 py-3 text-sm text-foreground">
+          <p
+            role="status"
+            className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-sunken px-4 py-3 text-sm text-foreground"
+          >
             <Icon name="info" size={16} variant="solid" className="mt-0.5 shrink-0 text-warning" />
             Live prices couldn&apos;t load, so these are from a recent snapshot. Refresh in a moment for the latest.
           </p>
         )}
 
-        {/* Billing period: native radios drawn as the DS segmented control */}
+        {/* Billing period: Radix radios drawn as the DS segmented control */}
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <fieldset className={segClass}>
-            <legend className="sr-only">Billing period</legend>
+          <RadioGroup.Root
+            aria-label="Billing period"
+            value={billing}
+            onValueChange={(v) => setBilling(v as Billing)}
+            className={segClass}
+          >
             {(["monthly", "yearly"] as const).map((b) => (
-              <label key={b} className={segItemClass}>
-                <input
-                  type="radio"
-                  name="billing"
-                  value={b}
-                  checked={billing === b}
-                  onChange={() => setBilling(b)}
-                  className="sr-only"
-                />
+              <RadioGroup.Item key={b} value={b} className={segItemClass}>
                 {b === "monthly" ? "Monthly" : "Yearly"}
-              </label>
+              </RadioGroup.Item>
             ))}
-          </fieldset>
+          </RadioGroup.Root>
           {yearlyPct > 0 && (
             <span className="rounded-[6px] bg-ai-subtle px-2.5 py-0.5 text-[12.5px] font-semibold text-ai">
               Save {yearlyPct}% yearly
@@ -98,7 +98,10 @@ export default function PricingPlansSection({
               <li
                 key={plan.slug}
                 // Featured: `tile-blue` is a solid-blue tile with a soft white bloom (same hue).
-                className={cn("relative flex flex-col gap-4 rounded-[20px] bg-surface px-[26px] py-7 shadow-card", featured && "tile-blue")}
+                className={cn(
+                  "relative flex flex-col gap-4 rounded-[20px] bg-surface px-[26px] py-7 shadow-card",
+                  featured && "tile-blue",
+                )}
               >
                 {featured && (
                   <span className="absolute -top-3 left-6 rounded-sm bg-navy px-2.5 py-1 font-sans text-xs/4 font-[650] text-white shadow-btn">
@@ -125,7 +128,10 @@ export default function PricingPlansSection({
                     ) : null}
                   </div>
                 )}
-                <a href={planCtaHref(plan.slug)} className={cn("group w-full", buttonVariants({ variant: featured ? "primary" : "ghost" }))}>
+                <a
+                  href={planCtaHref(plan.slug)}
+                  className={cn("group w-full", buttonVariants({ variant: featured ? "primary" : "ghost" }))}
+                >
                   {planCtaLabel(plan.slug)}
                   <Icon name="arrow-right" size={16} variant="line" />
                 </a>
