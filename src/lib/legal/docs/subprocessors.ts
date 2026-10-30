@@ -41,7 +41,7 @@ export const subprocessorsDoc: LegalDoc = {
                 "Amazon Web Services",
                 "Sends our emails (Amazon SES). For LAIE only (invite-only), relays that fetch public web pages (AWS Lambda)",
                 "Email: recipient address and message. LAIE: search terms and addresses of public pages",
-                "Email: United States (N. Virginia). LAIE relays: several AWS regions",
+                "Email: Mumbai, India. LAIE relays: several AWS regions",
               ],
               [
                 "Razorpay",

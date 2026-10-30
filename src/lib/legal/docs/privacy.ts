@@ -152,7 +152,7 @@ export const privacyDoc: LegalDoc = {
             "Database, API servers and background jobs: Google Cloud in Mumbai, India.",
             "ecodrix.com and the ERIX console: Vercel, in the United States.",
             "Files: Cloudflare R2.",
-            "Email sending: Amazon SES in the United States (N. Virginia).",
+            "Email sending: Amazon SES in Mumbai, India.",
             "AI processing: Anthropic, OpenAI and Google, in the United States.",
             "Payments: Razorpay, in India.",
           ],
