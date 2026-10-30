@@ -22,7 +22,7 @@ export const privacyDoc: LegalDoc = {
   description:
     "What personal data ECODrIx collects for ERIX and LAIE, why, where it is stored, how long we keep it, and how to use your rights under India's DPDP Act.",
   intro: `This Privacy Policy explains how ${LEGAL.entity} ("${LEGAL.brand}", "we", "us") handles personal data on ecodrix.com, in the ERIX console (${LEGAL.appUrl}) and in our products: ERIX (CRM, Connect messaging, Flow automations and AI agents) and LAIE (invite-only lead discovery). It follows India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology Act, 2000.`,
-  effectiveDate: "29 October 2026",
+  effectiveDate: "31 October 2026",
   sections: [
     {
       id: "roles",
@@ -152,7 +152,7 @@ export const privacyDoc: LegalDoc = {
             "Database, API servers and background jobs: Google Cloud in Mumbai, India.",
             "ecodrix.com and the ERIX console: Vercel, in the United States.",
             "Files: Cloudflare R2.",
-            "Email sending: Amazon SES in Mumbai, India.",
+            "Email sending: Amazon SES in the United States (N. Virginia).",
             "AI processing: Anthropic, OpenAI and Google, in the United States.",
             "Payments: Razorpay, in India.",
           ],

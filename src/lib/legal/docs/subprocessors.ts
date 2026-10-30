@@ -8,7 +8,7 @@ export const subprocessorsDoc: LegalDoc = {
   description:
     "Every company ECODrIx uses to run ERIX and LAIE that may handle personal data: what each one does for us, what data it handles and where it is processed.",
   intro: `To run ${LEGAL.brand}, we use the companies below. Each one handles personal data only to do its job for us. Channels and apps a workspace connects for itself (its own email provider, payment gateway or other app) are that workspace's choice and are not listed here.`,
-  effectiveDate: "29 October 2026",
+  effectiveDate: "31 October 2026",
   sections: [
     {
       id: "list",
@@ -41,7 +41,7 @@ export const subprocessorsDoc: LegalDoc = {
                 "Amazon Web Services",
                 "Sends our emails (Amazon SES). For LAIE only (invite-only), relays that fetch public web pages (AWS Lambda)",
                 "Email: recipient address and message. LAIE: search terms and addresses of public pages",
-                "Email: Mumbai, India. LAIE relays: several AWS regions",
+                "Email: United States (N. Virginia). LAIE relays: several AWS regions",
               ],
               [
                 "Razorpay",
