@@ -1,4 +1,5 @@
 import { Icon, type IconName, isBrandName } from "@/components/icons";
+import { ErixMarkSvg } from "@/components/marketing/erix-mark";
 import { type BeamItem, IntegrationBeam } from "@/components/marketing/integration-beam";
 import { MkSection, TrustBar } from "@/components/marketing/kit";
 
@@ -42,7 +43,7 @@ export function ChannelBeam({ tone }: { tone?: "plain" | "subtle" }) {
       lead="WhatsApp, your website chat, Instagram DMs and email all land in ERIX, and the next step happens on its own: the lead is in your pipeline, the visit is booked, the payment link is sent and the follow-up is set."
     >
       <IntegrationBeam
-        label="ERIX"
+        mark={<ErixMarkSvg label="ERIX" />}
         inputs={[
           { label: "WhatsApp", icon: "whatsapp" as const },
           { label: "Website chat", icon: "message-square" as const },

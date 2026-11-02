@@ -335,7 +335,8 @@
   --animate-beam-out: erix-beam-out var(--beam-dur) var(--beam-ease) infinite;
   --animate-beam-emit: erix-beam-emit var(--beam-dur) var(--ease-out) infinite;
   --animate-beam-land: erix-beam-land var(--beam-dur) var(--ease-out) infinite;
-  --animate-beam-thump: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
+  /* The ERIX mark in the beam: a band of light crosses the blue letters as the wave lands. */
+  --animate-mark-sheen: erix-mark-sheen var(--beam-dur) var(--beam-ease) infinite;
   /* Primary buttons: one light sweep on hover/focus (ui/button.tsx). */
   --animate-sheen: erix-sheen 900ms var(--ease-in-out);
 
@@ -428,10 +429,9 @@
     88% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
     100% { box-shadow: 0 0 0 1px var(--border-soft), var(--shadow-sm); }
   }
-  @keyframes erix-beam-thump {
-    0%, 38% { transform: scale(1); }
-    45% { transform: scale(1.06); }
-    60%, 100% { transform: scale(1); }
+  @keyframes erix-mark-sheen {
+    0%, 38% { transform: translateX(0); }
+    64%, 100% { transform: translateX(470px); }
   }
 }
 

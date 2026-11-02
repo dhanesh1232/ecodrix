@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -21,10 +20,21 @@ const row = (r: number) => ({ "--r": r }) as CSSProperties;
  * plain HTML in a CSS grid (server-rendered, readable without JS); only the
  * wires are measured from the DOM after layout, in an absolutely positioned
  * SVG, so nothing shifts. Pulses and the halo stop under reduced motion.
+ * The ERIX mark (server-drawn, `mark`) catches each wave: a band of light
+ * crosses its blue letters as the wave lands.
  * On phones the three parts stack (labels stay readable) and the wires run
  * top to bottom instead of left to right.
  */
-export function IntegrationBeam({ inputs, outputs, label }: { inputs: BeamItem[]; outputs: BeamItem[]; label: string }) {
+export function IntegrationBeam({
+  inputs,
+  outputs,
+  mark,
+}: {
+  inputs: BeamItem[];
+  outputs: BeamItem[];
+  /** The ERIX mark, drawn by the server (`ErixMarkSvg`) with its own label. */
+  mark: ReactNode;
+}) {
   const wrap = useRef<HTMLDivElement>(null);
   const mid = useRef<HTMLDivElement>(null);
   const ins = useRef<(HTMLLIElement | null)[]>([]);
@@ -166,16 +176,8 @@ export function IntegrationBeam({ inputs, outputs, label }: { inputs: BeamItem[]
         ))}
       </ul>
       <div ref={mid} className="relative z-1 w-[104px] max-[760px]:w-[76px]">
-        {/* ERIX: the mark alone (public/logo.svg cropped to the mark's box, x 90-410, y 146-330), no tile, plate or ring behind it. It takes the hit: the mark nudges when the wave lands. */}
-        <span className="relative block aspect-[320/184] overflow-hidden motion-safe:group-[.is-live]/beam:animate-beam-thump">
-          <Image
-            src="/logo.svg"
-            alt={label}
-            width={500}
-            height={500}
-            className="absolute top-[-79.35%] left-[-28.125%] block h-auto w-[156.25%] max-w-none"
-          />
-        </span>
+        {/* ERIX: the mark alone (public/logo.svg's shapes on the mark's box, x 90-410, y 146-330), no tile, plate or ring behind it. A band of light crosses it each time the wave lands (founder's pick, 2 Nov 2026). */}
+        <span className="relative block aspect-[320/184]">{mark}</span>
       </div>
       <ul
         className="relative z-1 flex list-none flex-col gap-3.5 max-[760px]:flex-row max-[760px]:flex-wrap max-[760px]:justify-center max-[760px]:gap-2.5"
