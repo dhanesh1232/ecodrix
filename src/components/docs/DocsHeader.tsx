@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { DocsSearch, type SearchEntry } from "@/components/docs/DocsSearch";
 import { Icon } from "@/components/icons";
+import { LogoMark } from "@/components/layout/LogoMark";
 import { buttonVariants } from "@/components/ui/button";
 import { CONSOLE_URL, DEV_NAV } from "@/lib/docs";
 import { cn } from "@/lib/utils";
@@ -31,7 +31,7 @@ export function DocsHeader({ search }: { search: SearchEntry[] }) {
     <header className="sticky top-0 z-50 border-b border-border-soft bg-surface/90 backdrop-blur-md backdrop-saturate-150">
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center gap-3 px-gutter lg:gap-6">
         <Link href="/docs" className="flex shrink-0 items-center gap-2">
-          <Image src="/logo.svg" alt="" width={28} height={28} priority className="size-7" />
+          <LogoMark priority className="size-7" />
           <span className="font-display text-[18px] font-bold tracking-[-0.02em] text-foreground">ERIX</span>
           <span className="rounded-[6px] bg-accent-muted px-1.5 py-0.5 text-[12px] font-semibold text-accent">
             Developers

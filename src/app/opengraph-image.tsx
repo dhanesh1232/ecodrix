@@ -12,12 +12,15 @@ const DOT = "#cc5a57"; // hero-dot (red-500)
 const LINK = "#9db2ff";
 
 /**
- * Social share card: the DS navy `OGCard` (logo swoosh + red dot, one blue
- * bloom). Used for Open Graph and Twitter, and named by every page-level
+ * Social share card: the DS navy `OGCard` (the ERIX mark, logo swoosh + red dot,
+ * one blue bloom). Used for Open Graph and Twitter, and named by every page-level
  * `openGraph.images`.
  */
 // ponytail: the title uses the default sans because next/og can't read our woff2 Bricolage; add a Bricolage TTF/OTF to load it here.
 export default async function Image() {
+  // The canonical mark (public/logo.svg), cropped to the mark's box (x 90-410, y 146-330) of its 500x500 canvas.
+  const svg = await fetch(new URL("../../public/logo.svg", import.meta.url)).then((r) => r.text());
+  const logo = `data:image/svg+xml;base64,${btoa(svg.replace('width="100%" viewBox="0 0 500 500"', 'viewBox="90 146 320 184"'))}`;
   return new ImageResponse(
     <div
       style={{
@@ -43,22 +46,8 @@ export default async function Image() {
       </svg>
       <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", width: "100%" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "52px",
-              height: "52px",
-              borderRadius: "12px",
-              background: "#ffffff",
-              color: NAVY,
-              fontSize: "26px",
-              fontWeight: 800,
-            }}
-          >
-            E
-          </div>
+          {/* The mark alone on the card's own navy: no plate behind it. next/og renders a plain <img>. */}
+          <img src={logo} width={90} height={52} alt="" />
           <div style={{ fontSize: "34px", fontWeight: 800, letterSpacing: "-0.02em" }}>ECODrIx</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", maxWidth: "820px" }}>

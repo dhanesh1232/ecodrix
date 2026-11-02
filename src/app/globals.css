@@ -336,7 +336,6 @@
   --animate-beam-emit: erix-beam-emit var(--beam-dur) var(--ease-out) infinite;
   --animate-beam-land: erix-beam-land var(--beam-dur) var(--ease-out) infinite;
   --animate-beam-thump: erix-beam-thump var(--beam-dur) var(--ease-out) infinite;
-  --animate-beam-halo: erix-beam-halo var(--beam-dur) var(--ease-out) infinite;
   /* Primary buttons: one light sweep on hover/focus (ui/button.tsx). */
   --animate-sheen: erix-sheen 900ms var(--ease-in-out);
 
@@ -433,11 +432,6 @@
     0%, 38% { transform: scale(1); }
     45% { transform: scale(1.06); }
     60%, 100% { transform: scale(1); }
-  }
-  @keyframes erix-beam-halo {
-    0%, 40% { transform: scale(0.94); opacity: 0; }
-    45% { transform: scale(0.98); opacity: 1; }
-    80%, 100% { transform: scale(1.24); opacity: 0; }
   }
 }
 

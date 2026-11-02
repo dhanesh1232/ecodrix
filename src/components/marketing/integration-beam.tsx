@@ -165,16 +165,16 @@ export function IntegrationBeam({ inputs, outputs, label }: { inputs: BeamItem[]
           </li>
         ))}
       </ul>
-      <div
-        ref={mid}
-        className={cn(
-          "relative z-1 grid size-[104px] place-items-center rounded-[28px] bg-navy shadow-[0_0_0_8px_color-mix(in_srgb,var(--accent)_10%,transparent),0_18px_40px_-12px_color-mix(in_srgb,var(--accent)_55%,transparent)] max-[760px]:size-[76px] max-[760px]:rounded-[22px]",
-          // ERIX takes the hit: the tile nudges (its child) and a halo rings out.
-          "motion-safe:group-[.is-live]/beam:after:absolute motion-safe:group-[.is-live]/beam:after:-inset-2 motion-safe:group-[.is-live]/beam:after:rounded-[34px] motion-safe:group-[.is-live]/beam:after:border-[1.5px] motion-safe:group-[.is-live]/beam:after:border-[color:color-mix(in_srgb,var(--accent)_45%,transparent)] motion-safe:group-[.is-live]/beam:after:opacity-0 motion-safe:group-[.is-live]/beam:after:animate-beam-halo",
-        )}
-      >
-        <span className="grid size-16 place-items-center rounded-[18px] bg-white max-[760px]:size-12 motion-safe:group-[.is-live]/beam:animate-beam-thump">
-          <Image src="/brand/erix-mark-trimmed.png" alt={label} width={410} height={242} className="w-11 max-[760px]:w-8" />
+      <div ref={mid} className="relative z-1 w-[104px] max-[760px]:w-[76px]">
+        {/* ERIX: the mark alone (public/logo.svg cropped to the mark's box, x 90-410, y 146-330), no tile, plate or ring behind it. It takes the hit: the mark nudges when the wave lands. */}
+        <span className="relative block aspect-[320/184] overflow-hidden motion-safe:group-[.is-live]/beam:animate-beam-thump">
+          <Image
+            src="/logo.svg"
+            alt={label}
+            width={500}
+            height={500}
+            className="absolute top-[-79.35%] left-[-28.125%] block h-auto w-[156.25%] max-w-none"
+          />
         </span>
       </div>
       <ul

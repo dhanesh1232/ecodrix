@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
@@ -10,6 +9,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { StatusBadge } from "@/components/ui/status-badge";
 import { COMPANY_NAV, COMPARE_NAV, CONTACT_CTA, GUIDE_NAV, INDUSTRY_NAV, PLATFORM_NAV, RESOURCE_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "./LogoMark";
 import { isCurrent, NAV_SECTIONS, type NavSection } from "./nav-data";
 
 type Row = { href: string; label: string; text?: string; icon: IconName; ai?: boolean; badge?: ReactNode };
@@ -107,7 +107,7 @@ export default function MobileNav({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent open={open} onCloseAutoFocus={onCloseAutoFocus} className="w-full sm:w-[min(420px,90vw)]">
         <div className="flex h-[3.75rem] shrink-0 items-center gap-2 border-b border-border-soft px-5">
-          <Image src="/logo.svg" alt="" width={28} height={28} className="size-7" />
+          <LogoMark className="size-7" />
           <span aria-hidden="true" className="font-display text-[19px] font-bold tracking-[-0.02em] text-foreground">
             ERIX
           </span>

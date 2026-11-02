@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Icon, type GlyphName } from "@/components/icons";
+import { LogoMark } from "@/components/layout/LogoMark";
 import { CookiePrefsButton } from "@/components/legal/CookiePrefsButton";
 import { Wordmark } from "@/components/marketing/wordmark";
 import { buttonVariants } from "@/components/ui/button";
@@ -93,7 +93,7 @@ export function Footer() {
         <div className="grid gap-12 pt-14 pb-10 md:pt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
           <div className="max-w-[420px]">
             <Link href="/" className="inline-flex items-center gap-2">
-              <Image src="/logo.svg" alt="" width={28} height={28} className="size-7" />
+              <LogoMark className="size-7" />
               <span className="font-display text-[19px] font-bold tracking-[-0.02em] text-foreground">ERIX</span>
               <span className="text-[13px] text-subtle">by ECODrIx</span>
               <span className="sr-only">, home</span>

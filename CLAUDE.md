@@ -53,8 +53,13 @@ Lazy, not negligent.
 This workspace already has the primitives. Reach for them before inventing:
 
 - **Rung 2 — reuse what's here first.** Before a new endpoint/service/component:
-  - CRM/data access → the **`ErixAdapter`** (`postgres-adapter.ts`), never raw
-    drizzle in a route. Tenant scope via `resolveDataAccess` / `req.orgId`.
+  - CRM/data access → the module's **controller and service** (`req.product.erix.*`;
+    SQL only in `*.service.ts`), never raw drizzle in a route. Tenant scope via
+    `req.orgId`. The `ErixAdapter` is retiring (ADR-002): don't build on it.
+  - Server layout → `ECOD/docs/architecture/server-architecture.md`: one
+    routes / controller / service per module, an endpoint comment above every route,
+    shared types global per module in `src/types/global/`, no server `*.sdk.ts`.
+    (`SDK` means only the public `@ecodrix/erix-api` package.)
   - External/dev auth → the shared **`externalAuth(scope)`** gate, not inline
     key checks.
   - Direct channel send → **`/infra/connect/send/{channel}`**. Fire an event →
@@ -62,7 +67,7 @@ This workspace already has the primitives. Reach for them before inventing:
     add a parallel surface.
   - Frontend calls → the isomorphic **`@ecodrix/erix-api` SDK**, not bespoke
     fetches.
-  - Conversations/inbox → **`ConversationSDK`** (one inbox, all channels).
+  - Conversations/inbox → **`req.platform.inbox`** (one inbox, all channels).
   - Background work → the existing **queue registry** (`shared/lib/erix/queues`).
 - **Fewer things, no duplicates.** Consolidate rather than add a second way to
   do the same job. If two surfaces overlap, delete one — pick the canonical

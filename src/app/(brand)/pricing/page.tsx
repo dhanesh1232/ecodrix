@@ -101,7 +101,7 @@ export default async function PricingPage() {
         </div>
       </section>
 
-      <PricingPlansSection plans={plans} usedFallback={data === null} />
+      <PricingPlansSection plans={plans} pricesHidden={data === null || data.pricesHidden === true} />
 
       <MkSection id="faq" tone="subtle" title="Pricing questions">
         <Faq items={faqs} />

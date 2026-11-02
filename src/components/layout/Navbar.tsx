@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect, useRef, useState } from "react";
@@ -10,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CONTACT_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "./LogoMark";
 import { NAV_SECTIONS, type NavSection, sectionOf } from "./nav-data";
 
 // Both menus load on demand, so neither costs a phone anything on first
@@ -109,14 +109,7 @@ export function Navbar() {
           )}
         >
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image
-              src="/logo.svg"
-              alt=""
-              width={32}
-              height={32}
-              priority
-              className={cn("transition-[width,height] duration-300", scrolled ? "size-7" : "size-8")}
-            />
+            <LogoMark priority className={cn("transition-[width,height] duration-300", scrolled ? "size-7" : "size-8")} />
             <span className="font-display text-[19px] font-bold tracking-[-0.02em] text-foreground">ERIX</span>
             {/* The visible word starts the link's name (WCAG 2.5.3, label in name). */}
             <span className="sr-only">by ECODrIx, home</span>

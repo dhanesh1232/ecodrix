@@ -111,6 +111,12 @@ export interface PublicAddon {
 export interface PublicPlansResponse {
   plans: PublicPlan[];
   addons: PublicAddon[];
+  /**
+   * True while prices aren't public (staff haven't released them): every
+   * price is `null`, so a `null` price means "not shown", not "custom".
+   * Absent on older API versions (prices always present).
+   */
+  pricesHidden?: boolean;
 }
 
 // ─── Fetch ─────────────────────────────────────────────────────────────────
@@ -307,19 +313,21 @@ export function groupAddonsByService(
 // ─── Fallback snapshot ─────────────────────────────────────────────────────
 
 /**
- * Static snapshot used when the API is unreachable. Mirrors the plan seed
- * (ECOD/server/scripts/seed-plans.ts, founder pricing of 26 Oct 2026) for
- * every value the cards show: prices (yearly = 10× monthly, before 18% GST),
- * the AI agent on every plan, AI requests, team members, contacts, active
- * automations, channels and the branding/support extras. No SLA figures.
+ * Static snapshot used when the API is unreachable: names, tiers and features
+ * only (mirrors ECOD/server/scripts/seed-plans.ts: the AI agent on every plan,
+ * AI requests, team members, contacts, active automations, channels and the
+ * branding/support extras; no SLA figures). It carries NO prices on purpose
+ * (founder, 2 Nov 2026: no price is shown anywhere until official), so an
+ * outage can't publish them; the page shows the "pricing is agreed with you"
+ * state with it, exactly as for `pricesHidden`.
  */
 export const FALLBACK_PLANS: PublicPlan[] = [
   {
     slug: "free",
     name: "Free",
     tier: 0,
-    priceMonthlyUsd: 0,
-    priceYearlyUsd: 0,
+    priceMonthlyUsd: null,
+    priceYearlyUsd: null,
     currency: "INR",
     isDefault: true,
     features: {
@@ -345,8 +353,8 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "starter",
     name: "Starter",
     tier: 10,
-    priceMonthlyUsd: 2999,
-    priceYearlyUsd: 29990,
+    priceMonthlyUsd: null,
+    priceYearlyUsd: null,
     currency: "INR",
     isDefault: false,
     features: {
@@ -372,8 +380,8 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "growth",
     name: "Growth",
     tier: 20,
-    priceMonthlyUsd: 6999,
-    priceYearlyUsd: 69990,
+    priceMonthlyUsd: null,
+    priceYearlyUsd: null,
     currency: "INR",
     isDefault: false,
     features: {
@@ -399,8 +407,8 @@ export const FALLBACK_PLANS: PublicPlan[] = [
     slug: "scale",
     name: "Scale",
     tier: 30,
-    priceMonthlyUsd: 19999,
-    priceYearlyUsd: 199990,
+    priceMonthlyUsd: null,
+    priceYearlyUsd: null,
     currency: "INR",
     isDefault: false,
     features: {

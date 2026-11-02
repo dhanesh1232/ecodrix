@@ -40,11 +40,11 @@ function priceFor(plan: PublicPlan, billing: Billing) {
 
 export default function PricingPlansSection({
   plans,
-  usedFallback,
+  pricesHidden,
 }: {
   plans: PublicPlan[];
-  /** True when the API was unreachable and the static snapshot is in use. */
-  usedFallback?: boolean;
+  /** Prices aren't public yet (or the live catalogue couldn't load): plans and features show, no amounts, no billing switch. */
+  pricesHidden?: boolean;
 }) {
   const [billing, setBilling] = useState<Billing>("monthly");
   const sorted = [...plans].sort((a, b) => a.tier - b.tier);
@@ -56,18 +56,17 @@ export default function PricingPlansSection({
   return (
     <section aria-label="Plans" className="py-section pt-10! md:pt-12!">
       <div className="mx-auto w-full max-w-wrap px-gutter">
-        {usedFallback && (
+        {pricesHidden && (
           <p
             role="status"
-            className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-[12px] bg-sunken px-4 py-3 text-sm text-foreground"
+            className="mx-auto mb-8 max-w-3xl rounded-[12px] bg-sunken px-4 py-3 text-center text-sm text-foreground"
           >
-            <Icon name="info" size={16} variant="solid" className="mt-0.5 shrink-0 text-warning" />
-            Live prices couldn&apos;t load, so these are from a recent snapshot. Refresh in a moment for the latest.
+            Pricing is agreed with you before you start. Pick the plan that fits and talk to us for a quote.
           </p>
         )}
 
         {/* Billing period: Radix radios drawn as the DS segmented control */}
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className={cn("flex flex-wrap items-center justify-center gap-3", pricesHidden && "hidden")}>
           <RadioGroup.Root
             aria-label="Billing period"
             value={billing}
@@ -167,7 +166,10 @@ export default function PricingPlansSection({
           </div>
         )}
         <p className="mx-auto mt-8 max-w-[64ch] text-center text-[13.5px] text-subtle">
-          Prices exclude 18% GST, which is added on your invoice. WhatsApp messages go out on your own WhatsApp account,
+          {pricesHidden
+            ? "Plans are billed in rupees, plus 18% GST on your invoice."
+            : "Prices exclude 18% GST, which is added on your invoice."}{" "}
+          WhatsApp messages go out on your own WhatsApp account,
           so Meta bills you directly and ERIX adds no markup.
         </p>
       </div>
