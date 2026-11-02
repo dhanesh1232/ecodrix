@@ -1,15 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SubscribeForm } from "@/components/blog/SubscribeForm";
+import { SubscribeCard } from "@/components/blog/SubscribeForm";
 import { Icon } from "@/components/icons";
 import { MkSection, PrimaryCta } from "@/components/marketing/kit";
 import { cn } from "@/lib/utils";
 
 const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 const label = (c: string) => c.charAt(0).toUpperCase() + c.slice(1);
-
-/** After the confirmation link: `?subscribed=1` (done) or `expired` (link too old). */
-export type SubscribeResult = "1" | "expired" | undefined;
 
 function Meta({ post }: { post: BlogSummary }) {
   return (
@@ -91,7 +88,7 @@ export function PostCard({ post, lead }: { post: BlogSummary; lead?: boolean }) 
   );
 }
 
-export function BlogPage({ posts, subscribed }: { posts: BlogSummary[]; subscribed?: SubscribeResult }) {
+export function BlogPage({ posts }: { posts: BlogSummary[] }) {
   // The post pinned in admin leads; otherwise the newest.
   const latest = posts.find((p) => p.featured) ?? posts[0];
   const rest = posts.filter((p) => p !== latest);
@@ -107,25 +104,7 @@ export function BlogPage({ posts, subscribed }: { posts: BlogSummary[]; subscrib
             </p>
           </div>
           <div className="rounded-[16px] bg-surface p-5 shadow-[var(--shadow-card)] sm:p-6">
-            {subscribed === "1" ? (
-              <p role="status" className="flex items-start gap-2.5 text-[15px] text-foreground">
-                <Icon name="circle-check" size={20} variant="duo" className="mt-0.5 shrink-0 text-success" />
-                <span>
-                  <b className="font-semibold">You&apos;re subscribed.</b> New posts will reach your inbox. Every email
-                  has a link to unsubscribe.
-                </span>
-              </p>
-            ) : (
-              <>
-                <h2 className="font-sans text-[17px] font-semibold tracking-normal">Get new posts by email</h2>
-                <p className="mt-1 text-[14px] text-muted-foreground">
-                  {subscribed === "expired"
-                    ? "That confirmation link has expired. Subscribe again and we'll send a fresh one."
-                    : "About twice a month. Nothing else, and no sharing your email."}
-                </p>
-                <SubscribeForm source="blog" className="mt-4" />
-              </>
-            )}
+            <SubscribeCard />
           </div>
         </div>
       </section>

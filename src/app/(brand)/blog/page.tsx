@@ -1,11 +1,12 @@
 // blog/page.tsx
 
-import { BlogPage, type SubscribeResult } from "@/components/blog/blogPage";
+import { BlogPage } from "@/components/blog/blogPage";
 import { blogs } from "@/lib/api";
 import { pageMetadata } from "@/lib/seo";
 
-// Render on demand — don't block build waiting for API
-export const dynamic = "force-dynamic";
+// Cached and refreshed every 60 s, like each post (a newly published post shows within a minute).
+// The API call times out after 5 s, so a build never hangs on it.
+export const revalidate = 60;
 
 export const metadata = pageMetadata({
   title: "ERIX blog: WhatsApp, CRM and automation tips",
@@ -14,10 +15,6 @@ export const metadata = pageMetadata({
   path: "/blog",
 });
 
-export default async function BlogListPage({ searchParams }: { searchParams: Promise<{ subscribed?: string }> }) {
-  const [posts, { subscribed }] = await Promise.all([blogs.fetchPublishedPosts(), searchParams]);
-  // The confirmation link lands here with ?subscribed=1 (or =expired).
-  const result: SubscribeResult = subscribed === "1" || subscribed === "expired" ? subscribed : undefined;
-
-  return <BlogPage posts={posts} subscribed={result} />;
+export default async function BlogListPage() {
+  return <BlogPage posts={await blogs.fetchPublishedPosts()} />;
 }

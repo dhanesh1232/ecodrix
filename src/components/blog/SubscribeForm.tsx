@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,5 +113,43 @@ export function SubscribeForm({
         )}
       </p>
     </form>
+  );
+}
+
+const noSubscription = () => () => {};
+
+/**
+ * The blog listing's subscribe card. The confirmation link lands on `/blog?subscribed=1` (done)
+ * or `=expired` (link too old); it's read in the browser so the listing itself stays cached.
+ */
+export function SubscribeCard() {
+  // null on the server and while hydrating, then the query value.
+  const result = useSyncExternalStore(
+    noSubscription,
+    () => new URLSearchParams(window.location.search).get("subscribed"),
+    () => null,
+  );
+
+  if (result === "1") {
+    return (
+      <p role="status" className="flex items-start gap-2.5 text-[15px] text-foreground">
+        <Icon name="circle-check" size={20} variant="duo" className="mt-0.5 shrink-0 text-success" />
+        <span>
+          <b className="font-semibold">You&apos;re subscribed.</b> New posts will reach your inbox. Every email has a
+          link to unsubscribe.
+        </span>
+      </p>
+    );
+  }
+  return (
+    <>
+      <h2 className="font-sans text-[17px] font-semibold tracking-normal">Get new posts by email</h2>
+      <p className="mt-1 text-[14px] text-muted-foreground">
+        {result === "expired"
+          ? "That confirmation link has expired. Subscribe again and we'll send a fresh one."
+          : "About twice a month. Nothing else, and no sharing your email."}
+      </p>
+      <SubscribeForm source="blog" className="mt-4" />
+    </>
   );
 }
