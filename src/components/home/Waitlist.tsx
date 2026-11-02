@@ -1,25 +1,19 @@
 "use client";
 
-import { CheckCircle2, Copy, Loader2 } from "@/components/icons";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { CheckCircle2, Copy, Loader2, LogIn } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StyledPhoneInput } from "@/components/ui/phone-input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { buttonVariants } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CONSOLE_URL } from "@/lib/docs";
 import { analyticsConsented } from "@/lib/legal/consent";
 import { getLanding, getVisitorId, trackEvent } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
+const API_URL = process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
 
 interface FormData {
   name: string;
@@ -43,10 +37,13 @@ const fieldError = "mt-1.5 text-sm text-error";
 /**
  * Early-access waitlist form (POST /v1/api/platform/public/waitlist), shown
  * on the closing navy band. Errors show under the form with their cause,
- * never as a browser alert.
+ * never as a browser alert. A repeat signup says which case it is (`status`):
+ * already on the list, or already has an account (sign in); either way the
+ * details go to that inbox, never onto this page.
  */
 export function WaitlistForm() {
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [outcome, setOutcome] = useState<"joined" | "waitlisted" | "account">("joined");
   const [error, setError] = useState<string | null>(null);
   const [position, setPosition] = useState<number | null>(null);
   const [referralCode, setReferralCode] = useState<string | null>(null);
@@ -71,12 +68,9 @@ export function WaitlistForm() {
           ...data,
           source: "ecodrix_website",
           // An invite link lands here as ?ref=CODE.
-          referral:
-            new URLSearchParams(window.location.search).get("ref") || undefined,
+          referral: new URLSearchParams(window.location.search).get("ref") || undefined,
           // First-touch attribution, only with analytics consent.
-          attribution: analyticsConsented()
-            ? { ...getLanding(), visitorId: getVisitorId() }
-            : undefined,
+          attribution: analyticsConsented() ? { ...getLanding(), visitorId: getVisitorId() } : undefined,
         }),
       });
       const result = await res.json().catch(() => null);
@@ -89,6 +83,7 @@ export function WaitlistForm() {
         );
         return;
       }
+      setOutcome(result.status === "account" ? "account" : res.status === 201 ? "joined" : "waitlisted");
       setState("sent");
       // A new entry (201, not "already on the list"): GA4 `generate_lead` +
       // the first-party form_submit action, both consent-gated in trackEvent.
@@ -111,7 +106,27 @@ export function WaitlistForm() {
 
   return (
     <div className="surface-light rounded-lg bg-surface p-6 text-foreground shadow-[var(--shadow-lg)] md:p-8">
-      {state === "sent" ? (
+      {state === "sent" && outcome === "account" ? (
+        <div role="status" className="py-6 text-center">
+          <LogIn aria-hidden="true" className="mx-auto size-10 text-accent" />
+          <h3 className="mt-4 text-2xl">You already have an account</h3>
+          <p className="mt-2 text-muted-foreground">
+            No need to wait: sign in to your ECODrIx workspace. We&apos;ve also emailed you the link.
+          </p>
+          <a href={`${CONSOLE_URL}/auth/login`} className={cn(buttonVariants(), "mt-6")}>
+            Sign in
+          </a>
+        </div>
+      ) : state === "sent" && outcome === "waitlisted" ? (
+        <div role="status" className="py-6 text-center">
+          <CheckCircle2 aria-hidden="true" className="mx-auto size-10 text-success" />
+          <h3 className="mt-4 text-2xl">You&apos;re already on the list</h3>
+          <p className="mt-2 text-muted-foreground">
+            We&apos;ll email you as soon as your turn comes. Your place in the queue and your invite link are in your
+            inbox.
+          </p>
+        </div>
+      ) : state === "sent" ? (
         <div role="status" className="py-6 text-center">
           <CheckCircle2 aria-hidden="true" className="mx-auto size-10 text-success" />
           <h3 className="mt-4 text-2xl">You’re on the list</h3>
@@ -150,7 +165,11 @@ export function WaitlistForm() {
               className="mt-1.5"
               {...register("name", { required: "Enter your name." })}
             />
-            {errors.name && <p id="wl-name-err" className={fieldError}>{errors.name.message}</p>}
+            {errors.name && (
+              <p id="wl-name-err" className={fieldError}>
+                {errors.name.message}
+              </p>
+            )}
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
@@ -168,11 +187,21 @@ export function WaitlistForm() {
                   pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Check the email address." },
                 })}
               />
-              {errors.email && <p id="wl-email-err" className={fieldError}>{errors.email.message}</p>}
+              {errors.email && (
+                <p id="wl-email-err" className={fieldError}>
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor="wl-company">Business name</Label>
-              <Input id="wl-company" autoComplete="organization" placeholder="Business name" className="mt-1.5" {...register("company")} />
+              <Input
+                id="wl-company"
+                autoComplete="organization"
+                placeholder="Business name"
+                className="mt-1.5"
+                {...register("company")}
+              />
             </div>
           </div>
           <div>
@@ -181,9 +210,7 @@ export function WaitlistForm() {
               <Controller
                 name="phone"
                 control={control}
-                render={({ field }) => (
-                  <StyledPhoneInput id="wl-phone" value={field.value} onChange={field.onChange} />
-                )}
+                render={({ field }) => <StyledPhoneInput id="wl-phone" value={field.value} onChange={field.onChange} />}
               />
             </div>
           </div>
@@ -213,13 +240,20 @@ export function WaitlistForm() {
               {error}
             </p>
           )}
-          <button type="submit" disabled={state === "sending"} className={cn(buttonVariants(), "w-full disabled:cursor-not-allowed disabled:opacity-60")}>
+          <button
+            type="submit"
+            disabled={state === "sending"}
+            className={cn(buttonVariants(), "w-full disabled:cursor-not-allowed disabled:opacity-60")}
+          >
             {state === "sending" && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
             {state === "sending" ? "Joining…" : "Join the waitlist"}
           </button>
           <p className="text-center text-xs text-muted-foreground">
             We only use your details to contact you about early access. See our{" "}
-            <a href="/legal/privacy" className="underline hover:text-accent">privacy policy</a>.
+            <a href="/legal/privacy" className="underline hover:text-accent">
+              privacy policy
+            </a>
+            .
           </p>
         </form>
       )}
