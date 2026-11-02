@@ -22,7 +22,6 @@ ERIX does one job end to end: enquiry, chat, proposal, invoice, payment, with AI
 
 ## Not live yet
 
-- ERIX LAIE (finding and researching new leads): invite-only beta. https://ecodrix.com/platform/erix-laie
 - Voice agent: in development.
 
 ## Pricing

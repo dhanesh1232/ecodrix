@@ -9,7 +9,7 @@
  * Copy follows the design system's product page (what is live in v1.0 and
  * what comes in which version) and ECOD/docs/VERSION_PLAN.md. Anything not
  * live carries its status word. Status matches PLATFORM_NAV in lib/site.ts:
- * Store is coming soon, LAIE is invite-only.
+ * Store is coming soon. LAIE is private (founder, 3 Nov 2026), so it isn't here.
  */
 
 import type { ModuleStatus } from "@/lib/site";
@@ -218,41 +218,6 @@ export const PLATFORM_MODULES: PlatformModule[] = [
       },
     ],
     searchQueries: ["ECODrIx storage", "client document portal India", "e-sign quotation India"],
-  },
-  {
-    slug: "erix-laie",
-    brand: "ERIX LAIE",
-    name: "ERIX LAIE: lead research, invite only",
-    title: "ERIX LAIE: lead research, invite only",
-    tagline: "Find and research new leads",
-    category: "product",
-    status: "invite",
-    ai: true,
-    description:
-      "ERIX LAIE is an invite-only lead engine for Indian SMBs. It finds businesses like your best customers, checks contact details and drafts outreach for review.",
-    longDescription:
-      "LAIE is in an invite-only beta. It looks for businesses that match the customer you describe, checks their contact details, and drafts first messages that wait for your review before anything is sent.",
-    features: [
-      { title: "Describe your customer", body: "Tell LAIE the kind of business and the city you sell to." },
-      { title: "Matches to review", body: "Businesses that fit are listed for you to look through, not dumped into your CRM." },
-      { title: "Details checked", body: "Contact details are checked before a lead moves on." },
-      { title: "Outreach drafted", body: "First messages are drafted for you. Nothing is sent until you review them." },
-    ],
-    steps: [
-      "Join the waitlist and choose Finding new leads (LAIE) as what you want to use first.",
-      "If your workspace is invited, our team sets LAIE up with you.",
-    ],
-    faqs: [
-      {
-        q: "How do I get access to LAIE?",
-        a: "LAIE is invite-only while it's in beta. Join the waitlist and pick Finding new leads (LAIE), and we'll reach out if your workspace is a fit.",
-      },
-      {
-        q: "Does LAIE send messages by itself?",
-        a: "No. It drafts outreach, and nothing goes to a prospect until you review it.",
-      },
-    ],
-    searchQueries: ["ECODrIx LAIE", "ERIX LAIE", "lead research India", "B2B lead finder India"],
   },
 ];
 

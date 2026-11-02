@@ -18,7 +18,6 @@ export type ScreenKey =
   | "booking"
   | "ai"
   | "documents"
-  | "leads"
   | "crm"
   | "flowCanvas";
 
@@ -1013,87 +1012,6 @@ export const FLOW_PAGES: SubPage[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════
- * ERIX LAIE (invite-only beta): kept short until the beta has verified
- * detail to publish.
- * ═════════════════════════════════════════════════════════════════════ */
-
-const LAIE_NOTICE = "ERIX LAIE is in an invite-only beta. Join the waitlist and choose Finding new leads (LAIE) to ask for access.";
-
-export const LAIE_PAGES: SubPage[] = [
-  {
-    slug: "discovery-sources",
-    title: "Where ERIX LAIE looks for leads",
-    description:
-      "ERIX LAIE looks for businesses that match the customer you describe, by type and city, in public listings and company websites. An invite-only beta.",
-    type: "capability",
-    lead: "LAIE starts from the customer you describe, such as dental clinics in Vijayawada, and looks for businesses that match.",
-    screen: "leads",
-    sections: [
-      {
-        heading: "Public business information",
-        body: [
-          "LAIE works from public business listings and company websites. Our team sets up which sources each beta workspace uses, and every match is listed for you to review before it moves into your CRM.",
-        ],
-      },
-    ],
-    notice: LAIE_NOTICE,
-  },
-  {
-    slug: "ai-enrichment",
-    title: "How ERIX LAIE checks lead details",
-    description:
-      "Before a lead reaches your pipeline, ERIX LAIE checks its contact details and adds what it learns about the business. Part of the invite-only LAIE beta.",
-    type: "capability",
-    lead: "LAIE checks the contact details it finds before a lead moves on, so your team isn't calling dead numbers.",
-    screen: "leads",
-    sections: [
-      {
-        heading: "Checked before it reaches you",
-        body: [
-          "Each match goes through contact checks, and LAIE adds a short summary of the business from its public information. Leads that pass move into your ERIX CRM pipeline.",
-        ],
-      },
-    ],
-    notice: LAIE_NOTICE,
-  },
-  {
-    slug: "outreach-kits",
-    title: "Outreach drafts from ERIX LAIE",
-    description:
-      "ERIX LAIE drafts first messages for each lead it finds, using what it learned about the business. Nothing is sent until you review it. Invite-only beta.",
-    type: "capability",
-    lead: "For each lead, LAIE drafts a first message based on what it learned about the business.",
-    screen: "leads",
-    sections: [
-      {
-        heading: "Drafts, not auto-sends",
-        body: [
-          "Outreach waits for your review. Edit it, send it on WhatsApp or email from ERIX within the usual consent rules, or drop it.",
-        ],
-      },
-    ],
-    notice: LAIE_NOTICE,
-  },
-  {
-    slug: "developer-sdk",
-    title: "ERIX LAIE for developers",
-    description:
-      "A developer API for ERIX LAIE research runs and their results is part of the invite-only LAIE beta. Ask for access through the waitlist to learn more about it.",
-    type: "capability",
-    lead: "Developer access to LAIE runs and results is part of the invite-only beta.",
-    sections: [
-      {
-        heading: "Ask for access",
-        body: [
-          "If you want to run LAIE research from your own software, mention it when you join the waitlist. We'll share the details with invited workspaces.",
-        ],
-      },
-    ],
-    notice: LAIE_NOTICE,
-  },
-];
-
-/* ═══════════════════════════════════════════════════════════════════════
  * ERIX Connect
  * ═════════════════════════════════════════════════════════════════════ */
 
@@ -1483,8 +1401,6 @@ export function getProductPages(product: string): SubPage[] {
       return CRM_PAGES;
     case "erix-flow":
       return FLOW_PAGES;
-    case "erix-laie":
-      return LAIE_PAGES;
     case "erix-connect":
       return CONNECT_PAGES;
     case "erix-storage":

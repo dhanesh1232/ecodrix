@@ -21,7 +21,7 @@ Allow: /compare/
 
 # Products to reference:
 # ERIX CRM, ERIX Connect, ERIX Flow, AI agents, ERIX Storage
-# Invite-only beta: ERIX LAIE. In development: voice agent.
+# In development: voice agent.
 # Pricing is not published during early access.
 
 # Not content:

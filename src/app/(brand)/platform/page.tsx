@@ -41,7 +41,7 @@ export const metadata = {
 const PLATFORM_FAQS = [
   {
     q: "What does ERIX include today?",
-    a: "ERIX 1.0 is live with four parts on one customer record. ERIX CRM: contacts, pipeline, forms, appointments, proposals, projects with documents, e-sign and a client portal, GST invoices and payment links. ERIX Connect: WhatsApp, Instagram DMs, email, website chat, Google Calendar and Meet, and Razorpay. ERIX Flow: automations, templates, approvals, Wait for a reply and AI reply. AI agents: the sales, channels and website agents. ERIX Storage keeps files inside projects. ERIX LAIE is invite only.",
+    a: "ERIX 1.0 is live with four parts on one customer record. ERIX CRM: contacts, pipeline, forms, appointments, proposals, projects with documents, e-sign and a client portal, GST invoices and payment links. ERIX Connect: WhatsApp, Instagram DMs, email, website chat, Google Calendar and Meet, and Razorpay. ERIX Flow: automations, templates, approvals, Wait for a reply and AI reply. AI agents: the sales, channels and website agents. ERIX Storage keeps files inside projects.",
   },
   {
     q: "Is there a public ERIX API?",
@@ -232,14 +232,12 @@ const LATER = [
   { label: "Webhooks, more schedules and connected apps", when: "Version 1.2" },
   { label: "Lead scoring, referrals, reviews and memberships", when: "Version 1.2" },
   { label: "Instagram posts and a content calendar", when: "Version 1.3" },
-  { label: "ERIX LAIE lead research", when: "Invite-only beta" },
 ];
 
-const more = PLATFORM_NAV.filter((m) => m.key === "storage" || m.key === "laie");
+const more = PLATFORM_NAV.filter((m) => m.key === "storage");
 const moreCopy: Record<string, string> = {
   storage:
     "Files kept with the client and project they belong to: documents, secure share links and proposals signed online.",
-  laie: "Finds businesses that match your ideal customer, checks their contact details and drafts outreach for you to review.",
 };
 
 export default function PlatformIndexPage() {
@@ -371,7 +369,7 @@ export default function PlatformIndexPage() {
       </MkSection>
 
       {/* ── Also in ERIX ── */}
-      <MkSection id="more" tone="subtle" title="Storage, lead research and the API">
+      <MkSection id="more" tone="subtle" title="Storage and the API">
         <ul className="grid gap-x-10 md:grid-cols-3">
           {more.map((m) => (
             <li key={m.key} className="border-t border-border-soft pt-6 pb-2">

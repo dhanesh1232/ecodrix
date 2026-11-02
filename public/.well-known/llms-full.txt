@@ -47,7 +47,6 @@ One job end to end: an enquiry comes in, gets answered, becomes a deal, a propos
 
 ## Not live yet
 
-- **ERIX LAIE**, which finds and researches new leads for review: invite-only beta.
 - **Voice agent**: in development.
 - **Connected apps** in Flow (for example spreadsheets): planned for a later version.
 
@@ -108,7 +107,6 @@ A: Pricing is not published during early access; it is agreed with each pilot bu
 - https://ecodrix.com/platform/erix-connect
 - https://ecodrix.com/platform/erix-flow
 - https://ecodrix.com/platform/erix-storage
-- https://ecodrix.com/platform/erix-laie
 - https://ecodrix.com/compare
 - https://ecodrix.com/guides
 - https://ecodrix.com/blog

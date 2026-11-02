@@ -32,7 +32,7 @@ const product = [
   { name: "AI agents", href: "/platform#agents" },
   { name: "How it fits together", href: "/platform" },
 ];
-const also = PLATFORM_NAV.filter((m) => m.key === "storage" || m.key === "laie");
+const also = PLATFORM_NAV.filter((m) => m.key === "storage");
 
 /** India-first facts, each true of ERIX today (DS product.md). */
 const facts: { icon: GlyphName; text: string }[] = [

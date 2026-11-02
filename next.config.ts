@@ -79,13 +79,16 @@ const nextConfig: NextConfig = {
       // No SLA until paid plans (founder, 28 Oct 2026): the status page shows real uptime.
       { source: "/sla", destination: "/status", permanent: false },
       { source: "/legal/sla", destination: "/status", permanent: false },
-      { source: "/laie/:path*", destination: "/platform/erix-laie", permanent: true },
+      // LAIE stays private until it solves a real problem (founder, 3 Nov 2026).
+      // Temporary redirects, so its pages can come back when it goes public.
+      { source: "/laie/:path*", destination: "/platform", permanent: false },
+      { source: "/platform/erix-laie", destination: "/platform", permanent: false },
+      { source: "/platform/erix-laie/:path*", destination: "/platform", permanent: false },
       // The waitlist invite email (server waitlist-email-templates.ts) links here.
       { source: "/get-started", destination: "/#contact", permanent: false },
       // Internal engines aren't marketed (founder, 27 Oct 2026): their old pages land on what customers get.
       { source: "/platform/erix-store", destination: "/platform", permanent: true },
       { source: "/platform/erix-store/:path*", destination: "/platform", permanent: true },
-      { source: "/platform/erix-laie/relay-fabric", destination: "/platform/erix-laie", permanent: true },
     ];
   },
 

@@ -41,7 +41,8 @@ export const STATUS_LABEL: Record<ModuleStatus, string> = {
 /**
  * The Platform menu. `ai` marks AI/automation (purple, brand rule). Status
  * follows ECOD/docs/VERSION_PLAN.md: v1.0 is live, ERIX Store is coming
- * soon, LAIE is an invite-only beta. Voice isn't launched, so it isn't here.
+ * soon. LAIE stays private until it proves itself (founder, 3 Nov 2026) and
+ * voice isn't launched, so neither is here.
  */
 export const PLATFORM_NAV = [
   {
@@ -90,16 +91,6 @@ export const PLATFORM_NAV = [
     summary: "Files kept with the client and project they belong to.",
     status: "live",
     card: { headline: "Files that stay with the deal.", text: "Documents and images kept on the client and project they belong to, inside your workspace." },
-  },
-  {
-    key: "laie",
-    icon: "radar",
-    name: "ERIX LAIE",
-    href: "/platform/erix-laie",
-    summary: "Finds and researches new leads for you to review.",
-    status: "invite",
-    card: { headline: "New leads, researched for you to review.", text: "Invite-only beta: finds businesses that fit your customer and researches them before you reach out." },
-    ai: true,
   },
 ] as const satisfies readonly {
   key: string;

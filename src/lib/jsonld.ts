@@ -95,12 +95,6 @@ export function getOrganizationSchema() {
         description:
           "Visual node-based workflow automation engine with custom-node marketplace.",
       },
-      {
-        "@type": "Brand",
-        name: "ERIX-LAIE",
-        description:
-          "Distributed B2B lead generation, scraping, enrichment, and AI-research platform.",
-      },
     ],
     sameAs: SAME_AS,
   };

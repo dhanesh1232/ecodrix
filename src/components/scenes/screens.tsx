@@ -1,7 +1,7 @@
 /**
  * Coded mocks of the real ERIX screens (redrawn from the SaaS: the AI's
  * knowledge and approvals, an invoice, the public booking page, documents,
- * lead research, a broadcast). Shared by the home product tour and /platform.
+ * a broadcast). Shared by the home product tour and /platform.
  * Each loops only while on screen (Scene); data is example data. The inbox,
  * pipeline and Flow editor are live demos people can use (components/demos).
  */
@@ -421,57 +421,6 @@ export function DocumentsScreen() {
   );
 }
 
-/* ── Lead research (LAIE, invite-only) ─────────────────────────────────── */
-
-const prospects = ["Dental clinic · Benz Circle", "Dental clinic · Labbipet", "Dental clinic · Patamata"];
-
-export function LeadsScreen() {
-  return (
-    <Scene
-      steps={4}
-      timing={[0, 1200, 1100, 1100, 1600]}
-      label="ERIX LAIE, invite only: a search for dental clinics in Vijayawada lists matching businesses, their contact details are checked one by one, and a drafted outreach message waits for the owner's review."
-    >
-      <AppFrame title="Lead research" nav={-1} className="h-[25rem]" action={<Pill tone="primary">Invite only</Pill>}>
-        <div className="flex h-full flex-col gap-3 overflow-hidden p-3 sm:p-4">
-          <p className="rounded-[6px] border border-border-strong bg-surface px-2.5 py-1.5 text-[12px] text-foreground">
-            Dental clinics in Vijayawada
-          </p>
-          <ul className="space-y-2">
-            {prospects.map((p, i) => (
-              <li key={p} className={cn(box, "flex items-center justify-between gap-2 p-2.5")}>
-                <span className="truncate text-[12px] font-semibold text-foreground">{p}</span>
-                <span className="inline-grid *:[grid-area:1/1] justify-items-end">
-                  <Pill tone="primary" className="scene-in" style={at(0, i + 1)}>
-                    Checking
-                  </Pill>
-                  <Pill tone="success" icon={CheckCircle2} className="scene-in scene-pop" style={at(i + 1)}>
-                    Details checked
-                  </Pill>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div
-            style={at(4)}
-            className="scene-in mt-auto rounded-[10px] border border-[var(--purple-500)] bg-ai-subtle p-3"
-          >
-            <p className="flex items-center gap-1 text-[11px] font-semibold text-ai">
-              <Sparkles aria-hidden="true" className="size-3" /> Outreach drafted
-            </p>
-            <p className="mt-1 text-[12px] text-foreground">
-              Three first messages are ready. Nothing is sent until you review them.
-            </p>
-            <span className="mt-2 inline-flex rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold text-white">
-              Review
-            </span>
-          </div>
-        </div>
-      </AppFrame>
-    </Scene>
-  );
-}
-
 /* ── WhatsApp broadcast (CRM → Connect) ────────────────────────────────── */
 
 export function BroadcastScreen() {
@@ -541,7 +490,6 @@ export const SCREENS: Record<ScreenKey, () => ReactNode> = {
   booking: BookingScreen,
   ai: AiScreen,
   documents: DocumentsScreen,
-  leads: LeadsScreen,
   crm: CrmScreen,
   flowCanvas: FlowEditorDemo,
 };

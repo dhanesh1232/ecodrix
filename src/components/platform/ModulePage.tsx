@@ -21,7 +21,6 @@ const HERO_SCREEN: Record<string, ScreenKey> = {
   "erix-connect": "inbox",
   "erix-flow": "flowCanvas",
   "erix-storage": "documents",
-  "erix-laie": "leads",
 };
 
 export const TYPE_LABEL = {
