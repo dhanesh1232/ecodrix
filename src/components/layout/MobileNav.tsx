@@ -7,16 +7,17 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { COMPANY_NAV, COMPARE_NAV, CONTACT_CTA, GUIDE_NAV, INDUSTRY_NAV, PLATFORM_NAV, RESOURCE_NAV } from "@/lib/site";
+import { COMPANY_NAV, COMPARE_NAV, CONTACT_CTA, GUIDE_NAV, INDUSTRY_NAV, RESOURCE_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { LogoMark } from "./LogoMark";
 import { isCurrent, NAV_SECTIONS, type NavSection } from "./nav-data";
+import { type PlatformNavItem, usePlatformNav } from "./platform-nav";
 
 type Row = { href: string; label: string; text?: string; icon: IconName; ai?: boolean; badge?: ReactNode };
 
 /** Two-line rows (name and what it's for), the same words as the desktop panels. */
-const rows: Record<NavSection, Row[]> = {
-  platform: PLATFORM_NAV.map((m) => ({
+const rowsFor = (platform: readonly PlatformNavItem[]): Record<NavSection, Row[]> => ({
+  platform: platform.map((m) => ({
     href: m.href,
     label: m.name,
     text: m.summary,
@@ -40,7 +41,7 @@ const rows: Record<NavSection, Row[]> = {
       icon: "message-circle",
     },
   ],
-};
+});
 
 /** A compact single-line link list under a small heading (guides, comparisons). */
 function SubList({
@@ -99,6 +100,7 @@ export default function MobileNav({
   path: string | null;
   current?: NavSection;
 }) {
+  const rows = rowsFor(usePlatformNav());
   const close = () => {
     onNavigate();
     onOpenChange(false);

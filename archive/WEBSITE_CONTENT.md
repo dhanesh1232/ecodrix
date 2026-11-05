@@ -1,3 +1,5 @@
+> ARCHIVED 3 Nov 2026: an old draft with claims the live site no longer makes (SOC 2, customer counts, uptime, trial length, 24/7 support). Never use it as a source for the site, docs or any AI agent.
+
 # ECODrIx Website Content - AWS Activate Ready
 
 ## 🎯 One-Liner Product Description

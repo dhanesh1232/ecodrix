@@ -18,13 +18,13 @@ import {
   COMPARE_NAV,
   GUIDE_NAV,
   INDUSTRY_NAV,
-  PLATFORM_NAV,
   RESOURCE_NAV,
   SUPPORT_EMAIL,
   WHATSAPP_CTA,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { isCurrent, NAV_SECTIONS, type NavSection } from "./nav-data";
+import { type PlatformNavItem, usePlatformNav } from "./platform-nav";
 
 /* ── Panels ──────────────────────────────────────────────────────────── */
 
@@ -221,7 +221,7 @@ function SpotPanel({
   );
 }
 
-const PLATFORM_SPOTS: readonly Spot[] = [
+const platformSpots = (platform: readonly PlatformNavItem[]): readonly Spot[] => [
   {
     key: "story",
     kicker: "The ERIX story",
@@ -229,7 +229,7 @@ const PLATFORM_SPOTS: readonly Spot[] = [
     text: "Follow it through the inbox, the agent, the pipeline and Flow.",
     cta: { label: "See the story", href: "/#story" },
   },
-  ...PLATFORM_NAV.map((mod) => ({
+  ...platform.map((mod) => ({
     key: mod.key,
     kicker: mod.name,
     icon: mod.icon,
@@ -338,13 +338,14 @@ function PanelFoot({ href, label, onSpotlight }: { href: string; label: string; 
 }
 
 function Panel({ section, path }: { section: NavSection; path: string | null }) {
+  const platform = usePlatformNav();
   if (section === "platform")
     return (
-      <SpotPanel className="grid-cols-[minmax(0,1fr)_18rem] gap-6" spots={PLATFORM_SPOTS} path={path}>
+      <SpotPanel className="grid-cols-[minmax(0,1fr)_18rem] gap-6" spots={platformSpots(platform)} path={path}>
         {(spotlight) => (
           <>
             <m.ul variants={list} className="grid grid-cols-3 gap-1">
-              {PLATFORM_NAV.map((mod) => (
+              {platform.map((mod) => (
                 <PanelLink key={mod.key} href={mod.href} path={path} onSpotlight={spotlight(mod.key)}>
                   <Glyph ai={"ai" in mod}>
                     <Icon name={mod.icon} size={16} variant="line" />

@@ -70,7 +70,7 @@ export const USE_CASES: UseCase[] = [
     faqs: [
       {
         q: "Is ERIX a good CRM for real estate in India?",
-        a: "Yes. ERIX is a WhatsApp-native CRM built for Indian real estate — portal-lead capture, location-based auto-assignment, WhatsApp property sharing, and automated follow-ups, priced in INR with a 14-day free trial.",
+        a: "Yes. ERIX is a WhatsApp-native CRM built for Indian real estate — portal-lead capture, location-based auto-assignment, WhatsApp property sharing, and automated follow-ups, priced in INR.",
       },
       {
         q: "Can I send property photos and brochures on WhatsApp?",
@@ -137,7 +137,7 @@ export const USE_CASES: UseCase[] = [
       },
       {
         q: "Is ERIX suitable for a small clinic?",
-        a: "Yes. ERIX is built for Indian SMBs, including small clinics — it starts simple with a shared inbox and reminders, and scales as you grow. Pricing is in INR with a free trial.",
+        a: "Yes. ERIX is built for Indian SMBs, including small clinics — it starts simple with a shared inbox and reminders, and scales as you grow. Pricing is in INR.",
       },
       {
         q: "Can it handle teleconsultation links?",
@@ -259,7 +259,7 @@ export const USE_CASES: UseCase[] = [
     faqs: [
       {
         q: "Is ERIX suitable for coaching institutes in India?",
-        a: "Yes. ERIX is built for Indian SMBs including coaching centers, tuition institutes, and training academies. It handles admission inquiries, follow-ups, fee collection, and batch communication — all on WhatsApp. Pricing starts in INR with a free trial.",
+        a: "Yes. ERIX is built for Indian SMBs including coaching centers, tuition institutes, and training academies. It handles admission inquiries, follow-ups, fee collection, and batch communication — all on WhatsApp. Pricing is in INR.",
       },
       {
         q: "Can I send bulk messages to all parents in a batch?",

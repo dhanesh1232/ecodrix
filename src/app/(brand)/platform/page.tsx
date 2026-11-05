@@ -8,10 +8,10 @@ import { LazyScreen } from "@/components/scenes/lazy-screen";
 import { TimelineScene } from "@/components/scenes/timeline-scene";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { getPlatformNav } from "@/lib/catalog";
 import { getBreadcrumbSchema, getFAQSchema, getItemListSchema } from "@/lib/jsonld";
 import { PLATFORM_MODULES } from "@/lib/platform-modules";
 import { pageMetadata } from "@/lib/seo";
-import { PLATFORM_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -227,20 +227,23 @@ const INCLUDED: { icon: GlyphName; title: string; ai?: boolean; items: string[] 
 
 /** Built or planned but not in 1.0 for every workspace (VERSION_PLAN). */
 const LATER = [
-  { label: "Voice agent", when: "Version 1.1" },
   { label: "Messenger and Telegram inboxes", when: "Version 1.2" },
   { label: "Webhooks, more schedules and connected apps", when: "Version 1.2" },
   { label: "Lead scoring, referrals, reviews and memberships", when: "Version 1.2" },
   { label: "Instagram posts and a content calendar", when: "Version 1.3" },
 ];
 
-const more = PLATFORM_NAV.filter((m) => m.key === "storage");
 const moreCopy: Record<string, string> = {
   storage:
     "Files kept with the client and project they belong to: documents, secure share links and proposals signed online.",
 };
 
-export default function PlatformIndexPage() {
+// Which modules are listed (and which are Coming soon) follows admin › Catalog.
+export const revalidate = 300;
+
+export default async function PlatformIndexPage() {
+  const nav = await getPlatformNav();
+  const more = nav.filter((m) => m.key === "storage");
   return (
     <div className="w-full">
       {/* JSON-LD: ItemList + FAQ + Breadcrumb */}
@@ -280,7 +283,7 @@ export default function PlatformIndexPage() {
         lead="Live means you can use it in ERIX today. Coming soon and invite-only are marked."
       >
         <ul className="grid gap-x-10 md:grid-cols-2">
-          {PLATFORM_NAV.map((m) => (
+          {nav.map((m) => (
             <li key={m.key} className="border-t border-border-soft">
               <Link href={m.href} className="group -mx-3 flex items-start gap-4 rounded-lg px-3 py-5 hover:bg-hover">
                 <span

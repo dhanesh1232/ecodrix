@@ -7,13 +7,14 @@ const API_BASE = process.env.API_URL || "https://api.ecodrix.com";
 
 /**
  * GET a public endpoint's `data`, or null when it fails. ISR with 60s
- * revalidation (Next dedupes the same URL within a render); the 5s timeout
- * keeps builds and dev from hanging when the API is unreachable.
+ * revalidation unless told otherwise (Next dedupes the same URL within a
+ * render); the 5s timeout keeps builds and dev from hanging when the API is
+ * unreachable.
  */
-async function getData<T>(path: string): Promise<T | null> {
+async function getData<T>(path: string, revalidate = 60): Promise<T | null> {
   try {
     const res = await fetch(`${API_BASE}${path}`, {
-      next: { revalidate: 60 },
+      next: { revalidate },
       signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return null;
@@ -43,3 +44,8 @@ export const blogs = {
     return listed && "body" in listed ? (listed as BlogPost) : null;
   },
 };
+
+/** What ERIX offers, as staff set it for the website (admin › Catalog). Null when the API fails. */
+export async function fetchCatalog(): Promise<import("@/lib/catalog").CatalogItem[] | null> {
+  return getData("/v1/api/platform/public/catalog", 300);
+}

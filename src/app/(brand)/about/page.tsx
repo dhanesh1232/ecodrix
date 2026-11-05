@@ -3,8 +3,8 @@ import { Icon } from "@/components/icons";
 import { CtaBand, MkSection, WhatsAppCta } from "@/components/marketing/kit";
 import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { getPlatformNav } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/seo";
-import { PLATFORM_NAV } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
@@ -40,7 +40,10 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export const revalidate = 300;
+
+export default async function AboutPage() {
+  const nav = await getPlatformNav();
   return (
     <div className="w-full">
       {/* ── Story ── */}
@@ -94,7 +97,7 @@ export default function AboutPage() {
         lead="ERIX replaces the tools most growing businesses stitch together, and every part shares the same customer record."
       >
         <ul className="grid gap-x-10 md:grid-cols-2">
-          {PLATFORM_NAV.map((m) => (
+          {nav.map((m) => (
             <li key={m.key} className="border-t border-border">
               <Link
                 href={m.href}

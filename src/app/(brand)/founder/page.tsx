@@ -44,7 +44,7 @@ const FOUNDER_FAQS = [
   },
   {
     q: "When did ERIX start?",
-    a: "In August 2025, when Dhanesh founded ECODrIx. ERIX 1.0 brings CRM, Connect, Flow and AI agents together, and the voice agent is in development.",
+    a: "In August 2025, when Dhanesh founded ECODrIx. ERIX 1.0 brings CRM, Connect, Flow and AI agents together.",
   },
   {
     q: "What does ERIX do for a business?",

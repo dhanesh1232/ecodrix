@@ -1,20 +1,12 @@
 import Link from "next/link";
-import { Icon, type GlyphName } from "@/components/icons";
+import { type GlyphName, Icon } from "@/components/icons";
 import { LogoMark } from "@/components/layout/LogoMark";
 import { CookiePrefsButton } from "@/components/legal/CookiePrefsButton";
 import { Wordmark } from "@/components/marketing/wordmark";
 import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
-import {
-  COMPANY_NAV,
-  INDUSTRY_NAV,
-  PLATFORM_NAV,
-  PRIMARY_CTA,
-  RESOURCE_NAV,
-  SOCIALS,
-  SUPPORT_EMAIL,
-  WHATSAPP_CTA,
-} from "@/lib/site";
+import { getPlatformNav } from "@/lib/catalog";
+import { COMPANY_NAV, INDUSTRY_NAV, PRIMARY_CTA, RESOURCE_NAV, SOCIALS, SUPPORT_EMAIL, WHATSAPP_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /** The v1.0 job, enquiry to payment, each step linking to the part of ERIX that does it. */
@@ -32,7 +24,6 @@ const product = [
   { name: "AI agents", href: "/platform#agents" },
   { name: "How it fits together", href: "/platform" },
 ];
-const also = PLATFORM_NAV.filter((m) => m.key === "storage");
 
 /** India-first facts, each true of ERIX today (DS product.md). */
 const facts: { icon: GlyphName; text: string }[] = [
@@ -45,7 +36,7 @@ const facts: { icon: GlyphName; text: string }[] = [
 /** Developer pages, on this site (the API serves JSON only). */
 const developer: { label: string; href: string; live?: boolean }[] = [
   { label: "API docs", href: "/docs" },
-  { label: "System status", href: "/status",  live: true },
+  { label: "System status", href: "/status", live: true },
   { label: "Changelog", href: "/changelog" },
 ];
 
@@ -85,7 +76,8 @@ function Column({ title, children }: { title: string; children: React.ReactNode 
  * four link columns; the v1.0 job as one slim journey bar ending in the logo's
  * red dot ("Paid"); India-first facts; the legal bar; the wordmark.
  */
-export function Footer() {
+export async function Footer() {
+  const also = (await getPlatformNav()).filter((m) => m.key === "storage");
   return (
     <footer className="mt-auto border-t border-border-soft bg-background">
       <nav id="site-map" aria-label="Site map" className={cn("scroll-mt-20", gutter)}>
@@ -108,7 +100,12 @@ export function Footer() {
             <div className="mt-6 flex flex-wrap gap-2.5">
               <Link href={PRIMARY_CTA.href} className={cn(buttonVariants(), "group min-h-10! px-4! text-[14px]")}>
                 {PRIMARY_CTA.label}
-                <Icon name="arrow-right" size={15} variant="line" className="group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform" />
+                <Icon
+                  name="arrow-right"
+                  size={15}
+                  variant="line"
+                  className="group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform"
+                />
               </Link>
               <a
                 href={WHATSAPP_CTA.href}
@@ -135,7 +132,12 @@ export function Footer() {
                 Built in Andhra Pradesh by <span className="font-semibold text-foreground">Dhanesh M</span>
                 <span className="block text-accent">
                   Why ERIX exists
-                  <Icon name="arrow-right" size={13} variant="line" className="ml-1 inline align-[-2px] group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform" />
+                  <Icon
+                    name="arrow-right"
+                    size={13}
+                    variant="line"
+                    className="ml-1 inline align-[-2px] group-hover:translate-x-1 ease-in-out duration-300 transform transition-transform"
+                  />
                 </span>
               </span>
             </Link>
@@ -179,9 +181,9 @@ export function Footer() {
               {developer.map((d) => (
                 <li key={d.href}>
                   <Link href={d.href} className={cn(linkCls, d.live && "relative")}>
-                  {d.live && (
-                    <span className="inline-flex size-2 absolute -left-3.5 shrink-0 items-center justify-center rounded-full bg-green-500 animate-pulse"/>
-                  )}
+                    {d.live && (
+                      <span className="inline-flex size-2 absolute -left-3.5 shrink-0 items-center justify-center rounded-full bg-green-500 animate-pulse" />
+                    )}
                     {d.label}
                   </Link>
                 </li>
