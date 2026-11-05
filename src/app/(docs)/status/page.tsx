@@ -30,7 +30,7 @@ export default async function StatusPage() {
         ])}
       />
       <section data-tone="subtle" className="bg-background pt-6 pb-[clamp(56px,7vw,96px)]">
-        <div className="mx-auto w-full max-w-6xl">
+        <div className="mx-auto w-full max-w-6xl px-gutter">
           <h1 className="text-[clamp(36px,5vw,54px)] leading-[1.05] tracking-[-0.035em]">System status</h1>
           <p className="mt-4 mb-8 max-w-[60ch] text-[clamp(16px,1.5vw,18px)] leading-relaxed text-muted-foreground">
             How ERIX is running right now: the API, messaging, automations, payments and storage. Checked every 30

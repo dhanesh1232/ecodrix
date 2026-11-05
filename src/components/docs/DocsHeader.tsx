@@ -10,11 +10,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { CONSOLE_URL, DEV_NAV } from "@/lib/docs";
 import { cn } from "@/lib/utils";
 
-
 /**
  * The developer area's one-row header (docs, changelog, status): the brand,
- * its three pages, search and the console. Phones fold the pages and search
- * into a menu.
+ * its three pages, search and the console. Phones and tablets (below lg) fold
+ * the pages and search into a menu: the search box only fits the bar from lg.
  */
 export function DocsHeader({ search }: { search: SearchEntry[] }) {
   const pathname = usePathname();
@@ -39,7 +38,7 @@ export function DocsHeader({ search }: { search: SearchEntry[] }) {
           <span className="sr-only">, docs home</span>
         </Link>
 
-        <nav aria-label="Developers" className="hidden md:block">
+        <nav aria-label="Developers" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {DEV_NAV.map((n) => (
               <li key={n.href}>
@@ -80,7 +79,7 @@ export function DocsHeader({ search }: { search: SearchEntry[] }) {
             aria-controls="docs-menu"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen(!open)}
-            className="grid size-10 place-items-center rounded-[8px] text-foreground hover:bg-sunken md:hidden"
+            className="grid size-10 place-items-center rounded-[8px] text-foreground hover:bg-sunken lg:hidden"
           >
             <Icon name={open ? "x" : "menu"} size={20} variant="line" />
           </button>
@@ -88,7 +87,7 @@ export function DocsHeader({ search }: { search: SearchEntry[] }) {
       </div>
 
       {open && (
-        <div id="docs-menu" className="border-t border-border-soft bg-surface px-gutter pt-3 pb-5 md:hidden">
+        <div id="docs-menu" className="border-t border-border-soft bg-surface px-gutter pt-3 pb-5 lg:hidden">
           <DocsSearch entries={search} onPick={() => setOpen(false)} />
           <nav aria-label="Developers" className="mt-3">
             <ul className="flex flex-col">

@@ -198,7 +198,8 @@ export async function Footer() {
                 </li>
               ))}
               <li>
-                <a href={`mailto:${SUPPORT_EMAIL}`} className={linkCls}>
+                {/* Wraps instead of pushing past a 320 px screen's two-column grid. */}
+                <a href={`mailto:${SUPPORT_EMAIL}`} className={`${linkCls} [overflow-wrap:anywhere]`}>
                   {SUPPORT_EMAIL}
                 </a>
               </li>

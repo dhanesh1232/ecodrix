@@ -22,7 +22,7 @@ export function DocsShell({ children }: { children: ReactNode }) {
         {children}
       </main>
       <footer className="border-t border-border-soft">
-        <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 py-2 text-[13.5px] text-subtle sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 px-gutter py-4 text-[13.5px] text-subtle sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} ECODrIx. Made in India.</p>
           <nav aria-label="Footer">
             <ul className="flex flex-wrap gap-x-5 gap-y-1.5">

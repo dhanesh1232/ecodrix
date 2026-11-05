@@ -203,7 +203,7 @@ export default function DocsPage() {
           { name: "API docs", url: "/docs" },
         ])}
       />
-      <div className="mx-auto grid w-full max-w-360 gap-10 pt-2 pb-20 lg:grid-cols-[210px_minmax(0,1fr)]">
+      <div className="mx-auto grid w-full max-w-360 gap-10 px-gutter pt-2 pb-20 lg:grid-cols-[210px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <nav aria-label="Docs sections" className="sticky top-18 max-h-[calc(100dvh-4.5rem)] overflow-y-auto pb-6">
             {GROUPS.map((g) => (
@@ -223,7 +223,8 @@ export default function DocsPage() {
           </nav>
         </aside>
 
-        <div className="min-w-0">
+        {/* Until the code column sits beside the prose (2xl), cap the reading width so lines stay readable. */}
+        <div className="min-w-0 max-w-[860px] 2xl:max-w-none">
           <header className="pb-10">
             <p className="text-[13px] font-semibold text-accent">Developers</p>
             <h1 className="mt-2 text-[clamp(36px,5vw,54px)] leading-[1.05] tracking-[-0.035em]">ERIX API docs</h1>

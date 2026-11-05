@@ -37,7 +37,7 @@ export default function ChangelogPage() {
         ])}
       />
       <section data-tone="subtle" className="bg-background pt-6 pb-[clamp(56px,7vw,96px)]">
-        <div className="mx-auto w-full max-w-6xl">
+        <div className="mx-auto w-full max-w-6xl px-gutter">
           <h1 className="text-[clamp(36px,5vw,54px)] leading-[1.05] tracking-[-0.035em]">Changelog</h1>
           <p className="mt-4 max-w-[60ch] text-[clamp(16px,1.5vw,18px)] leading-relaxed text-muted-foreground">
             What changed in each release, from the first in August 2025 to 1.0. See what's running right now on the{" "}
@@ -52,7 +52,7 @@ export default function ChangelogPage() {
               <li
                 key={r.version}
                 id={anchor(r.version)}
-                className="grid scroll-mt-24 gap-4 md:grid-cols-[180px_minmax(0,1fr)] md:gap-8"
+                className="grid scroll-mt-24 grid-cols-1 gap-4 md:grid-cols-[180px_minmax(0,1fr)] md:gap-8"
               >
                 <div className="md:sticky md:top-24 md:self-start">
                   <h2 className="font-display text-[26px] tracking-[-0.02em]">
@@ -69,7 +69,7 @@ export default function ChangelogPage() {
                     ))}
                   </div>
                 </div>
-                <ul className="flex flex-col gap-4 rounded-[16px] bg-surface p-5 shadow-[var(--shadow-card)] sm:p-6">
+                <ul className="flex min-w-0 flex-col gap-4 rounded-[16px] bg-surface p-5 shadow-[var(--shadow-card)] [overflow-wrap:anywhere] sm:p-6">
                   {r.items.map((item) => (
                     <li key={item.title} className="flex gap-3 text-[15px] leading-relaxed">
                       <Icon
