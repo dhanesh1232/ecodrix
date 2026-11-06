@@ -39,7 +39,7 @@ export function AiScreen() {
       timing={[0, 1300, 1300, 1500, 900]}
       label="ERIX AI: a new knowledge source is read and becomes ready, the latest draft shows the source it came from, and on the Approvals page the sales agent's request to create a ₹5,000 draft proposal is approved by a person. Nothing is sent to the customer."
     >
-      <AppFrame title="Approvals" nav={2} className="h-[25rem]">
+      <AppFrame title="Approvals" nav="approvals" className="h-[25rem]">
         <div className="grid h-full gap-3 overflow-hidden p-3 sm:p-4 md:grid-cols-[1fr_1.5fr]">
           <div className={cn(box, "hidden p-3 md:block")}>
             <p className="text-[12px] font-semibold text-foreground">AI knowledge</p>
@@ -147,8 +147,8 @@ export function InvoiceScreen() {
       label="An ERIX GST invoice for ₹29,500: ₹25,000 plus 9% CGST and 9% SGST. A Razorpay payment link is created, the invoice is sent on WhatsApp, and it turns Paid when the money lands."
     >
       <AppFrame
-        title="Invoice INV/26-27/0042"
-        nav={3}
+        title="CRM / Invoices / INV/26-27/0042"
+        nav="crm"
         className="h-[25rem]"
         action={
           <span className="inline-grid *:[grid-area:1/1] justify-items-end">
@@ -356,8 +356,8 @@ export function DocumentsScreen() {
       label="A project in ERIX with its documents. The client signs the quotation in her portal, then the business signs; the file turns Signed with an audit seal. Other files are shared with the client."
     >
       <AppFrame
-        title="2BHK interiors, Vijay Nagar"
-        nav={3}
+        title="CRM / Projects / 2BHK interiors, Vijay Nagar"
+        nav="crm"
         className="h-[25rem]"
         action={<Pill tone="success">Active</Pill>}
       >
@@ -430,7 +430,7 @@ export function BroadcastScreen() {
       timing={[0, 1300, 1300, 1500, 1600]}
       label="An ERIX WhatsApp broadcast: the Diwali offer template, approved by WhatsApp, goes to the 1,186 customers tagged diwali, and the broadcast finishes. Meta bills the business directly, with no ERIX markup."
     >
-      <AppFrame title="New broadcast" nav={3} className="h-[25rem]">
+      <AppFrame title="Flow / Campaigns / New broadcast" nav="flow" className="h-[25rem]">
         <div className="flex h-full flex-col gap-3 overflow-hidden p-3 sm:p-4">
           <div className={cn(box, "p-3")}>
             <p className="text-[11px] text-subtle">Template · approved by WhatsApp</p>

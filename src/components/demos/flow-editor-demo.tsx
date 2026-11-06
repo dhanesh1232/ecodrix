@@ -319,8 +319,8 @@ export function FlowEditorDemo() {
   return (
     <div ref={root}>
       <AppFrame
-        title="New enquiry follow-up"
-        nav={4}
+        title="Flow / Automations / New enquiry follow-up"
+        nav="flow"
         className="h-[25rem]"
         action={
           <button

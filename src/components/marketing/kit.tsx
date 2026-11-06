@@ -188,7 +188,7 @@ export function BrowserFrame({
         </span>
       </div>
       {/* An app screen inside a browser window drops its own frame. */}
-      <div className="p-3.5 [&:has(>.scene_[data-app-frame])]:p-0">{children}</div>
+      <div className="p-3.5 [&:has(>.scene_[data-app-frame])]:p-0 [&:has(>[data-app-frame])]:p-0">{children}</div>
     </div>
   );
 }

@@ -157,7 +157,7 @@ export function OverviewScreen() {
       hold={4200}
       label="The ERIX Overview at 8:30 in the morning: Good morning, Priya. You have 3 unread conversations and 2 items waiting for approval. Pipeline value ₹18.4 lakh, 2 items waiting for approval, 3 unread conversations, 26 new contacts, and today's site visit, follow-ups and payments due."
     >
-      <AppFrame title="Overview" nav={0} className="h-[25rem]">
+      <AppFrame title="Overview" nav="overview" className="h-[25rem]">
         <div className="flex h-full flex-col gap-2.5 overflow-hidden p-3 sm:p-4">
           <div>
             <p className="text-[10px] text-subtle">Tuesday, 3 Nov</p>

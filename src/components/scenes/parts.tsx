@@ -6,20 +6,26 @@
  */
 
 import {
+  Bell,
   BookOpen,
+  Cable,
   Check,
   CheckCheck,
+  ChevronRight,
+  ChevronsUpDown,
   ClipboardCheck,
+  Globe,
   Icon,
   isBrandName,
-  KanbanSquare,
   LayoutDashboard,
   MessageCircle,
   Search,
   Sparkles,
+  Users,
   Workflow,
   type IconComponent,
 } from "@/components/icons";
+import { LogoMark } from "@/components/layout/LogoMark";
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -170,62 +176,162 @@ export function Typing({ show, className }: { show: CSSProperties; className?: s
   );
 }
 
-// The SaaS sidebar's order (saas lib/nav/unified.ts): Overview, Inbox,
-// Approvals, then the products ERIX CRM, ERIX Flow and AI.
-const navIcons = [LayoutDashboard, MessageCircle, ClipboardCheck, KanbanSquare, Workflow, Sparkles];
+export type AppNav = "overview" | "ask" | "inbox" | "approvals" | "crm" | "flow" | "seo" | "ai" | "connect";
+
+// The SaaS sidebar (saas lib/nav/unified.ts), in its order and groups:
+// Overview, Erix Ask, Inbox, Approvals; Products (CRM, Flow, SEO, AI);
+// Infrastructure (Connect).
+const appNav: { group?: string; items: { key: AppNav; label: string; icon: IconComponent; ai?: boolean }[] }[] = [
+  {
+    items: [
+      { key: "overview", label: "Overview", icon: LayoutDashboard },
+      { key: "ask", label: "Erix Ask", icon: Sparkles, ai: true },
+      { key: "inbox", label: "Inbox", icon: MessageCircle },
+      { key: "approvals", label: "Approvals", icon: ClipboardCheck },
+    ],
+  },
+  {
+    group: "Products",
+    items: [
+      { key: "crm", label: "CRM", icon: Users },
+      { key: "flow", label: "Flow", icon: Workflow },
+      { key: "seo", label: "SEO", icon: Globe },
+      { key: "ai", label: "AI", icon: Sparkles, ai: true },
+    ],
+  },
+  { group: "Infrastructure", items: [{ key: "connect", label: "Connect", icon: Cable }] },
+];
 
 /**
- * The ERIX app shell in miniature (light theme): the navy sidebar with the
- * current item marked, a top bar and the page. `nav` = index into
- * overview, inbox, approvals, CRM, Flow, AI (-1: none).
+ * The ERIX app shell in miniature (light theme), drawn from the real one: the
+ * navy sidebar with the ERIX mark, the workspace, the same items and groups
+ * and the current page marked; the top bar with the page trail, search, Erix
+ * Ask, notifications and the signed-in person. Like the app, the sidebar
+ * shows its labels when the frame is wide and folds to its icon rail when it
+ * isn't (container queries, so the same scene fits a hero, a column or a
+ * phone). `title` is the trail: "Connect / WhatsApp Business".
  */
 export function AppFrame({
   title,
   nav,
   action,
+  badges,
+  workspace = "Your business",
+  user = "Priya",
   className,
   children,
 }: {
   title: string;
-  nav: number;
+  nav: AppNav | null;
   action?: ReactNode;
+  /** Counts on sidebar items, as the app shows unread chats. */
+  badges?: Partial<Record<AppNav, ReactNode>>;
+  workspace?: string;
+  user?: string;
   className?: string;
   children: ReactNode;
 }) {
+  const crumbs = title.split(" / ");
   return (
     <div
       data-app-frame
       className={cn(
         // Inside a browser frame the app screen drops its own corners and shadow.
-        "surface-light flex overflow-hidden rounded-[12px] bg-background text-foreground shadow-[var(--shadow-lg)] in-data-[browser]:rounded-none in-data-[browser]:[box-shadow:none]",
+        "surface-light @container flex overflow-hidden rounded-[12px] bg-background text-foreground shadow-[var(--shadow-lg)] in-data-[browser]:rounded-none in-data-[browser]:[box-shadow:none]",
         className,
       )}
     >
-      <div className="hidden w-11 shrink-0 flex-col items-center gap-1.5 bg-[var(--blue-900)] py-3 sm:flex">
-        <span className="mb-2 flex size-6 items-center justify-center rounded-[6px] bg-[var(--brand-blue)] font-display text-[11px] font-bold text-white">
-          E
-        </span>
-        {navIcons.map((Icon, i) => (
-          <span
-            key={i}
+      <div className="hidden w-11 shrink-0 flex-col bg-[var(--blue-900)] pb-2 @sm:flex @4xl:w-[184px]">
+        <div className="flex h-11 shrink-0 items-center justify-center gap-2 @4xl:justify-start @4xl:px-3">
+          <LogoMark className="w-[22px]" />
+          <span className="hidden min-w-0 flex-1 truncate text-[12px] font-semibold text-white @4xl:block">
+            {workspace}
+          </span>
+          <span className="hidden shrink-0 text-[var(--blue-200)] @4xl:flex">
+            <ChevronsUpDown aria-hidden="true" className="size-3" />
+          </span>
+        </div>
+        {appNav.map((g, gi) => (
+          <div
+            key={g.group ?? "top"}
             className={cn(
-              "relative flex size-7 items-center justify-center rounded-[8px] text-[var(--blue-200)]",
-              i === nav && "bg-[var(--blue-700)] text-white",
+              "flex flex-col items-center gap-1 @4xl:items-stretch @4xl:gap-0.5 @4xl:px-2",
+              gi > 0 && "mt-2.5 @4xl:mt-3",
             )}
           >
-            {i === nav && <span className="absolute -left-2 h-4 w-0.5 rounded-full bg-[var(--hero-dot)]" />}
-            <Icon aria-hidden="true" className="size-3.5" />
-          </span>
+            {g.group && (
+              <span className="hidden px-2 pb-0.5 text-[10px] font-semibold text-[var(--blue-200)] opacity-80 @4xl:block">
+                {g.group}
+              </span>
+            )}
+            {g.items.map((item) => {
+              const on = item.key === nav;
+              const badge = badges?.[item.key];
+              return (
+                <span
+                  key={item.key}
+                  className={cn(
+                    "relative flex size-7 items-center justify-center rounded-[7px] text-[var(--blue-200)] @4xl:h-[26px] @4xl:w-auto @4xl:justify-start @4xl:gap-2 @4xl:px-2",
+                    on && "bg-white/12 text-white",
+                  )}
+                >
+                  {on && <span className="absolute -left-2 h-4 w-0.5 rounded-full bg-[var(--hero-dot)]" />}
+                  <item.icon
+                    aria-hidden="true"
+                    className={cn("size-3.5 shrink-0", item.ai && "text-[var(--purple-300)]")}
+                  />
+                  <span className="hidden truncate text-[12px] font-medium @4xl:block">{item.label}</span>
+                  {g.group && !badge && (
+                    <span className="ml-auto hidden opacity-70 @4xl:flex">
+                      <ChevronRight aria-hidden="true" className="size-3" />
+                    </span>
+                  )}
+                  {badge !== undefined && (
+                    <span className="absolute top-0.5 right-0.5 size-1.5 rounded-full bg-[var(--hero-dot)] @4xl:static @4xl:ml-auto @4xl:size-auto @4xl:min-w-4 @4xl:px-1 @4xl:text-center @4xl:text-[10px] @4xl:leading-4 @4xl:font-semibold @4xl:text-white">
+                      <span className="hidden @4xl:inline">{badge}</span>
+                    </span>
+                  )}
+                </span>
+              );
+            })}
+          </div>
         ))}
+        <div className="mt-auto flex items-center justify-center gap-2 border-t border-white/8 pt-2 @4xl:justify-start @4xl:px-3">
+          <Avatar name={user} className="size-6 bg-white/12 text-[9px] text-white" />
+          <span className="hidden min-w-0 @4xl:block">
+            <span className="block truncate text-[11.5px] leading-4 font-semibold text-white">{user}</span>
+            <span className="block text-[10px] leading-3 text-[var(--blue-200)]">Owner</span>
+          </span>
+        </div>
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex h-10 shrink-0 items-center justify-between gap-3 border-b border-border bg-surface px-3">
-          <span className="truncate text-[13px] font-semibold text-foreground">{title}</span>
+        <div className="flex h-10 shrink-0 items-center gap-2 border-b border-border bg-surface px-3">
+          <span className="flex min-w-0 flex-1 items-center gap-1.5 text-[12.5px]">
+            {crumbs.map((c, i) =>
+              i === crumbs.length - 1 ? (
+                <span key={c} className="truncate font-semibold text-foreground">
+                  {c}
+                </span>
+              ) : (
+                <span key={c} className="hidden shrink-0 items-center gap-1.5 text-subtle @lg:flex">
+                  {c}
+                  <span className="text-border-strong">/</span>
+                </span>
+              ),
+            )}
+          </span>
           {action ?? (
-            <span className="hidden items-center gap-1.5 rounded-[6px] bg-sunken px-2 py-1 text-[11px] text-subtle md:flex">
-              <Search aria-hidden="true" className="size-3" /> Search contacts, chats…
+            <span className="hidden items-center gap-1.5 rounded-[6px] border border-border bg-sunken px-2 py-1 text-[11px] text-subtle @3xl:flex">
+              <Search aria-hidden="true" className="size-3" /> Search contacts, pages, actions
+              <span className="rounded-[4px] border border-border bg-surface px-1 text-[9.5px] leading-3.5">⌘K</span>
             </span>
           )}
+          <span className="hidden items-center gap-2.5 text-subtle @md:flex">
+            <Sparkles aria-hidden="true" className="size-3.5 text-ai" />
+            <span className="h-4 w-px bg-border" />
+            <Bell aria-hidden="true" className="size-3.5" />
+            <Avatar name={user} className="size-6 text-[9px]" />
+          </span>
         </div>
         <div className="relative min-h-0 flex-1">{children}</div>
       </div>

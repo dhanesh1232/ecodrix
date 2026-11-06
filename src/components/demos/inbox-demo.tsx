@@ -219,7 +219,8 @@ export function InboxDemo() {
     <div>
       <AppFrame
         title="Inbox"
-        nav={1}
+        nav="inbox"
+        badges={{ inbox: 3 }}
         className="h-[25rem]"
         action={
           <button

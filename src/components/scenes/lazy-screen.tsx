@@ -26,6 +26,7 @@ const screens = {
   form: dynamic(() => import("./showcase-scenes").then((m) => m.FormScreen), { ssr: false }),
   templates: dynamic(() => import("./showcase-scenes").then((m) => m.TemplatesScreen), { ssr: false }),
   widget: dynamic(() => import("./showcase-scenes").then((m) => m.WidgetScreen), { ssr: false }),
+  agents: dynamic(() => import("./agents-screen").then((m) => m.AgentsScreen), { ssr: false }),
 };
 
 export type LazyScreenName = keyof typeof screens;

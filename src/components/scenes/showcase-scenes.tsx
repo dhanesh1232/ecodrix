@@ -47,7 +47,7 @@ export function CrmScreen() {
       hold={3600}
       label="ERIX CRM: Rohan Mehta's deal moves from Enquiry to Site visit booked on the pipeline; his contact timeline fills with the WhatsApp enquiry, the AI agent's answer, the booked visit and the accepted proposal; then a GST invoice for ₹29,500 gets a Razorpay payment link and turns Paid."
     >
-      <AppFrame title="Contacts · Rohan Mehta" nav={3} className="h-[25rem]">
+      <AppFrame title="CRM / Contacts / Rohan Mehta" nav="crm" className="h-[25rem]">
         <div className="flex h-full flex-col gap-2.5 overflow-hidden p-3">
           <div className="grid grid-cols-2 gap-2">
             {(["Enquiry", "Site visit booked"] as const).map((stage, i) => (
@@ -183,8 +183,8 @@ export function AnalyticsScreen() {
       label="ERIX Analytics: new contacts by day over the last 30 days, 142 in all, drawn as a rising line; and open deal value by stage: Enquiry ₹3,05,000, Site visit booked ₹3,10,000, Shortlisted ₹2,40,000 and Token paid ₹1,85,000, ₹10.4 lakh open in all."
     >
       <AppFrame
-        title="Analytics"
-        nav={3}
+        title="CRM / Analytics"
+        nav="crm"
         className="h-[25rem]"
         action={
           <span className="rounded-[6px] bg-sunken px-2 py-1 text-[10.5px] font-semibold text-foreground">30D</span>
@@ -336,7 +336,7 @@ export function TemplatesScreen() {
       hold={3800}
       label="ERIX Flow templates: welcome new enquiries, appointment reminders, a nudge when nobody replies, and the sales agent qualifying a new enquiry. The owner picks Appointment reminders and switches it on."
     >
-      <AppFrame title="Templates" nav={4} className="h-[25rem]">
+      <AppFrame title="Connect / WhatsApp / Templates" nav="connect" className="h-[25rem]">
         <div className="grid h-full content-start gap-2.5 overflow-hidden p-3 sm:grid-cols-2">
           {templates.map((t, i) => (
             <div key={t.name} className={cn(box, "relative flex flex-col p-3")}>

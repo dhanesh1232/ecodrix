@@ -1,6 +1,6 @@
 import { CheckCheck, Clock, Sparkles, UserRound } from "@/components/icons";
 import { Scene } from "@/components/motion/scene";
-import { Bubble, Pill, at } from "./parts";
+import { AppFrame, at, Bubble, Pill } from "./parts";
 
 function Case({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -25,14 +25,15 @@ export function AgentScene() {
       label="Three customer questions. The AI agent answers the parking question from the business's listing and sends it. It isn't sure about a discount, so it writes a draft that waits for the owner. A refund request goes to the team, marked Needs you."
       className="w-full"
     >
-      <div className="surface-light overflow-hidden rounded-[12px] bg-background shadow-[var(--shadow-lg)]">
-        <div className="flex items-center justify-between gap-2 border-b border-border bg-surface px-3 py-2.5 sm:px-4">
-          <span className="text-[13px] font-semibold text-foreground">Inbox · this evening</span>
+      <AppFrame
+        title="Inbox"
+        nav="inbox"
+        action={
           <Pill tone="ai" icon={Sparkles}>
-            Auto-reply on
+            AI replies on its own
           </Pill>
-        </div>
-
+        }
+      >
         <Case label="It knows the answer">
           <Bubble show={at(1)}>Do the 3BHKs come with parking?</Bubble>
           <Bubble side="out" ai show={at(2)} source="Baner listing">
@@ -85,7 +86,7 @@ export function AgentScene() {
             </Pill>
           </div>
         </Case>
-      </div>
+      </AppFrame>
     </Scene>
   );
 }

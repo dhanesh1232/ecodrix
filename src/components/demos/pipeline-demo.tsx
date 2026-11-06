@@ -81,8 +81,8 @@ export function PipelineDemo() {
   return (
     <div>
       <AppFrame
-        title="Pipeline · Real estate"
-        nav={3}
+        title="CRM / Pipeline"
+        nav="crm"
         className="h-[25rem]"
         action={
           <span className="flex gap-1 text-[11px]">

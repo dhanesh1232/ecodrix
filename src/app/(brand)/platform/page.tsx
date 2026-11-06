@@ -86,6 +86,7 @@ const chapters: Chapter[] = [
     body: "Give the agent your price list, hours, FAQs and listings. It answers what it knows, drafts the rest, and anything that touches money waits on Approvals.",
     points: [
       "Sales, channels and website agents, replying in the customer's language",
+      "Describe a new agent in a sentence: ERIX shows the plan first, then saves a draft",
       "Starts in Suggest: it drafts and a person sends, until you raise its autonomy",
       "Refunds, complaints and medical questions always go to a person",
       "Monthly limits, a pause button and usage you can see",
