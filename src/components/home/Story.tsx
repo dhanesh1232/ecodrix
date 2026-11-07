@@ -28,7 +28,11 @@ const chapters: Chapter[] = [
     ai: true,
     title: "The agent answers from what you taught it",
     body: "It reads your listings, price list and hours, and replies on its own only when the answer is there. A discount request isn't, so it writes a draft and waits for you. A refund always goes to a person.",
-    points: ["Starts in Suggest: it drafts, you send", "Every answer shows where it came from", "Money and sensitive topics go to your team"],
+    points: [
+      "Starts in Suggest: it drafts, you send",
+      "Every answer shows where it came from",
+      "Money and sensitive topics go to your team",
+    ],
     visual: <AgentScene />,
   },
   {

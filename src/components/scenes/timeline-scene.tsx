@@ -1,6 +1,6 @@
-import { CheckCircle2, Inbox, KanbanSquare, Sparkles, Workflow, type IconComponent } from "@/components/icons";
+import { CheckCircle2, type IconComponent, Inbox, KanbanSquare, Sparkles, Workflow } from "@/components/icons";
 import { Scene } from "@/components/motion/scene";
-import { Avatar, Pill, at } from "./parts";
+import { Avatar, at, Pill } from "./parts";
 
 const events: { tool: string; icon: IconComponent; tone: "primary" | "ai"; text: string; time: string }[] = [
   {

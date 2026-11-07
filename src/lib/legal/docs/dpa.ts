@@ -1,14 +1,14 @@
 import {
-  FileCheck,
-  Users,
-  ListChecks,
-  Server,
-  Lock,
-  Globe,
-  Bell,
   Baby,
-  Trash2,
+  Bell,
   ClipboardCheck,
+  FileCheck,
+  Globe,
+  ListChecks,
+  Lock,
+  Server,
+  Trash2,
+  Users,
 } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 

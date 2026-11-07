@@ -1,4 +1,4 @@
-import { Building2, Mail, Clock, UserCheck } from "@/components/icons";
+import { Building2, Clock, Mail, UserCheck } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const contactDoc: LegalDoc = {

@@ -1,14 +1,4 @@
-import {
-  ShieldCheck,
-  Lock,
-  KeyRound,
-  Network,
-  UserCheck,
-  HardDrive,
-  Eye,
-  Bug,
-  Bell,
-} from "@/components/icons";
+import { Bell, Bug, Eye, HardDrive, KeyRound, Lock, Network, ShieldCheck, UserCheck } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const securityDoc: LegalDoc = {

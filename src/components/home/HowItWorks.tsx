@@ -25,7 +25,10 @@ export function Heart() {
           </blockquote>
           <figcaption className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="flex items-center gap-2.5">
-              <span aria-hidden="true" className="grid size-10 place-items-center rounded-full bg-accent-muted font-display text-[14px] font-bold text-accent">
+              <span
+                aria-hidden="true"
+                className="grid size-10 place-items-center rounded-full bg-accent-muted font-display text-[14px] font-bold text-accent"
+              >
                 DM
               </span>
               <span>
@@ -33,14 +36,19 @@ export function Heart() {
                 <span className="block text-[13.5px] text-muted-foreground">Founder, ECODrIx · Andhra Pradesh</span>
               </span>
             </span>
-            <Link href="/founder" className="group inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus">
+            <Link
+              href="/founder"
+              className="group inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus"
+            >
               Read his story
               <Icon name="arrow-right" size={14} variant="line" />
             </Link>
           </figcaption>
         </figure>
         <div className="rounded-[16px] bg-surface p-6 shadow-[var(--shadow-card)] md:p-8">
-          <h3 className="font-display text-mk-h3 text-foreground text-balance">How a pilot works: we set it up with you</h3>
+          <h3 className="font-display text-mk-h3 text-foreground text-balance">
+            How a pilot works: we set it up with you
+          </h3>
           <ol className="mt-6 space-y-6">
             {[
               {
@@ -93,8 +101,21 @@ export function BuiltForIndia() {
             <p className="text-[15px] font-semibold text-foreground">One booking advance, two places of supply</p>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {[
-                { title: "Same state", rows: [["Amount", "₹25,000"], ["CGST 9%", "₹2,250"], ["SGST 9%", "₹2,250"]] },
-                { title: "Another state", rows: [["Amount", "₹25,000"], ["IGST 18%", "₹4,500"]] },
+                {
+                  title: "Same state",
+                  rows: [
+                    ["Amount", "₹25,000"],
+                    ["CGST 9%", "₹2,250"],
+                    ["SGST 9%", "₹2,250"],
+                  ],
+                },
+                {
+                  title: "Another state",
+                  rows: [
+                    ["Amount", "₹25,000"],
+                    ["IGST 18%", "₹4,500"],
+                  ],
+                },
               ].map((c) => (
                 <div key={c.title} className="flex flex-col rounded-[12px] bg-background p-4">
                   <p className="text-[13px] font-semibold text-accent">{c.title}</p>

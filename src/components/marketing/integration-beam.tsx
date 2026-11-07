@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /** `glyph` is drawn by the server (ChannelBeam), so no icon data ships with
@@ -114,7 +114,9 @@ export function IntegrationBeam({
         "inline-flex items-center gap-2.5 rounded-[9999px] bg-surface py-2 pr-3.5 pl-2 font-sans text-sm/5 font-semibold whitespace-nowrap text-foreground shadow-[0_0_0_1px_var(--border-soft),var(--shadow-sm)]",
         "max-[760px]:gap-2 max-[760px]:py-[5px] max-[760px]:pr-3 max-[760px]:pl-[5px] max-[760px]:text-[13px]",
         // Use the animate-* utility for each side: Tailwind only emits @theme keyframes that a utility uses.
-        side === "out" ? "motion-safe:group-[.is-live]/beam:animate-beam-land" : "motion-safe:group-[.is-live]/beam:animate-beam-emit",
+        side === "out"
+          ? "motion-safe:group-[.is-live]/beam:animate-beam-land"
+          : "motion-safe:group-[.is-live]/beam:animate-beam-emit",
         "motion-safe:group-[.is-live]/beam:[animation-delay:calc(var(--r,0)*70ms)]",
       )}
     >
@@ -134,7 +136,9 @@ export function IntegrationBeam({
   const pulse = (side: Wire["side"]) =>
     cn(
       "fill-none stroke-accent opacity-0 [stroke-dasharray:0.22_1] [stroke-dashoffset:0.22] [stroke-linecap:round]",
-      side === "out" ? "motion-safe:group-[.is-live]/beam:animate-beam-out" : "motion-safe:group-[.is-live]/beam:animate-beam-in",
+      side === "out"
+        ? "motion-safe:group-[.is-live]/beam:animate-beam-out"
+        : "motion-safe:group-[.is-live]/beam:animate-beam-in",
       "motion-safe:group-[.is-live]/beam:[animation-delay:calc(var(--r,0)*70ms)]",
     );
 
@@ -149,7 +153,12 @@ export function IntegrationBeam({
         paths.d.length > 0 && "is-live",
       )}
     >
-      <svg className="pointer-events-none absolute inset-0 overflow-visible" width={paths.w} height={paths.h} aria-hidden="true">
+      <svg
+        className="pointer-events-none absolute inset-0 overflow-visible"
+        width={paths.w}
+        height={paths.h}
+        aria-hidden="true"
+      >
         {paths.d.map((p) => (
           <path
             key={p.k}
@@ -159,10 +168,22 @@ export function IntegrationBeam({
           />
         ))}
         {paths.d.map((p) => (
-          <path key={`g${p.k}`} d={p.d} pathLength={1} className={cn(pulse(p.side), "[stroke-opacity:0.16] [stroke-width:9]")} style={row(p.r)} />
+          <path
+            key={`g${p.k}`}
+            d={p.d}
+            pathLength={1}
+            className={cn(pulse(p.side), "[stroke-opacity:0.16] [stroke-width:9]")}
+            style={row(p.r)}
+          />
         ))}
         {paths.d.map((p) => (
-          <path key={`p${p.k}`} d={p.d} pathLength={1} className={cn(pulse(p.side), "[stroke-width:2.25]")} style={row(p.r)} />
+          <path
+            key={`p${p.k}`}
+            d={p.d}
+            pathLength={1}
+            className={cn(pulse(p.side), "[stroke-width:2.25]")}
+            style={row(p.r)}
+          />
         ))}
       </svg>
       <ul
@@ -170,7 +191,12 @@ export function IntegrationBeam({
         aria-label="Comes in from"
       >
         {inputs.map((it, i) => (
-          <li key={it.label} ref={(n) => void (ins.current[i] = n)} style={row(i)} className="self-end max-[760px]:self-auto">
+          <li
+            key={it.label}
+            ref={(n) => void (ins.current[i] = n)}
+            style={row(i)}
+            className="self-end max-[760px]:self-auto"
+          >
             {node(it, "in")}
           </li>
         ))}
@@ -184,7 +210,12 @@ export function IntegrationBeam({
         aria-label="Goes out as"
       >
         {outputs.map((it, i) => (
-          <li key={it.label} ref={(n) => void (outs.current[i] = n)} style={row(i)} className="self-start max-[760px]:self-auto">
+          <li
+            key={it.label}
+            ref={(n) => void (outs.current[i] = n)}
+            style={row(i)}
+            className="self-start max-[760px]:self-auto"
+          >
             {node(it, "out")}
           </li>
         ))}

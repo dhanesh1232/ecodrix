@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ComponentPropsWithoutRef, type ElementType, type PointerEvent } from "react";
+import { type ComponentPropsWithoutRef, type ElementType, type PointerEvent, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -45,7 +45,12 @@ export function Spotlight<T extends ElementType = "div">({
     });
   };
   return (
-    <Tag ref={ref} onPointerMove={move} className={cn(spot, tone === "ai" ? "[--spot:var(--ai)]" : "[--spot:var(--accent)]", className)} {...rest}>
+    <Tag
+      ref={ref}
+      onPointerMove={move}
+      className={cn(spot, tone === "ai" ? "[--spot:var(--ai)]" : "[--spot:var(--accent)]", className)}
+      {...rest}
+    >
       {children}
     </Tag>
   );

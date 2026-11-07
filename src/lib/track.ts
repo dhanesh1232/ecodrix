@@ -9,8 +9,7 @@
 import { analyticsConsented } from "@/lib/legal/consent";
 
 /** The public API the site posts to (track beacons, waitlist, newsletter). */
-export const API_URL =
-  process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
+export const API_URL = process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
 
 // Same guards as VisitorTracker: only the live site beacons the production
 // API (other origins are CORS-blocked), and only after analytics consent.
@@ -93,11 +92,7 @@ export type EventType = "click" | "form_submit" | "scroll" | "outbound" | "cta" 
  * @param eventType  category — defaults to "click"
  * @param data       arbitrary structured payload
  */
-export function trackEvent(
-  eventName: string,
-  eventType: EventType = "click",
-  data?: Record<string, unknown>,
-): void {
+export function trackEvent(eventName: string, eventType: EventType = "click", data?: Record<string, unknown>): void {
   if (typeof window === "undefined") return;
   if (!TRACKED_HOSTS.has(window.location.hostname) || !analyticsConsented()) return;
   try {

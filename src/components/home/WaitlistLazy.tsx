@@ -7,10 +7,7 @@ import { useEffect, useRef, useState } from "react";
 // library (~90 KB compressed), which every home visit used to download and run
 // before the page became usable. It lives at the bottom of the page, so it
 // loads when the visitor gets near it (or lands on #contact).
-const WaitlistForm = dynamic(
-  () => import("./Waitlist").then((m) => m.WaitlistForm),
-  { ssr: false },
-);
+const WaitlistForm = dynamic(() => import("./Waitlist").then((m) => m.WaitlistForm), { ssr: false });
 
 /** Holds the form's space until it loads, so nothing shifts: at least the
  *  form's tallest rendered height (measured 27 Oct: 564px on phones, 480 to

@@ -12,7 +12,7 @@ import { PhoneFrame } from "@/components/marketing/kit";
 import { Scene } from "@/components/motion/scene";
 import { LiveDot } from "@/components/motion/surface";
 import { cn } from "@/lib/utils";
-import { AppFrame, Avatar, Channel, at } from "./parts";
+import { AppFrame, Avatar, at, Channel } from "./parts";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
 

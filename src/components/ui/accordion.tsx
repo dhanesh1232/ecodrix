@@ -15,7 +15,13 @@ function Accordion(props: React.ComponentProps<typeof AccordionPrimitive.Root>) 
 }
 
 function AccordionItem({ className, ...props }: React.ComponentProps<typeof AccordionPrimitive.Item>) {
-  return <AccordionPrimitive.Item data-slot="accordion-item" className={cn("border-b border-border", className)} {...props} />;
+  return (
+    <AccordionPrimitive.Item
+      data-slot="accordion-item"
+      className={cn("border-b border-border", className)}
+      {...props}
+    />
+  );
 }
 
 /** `icon`: drawn by the caller (a server component where possible, so no

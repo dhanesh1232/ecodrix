@@ -6,6 +6,7 @@
 
 import { createIcon, createLetterIcon, SpinnerArc } from "./Icon";
 
+export type { BrandGradient, BrandMark, BrandName } from "./glyphs";
 export {
   type BrandIconProps,
   createIcon,
@@ -20,15 +21,13 @@ export {
   type IconChipTone,
   type IconComponent,
   type IconName,
-  type MixedIconProps,
   type IconProps,
   type IconVariant,
   isBrandName,
+  type MixedIconProps,
   opticalStroke,
   SpinnerArc,
 } from "./Icon";
-export type { BrandGradient, BrandMark, BrandName } from "./glyphs";
-
 
 export const Activity = createIcon("activity");
 export const AlertCircle = createIcon("circle-alert");

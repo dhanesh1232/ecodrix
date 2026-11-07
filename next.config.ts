@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
+import type { NextConfig } from "next";
 
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -145,6 +145,4 @@ const nextConfig: NextConfig = {
 // Cast to the analyzer's expected config type. `@next/bundle-analyzer` can
 // resolve a different hoisted Next.js version's `NextConfig` in the pnpm
 // monorepo, so we align the argument type to whatever version it expects.
-export default bundleAnalyzer(
-  nextConfig as Parameters<typeof bundleAnalyzer>[0],
-);
+export default bundleAnalyzer(nextConfig as Parameters<typeof bundleAnalyzer>[0]);

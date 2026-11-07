@@ -9,12 +9,12 @@
  * templates and the website chat widget. Example data only.
  */
 
-import { CheckCircle2, Clock, Link2, MessageCircle, Sparkles, Workflow, type IconComponent } from "@/components/icons";
 import type { ReactNode } from "react";
+import { CheckCircle2, Clock, type IconComponent, Link2, MessageCircle, Sparkles, Workflow } from "@/components/icons";
 import { Scene } from "@/components/motion/scene";
 import { LiveDot } from "@/components/motion/surface";
 import { cn } from "@/lib/utils";
-import { AppFrame, Avatar, Bubble, Channel, Pill, Ticks, Typing, at } from "./parts";
+import { AppFrame, Avatar, at, Bubble, Channel, Pill, Ticks, Typing } from "./parts";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";
 

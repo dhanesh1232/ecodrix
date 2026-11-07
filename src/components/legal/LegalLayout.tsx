@@ -17,10 +17,14 @@ function Block({ block }: { block: LegalBlock }) {
   if (typeof block === "string") return <p className={text}>{block}</p>;
   if ("p" in block) return <p className={text}>{block.p}</p>;
   if ("subheading" in block) {
-    return <h3 className="pt-2 font-sans text-[18px] font-semibold tracking-normal text-foreground">{block.subheading}</h3>;
+    return (
+      <h3 className="pt-2 font-sans text-[18px] font-semibold tracking-normal text-foreground">{block.subheading}</h3>
+    );
   }
   if ("note" in block) {
-    return <p className="rounded-[12px] bg-background px-4 py-3 text-[15px] leading-relaxed text-foreground">{block.note}</p>;
+    return (
+      <p className="rounded-[12px] bg-background px-4 py-3 text-[15px] leading-relaxed text-foreground">{block.note}</p>
+    );
   }
   if ("list" in block) {
     return (
@@ -134,7 +138,12 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
 
           <div className="min-w-0 max-w-[68ch] space-y-14">
             {doc.sections.map((section, idx) => (
-              <section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`} className="scroll-mt-24">
+              <section
+                key={section.id}
+                id={section.id}
+                aria-labelledby={`${section.id}-title`}
+                className="scroll-mt-24"
+              >
                 <h2 id={`${section.id}-title`} className="flex gap-3 text-[clamp(22px,2.4vw,28px)] tracking-[-0.02em]">
                   <span className="tabular-nums text-subtle">{idx + 1}.</span>
                   {section.title}
@@ -156,7 +165,10 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
                 </a>{" "}
                 and we&apos;ll help clarify anything you need.
               </p>
-              <Link href="/legal" className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus group mt-4">
+              <Link
+                href="/legal"
+                className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus group mt-4"
+              >
                 <Icon name="arrow-left" size={14} variant="line" />
                 All legal documents
               </Link>

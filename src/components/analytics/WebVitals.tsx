@@ -23,9 +23,7 @@ export function WebVitals() {
     window.gtag("event", metric.name, {
       event_category: "Web Vitals",
       // GA4 custom dimensions only accept integers for value
-      value: Math.round(
-        metric.name === "CLS" ? metric.value * 1000 : metric.value,
-      ),
+      value: Math.round(metric.name === "CLS" ? metric.value * 1000 : metric.value),
       event_label: metric.id,
       // "good" | "needs-improvement" | "poor"
       metric_rating: metric.rating,

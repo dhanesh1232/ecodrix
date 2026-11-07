@@ -169,8 +169,7 @@ export default function PricingPlansSection({
           {pricesHidden
             ? "Plans are billed in rupees, plus 18% GST on your invoice."
             : "Prices exclude 18% GST, which is added on your invoice."}{" "}
-          WhatsApp messages go out on your own WhatsApp account,
-          so Meta bills you directly and ERIX adds no markup.
+          WhatsApp messages go out on your own WhatsApp account, so Meta bills you directly and ERIX adds no markup.
         </p>
       </div>
     </section>

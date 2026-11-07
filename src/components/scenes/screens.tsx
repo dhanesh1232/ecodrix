@@ -6,15 +6,15 @@
  * pipeline and Flow editor are live demos people can use (components/demos).
  */
 
-import { CheckCircle2, Clock, Icon, Link2, MessageCircle, Send, Sparkles } from "@/components/icons";
 import type { CSSProperties, ReactNode } from "react";
-import { Scene } from "@/components/motion/scene";
-import { cn } from "@/lib/utils";
-import type { ScreenKey } from "@/lib/product-pages";
-import { AppFrame, Pill, at } from "./parts";
 import { FlowEditorDemo } from "@/components/demos/flow-editor-demo";
 import { InboxDemo } from "@/components/demos/inbox-demo";
 import { PipelineDemo } from "@/components/demos/pipeline-demo";
+import { CheckCircle2, Clock, Icon, Link2, MessageCircle, Send, Sparkles } from "@/components/icons";
+import { Scene } from "@/components/motion/scene";
+import type { ScreenKey } from "@/lib/product-pages";
+import { cn } from "@/lib/utils";
+import { AppFrame, at, Pill } from "./parts";
 import { CrmScreen } from "./showcase-scenes";
 
 const box = "rounded-[10px] bg-surface shadow-[var(--shadow-card)]";

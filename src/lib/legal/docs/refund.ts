@@ -1,12 +1,4 @@
-import {
-  RotateCcw,
-  Calendar,
-  XCircle,
-  Clock,
-  AlertCircle,
-  MessageSquare,
-  Mail,
-} from "@/components/icons";
+import { AlertCircle, Calendar, Clock, Mail, MessageSquare, RotateCcw, XCircle } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const refundDoc: LegalDoc = {

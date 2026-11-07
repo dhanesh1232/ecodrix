@@ -14,11 +14,7 @@ type GtagParams = Record<string, any>;
 declare global {
   interface Window {
     dataLayer: GtagParams[];
-    gtag: (
-      command: GtagCommand,
-      target: string | Date,
-      params?: GtagParams,
-    ) => void;
+    gtag: (command: GtagCommand, target: string | Date, params?: GtagParams) => void;
   }
 }
 

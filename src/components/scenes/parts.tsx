@@ -5,6 +5,7 @@
  * Everything here is decorative: the Scene gives screen readers one label.
  */
 
+import type { CSSProperties, ReactNode } from "react";
 import {
   Bell,
   BookOpen,
@@ -16,6 +17,7 @@ import {
   ClipboardCheck,
   Globe,
   Icon,
+  type IconComponent,
   isBrandName,
   LayoutDashboard,
   MessageCircle,
@@ -23,10 +25,8 @@ import {
   Sparkles,
   Users,
   Workflow,
-  type IconComponent,
 } from "@/components/icons";
 import { LogoMark } from "@/components/layout/LogoMark";
-import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /** Show a part from step `n` (and hide it again from step `until`). */

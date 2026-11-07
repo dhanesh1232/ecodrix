@@ -5,11 +5,11 @@ import { Icon } from "@/components/icons";
 import { Faq, MkSection, PrimaryCta } from "@/components/marketing/kit";
 import { ClosingCta, Crumbs } from "@/components/platform/ModulePage";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { buttonVariants } from "@/components/ui/button";
 import { COMPARISONS, getComparisonBySlug, getComparisonSlugs } from "@/lib/comparisons";
 import { getBreadcrumbSchema, getFAQSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 /* ──────────────────────────────────────────────────────────────────────
    /compare/[slug] — "ECODrIx vs {Competitor}" comparison page.
@@ -81,7 +81,9 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
           <h1 className="mt-6 max-w-4xl text-[clamp(36px,5vw,56px)] leading-[1.05] tracking-[-0.035em]">
             ECODrIx (ERIX) vs {c.competitor}
           </h1>
-          <p className="mt-5 max-w-[64ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">{c.tldr}</p>
+          <p className="mt-5 max-w-[64ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
+            {c.tldr}
+          </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <PrimaryCta />
             <Link href="/platform" className={buttonVariants({ variant: "ghost" })}>
@@ -95,9 +97,7 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
       <MkSection id="table" title={`Side by side: ERIX and ${c.competitor}`}>
         <div className="overflow-hidden rounded-[16px] shadow-[var(--shadow-card)]">
           <table className="w-full border-collapse bg-surface text-left text-[15px] max-md:block">
-            <caption className="sr-only">
-              ECODrIx (ERIX) compared with {c.competitor}
-            </caption>
+            <caption className="sr-only">ECODrIx (ERIX) compared with {c.competitor}</caption>
             <thead className="max-md:absolute max-md:size-px max-md:overflow-hidden max-md:[clip-path:inset(50%)]">
               <tr className="bg-sunken text-[13px] text-muted-foreground max-md:block">
                 <th scope="col" className="w-1/4 px-5 py-3 font-semibold max-md:block max-md:py-1.5">
@@ -113,14 +113,23 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
             </thead>
             <tbody className="max-md:block">
               {c.rows.map((row) => (
-                <tr key={row.dimension} className="border-t border-border-soft align-top max-md:block max-md:px-0 max-md:py-2">
+                <tr
+                  key={row.dimension}
+                  className="border-t border-border-soft align-top max-md:block max-md:px-0 max-md:py-2"
+                >
                   <th scope="row" className="px-5 py-4 font-semibold text-foreground max-md:block max-md:py-1.5">
                     {row.dimension}
                   </th>
                   <td data-label="ECODrIx (ERIX)" className={cn("px-5 py-4 text-foreground", CELL_PHONE)}>
                     <span className="flex gap-2">
                       {row.ecodrixWins && (
-                        <Icon name="circle-check" size={16} variant="solid" label="ERIX has the edge" className="mt-0.5 shrink-0 text-accent" />
+                        <Icon
+                          name="circle-check"
+                          size={16}
+                          variant="solid"
+                          label="ERIX has the edge"
+                          className="mt-0.5 shrink-0 text-accent"
+                        />
                       )}
                       {row.ecodrix}
                     </span>
@@ -134,8 +143,8 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
           </table>
         </div>
         <p className="mt-4 text-[13.5px] text-subtle">
-          {c.competitor} details last checked on {fmtDate(c.lastVerified)}. Competitor plans change often, so check their
-          site for current features and prices.
+          {c.competitor} details last checked on {fmtDate(c.lastVerified)}. Competitor plans change often, so check
+          their site for current features and prices.
         </p>
       </MkSection>
 
@@ -173,14 +182,16 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
             <ul className="mt-3 space-y-2 text-[16px] text-muted-foreground">
               <li>List the tools you pay for today next to WhatsApp, such as a CRM, invoicing and a booking app.</li>
               <li>Note which WhatsApp templates you rely on; they need WhatsApp&apos;s approval on your number.</li>
-              <li>Plan the number move with your current provider, since a number works with one provider at a time.</li>
+              <li>
+                Plan the number move with your current provider, since a number works with one provider at a time.
+              </li>
             </ul>
           </div>
           <div>
             <h3 className="font-sans text-[19px] font-semibold tracking-normal">What stays the same</h3>
             <p className="mt-3 text-[16px] text-muted-foreground">
-              Your WhatsApp Business number, Meta&apos;s message charges and the 24-hour reply window work the same way on
-              every official provider. What changes is what you can do with each conversation after it arrives.
+              Your WhatsApp Business number, Meta&apos;s message charges and the 24-hour reply window work the same way
+              on every official provider. What changes is what you can do with each conversation after it arrives.
             </p>
           </div>
         </div>
@@ -196,7 +207,10 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
         <ul className="grid gap-x-10 md:grid-cols-2">
           {others.map((o) => (
             <li key={o.slug} className="border-t border-border-soft">
-              <Link href={`/compare/${o.slug}`} className="group -mx-3 flex items-start justify-between gap-4 rounded-[12px] px-3 py-5 hover:bg-hover">
+              <Link
+                href={`/compare/${o.slug}`}
+                className="group -mx-3 flex items-start justify-between gap-4 rounded-[12px] px-3 py-5 hover:bg-hover"
+              >
                 <span>
                   <span className="block text-[17px] font-semibold text-foreground">ECODrIx vs {o.competitor}</span>
                   <span className="mt-1 block text-[15px] text-muted-foreground">{o.description}</span>
@@ -208,7 +222,10 @@ export default async function ComparePage({ params }: { params: Promise<Params> 
         </ul>
       </MkSection>
 
-      <ClosingCta title="See ERIX on your own business" body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it." />
+      <ClosingCta
+        title="See ERIX on your own business"
+        body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it."
+      />
     </div>
   );
 }

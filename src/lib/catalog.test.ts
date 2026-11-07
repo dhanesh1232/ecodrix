@@ -52,6 +52,9 @@ describe("getPlatformNav fallback", () => {
     globalThis.fetch = (async () =>
       new Response(JSON.stringify({ success: true, data: [item("agents", "soon")] }))) as typeof fetch;
     const nav = await getPlatformNav();
-    assert.deepEqual(nav.map((m) => [m.key, m.status]), [["agents", "soon"]]);
+    assert.deepEqual(
+      nav.map((m) => [m.key, m.status]),
+      [["agents", "soon"]],
+    );
   });
 });

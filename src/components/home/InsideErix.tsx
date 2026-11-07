@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Icon, type GlyphName } from "@/components/icons";
+import { type GlyphName, Icon } from "@/components/icons";
 import { MkSection } from "@/components/marketing/kit";
 import { OnceVisible, SegTabs } from "@/components/marketing/seg-tabs";
 import { LazyScreen, type LazyScreenName } from "@/components/scenes/lazy-screen";

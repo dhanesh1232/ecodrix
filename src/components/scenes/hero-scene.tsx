@@ -1,8 +1,8 @@
+import { HeroChat } from "@/components/demos/hero-chat";
 import { CalendarCheck, CheckCircle2, IndianRupee, Link2, Sparkles } from "@/components/icons";
 import { BrowserFrame, PhoneFrame } from "@/components/marketing/kit";
 import { Scene } from "@/components/motion/scene";
-import { HeroChat } from "@/components/demos/hero-chat";
-import { AppFrame, Avatar, Channel, Pill, at } from "./parts";
+import { AppFrame, Avatar, at, Channel, Pill } from "./parts";
 
 /**
  * Home hero: one enquiry, start to finish, as the DS hero composite (the

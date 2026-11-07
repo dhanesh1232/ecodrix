@@ -97,17 +97,20 @@ export default function FounderPage() {
               <p>
                 Dhanesh M, known online as <strong className="text-foreground">Erix</strong>, is a full-stack engineer
                 and SaaS founder based in Andhra Pradesh, India. He started ECODrIx and the ERIX suite in August 2025,
-                after building client systems that all needed the same stitched-together stack: CRM, WhatsApp, email
-                and automation.
+                after building client systems that all needed the same stitched-together stack: CRM, WhatsApp, email and
+                automation.
               </p>
               <p>
-                Today that is one product: ERIX CRM, ERIX Connect, ERIX Flow and AI agents that take care of
-                enquiries from the first message to the paid invoice.
+                Today that is one product: ERIX CRM, ERIX Connect, ERIX Flow and AI agents that take care of enquiries
+                from the first message to the paid invoice.
               </p>
             </div>
             <ul className="mt-6 flex flex-wrap gap-2">
               {ALIASES.map((alias) => (
-                <li key={alias} className="rounded-[6px] bg-surface px-2.5 py-1 text-[13px] text-muted-foreground shadow-[var(--shadow-card)]">
+                <li
+                  key={alias}
+                  className="rounded-[6px] bg-surface px-2.5 py-1 text-[13px] text-muted-foreground shadow-[var(--shadow-card)]"
+                >
                   Also known as: {alias}
                 </li>
               ))}
@@ -168,14 +171,24 @@ export default function FounderPage() {
             <ul className="flex flex-wrap gap-x-6 gap-y-3">
               {SOCIALS.map(({ href, label }) => (
                 <li key={label}>
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus"
+                  >
                     {label}
                     <Icon name="external-link" size={14} variant="line" />
                   </a>
                 </li>
               ))}
               <li>
-                <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus">
+                <a
+                  href={PORTFOLIO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-sans text-[15px]/5 font-[650] text-accent hover:underline hover:underline-offset-3 motion-safe:focus-visible:animate-focus"
+                >
                   portfolio.ecodrix.com
                   <Icon name="external-link" size={14} variant="line" />
                 </a>
@@ -191,7 +204,10 @@ export default function FounderPage() {
               { href: "/about", title: "About ECODrIx", desc: "The company, mission, infrastructure and stack." },
             ].map((l) => (
               <li key={l.href} className="border-t border-border-soft">
-                <Link href={l.href} className="group -mx-3 flex items-start justify-between gap-3 rounded-[12px] px-3 py-5 hover:bg-hover">
+                <Link
+                  href={l.href}
+                  className="group -mx-3 flex items-start justify-between gap-3 rounded-[12px] px-3 py-5 hover:bg-hover"
+                >
                   <span>
                     <span className="block font-semibold text-foreground">{l.title}</span>
                     <span className="mt-1 block text-sm text-muted-foreground">{l.desc}</span>

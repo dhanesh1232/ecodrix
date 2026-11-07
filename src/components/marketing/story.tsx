@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Icon, type GlyphName } from "@/components/icons";
+import { type GlyphName, Icon } from "@/components/icons";
 import { StoryRail, StoryVisual } from "@/components/motion/story-motion";
 import { cn } from "@/lib/utils";
 
@@ -91,7 +91,10 @@ export function Story({
                   {c.points && (
                     <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent">
                       {c.points.map((p) => (
-                        <li key={p} className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground">
+                        <li
+                          key={p}
+                          className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground"
+                        >
                           <Icon name="check" size={16} strokeWidth={2.2} variant="line" />
                           {p}
                         </li>

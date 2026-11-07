@@ -35,16 +35,26 @@ export default async function Image() {
         fontFamily: "sans-serif",
       }}
     >
-      <svg
-        width="1200"
-        height="630"
-        viewBox="0 0 1200 630"
-        style={{ position: "absolute", left: 0, top: 0 }}
-      >
-        <path d="M260 900 C 600 380 900 300 1320 330" fill="none" stroke={SWOOSH} strokeWidth="80" strokeLinecap="round" opacity="0.5" />
+      <svg width="1200" height="630" viewBox="0 0 1200 630" style={{ position: "absolute", left: 0, top: 0 }}>
+        <path
+          d="M260 900 C 600 380 900 300 1320 330"
+          fill="none"
+          stroke={SWOOSH}
+          strokeWidth="80"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
         <circle cx="1166" cy="330" r="18" fill={DOT} />
       </svg>
-      <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", width: "100%" }}>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           {/* The mark alone on the card's own navy: no plate behind it. next/og renders a plain <img>. */}
           <img src={logo} width={90} height={52} alt="" />
@@ -52,7 +62,15 @@ export default async function Image() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", maxWidth: "820px" }}>
           <div style={{ fontSize: "24px", fontWeight: 700, color: LINK }}>ERIX for Indian businesses</div>
-          <div style={{ marginTop: "18px", fontSize: "70px", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.035em" }}>
+          <div
+            style={{
+              marginTop: "18px",
+              fontSize: "70px",
+              fontWeight: 800,
+              lineHeight: 1.04,
+              letterSpacing: "-0.035em",
+            }}
+          >
             From first message to paid invoice.
           </div>
           <div style={{ marginTop: "24px", fontSize: "26px", lineHeight: 1.45, color: "rgba(255,255,255,0.8)" }}>

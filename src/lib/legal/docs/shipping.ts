@@ -1,4 +1,4 @@
-import { Package, Zap, Receipt, LifeBuoy } from "@/components/icons";
+import { LifeBuoy, Package, Receipt, Zap } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const shippingDoc: LegalDoc = {
@@ -35,9 +35,7 @@ export const shippingDoc: LegalDoc = {
       id: "invoices",
       title: "Invoices",
       icon: Receipt,
-      body: [
-        "Every payment gets a GST invoice, which you can download from Billing → Payments in the console.",
-      ],
+      body: ["Every payment gets a GST invoice, which you can download from Billing → Payments in the console."],
     },
     {
       id: "problems",

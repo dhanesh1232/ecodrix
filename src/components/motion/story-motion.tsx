@@ -42,7 +42,10 @@ export function StoryRail({ children }: { children: ReactNode }) {
 
   return (
     <div ref={ref} className="relative pl-11 max-[900px]:pl-8">
-      <span aria-hidden="true" className="absolute top-2 bottom-2 left-[11px] w-0.5 rounded-[2px] bg-border max-[900px]:left-[7px]" />
+      <span
+        aria-hidden="true"
+        className="absolute top-2 bottom-2 left-[11px] w-0.5 rounded-[2px] bg-border max-[900px]:left-[7px]"
+      />
       <m.span
         aria-hidden="true"
         className="absolute top-2 bottom-2 left-[11px] w-0.5 origin-top rounded-[2px] bg-[linear-gradient(180deg,var(--blue-300),var(--accent))] max-[900px]:left-[7px]"

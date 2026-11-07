@@ -3,12 +3,7 @@
   "domain": "https://ecodrix.com",
   "market": "IN",
   "currency": "INR",
-  "products": [
-    "ERIX",
-    "LAIE",
-    "FLOW",
-    "Connect"
-  ],
+  "products": ["ERIX", "LAIE", "FLOW", "Connect"],
   "product_definitions": {
     "ERIX": "WhatsApp-native CRM for Indian SMBs (official Meta Cloud API)",
     "LAIE": "AI lead-generation and business-intelligence engine",
@@ -62,13 +57,7 @@
       "ssr_probe": "AiSensy"
     }
   ],
-  "brand_terms": [
-    "ecodrix",
-    "erix",
-    "laie",
-    "\\bflow\\b",
-    "connect by ecodrix"
-  ],
+  "brand_terms": ["ecodrix", "erix", "laie", "\\bflow\\b", "connect by ecodrix"],
   "competitor_terms": [
     "wati",
     "aisensy",
@@ -82,11 +71,7 @@
     "apollo\\.io",
     "bitrix24"
   ],
-  "ai_engines": [
-    "chatgpt",
-    "perplexity",
-    "gemini"
-  ],
+  "ai_engines": ["chatgpt", "perplexity", "gemini"],
   "core_web_vitals_targets": {
     "lcp_seconds_max": 2.5,
     "inp_ms_max": 200,

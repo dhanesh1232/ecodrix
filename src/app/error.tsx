@@ -9,13 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 // it's ever shown (the icon set is large).
 const Icon = dynamic(() => import("@/components/icons").then((m) => m.Icon), { ssr: false });
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error("Page error:", error);
   }, [error]);

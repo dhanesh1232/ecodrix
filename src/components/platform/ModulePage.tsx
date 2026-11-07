@@ -55,7 +55,12 @@ export function ModuleEyebrow({ m, onNavy }: { m: PlatformModule; onNavy?: boole
 export function Crumbs({ items, onNavy }: { items: { name: string; href?: string }[]; onNavy?: boolean }) {
   return (
     <nav aria-label="Breadcrumb">
-      <ol className={cn("flex flex-wrap items-center gap-1 text-[13px]", onNavy ? "text-white/70" : "text-muted-foreground")}>
+      <ol
+        className={cn(
+          "flex flex-wrap items-center gap-1 text-[13px]",
+          onNavy ? "text-white/70" : "text-muted-foreground",
+        )}
+      >
         {items.map((c, i) => (
           <li key={c.name} className="flex items-center gap-1">
             {i > 0 && <Icon name="chevron-right" size={14} variant="line" className="opacity-60" />}
@@ -193,7 +198,9 @@ export function ModulePage({ slug }: { slug: string }) {
             <ol className="space-y-6">
               {m.steps.map((s, i) => (
                 <li key={s} className="flex gap-4">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent font-sans text-[15px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">{i + 1}</span>
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent font-sans text-[15px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">
+                    {i + 1}
+                  </span>
                   <p className="pt-1.5 text-[17px] text-foreground">{s}</p>
                 </li>
               ))}

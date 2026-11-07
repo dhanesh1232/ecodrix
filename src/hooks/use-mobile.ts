@@ -1,9 +1,7 @@
 import * as React from "react";
 
 export function useIsMobile(breakPoint: number = 768) {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
-    undefined,
-  );
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 
   React.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${breakPoint - 1}px)`);

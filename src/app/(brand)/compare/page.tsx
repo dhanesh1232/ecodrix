@@ -56,7 +56,11 @@ export default function CompareHubPage() {
       />
       <JsonLd
         data={getItemListSchema(
-          COMPARISONS.map((c) => ({ name: `ECODrIx vs ${c.competitor}`, url: `/compare/${c.slug}`, description: c.description })),
+          COMPARISONS.map((c) => ({
+            name: `ECODrIx vs ${c.competitor}`,
+            url: `/compare/${c.slug}`,
+            description: c.description,
+          })),
         )}
       />
       <JsonLd data={getFAQSchema(HUB_FAQS)} />
@@ -68,8 +72,8 @@ export default function CompareHubPage() {
           </h1>
           <p className="mt-5 max-w-[62ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-muted-foreground">
             Wati, AiSensy and Interakt all run on Meta&apos;s official WhatsApp platform, and so does ECODrIx. The
-            difference is what you get around the messaging: ERIX adds a CRM, GST invoices with payment links, automation
-            and an AI agent, in one platform priced in rupees.
+            difference is what you get around the messaging: ERIX adds a CRM, GST invoices with payment links,
+            automation and an AI agent, in one platform priced in rupees.
           </p>
           <div className="mt-8">
             <PrimaryCta />
@@ -81,7 +85,10 @@ export default function CompareHubPage() {
         <ul className="grid gap-x-10 md:grid-cols-3">
           {COMPARISONS.map((c) => (
             <li key={c.slug} className="border-t border-border-soft">
-              <Link href={`/compare/${c.slug}`} className="group -mx-3 flex h-full flex-col rounded-[12px] px-3 py-6 hover:bg-hover">
+              <Link
+                href={`/compare/${c.slug}`}
+                className="group -mx-3 flex h-full flex-col rounded-[12px] px-3 py-6 hover:bg-hover"
+              >
                 <span className="text-[19px] font-semibold text-foreground">ECODrIx vs {c.competitor}</span>
                 <span className="mt-2 text-[15px] text-muted-foreground">{c.description}</span>
                 <ul className="mt-4 space-y-1.5">
@@ -90,7 +97,13 @@ export default function CompareHubPage() {
                     .slice(0, 3)
                     .map((r) => (
                       <li key={r.dimension} className="flex gap-2 text-[14px] text-foreground">
-                        <Icon name="check" size={15} strokeWidth={2.2} variant="line" className="mt-0.5 shrink-0 text-accent" />
+                        <Icon
+                          name="check"
+                          size={15}
+                          strokeWidth={2.2}
+                          variant="line"
+                          className="mt-0.5 shrink-0 text-accent"
+                        />
                         {r.dimension}
                       </li>
                     ))}
@@ -109,7 +122,10 @@ export default function CompareHubPage() {
         <Faq items={HUB_FAQS} />
       </MkSection>
 
-      <ClosingCta title="See ERIX on your own business" body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it." />
+      <ClosingCta
+        title="See ERIX on your own business"
+        body="Join the waitlist and tell us how you sell today. We'll set ERIX up around it."
+      />
     </div>
   );
 }

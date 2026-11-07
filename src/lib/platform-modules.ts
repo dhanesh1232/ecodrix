@@ -51,12 +51,30 @@ export const PLATFORM_MODULES: PlatformModule[] = [
     longDescription:
       "Enquiries from your form links, booking page and chats land in your pipeline. Move deals in one drag, book appointments in Indian time, send proposals your client accepts on a phone, and send GST invoices with your own Razorpay payment link.",
     features: [
-      { title: "A pipeline for your trade", body: "Stages made for your business type, with the total deal value in rupees on every column." },
-      { title: "Form links that fill the pipeline", body: "Share a hosted form link on WhatsApp or in your Instagram bio. Every answer becomes a contact in your first stage." },
-      { title: "Bookings in IST", body: "Your hours, gaps and notice period. Two people can never book the same slot." },
-      { title: "Proposals that become invoices", body: "Your client accepts on a phone, and the proposal becomes an advance GST invoice." },
-      { title: "GST invoices and payment links", body: "CGST and SGST or IGST worked out for you, numbered by financial year, paid through your Razorpay." },
-      { title: "Projects and a client portal", body: "Tasks, documents your client signs first and you sign after, and a page where they follow the work." },
+      {
+        title: "A pipeline for your trade",
+        body: "Stages made for your business type, with the total deal value in rupees on every column.",
+      },
+      {
+        title: "Form links that fill the pipeline",
+        body: "Share a hosted form link on WhatsApp or in your Instagram bio. Every answer becomes a contact in your first stage.",
+      },
+      {
+        title: "Bookings in IST",
+        body: "Your hours, gaps and notice period. Two people can never book the same slot.",
+      },
+      {
+        title: "Proposals that become invoices",
+        body: "Your client accepts on a phone, and the proposal becomes an advance GST invoice.",
+      },
+      {
+        title: "GST invoices and payment links",
+        body: "CGST and SGST or IGST worked out for you, numbered by financial year, paid through your Razorpay.",
+      },
+      {
+        title: "Projects and a client portal",
+        body: "Tasks, documents your client signs first and you sign after, and a page where they follow the work.",
+      },
     ],
     steps: [
       "Pick your business type. A real estate agent starts with Inquiry → Site Visit Scheduled → Site Visit Done → Shortlisted → Token Paid → Agreement Signed → Closed or Lost. Clinics, coaching institutes, online stores and agencies get their own stages.",
@@ -82,7 +100,13 @@ export const PLATFORM_MODULES: PlatformModule[] = [
         a: "Into your own Razorpay account. You connect your keys under Connect → Payments, and ERIX marks the invoice paid when Razorpay confirms the payment.",
       },
     ],
-    searchQueries: ["ECODrIx CRM", "ERIX CRM", "WhatsApp CRM India", "CRM with GST invoices", "kanban CRM with WhatsApp"],
+    searchQueries: [
+      "ECODrIx CRM",
+      "ERIX CRM",
+      "WhatsApp CRM India",
+      "CRM with GST invoices",
+      "kanban CRM with WhatsApp",
+    ],
   },
   {
     slug: "erix-connect",
@@ -97,12 +121,30 @@ export const PLATFORM_MODULES: PlatformModule[] = [
     longDescription:
       "Connect your own WhatsApp Business account through Meta's signup, link Instagram and email, and add the chat widget to your website with one line. Every conversation arrives live in one inbox, on the right contact, on your computer and your phone.",
     features: [
-      { title: "Your own WhatsApp account", body: "Official WhatsApp Business API through Meta's Embedded Signup. Meta bills you directly, and ERIX adds no markup." },
-      { title: "Templates and broadcasts", body: "Approved templates, broadcasts and the 24-hour reply window handled for you." },
-      { title: "Instagram DMs and email", body: "Instagram DMs, and email sent from your own domain, all on the customer's contact." },
-      { title: "Website chat with ticks", body: "One line to embed, your colours and logo. ✓ sent, ✓✓ delivered and blue ✓✓ read, just like WhatsApp." },
-      { title: "An inbox that shows what needs you", body: "Unread counts, a Needs you list for handed-over chats, and AI drafts that show where the answer came from." },
-      { title: "Calendar and payments", body: "Google Calendar and Meet for bookings, and your own Razorpay for payment links." },
+      {
+        title: "Your own WhatsApp account",
+        body: "Official WhatsApp Business API through Meta's Embedded Signup. Meta bills you directly, and ERIX adds no markup.",
+      },
+      {
+        title: "Templates and broadcasts",
+        body: "Approved templates, broadcasts and the 24-hour reply window handled for you.",
+      },
+      {
+        title: "Instagram DMs and email",
+        body: "Instagram DMs, and email sent from your own domain, all on the customer's contact.",
+      },
+      {
+        title: "Website chat with ticks",
+        body: "One line to embed, your colours and logo. ✓ sent, ✓✓ delivered and blue ✓✓ read, just like WhatsApp.",
+      },
+      {
+        title: "An inbox that shows what needs you",
+        body: "Unread counts, a Needs you list for handed-over chats, and AI drafts that show where the answer came from.",
+      },
+      {
+        title: "Calendar and payments",
+        body: "Google Calendar and Meet for bookings, and your own Razorpay for payment links.",
+      },
     ],
     steps: [
       "Connect WhatsApp with Meta's Embedded Signup, using your own WhatsApp Business account.",
@@ -128,7 +170,13 @@ export const PLATFORM_MODULES: PlatformModule[] = [
         a: "Yes. Paste one line of code, then set the name, greeting, colour, position and logo in ERIX. Only the domains you list can show the chat; any other site is refused.",
       },
     ],
-    searchQueries: ["ECODrIx connect", "ERIX Connect", "WhatsApp API India", "WhatsApp shared inbox", "Instagram DM automation India"],
+    searchQueries: [
+      "ECODrIx connect",
+      "ERIX Connect",
+      "WhatsApp API India",
+      "WhatsApp shared inbox",
+      "Instagram DM automation India",
+    ],
   },
   {
     slug: "erix-flow",
@@ -144,12 +192,30 @@ export const PLATFORM_MODULES: PlatformModule[] = [
     longDescription:
       "Start from a template such as Welcome Journey or Appointment Reminders, or build your own: pick what starts it, add steps and switch it on. Anything risky waits for a person to approve, and every contact keeps a history of its runs.",
     features: [
-      { title: "Starts on what happens", body: "A new lead, a stage change, a won or lost deal, a tag, a form, an inbound message, a payment or a booking." },
-      { title: "Wait for a reply", body: "Pause until the customer answers, then carry on down Replied or No reply, each with its own next step." },
-      { title: "AI reply", body: "Let the AI agent answer inside an automation, from your own knowledge. It drafts for a person by default." },
-      { title: "Approvals before it acts", body: "Before money or a customer message goes out, the run waits for someone on your team to approve it." },
-      { title: "Templates for your industry", body: "Welcome messages, appointment reminders and follow-ups, ready to switch on." },
-      { title: "A run history on every contact", body: "Each run and what it did shows on the contact, live as it happens." },
+      {
+        title: "Starts on what happens",
+        body: "A new lead, a stage change, a won or lost deal, a tag, a form, an inbound message, a payment or a booking.",
+      },
+      {
+        title: "Wait for a reply",
+        body: "Pause until the customer answers, then carry on down Replied or No reply, each with its own next step.",
+      },
+      {
+        title: "AI reply",
+        body: "Let the AI agent answer inside an automation, from your own knowledge. It drafts for a person by default.",
+      },
+      {
+        title: "Approvals before it acts",
+        body: "Before money or a customer message goes out, the run waits for someone on your team to approve it.",
+      },
+      {
+        title: "Templates for your industry",
+        body: "Welcome messages, appointment reminders and follow-ups, ready to switch on.",
+      },
+      {
+        title: "A run history on every contact",
+        body: "Each run and what it did shows on the contact, live as it happens.",
+      },
     ],
     steps: [
       "Open ERIX Flow → Automations and start from a template, or choose New automation.",
@@ -171,7 +237,13 @@ export const PLATFORM_MODULES: PlatformModule[] = [
         a: "No. ERIX Flow is part of ERIX and open to every workspace, on the same contacts and inbox.",
       },
     ],
-    searchQueries: ["ECODrIx automation", "ERIX Flow", "WhatsApp automation India", "follow-up automation", "no-code automation India"],
+    searchQueries: [
+      "ECODrIx automation",
+      "ERIX Flow",
+      "WhatsApp automation India",
+      "follow-up automation",
+      "no-code automation India",
+    ],
   },
   {
     slug: "erix-storage",
@@ -186,12 +258,27 @@ export const PLATFORM_MODULES: PlatformModule[] = [
     longDescription:
       "ERIX Storage is live inside projects. Upload quotations, work orders, floor plans and photos to a project. Your client sees them in their own portal, signs what needs signing, and both signatures land on the PDF with an audit seal. A standalone Storage page is coming soon.",
     features: [
-      { title: "Files on the project", body: "PDF, Word, PNG and JPG files, up to 100 MB each, kept on the project they belong to." },
-      { title: "Ask for a signature", body: "Your client signs first, then you. Their name goes on the signature stamp." },
-      { title: "Click-to-sign with a seal", body: "Every signature is stamped with the signer's name and the date, plus an audit seal of the signed file." },
-      { title: "The client sees only theirs", body: "Each client sees only the project you invited them to, on a page that works on a phone." },
+      {
+        title: "Files on the project",
+        body: "PDF, Word, PNG and JPG files, up to 100 MB each, kept on the project they belong to.",
+      },
+      {
+        title: "Ask for a signature",
+        body: "Your client signs first, then you. Their name goes on the signature stamp.",
+      },
+      {
+        title: "Click-to-sign with a seal",
+        body: "Every signature is stamped with the signer's name and the date, plus an audit seal of the signed file.",
+      },
+      {
+        title: "The client sees only theirs",
+        body: "Each client sees only the project you invited them to, on a page that works on a phone.",
+      },
       { title: "Share links", body: "Send a file as a link instead of another WhatsApp attachment." },
-      { title: "Separate for every workspace", body: "Every workspace's files are kept in a space of their own, and storage limits are checked before each upload." },
+      {
+        title: "Separate for every workspace",
+        body: "Every workspace's files are kept in a space of their own, and storage limits are checked before each upload.",
+      },
     ],
     steps: [
       "Create a project under ERIX CRM → Active projects.",

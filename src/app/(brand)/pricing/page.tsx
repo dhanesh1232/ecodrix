@@ -1,6 +1,6 @@
+import Link from "next/link";
 import type { GlyphName } from "@/components/icons";
 import { Icon } from "@/components/icons";
-import Link from "next/link";
 import { Faq, MkSection } from "@/components/marketing/kit";
 import { ClosingCta } from "@/components/platform/ModulePage";
 import PricingPlansSection from "@/components/pricing/PriceToggle";
@@ -27,8 +27,16 @@ export const revalidate = 300;
 
 const facts: { icon: GlyphName; title: string; body: string }[] = [
   { icon: "indian-rupee", title: "Priced in rupees", body: "Every plan is in INR, with Indian number grouping." },
-  { icon: "receipt", title: "GST invoice every time", body: "GST at 18% is added on top, and each payment gets a GST invoice." },
-  { icon: "shield-check", title: "Change plans any time", body: "Upgrades take effect straight away. See the pricing policy for the rest." },
+  {
+    icon: "receipt",
+    title: "GST invoice every time",
+    body: "GST at 18% is added on top, and each payment gets a GST invoice.",
+  },
+  {
+    icon: "shield-check",
+    title: "Change plans any time",
+    body: "Upgrades take effect straight away. See the pricing policy for the rest.",
+  },
 ];
 
 export default async function PricingPage() {
@@ -49,9 +57,10 @@ export default async function PricingPage() {
     },
     {
       q: "Do you offer yearly billing?",
-      a: pct > 0
-        ? `Yes. Paying yearly costs about ${pct}% less than paying monthly for 12 months. Switch to Yearly above to see each plan's price.`
-        : "Yes. Switch to Yearly above to see each plan's yearly price.",
+      a:
+        pct > 0
+          ? `Yes. Paying yearly costs about ${pct}% less than paying monthly for 12 months. Switch to Yearly above to see each plan's price.`
+          : "Yes. Switch to Yearly above to see each plan's yearly price.",
     },
     {
       q: "Can I change plans later?",

@@ -4,15 +4,15 @@ import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
 import { BrowserFrame, Faq, PrimaryCta } from "@/components/marketing/kit";
 import { SCREENS } from "@/components/scenes/screens";
-import { StatusBadge } from "@/components/ui/status-badge";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { buttonVariants } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { getBreadcrumbSchema, getFAQSchema } from "@/lib/jsonld";
 import { getModuleBySlug } from "@/lib/platform-modules";
 import { getProductPages } from "@/lib/product-pages";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { ClosingCta, Crumbs, GuideList, ModuleEyebrow, TYPE_LABEL } from "./ModulePage";
-import { buttonVariants } from "@/components/ui/button";
 
 const anchor = (heading: string) =>
   heading
@@ -59,7 +59,12 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
 
       {/* ── Header (light: only navy bands carry the brand flourish) ── */}
       <section data-tone="subtle" className="py-section bg-background pt-10! md:pt-14!">
-        <div className={cn("mx-auto w-full max-w-wrap px-gutter grid items-center gap-10", Screen && "lg:grid-cols-[1fr_1.05fr] lg:gap-14")}>
+        <div
+          className={cn(
+            "mx-auto w-full max-w-wrap px-gutter grid items-center gap-10",
+            Screen && "lg:grid-cols-[1fr_1.05fr] lg:gap-14",
+          )}
+        >
           <div className={Screen ? "" : "max-w-3xl"}>
             <Crumbs
               items={[
@@ -131,7 +136,9 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
                 <ol className="mt-6 space-y-5">
                   {page.steps.map((s, i) => (
                     <li key={s} className="flex gap-4">
-                      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent font-sans text-[14px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">{i + 1}</span>
+                      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent font-sans text-[14px]/none font-bold text-white shadow-[0_0_0_6px_var(--accent-dim)]">
+                        {i + 1}
+                      </span>
                       <p className="pt-1 text-[17px] text-foreground">{s}</p>
                     </li>
                   ))}
@@ -151,8 +158,17 @@ export function SubPageLayout({ module, slug }: { module: string; slug: string }
                   {s.points && (
                     <ul className="mt-5 grid list-none gap-2.5 [&_.erix-icon]:mt-[3px] [&_.erix-icon]:text-accent">
                       {s.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground">
-                          <Icon name="check" size={16} strokeWidth={2.2} variant="line" className={m.ai ? "text-ai!" : undefined} />
+                        <li
+                          key={pt}
+                          className="flex items-start gap-2.5 font-sans text-[15px]/[22px] font-medium text-foreground"
+                        >
+                          <Icon
+                            name="check"
+                            size={16}
+                            strokeWidth={2.2}
+                            variant="line"
+                            className={m.ai ? "text-ai!" : undefined}
+                          />
                           {pt}
                         </li>
                       ))}

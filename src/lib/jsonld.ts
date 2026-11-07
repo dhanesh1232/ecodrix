@@ -86,14 +86,12 @@ export function getOrganizationSchema() {
       {
         "@type": "Brand",
         name: "ERIX-CRM",
-        description:
-          "Unified lead pipeline, conversation inbox, and client portal communication software.",
+        description: "Unified lead pipeline, conversation inbox, and client portal communication software.",
       },
       {
         "@type": "Brand",
         name: "ERIX-FLOW",
-        description:
-          "Visual node-based workflow automation engine with custom-node marketplace.",
+        description: "Visual node-based workflow automation engine with custom-node marketplace.",
       },
     ],
     sameAs: SAME_AS,
@@ -272,9 +270,7 @@ export function getHowToSchema(input: {
    BreadcrumbList — improves SERP appearance and crawl hints.
 ─────────────────────────────────────────────────────────────────────── */
 
-export function getBreadcrumbSchema(
-  items: Array<{ name: string; url: string }>,
-) {
+export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -322,9 +318,7 @@ export function getModuleSchema(m: ModuleSchemaInput) {
    ItemList — used by /platform index page to enumerate all modules.
 ─────────────────────────────────────────────────────────────────────── */
 
-export function getItemListSchema(
-  items: Array<{ name: string; url: string; description: string }>,
-) {
+export function getItemListSchema(items: Array<{ name: string; url: string; description: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",

@@ -111,7 +111,7 @@ const config: Config = {
         // Utility
         label: ["0.6875rem", { lineHeight: "1.3", letterSpacing: "0.06em", fontWeight: "600" }],
         caption: ["0.75rem", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "400" }],
-        "data": ["1.5rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        data: ["1.5rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
       },
 
       /* ── Spacing (4px base) ───────────────────────────────────────── */
@@ -132,7 +132,7 @@ const config: Config = {
         "16": "64px",
         "20": "80px",
         "24": "96px",
-        "section": "96px",
+        section: "96px",
         "section-sm": "64px",
       },
 
@@ -146,41 +146,41 @@ const config: Config = {
         xl: "0px",
         "2xl": "0px",
         "3xl": "0px",
-        full: "9999px", /* only exception: circular avatars/dots */
+        full: "9999px" /* only exception: circular avatars/dots */,
       },
 
       /* ── Shadows ──────────────────────────────────────────────────── */
       boxShadow: {
         // Minimal — depth from surface-color, not shadow.
-        "sm": "0 1px 2px 0 rgba(0,0,0,0.03)",
-        "DEFAULT": "0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03)",
-        "md": "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.03)",
-        "lg": "0 10px 15px -3px rgba(0,0,0,0.06), 0 4px 6px -4px rgba(0,0,0,0.03)",
-        "overlay": "0 20px 40px -8px rgba(0,0,0,0.12)",
+        sm: "0 1px 2px 0 rgba(0,0,0,0.03)",
+        DEFAULT: "0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03)",
+        md: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.03)",
+        lg: "0 10px 15px -3px rgba(0,0,0,0.06), 0 4px 6px -4px rgba(0,0,0,0.03)",
+        overlay: "0 20px 40px -8px rgba(0,0,0,0.12)",
       },
 
       /* ── Max Widths ───────────────────────────────────────────────── */
       maxWidth: {
-        "content": "1140px",
+        content: "1140px",
         "content-wide": "1320px",
-        "prose": "640px",
-        "dashboard": "1440px",
+        prose: "640px",
+        dashboard: "1440px",
       },
 
       /* ── Animation ────────────────────────────────────────────────── */
       transitionDuration: {
-        "fast": "100ms",
-        "DEFAULT": "150ms",
-        "medium": "200ms",
-        "slow": "300ms",
+        fast: "100ms",
+        DEFAULT: "150ms",
+        medium: "200ms",
+        slow: "300ms",
       },
       transitionTimingFunction: {
-        "productive": "cubic-bezier(0.2, 0, 0.38, 0.9)",
-        "expressive": "cubic-bezier(0.4, 0.14, 0.3, 1)",
+        productive: "cubic-bezier(0.2, 0, 0.38, 0.9)",
+        expressive: "cubic-bezier(0.4, 0.14, 0.3, 1)",
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "float": "float 6s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
         "spin-slow": "spin 20s linear infinite",
       },
       keyframes: {

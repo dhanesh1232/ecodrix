@@ -5,8 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { analyticsConsented, CONSENT_CHANGED_EVENT } from "@/lib/legal/consent";
 import { captureLanding, getLanding, getVisitorId } from "@/lib/track";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
+const API_URL = process.env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
 
 /**
  * Sends a lightweight pageview beacon to the ECODrIx server on every
@@ -58,22 +57,20 @@ export function VisitorTracker() {
         referrer: landing?.referrer ?? null,
         utm: landing
           ? {
-            source: landing.utmSource,
-            medium: landing.utmMedium,
-            campaign: landing.utmCampaign,
-          }
+              source: landing.utmSource,
+              medium: landing.utmMedium,
+              campaign: landing.utmCampaign,
+            }
           : null,
         // Columns exist for source/medium/campaign only; the rest rides here.
         eventData: landing
           ? {
-            landingPath: landing.landingPath,
-            utmTerm: landing.utmTerm,
-            utmContent: landing.utmContent,
-          }
+              landingPath: landing.landingPath,
+              utmTerm: landing.utmTerm,
+              utmContent: landing.utmContent,
+            }
           : null,
-        screen: firstHit.current
-          ? { w: window.screen.width, h: window.screen.height }
-          : null,
+        screen: firstHit.current ? { w: window.screen.width, h: window.screen.height } : null,
         ts: Date.now(),
       });
 
@@ -91,7 +88,7 @@ export function VisitorTracker() {
           headers: { "Content-Type": "application/json" },
           body: payload,
           keepalive: true,
-        }).catch(() => { });
+        }).catch(() => {});
       }
     } catch {
       // fail-open — tracking must never break the page

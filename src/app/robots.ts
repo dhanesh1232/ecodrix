@@ -37,13 +37,7 @@ export default function robots(): MetadataRoute.Robots {
       // dedicated rules over the wildcard fallback.
       ...aiAgents.map((agent) => ({
         userAgent: agent,
-        allow: [
-          "/",
-          "/llms.txt",
-          "/llms-full.txt",
-          "/llms-small.txt",
-          "/ai.txt",
-        ],
+        allow: ["/", "/llms.txt", "/llms-full.txt", "/llms-small.txt", "/ai.txt"],
         disallow: ["/api/"],
       })),
     ],

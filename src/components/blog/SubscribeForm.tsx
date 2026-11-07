@@ -70,8 +70,8 @@ export function SubscribeForm({
       <p role="status" className={cn("flex items-start gap-2.5 text-[15px] text-foreground", className)}>
         <Icon name="mail-check" size={18} variant="duo" className="mt-0.5 shrink-0 text-accent" />
         <span>
-          <b className="font-semibold">Check your inbox.</b> We sent a link to confirm. Nothing arrives until you
-          click it.
+          <b className="font-semibold">Check your inbox.</b> We sent a link to confirm. Nothing arrives until you click
+          it.
         </span>
       </p>
     );

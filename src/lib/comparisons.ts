@@ -64,8 +64,7 @@ const ERIX_PRICING =
   "During the pilot, our team sets up each workspace and agrees pricing with you. Meta bills WhatsApp messages to you directly, with no ERIX markup.";
 const ERIX_AI =
   "Answers from your own price list and hours, drafts what it isn't sure of, and hands refunds and complaints to a person.";
-const ERIX_CRM =
-  "Built in: pipeline board, GST invoices with payment links, projects with e-sign and a client portal.";
+const ERIX_CRM = "Built in: pipeline board, GST invoices with payment links, projects with e-sign and a client portal.";
 // Verified on Meta's WhatsApp Business Platform pricing page, 27 Oct 2026.
 const META_NOTE =
   "Since 1 July 2025, Meta charges per delivered template message, by category (marketing, utility or authentication) and by the recipient's country. Replies inside the 24-hour customer service window are free, and so are utility templates sent while that window is open. Meta changes India's rates (marketing went up on 1 January 2026), so check Meta's current rate card. With ERIX you connect your own WhatsApp Business account, so Meta bills you directly and ERIX adds no markup. With any provider, ask how Meta's charges reach your bill.";
@@ -111,8 +110,7 @@ export const COMPARISONS: Comparison[] = [
       {
         dimension: "No-code automation",
         ecodrix: FLOW_ROW,
-        competitor:
-          "No-code chatbot builder, drip campaigns, lead auto-assignment and follow-up reminders for reps.",
+        competitor: "No-code chatbot builder, drip campaigns, lead auto-assignment and follow-up reminders for reps.",
         ecodrixWins: true,
       },
       {
@@ -209,8 +207,7 @@ export const COMPARISONS: Comparison[] = [
       {
         dimension: "AI agent on your chats",
         ecodrix: ERIX_AI,
-        competitor:
-          "AI agents with a knowledge base, long-term memory and tool calling, sold as an add-on.",
+        competitor: "AI agents with a knowledge base, long-term memory and tool calling, sold as an add-on.",
         ecodrixWins: false,
       },
       META_ROW("AiSensy"),

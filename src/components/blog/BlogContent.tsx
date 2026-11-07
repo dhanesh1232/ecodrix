@@ -44,7 +44,10 @@ const keepStyle = (css: string) =>
   css
     .split(";")
     .map((d) => d.split(":").map((x) => x.trim()))
-    .filter(([k, v]) => k && v && KEEP_STYLE.has(k.toLowerCase()) && /^[#(),.%\w\s-]+$/.test(v) && !/url\(|expression/i.test(v))
+    .filter(
+      ([k, v]) =>
+        k && v && KEEP_STYLE.has(k.toLowerCase()) && /^[#(),.%\w\s-]+$/.test(v) && !/url\(|expression/i.test(v),
+    )
     .map(([k, v]) => `${k.toLowerCase()}:${v}`)
     .join(";");
 
@@ -53,7 +56,11 @@ function videoEmbeds(html: string): string {
   return html.replace(/<div data-erix-type="video" data-src="([^"]*)"><\/div>/g, (_m, src: string) => {
     const yt = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
     const vimeo = src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-    const player = yt ? `https://www.youtube.com/embed/${yt[1]}` : vimeo ? `https://player.vimeo.com/video/${vimeo[1]}` : null;
+    const player = yt
+      ? `https://www.youtube.com/embed/${yt[1]}`
+      : vimeo
+        ? `https://player.vimeo.com/video/${vimeo[1]}`
+        : null;
     return player ? `<iframe src="${player}" title="Video" loading="lazy" allowfullscreen></iframe>` : "";
   });
 }
@@ -63,15 +70,20 @@ function processHtml(raw: string): string {
 
   // Per tag: keep the editor's own erix-* classes and its safe inline styles, add the site's
   // type styles. Everything else from older editors or pasted HTML is dropped.
-  processed = processed.replace(/<([a-z][a-z0-9]*)(\s[^<>]*?)?(\/?)>/gi, (_m, tag: string, attrs: string | undefined, slash: string) => {
-    attrs ??= "";
-    const name = tag.toLowerCase();
-    const own = (attrs.match(/\sclass="([^"]*)"/i)?.[1] ?? "").split(/\s+/).filter((c: string) => /^erix-|^done$/.test(c));
-    const style = keepStyle(attrs.match(/\sstyle="([^"]*)"/i)?.[1] ?? "");
-    const rest = attrs.replace(/\s(class|style)="[^"]*"/gi, "");
-    const classes = [TAG_STYLES[name], ...own].filter(Boolean).join(" ");
-    return `<${tag}${rest}${classes ? ` class="${classes}"` : ""}${style ? ` style="${style}"` : ""}${slash ? " /" : ""}>`;
-  });
+  processed = processed.replace(
+    /<([a-z][a-z0-9]*)(\s[^<>]*?)?(\/?)>/gi,
+    (_m, tag: string, attrs: string | undefined, slash: string) => {
+      attrs ??= "";
+      const name = tag.toLowerCase();
+      const own = (attrs.match(/\sclass="([^"]*)"/i)?.[1] ?? "")
+        .split(/\s+/)
+        .filter((c: string) => /^erix-|^done$/.test(c));
+      const style = keepStyle(attrs.match(/\sstyle="([^"]*)"/i)?.[1] ?? "");
+      const rest = attrs.replace(/\s(class|style)="[^"]*"/gi, "");
+      const classes = [TAG_STYLES[name], ...own].filter(Boolean).join(" ");
+      return `<${tag}${rest}${classes ? ` class="${classes}"` : ""}${style ? ` style="${style}"` : ""}${slash ? " /" : ""}>`;
+    },
+  );
 
   // Remove empty paragraphs (common CMS artifact)
   processed = processed.replace(/<p[^>]*>\s*(<br\s*\/?>)?\s*<\/p>/gi, "");

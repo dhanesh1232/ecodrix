@@ -17,20 +17,19 @@ export interface StyledPhoneProps {
 /**
  * Custom input field — receives focus on tab
  */
-const PhoneInputField = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => (
-  <input
-    ref={ref}
-    {...props}
-    className={cn(
-      "flex-1 h-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground",
-      "focus:outline-none selection:bg-accent/30 selection:text-accent-foreground",
-      className,
-    )}
-  />
-));
+const PhoneInputField = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  ({ className, ...props }, ref) => (
+    <input
+      ref={ref}
+      {...props}
+      className={cn(
+        "flex-1 h-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground",
+        "focus:outline-none selection:bg-accent/30 selection:text-accent-foreground",
+        className,
+      )}
+    />
+  ),
+);
 PhoneInputField.displayName = "PhoneInputField";
 
 /**

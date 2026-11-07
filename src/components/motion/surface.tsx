@@ -32,7 +32,10 @@ export function Marquee({
     <div
       role={label ? "region" : undefined}
       aria-label={label}
-      className={cn("group/marquee min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] motion-reduce:[mask-image:none]", className)}
+      className={cn(
+        "group/marquee min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] motion-reduce:[mask-image:none]",
+        className,
+      )}
       style={{ "--mq-dur": `${duration}s`, "--mq-gap": `${gap}px` } as CSSProperties}
     >
       <div className="flex w-max gap-(--mq-gap) motion-safe:animate-marquee motion-safe:group-[:hover]/marquee:[animation-play-state:paused] motion-safe:group-[:focus-within]/marquee:[animation-play-state:paused]">
@@ -53,7 +56,13 @@ const LD = {
   warning: "[--ld:var(--warning)]",
 } as const;
 
-export function LiveDot({ tone = "success", className }: { tone?: "success" | "accent" | "ai" | "warning"; className?: string }) {
+export function LiveDot({
+  tone = "success",
+  className,
+}: {
+  tone?: "success" | "accent" | "ai" | "warning";
+  className?: string;
+}) {
   return (
     <span
       aria-hidden="true"

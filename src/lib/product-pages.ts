@@ -278,7 +278,8 @@ export const CRM_PAGES: SubPage[] = [
         ],
       },
     ],
-    notice: "This page covers the same ground as the ERIX Flow guides. See What starts an ERIX automation and Automation steps in ERIX Flow for the detail.",
+    notice:
+      "This page covers the same ground as the ERIX Flow guides. See What starts an ERIX automation and Automation steps in ERIX Flow for the detail.",
   },
   {
     slug: "real-estate",
@@ -522,7 +523,8 @@ export const CRM_PAGES: SubPage[] = [
     type: "use-case",
     lead: "Answer order questions from one inbox, send offers on WhatsApp with templates WhatsApp has approved, and take a chat all the way to a paid invoice.",
     screen: "inbox",
-    notice: "ERIX doesn't connect to Shopify or a store catalogue today, and storefront checkout is planned for later. Orders come in as chats, and you invoice them.",
+    notice:
+      "ERIX doesn't connect to Shopify or a store catalogue today, and storefront checkout is planned for later. Orders come in as chats, and you invoice them.",
     sections: [
       {
         heading: "Every DM in one list",
@@ -624,7 +626,8 @@ export const CRM_PAGES: SubPage[] = [
   {
     slug: "google-meet-guide",
     title: "Google Calendar and Meet bookings",
-    description: "Connect Google to ERIX so bookings land on your calendar with a Meet link: sign in, create appointment types, set your hours, then share your booking page.",
+    description:
+      "Connect Google to ERIX so bookings land on your calendar with a Meet link: sign in, create appointment types, set your hours, then share your booking page.",
     type: "guide",
     lead: "Customers pick a free slot, and the meeting appears on your Google Calendar with a Meet link. You set it up once.",
     screen: "booking",
@@ -680,7 +683,8 @@ export const CRM_PAGES: SubPage[] = [
   {
     slug: "razorpay-guide",
     title: "Collect payments with Razorpay links",
-    description: "Connect your own Razorpay account to ERIX, send a payment link with each GST invoice on WhatsApp or email, and see the invoice turn paid when the customer pays.",
+    description:
+      "Connect your own Razorpay account to ERIX, send a payment link with each GST invoice on WhatsApp or email, and see the invoice turn paid when the customer pays.",
     type: "guide",
     lead: "Customers pay from a link on the invoice, the money goes to your Razorpay account, and ERIX marks the invoice paid.",
     screen: "invoice",
@@ -712,9 +716,7 @@ export const CRM_PAGES: SubPage[] = [
       },
       {
         heading: "Good to know",
-        body: [
-          "A few details save confusion later:",
-        ],
+        body: ["A few details save confusion later:"],
         points: [
           "The link asks for the balance due, in the invoice's currency",
           "Creating the link again reuses the same one",
@@ -813,7 +815,12 @@ export const FLOW_PAGES: SubPage[] = [
       {
         heading: "Leads and the pipeline",
         body: ["Most follow-ups start from something that happens to a lead:"],
-        points: ["A lead is created", "A lead enters or leaves a stage", "A deal is won or lost", "A contact is tagged"],
+        points: [
+          "A lead is created",
+          "A lead enters or leaves a stage",
+          "A deal is won or lost",
+          "A contact is tagged",
+        ],
       },
       {
         heading: "Forms, messages and payments",
@@ -948,7 +955,8 @@ export const FLOW_PAGES: SubPage[] = [
   {
     slug: "email-automation-guide",
     title: "Automate emails from your business address",
-    description: "Send emails automatically from your own domain with ERIX Flow: pick a trigger like a new contact or a paid invoice, write the email, and add an approval step.",
+    description:
+      "Send emails automatically from your own domain with ERIX Flow: pick a trigger like a new contact or a paid invoice, write the email, and add an approval step.",
     type: "guide",
     lead: "Welcome emails, booking follow-ups and thank-yous for paid invoices can go out on their own, from your own address.",
     screen: "flowCanvas",
@@ -961,9 +969,7 @@ export const FLOW_PAGES: SubPage[] = [
     sections: [
       {
         heading: "Events that can start an email",
-        body: [
-          "Pick the moment the email should go out:",
-        ],
+        body: ["Pick the moment the email should go out:"],
         points: [
           "New contact added",
           "Contact moves into a stage of your pipeline",
@@ -1226,7 +1232,8 @@ export const CONNECT_PAGES: SubPage[] = [
   {
     slug: "website-chat-guide",
     title: "Add ERIX chat to your website",
-    description: "Put the ERIX chat on your website with one line of code: register your domain, paste the code before </body>, check it, and answer visitors from your inbox.",
+    description:
+      "Put the ERIX chat on your website with one line of code: register your domain, paste the code before </body>, check it, and answer visitors from your inbox.",
     type: "guide",
     lead: "Visitors ask, and the message lands in the same inbox as WhatsApp and email. Setup is one line of code.",
     screen: "inbox",
@@ -1257,9 +1264,7 @@ export const CONNECT_PAGES: SubPage[] = [
       },
       {
         heading: "On WordPress, Shopify or Wix",
-        body: [
-          "The line goes wherever your site lets you add code to every page:",
-        ],
+        body: ["The line goes wherever your site lets you add code to every page:"],
         points: [
           "WordPress: a header-and-footer code plugin, or your theme's footer",
           "Shopify: Online Store → Themes → Edit code → theme.liquid, just before </body>",
@@ -1288,7 +1293,8 @@ export const CONNECT_PAGES: SubPage[] = [
   {
     slug: "email-domain-guide",
     title: "Send email from your own domain",
-    description: "Set up ERIX to send email as you@yourcompany.com: add your domain, copy four DNS records, verify, and choose the sender name and address customers see.",
+    description:
+      "Set up ERIX to send email as you@yourcompany.com: add your domain, copy four DNS records, verify, and choose the sender name and address customers see.",
     type: "guide",
     lead: "Customers trust email from your own address. Setup is four DNS records and a few minutes; DNS can take longer to catch up.",
     steps: [

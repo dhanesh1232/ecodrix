@@ -494,7 +494,7 @@ export type BrandName = keyof typeof BRANDS;
 export type GlyphName = keyof typeof GLYPHS;
 
 export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
-  "People": [
+  People: [
     "user",
     "users",
     "user-plus",
@@ -507,9 +507,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "contact",
     "id-card",
     "handshake",
-    "baby"
+    "baby",
   ],
-  "Conversations": [
+  Conversations: [
     "phone",
     "phone-incoming",
     "phone-call",
@@ -542,9 +542,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "smile",
     "thumbs-up",
     "thumbs-down",
-    "bot-message-square"
+    "bot-message-square",
   ],
-  "Navigation": [
+  Navigation: [
     "home",
     "layout-dashboard",
     "folder-kanban",
@@ -567,9 +567,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "maximize-2",
     "minimize-2",
     "zoom-in",
-    "zoom-out"
+    "zoom-out",
   ],
-  "Actions": [
+  Actions: [
     "plus",
     "minus",
     "check",
@@ -612,9 +612,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "scan-line",
     "wand-sparkles",
     "send-horizontal",
-    "move"
+    "move",
   ],
-  "Arrows": [
+  Arrows: [
     "arrow-right",
     "arrow-up",
     "arrow-down",
@@ -630,9 +630,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "arrow-down-right",
     "chevrons-right",
     "chevrons-left",
-    "move-right"
+    "move-right",
   ],
-  "Status": [
+  Status: [
     "circle-alert",
     "circle-check",
     "circle-x",
@@ -656,9 +656,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "gauge",
     "lightbulb",
     "rocket",
-    "brain"
+    "brain",
   ],
-  "Time": [
+  Time: [
     "clock",
     "history",
     "calendar",
@@ -669,9 +669,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "calendar-x",
     "timer",
     "alarm-clock",
-    "hourglass"
+    "hourglass",
   ],
-  "Business": [
+  Business: [
     "indian-rupee",
     "wallet",
     "receipt",
@@ -704,9 +704,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "files",
     "sheet",
     "clipboard-list",
-    "clipboard-check"
+    "clipboard-check",
   ],
-  "Data": [
+  Data: [
     "chart-bar",
     "chart-line",
     "chart-pie",
@@ -723,9 +723,9 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "git-branch",
     "wifi",
     "wifi-off",
-    "table-2"
+    "table-2",
   ],
-  "Verticals": [
+  Verticals: [
     "stethoscope",
     "bed",
     "ruler",
@@ -738,19 +738,8 @@ export const GLYPH_CATEGORIES: Record<string, GlyphName[]> = {
     "navigation",
     "key-round",
     "book-open",
-    "graduation-cap"
+    "graduation-cap",
   ],
-  "Media": [
-    "image",
-    "video",
-    "smartphone",
-    "camera",
-    "monitor",
-    "laptop",
-    "file-image"
-  ],
-  "Theme": [
-    "sun",
-    "moon"
-  ]
+  Media: ["image", "video", "smartphone", "camera", "monitor", "laptop", "file-image"],
+  Theme: ["sun", "moon"],
 };

@@ -1,13 +1,4 @@
-import {
-  Cookie,
-  Info,
-  Globe,
-  BarChart3,
-  Settings,
-  MessageCircle,
-  ToggleRight,
-  FolderOpen,
-} from "@/components/icons";
+import { BarChart3, Cookie, FolderOpen, Globe, Info, MessageCircle, Settings, ToggleRight } from "@/components/icons";
 import { LEGAL, type LegalDoc } from "@/lib/legal/config";
 
 export const cookieDoc: LegalDoc = {
@@ -116,12 +107,7 @@ export const cookieDoc: LegalDoc = {
                 "Protects the sign-in form against forged requests",
                 "Until you close the browser",
               ],
-              [
-                "__ecodrix_rg",
-                "Cookie (essential)",
-                "Stops sign-in redirect loops",
-                "About 10 seconds",
-              ],
+              ["__ecodrix_rg", "Cookie (essential)", "Stops sign-in redirect loops", "About 10 seconds"],
               ["ecodrix-theme", "Local storage", "Your light or dark theme", "Until you clear it"],
               ["erix.inbox.sound", "Local storage", "Whether the inbox plays a sound", "Until you clear it"],
               ["ecodrix:search:recents", "Local storage", "Your recent console searches", "Until you clear it"],

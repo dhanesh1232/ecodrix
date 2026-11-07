@@ -17,15 +17,12 @@
 
 import { m, type Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { type ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
 
 /** True when the visitor asked for reduced motion (or there is no DOM). */
 export function motionOff(): boolean {
-  return (
-    typeof window === "undefined" ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+  return typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 // ponytail: soft route changes get an entry fade, not a view transition — switch to React <ViewTransition> once Next's experimental.viewTransition is stable.
@@ -169,8 +166,7 @@ export function SceneDriver({
     el.dataset.playing = "";
     let step = Number(el.style.getPropertyValue("--step") || steps);
     let timer = 0;
-    const wait = (s: number) =>
-      s >= steps ? hold : (typeof timing === "number" ? timing : timing[s]) ?? 1100;
+    const wait = (s: number) => (s >= steps ? hold : ((typeof timing === "number" ? timing : timing[s]) ?? 1100));
     const next = () => {
       step = step >= steps ? 0 : step + 1;
       el.style.setProperty("--step", String(step));
@@ -198,7 +194,10 @@ export function SceneDriver({
       <button
         type="button"
         onClick={() => setPaused(!paused)}
-        className={cn("scene-toggle relative z-10 mt-2 in-data-[browser]:my-1.5 in-data-[browser]:mr-2 in-data-[browser]:ml-auto flex size-8 items-center justify-center rounded-[8px] text-subtle hover:bg-hover hover:text-accent", toggleClassName)}
+        className={cn(
+          "scene-toggle relative z-10 mt-2 in-data-[browser]:my-1.5 in-data-[browser]:mr-2 in-data-[browser]:ml-auto flex size-8 items-center justify-center rounded-[8px] text-subtle hover:bg-hover hover:text-accent",
+          toggleClassName,
+        )}
       >
         {paused ? playIcon : pauseIcon}
         <span className="sr-only">{paused ? "Play animation" : "Pause animation"}</span>

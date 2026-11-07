@@ -95,14 +95,7 @@ export interface PublicAddon {
   slug: string;
   name: string;
   description: string | null;
-  service:
-    | "erix"
-    | "laie"
-    | "connect"
-    | "cloud_storage"
-    | "ai"
-    | "platform"
-    | string;
+  service: "erix" | "laie" | "connect" | "cloud_storage" | "ai" | "platform" | string;
   feature: string;
   priceMonthlyUsd: number;
   priceUnit: "month" | "per_call" | "per_gb" | string | null;
@@ -125,9 +118,7 @@ function getApiUrl(): string {
   // Same env convention used by Contact.tsx; fall back to production.
   // Read via `globalThis` so this file type-checks even when the IDE's
   // TS service hasn't picked up `@types/node`.
-  const proc = (
-    globalThis as { process?: { env?: Record<string, string | undefined> } }
-  ).process;
+  const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
   const env = proc?.env ?? {};
   return env.NEXT_PUBLIC_ERIX_SOCKET_URL || "https://api.ecodrix.com";
 }
@@ -189,10 +180,7 @@ function fmtQuota(q: Quota | undefined): string {
  * Yearly discount % vs paying monthly for 12 months.
  * Returns 0 for free plans or when there's no discount.
  */
-export function yearlyDiscountPct(
-  monthly: number | null,
-  yearly: number | null,
-): number {
+export function yearlyDiscountPct(monthly: number | null, yearly: number | null): number {
   if (!monthly || !yearly || monthly <= 0 || yearly <= 0) return 0;
   return Math.round(((monthly * 12 - yearly) / (monthly * 12)) * 100);
 }
@@ -299,10 +287,7 @@ export function groupAddonsByService(
   }
   // Stable order: cloud_storage, ai, platform, then anything else.
   const order = ["cloud_storage", "ai", "platform"];
-  const sortedKeys = [
-    ...order.filter((k) => groups.has(k)),
-    ...[...groups.keys()].filter((k) => !order.includes(k)),
-  ];
+  const sortedKeys = [...order.filter((k) => groups.has(k)), ...[...groups.keys()].filter((k) => !order.includes(k))];
   return sortedKeys.map((key) => ({
     service: key,
     label: ADDON_SERVICE_LABEL[key] ?? key,

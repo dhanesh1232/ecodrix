@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { trackEvent } from "@/lib/track";
 
 /**
@@ -29,9 +29,7 @@ export function AutoEventTracker() {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      const el = target.closest<HTMLElement>(
-        "[data-track], a, button, [role='button']",
-      );
+      const el = target.closest<HTMLElement>("[data-track], a, button, [role='button']");
       if (!el) return;
 
       // 1. Explicit data-track

@@ -11,7 +11,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { type BrandMark, BRANDS, type BrandName, GLYPH_CATEGORIES, GLYPHS, type GlyphName, SOLID } from "./glyphs";
+import { BRANDS, type BrandMark, type BrandName, GLYPH_CATEGORIES, GLYPHS, type GlyphName, SOLID } from "./glyphs";
 
 export type IconVariant = "duo" | "line" | "solid";
 
@@ -32,24 +32,21 @@ export function opticalStroke(size: number): number {
   for (let i = 1; i < OPTICAL.length; i++) {
     const [s1, w1] = OPTICAL[i - 1];
     const [s2, w2] = OPTICAL[i];
-    if (size <= s2)
-      return +(w1 + ((size - s1) / (s2 - s1)) * (w2 - w1)).toFixed(3);
+    if (size <= s2) return +(w1 + ((size - s1) / (s2 - s1)) * (w2 - w1)).toFixed(3);
   }
   return OPTICAL[OPTICAL.length - 1][1];
 }
 
 // Call sites size icons with Tailwind classes (`size-4`, `h-3.5 w-3.5`, `size-[18px]`), not `size`.
 // Read the unprefixed class so the stroke still follows the rendered size.
-const CLASS_SIZE =
-  /(?:^|\s)(?:size|h|w)-(?:(\d+(?:\.\d+)?)|\[(\d+(?:\.\d+)?)px\])(?=\s|$)/;
+const CLASS_SIZE = /(?:^|\s)(?:size|h|w)-(?:(\d+(?:\.\d+)?)|\[(\d+(?:\.\d+)?)px\])(?=\s|$)/;
 function sizeFromClass(className?: string): number | undefined {
   const m = className ? CLASS_SIZE.exec(className) : null;
   if (!m) return undefined;
   return m[1] ? Number(m[1]) * 4 : Number(m[2]);
 }
 
-export interface IconBaseProps
-  extends Omit<React.SVGProps<SVGSVGElement>, "ref" | "name"> {
+export interface IconBaseProps extends Omit<React.SVGProps<SVGSVGElement>, "ref" | "name"> {
   /** px. Defaults to the size in `className` (e.g. `size-4` → 16), else 16. */
   size?: number | string;
   /** Grid units (24). Defaults to the optical stroke for the size. */
@@ -104,20 +101,14 @@ export type IconProps = GlyphIconProps | BrandIconProps | MixedIconProps;
 export const isBrandName = (name: string): name is BrandName => Object.hasOwn(BRANDS, name);
 
 /** Any ERIX icon component: what used to be `LucideIcon`. */
-export type IconComponent = React.ForwardRefExoticComponent<
-  IconBaseProps & React.RefAttributes<SVGSVGElement>
->;
+export type IconComponent = React.ForwardRefExoticComponent<IconBaseProps & React.RefAttributes<SVGSVGElement>>;
 
 type Attrs = Record<string, string>;
 type Element = readonly [string, Attrs];
 
 // Duo tint goes on the first closed shape (circle, rect, ellipse, polygon or a path ending in z).
 const closed = ([t, a]: Element) =>
-  t === "circle" ||
-  t === "rect" ||
-  t === "ellipse" ||
-  t === "polygon" ||
-  (t === "path" && /z\s*$/i.test(a.d ?? ""));
+  t === "circle" || t === "rect" || t === "ellipse" || t === "polygon" || (t === "path" && /z\s*$/i.test(a.d ?? ""));
 const TINT = new Map<string, number>();
 function tintOf(name: string, els: ReadonlyArray<Element>): number {
   let i = TINT.get(name);
@@ -134,8 +125,7 @@ function svgBase(
   variantClass: string,
   strokeFor: (px: number) => number = opticalStroke,
 ) {
-  const px =
-    (size !== undefined && Number(size)) || sizeFromClass(className) || 16;
+  const px = (size !== undefined && Number(size)) || sizeFromClass(className) || 16;
   const sw = Number(strokeWidth) || strokeFor(px);
   // Hidden from assistive tech unless the call site names it (label / aria-label / aria-labelledby).
   const named = Boolean(label || rest["aria-label"] || rest["aria-labelledby"]);
@@ -168,7 +158,9 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(pro
   if (isBrandName(props.name)) {
     const { name, size, label, className, variant } = props as BrandIconProps | MixedIconProps;
     const tone = variant === "mono" || variant === "tile" ? variant : "color";
-    return <BrandMarkSvg ref={ref} name={name as BrandName} size={size} label={label} className={className} variant={tone} />;
+    return (
+      <BrandMarkSvg ref={ref} name={name as BrandName} size={size} label={label} className={className} variant={tone} />
+    );
   }
   return <GlyphSvg ref={ref} {...(props as GlyphIconProps)} />;
 });
@@ -185,12 +177,7 @@ const GlyphSvg = React.forwardRef<SVGSVGElement, GlyphIconProps>(function GlyphS
   if (solid) {
     const body = solid.map(([t, a], i) => h(t, { key: i, ...a }));
     return (
-      <svg
-        ref={ref}
-        {...svgBase(props, "erix-icon--solid")}
-        fill="currentColor"
-        stroke="none"
-      >
+      <svg ref={ref} {...svgBase(props, "erix-icon--solid")} fill="currentColor" stroke="none">
         {transform ? <g transform={transform}>{body}</g> : body}
       </svg>
     );
@@ -295,27 +282,20 @@ export { GLYPH_CATEGORIES, type GlyphName };
  */
 export function createIcon(name: GlyphName, transform?: string): IconComponent {
   const C = React.forwardRef<SVGSVGElement, IconBaseProps>((props, ref) => (
-    <Icon
-      ref={ref}
-      name={name}
-      transform={transform}
-      variant="line"
-      {...props}
-    />
+    <Icon ref={ref} name={name} transform={transform} variant="line" {...props} />
   ));
   C.displayName = `Icon(${name})`;
   return C;
 }
 
 /** Loading arc matching the DS `.erix-spinner` (¾ ring, 2px). Spin it with `animate-spin`. */
-export const SpinnerArc: IconComponent = React.forwardRef<
-  SVGSVGElement,
-  IconBaseProps
->(({ variant: _v, ...props }, ref) => (
-  <svg ref={ref} {...svgBase(props, "erix-spinner", (px) => 48 / px)}>
-    <path d="M12 3a9 9 0 1 1-9 9" />
-  </svg>
-));
+export const SpinnerArc: IconComponent = React.forwardRef<SVGSVGElement, IconBaseProps>(
+  ({ variant: _v, ...props }, ref) => (
+    <svg ref={ref} {...svgBase(props, "erix-spinner", (px) => 48 / px)}>
+      <path d="M12 3a9 9 0 1 1-9 9" />
+    </svg>
+  ),
+);
 SpinnerArc.displayName = "SpinnerArc";
 
 /**
@@ -327,41 +307,30 @@ export function createLetterIcon(
   opts: { fontSize?: number; italic?: boolean; underline?: boolean } = {},
 ): IconComponent {
   const { fontSize = 16, italic, underline } = opts;
-  const C = React.forwardRef<SVGSVGElement, IconBaseProps>(
-    ({ variant: _v, ...props }, ref) => (
-      <svg ref={ref} {...svgBase(props, "erix-icon--letter")}>
-        <text
-          x="12"
-          y={underline ? 15.5 : 12}
-          dominantBaseline="central"
-          textAnchor="middle"
-          fill="currentColor"
-          stroke="none"
-          fontSize={fontSize}
-          fontWeight={700}
-          fontStyle={italic ? "italic" : undefined}
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          {text}
-        </text>
-        {underline && <path d="M7 21h10" />}
-      </svg>
-    ),
-  );
+  const C = React.forwardRef<SVGSVGElement, IconBaseProps>(({ variant: _v, ...props }, ref) => (
+    <svg ref={ref} {...svgBase(props, "erix-icon--letter")}>
+      <text
+        x="12"
+        y={underline ? 15.5 : 12}
+        dominantBaseline="central"
+        textAnchor="middle"
+        fill="currentColor"
+        stroke="none"
+        fontSize={fontSize}
+        fontWeight={700}
+        fontStyle={italic ? "italic" : undefined}
+        style={{ fontFamily: "var(--font-sans)" }}
+      >
+        {text}
+      </text>
+      {underline && <path d="M7 21h10" />}
+    </svg>
+  ));
   C.displayName = `LetterIcon(${text})`;
   return C;
 }
 
-export type IconChipTone =
-  | "blue"
-  | "purple"
-  | "red"
-  | "indigo"
-  | "magenta"
-  | "rose"
-  | "green"
-  | "orange"
-  | "teal";
+export type IconChipTone = "blue" | "purple" | "red" | "indigo" | "magenta" | "rose" | "green" | "orange" | "teal";
 
 // App token names: DS `primary` = app `accent`/`primary`; DS `accent` (purple) = app `ai`.
 const CHIP_TONE: Record<IconChipTone, string> = {
@@ -401,12 +370,7 @@ export function IconChip({
   return (
     <span
       aria-hidden="true"
-      className={cn(
-        "inline-grid flex-none place-items-center",
-        box,
-        CHIP_TONE[tone],
-        className,
-      )}
+      className={cn("inline-grid flex-none place-items-center", box, CHIP_TONE[tone], className)}
     >
       <Icon name={icon} size={px} variant={variant} />
     </span>

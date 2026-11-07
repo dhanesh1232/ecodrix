@@ -1,4 +1,4 @@
-import { Icon, type GlyphName } from "@/components/icons";
+import { type GlyphName, Icon } from "@/components/icons";
 import { MkSection } from "@/components/marketing/kit";
 import { Reveal } from "@/components/motion/motion";
 import { LazyScreen } from "@/components/scenes/lazy-screen";
@@ -74,9 +74,7 @@ export function Agents() {
                   <Icon name={a.icon} size={20} variant="duo" />
                 </span>
                 <div>
-                  <h3 className="font-sans text-[17px] font-semibold tracking-normal text-white">
-                    {a.title}
-                  </h3>
+                  <h3 className="font-sans text-[17px] font-semibold tracking-normal text-white">{a.title}</h3>
                   <p className="mt-1 text-[15px] text-white/75">{a.body}</p>
                 </div>
               </li>
@@ -95,7 +93,12 @@ export function Agents() {
         <ul className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-4">
           {controls.map((c) => (
             <li key={c} className="flex gap-2.5 text-[15px] text-white/85">
-              <Icon name="shield-check" variant="line" size={16} className="mt-0.5 shrink-0 text-[var(--on-navy-link)]" />
+              <Icon
+                name="shield-check"
+                variant="line"
+                size={16}
+                className="mt-0.5 shrink-0 text-[var(--on-navy-link)]"
+              />
               {c}
             </li>
           ))}
